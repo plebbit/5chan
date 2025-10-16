@@ -19,26 +19,50 @@ export const useCommentMediaInfo = (link: string, thumbnailUrl: string, linkWidt
   useEffect(() => {
     if (!(isInPostPageView || isInPendingPostView)) return;
 
+    // Reset dimensions when inputs change to avoid stale state
+    setThumbnailDimensions(null);
+
+    let isMounted = true;
+    let img: HTMLImageElement | null = null;
+
     const fetchAndCacheThumbnail = async () => {
       const mediaInfo = getCommentMediaInfo(link, thumbnailUrl, linkWidth, linkHeight);
 
       if (mediaInfo?.type === 'webpage' && !mediaInfo.thumbnail) {
         const newMediaInfo = await fetchWebpageThumbnailIfNeeded(mediaInfo);
 
-        if (newMediaInfo.thumbnail) {
-          const img = new Image();
-          img.onload = () => {
-            setThumbnailDimensions({ width: img.width, height: img.height });
+        if (newMediaInfo.thumbnail && isMounted) {
+          img = new Image();
+
+          const handleLoad = () => {
+            // Only update state if component is still mounted and this is the latest request
+            if (isMounted && img) {
+              setThumbnailDimensions({ width: img.width, height: img.height });
+            }
           };
-          img.onerror = () => {
+
+          const handleError = () => {
             // Silently handle failed image loads
           };
+
+          img.onload = handleLoad;
+          img.onerror = handleError;
           img.src = newMediaInfo.thumbnail;
         }
       }
     };
 
     fetchAndCacheThumbnail();
+
+    // Cleanup function to prevent memory leaks and race conditions
+    return () => {
+      isMounted = false;
+      if (img) {
+        // Remove event handlers to prevent them from being called after cleanup
+        img.onload = null;
+        img.onerror = null;
+      }
+    };
   }, [link, thumbnailUrl, linkWidth, linkHeight, isInPostPageView, isInPendingPostView]);
 
   const mediaInfo = getCommentMediaInfo(link, thumbnailUrl, linkWidth, linkHeight);
