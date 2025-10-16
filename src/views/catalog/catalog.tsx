@@ -461,8 +461,8 @@ const Catalog = () => {
     };
   }, [clearMatchedFilters, subplebbitAddress]);
 
-  // Apply filter colors to posts when feed changes
-  const coloredFeed = useMemo(() => {
+  // Memoize filter color application to avoid redundant iterations
+  useMemo(() => {
     if (combinedFeed.length > 0 && filterItems.length > 0) {
       // Clear existing matched filters
       clearMatchedFilters();
@@ -482,7 +482,6 @@ const Catalog = () => {
         }
       });
     }
-    return combinedFeed;
   }, [combinedFeed, filterItems, clearMatchedFilters]);
 
   return (
