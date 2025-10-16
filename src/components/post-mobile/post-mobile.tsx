@@ -118,13 +118,11 @@ const PostInfoAndMedia = ({ post, postReplyCount = 0, roles }: PostProps) => {
             </span>
             {!(isDescription || isRules) && (
               <>
-                {author?.avatar && !(deleted || removed) && !hideAvatars ? (
+                {author?.avatar && !(deleted || removed) && !hideAvatars && avatarImageUrl ? (
                   <span className={styles.authorAvatar}>
                     <img src={avatarImageUrl} alt='' />
                   </span>
-                ) : (
-                  ' '
-                )}
+                ) : null}
                 (ID: {''}
                 {removed ? (
                   _.lowerCase(t('removed'))
