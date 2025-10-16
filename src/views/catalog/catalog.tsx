@@ -462,7 +462,7 @@ const Catalog = () => {
   }, [clearMatchedFilters, subplebbitAddress]);
 
   // Apply filter colors to posts when feed changes
-  useEffect(() => {
+  const coloredFeed = useMemo(() => {
     if (combinedFeed.length > 0 && filterItems.length > 0) {
       // Clear existing matched filters
       clearMatchedFilters();
@@ -482,6 +482,7 @@ const Catalog = () => {
         }
       });
     }
+    return combinedFeed;
   }, [combinedFeed, filterItems, clearMatchedFilters]);
 
   return (

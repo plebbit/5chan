@@ -85,14 +85,7 @@ const PostPage = () => {
   }, [title, shortAddress, subplebbitAddress, post?.title, post?.content, isInAllView, t]);
 
   // probably not necessary to show the error to the user if the post loaded successfully
-  const [shouldShowErrorToUser, setShouldShowErrorToUser] = useState(false);
-  useEffect(() => {
-    if (post?.error && ((post?.replyCount > 0 && post?.replies?.length === 0) || (post?.state === 'failed' && post?.error))) {
-      setShouldShowErrorToUser(true);
-    } else if (post?.replyCount > 0 && post?.replies?.length > 0) {
-      setShouldShowErrorToUser(false);
-    }
-  }, [post]);
+  const shouldShowErrorToUser = post?.error && ((post?.replyCount > 0 && post?.replies?.length === 0) || (post?.state === 'failed' && post?.error));
 
   return (
     <div className={styles.content}>
