@@ -159,3 +159,5 @@ yarn-debug.log*
 yarn-error.log*
 
 .vscode
+.cursor
+.playwright-mcp
