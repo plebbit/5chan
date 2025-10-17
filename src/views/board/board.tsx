@@ -266,7 +266,7 @@ const Board = () => {
 
   useEffect(() => {
     const boardTitle = title ? title : shortAddress || subplebbitAddress;
-    document.title = boardTitle + ' - plebchan';
+    document.title = boardTitle + ' - 5chan';
   }, [title, shortAddress, subplebbitAddress]);
 
   const shouldShowErrorToUser = error?.message && feed.length === 0;

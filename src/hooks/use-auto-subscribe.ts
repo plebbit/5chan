@@ -3,7 +3,7 @@ import { useAccount, setAccount } from '@plebbit/plebbit-react-hooks';
 import { getAutoSubscribeAddresses, useDefaultSubplebbits } from './use-default-subplebbits';
 import { useAutoSubscribeStore } from '../stores/use-auto-subscribe-store';
 
-const AUTO_SUBSCRIBE_KEY_PREFIX = 'plebchan-auto-subscribe-done-';
+const AUTO_SUBSCRIBE_KEY_PREFIX = '5chan-auto-subscribe-done-';
 
 // Keep track of which accounts have been processed globally
 const processedAccounts = new Set<string>();

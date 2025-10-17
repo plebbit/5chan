@@ -18,19 +18,19 @@ export const isValidURL = (url: string) => {
 };
 
 export const copyShareLinkToClipboard = async (subplebbitAddress: string, cid: string) => {
-  const shareLink = `https://pleb.bz/p/${subplebbitAddress}/c/${cid}?redirect=plebchan.app`;
+  const shareLink = `https://pleb.bz/p/${subplebbitAddress}/c/${cid}?redirect=5chan.app`;
   await copyToClipboard(shareLink);
 };
 
-const PLEBCHAN_HOSTNAMES = ['pleb.bz', 'plebchan.app', 'plebchan.eth.limo', 'plebchan.eth.link', 'plebchan.eth.sucks', 'plebchan.netlify.app'];
+const CHAN_5_HOSTNAMES = ['pleb.bz', '5chan.app', '5chan.eth.limo', '5chan.eth.link', '5chan.eth.sucks', '5chan.netlify.app'];
 
-// Check if a URL is a valid plebchan link that should be handled internally
-export const isPlebchanLink = (url: string): boolean => {
+// Check if a URL is a valid 5chan link that should be handled internally
+export const is5chanLink = (url: string): boolean => {
   try {
     const parsedUrl = new URL(url);
     const hostname = parsedUrl.hostname.replace(/^www\./, '');
 
-    if (!PLEBCHAN_HOSTNAMES.includes(hostname)) {
+    if (!CHAN_5_HOSTNAMES.includes(hostname)) {
       return false;
     }
 
@@ -49,7 +49,7 @@ export const isPlebchanLink = (url: string): boolean => {
       return /^\/p\/[^/]+\/c\/[^/]+$/.test(routePath);
     }
 
-    // For other plebchan hostnames, support:
+    // For other 5chan hostnames, support:
     // - /p/{subplebbitAddress}
     // - /p/{subplebbitAddress}/c/{commentCid}
     return /^\/p\/[^/]+(\/c\/[^/]+)?$/.test(routePath);
@@ -58,9 +58,9 @@ export const isPlebchanLink = (url: string): boolean => {
   }
 };
 
-// Transform a valid plebchan URL to an internal route
-export const transformPlebchanLinkToInternal = (url: string): string | null => {
-  if (!isPlebchanLink(url)) {
+// Transform a valid 5chan URL to an internal route
+export const transform5chanLinkToInternal = (url: string): string | null => {
+  if (!is5chanLink(url)) {
     return null;
   }
 
@@ -97,7 +97,7 @@ const isValidDomain = (str: string): boolean => {
   return str.includes('.') && str.split('.').length >= 2 && str.split('.').every((part) => part.length > 0);
 };
 
-// Check if a plain text pattern is a valid plebchan subplebbit reference
+// Check if a plain text pattern is a valid 5chan subplebbit reference
 export const isValidSubplebbitPattern = (pattern: string): boolean => {
   // Must start with "p/"
   if (!pattern.startsWith('p/')) {
@@ -118,8 +118,8 @@ export const isValidSubplebbitPattern = (pattern: string): boolean => {
   return isValidDomain(pathPart) || isValidIPNSKey(pathPart);
 };
 
-// Preprocess content to convert plain text plebchan patterns to markdown links
-export const preprocessPlebchanPatterns = (content: string): string => {
+// Preprocess content to convert plain text 5chan patterns to markdown links
+export const preprocess5chanPatterns = (content: string): string => {
   // Pattern to match "p/something" or "p/something/c/something"
   // Negative lookbehind prevents matching patterns that are already part of URLs
   const pattern = /(?<!https?:\/\/[^\s]*)\bp\/([a-zA-Z0-9\-.]+(?:\/c\/[a-zA-Z0-9]{10,100})?)[.,:;!?]*/g;

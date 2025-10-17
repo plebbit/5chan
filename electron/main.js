@@ -38,7 +38,7 @@ ipcMain.on('get-plebbit-rpc-auth-key', (event) => event.reply('plebbit-rpc-auth-
 let fakeUserAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36';
 if (process.platform === 'darwin') fakeUserAgent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 13_5_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36';
 if (process.platform === 'linux') fakeUserAgent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36';
-const realUserAgent = `plebchan/${packageJson.version}`;
+const realUserAgent = `5chan/${packageJson.version}`;
 
 // add right click menu
 contextMenu({
@@ -159,7 +159,7 @@ const createMainWindow = () => {
   });
 
   // open links in external browser
-  // do not open links in plebchan or will lead to remote execution
+  // do not open links in 5chan or will lead to remote execution
   mainWindow.webContents.on('will-navigate', (e, originalUrl) => {
     if (originalUrl != mainWindow.webContents.getURL()) {
       e.preventDefault();
@@ -190,7 +190,7 @@ const createMainWindow = () => {
   });
 
   // open links (with target="_blank") in external browser
-  // do not open links in plebchan or will lead to remote execution
+  // do not open links in 5chan or will lead to remote execution
   mainWindow.webContents.setWindowOpenHandler(({ url }) => {
     const originalUrl = url;
     try {
@@ -235,16 +235,16 @@ const createMainWindow = () => {
     // tray
     const trayIconPath = path.join(dirname, '..', isDev ? 'public' : 'build', 'electron-tray-icon.png');
     const tray = new Tray(trayIconPath);
-    tray.setToolTip('plebchan');
+    tray.setToolTip('5chan');
     const trayMenu = Menu.buildFromTemplate([
       {
-        label: 'Open plebchan',
+        label: 'Open 5chan',
         click: () => {
           mainWindow.show();
         },
       },
       {
-        label: 'Quit plebchan',
+        label: 'Quit 5chan',
         click: () => {
           mainWindow.destroy();
           app.quit();

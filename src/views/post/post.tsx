@@ -80,8 +80,8 @@ const PostPage = () => {
   useEffect(() => {
     const boardTitle = title ? title : shortAddress || subplebbitAddress;
     const postTitle = post?.title?.slice(0, 30) || post?.content?.slice(0, 30);
-    const postDucumentTitle = (postTitle ? postTitle.trim() + '... - ' : '') + boardTitle + ' - plebchan';
-    document.title = isInAllView ? `${t('all')} - plebchan` : postDucumentTitle;
+    const postDucumentTitle = (postTitle ? postTitle.trim() + '... - ' : '') + boardTitle + ' - 5chan';
+    document.title = isInAllView ? `${t('all')} - 5chan` : postDucumentTitle;
   }, [title, shortAddress, subplebbitAddress, post?.title, post?.content, isInAllView, t]);
 
   // probably not necessary to show the error to the user if the post loaded successfully

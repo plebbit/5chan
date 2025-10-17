@@ -1,10 +1,10 @@
 apply plugin: 'com.android.application'
 
 android {
-    namespace "plebchan.android"
+    namespace "5chan.android"
     compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "plebchan.android"
+        applicationId "5chan.android"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

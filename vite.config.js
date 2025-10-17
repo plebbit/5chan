@@ -48,8 +48,8 @@ export default defineConfig({
       },
       includeAssets: ['favicon.ico', 'robots.txt', 'apple-touch-icon.png'],
       manifest: {
-        name: 'plebchan',
-        short_name: 'plebchan',
+        name: '5chan',
+        short_name: '5chan',
         description: 'A GUI for plebbit similar to 4chan',
         theme_color: '#ffffff',
         background_color: '#ffffee',

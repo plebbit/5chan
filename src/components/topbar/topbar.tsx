@@ -109,7 +109,7 @@ const TopBarDesktop = () => {
         )}
         [
         <span className={styles.temporaryButton}>
-          <a href='https://plebbit.github.io/docs/learn/clients/plebchan/create-a-board' target='_blank' rel='noopener noreferrer'>
+          <a href='https://plebbit.github.io/docs/learn/clients/5chan/create-a-board' target='_blank' rel='noopener noreferrer'>
             {t('create_board')}
           </a>
         </span>

@@ -1,5 +1,5 @@
 {
-  "name": "plebchan",
+  "name": "5chan",
   "version": "0.5.3",
   "description": "A GUI for plebbit similar to 4chan",
   "type": "module",
@@ -127,8 +127,8 @@
   },
   "main": "electron/main.js",
   "build": {
-    "appId": "plebchan.desktop",
-    "productName": "plebchan",
+    "appId": "5chan.desktop",
+    "productName": "5chan",
     "beforePack": "electron/before-pack.js",
     "afterAllArtifactBuild": "electron/after-all-artifact-build.cjs",
     "extraResources": [

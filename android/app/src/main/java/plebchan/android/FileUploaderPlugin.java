@@ -1,4 +1,4 @@
-package plebchan.android;
+package 5chan.android;
 
 import android.app.Activity;
 import android.content.Intent;

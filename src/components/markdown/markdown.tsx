@@ -13,7 +13,7 @@ import CommentMedia from '../comment-media';
 import styles from './markdown.module.css';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import { canEmbed } from '../embed';
-import { isPlebchanLink, transformPlebchanLinkToInternal, preprocessPlebchanPatterns } from '../../lib/utils/url-utils';
+import { is5chanLink, transform5chanLinkToInternal, preprocess5chanPatterns } from '../../lib/utils/url-utils';
 
 interface ContentLinkEmbedProps {
   children: any;
@@ -159,9 +159,9 @@ const renderAnchorLink = (children: React.ReactNode, href: string) => {
     return <span>{children}</span>;
   }
 
-  // Check if this is a valid plebchan link that should be handled internally
-  if (isPlebchanLink(href)) {
-    const internalPath = transformPlebchanLinkToInternal(href);
+  // Check if this is a valid 5chan link that should be handled internally
+  if (is5chanLink(href)) {
+    const internalPath = transform5chanLinkToInternal(href);
     if (internalPath) {
       // Check if the link text should be replaced with the internal path
       let shouldReplaceText = false;
@@ -182,7 +182,7 @@ const renderAnchorLink = (children: React.ReactNode, href: string) => {
 
       return <Link to={internalPath}>{displayText}</Link>;
     } else {
-      console.warn('Failed to transform plebchan link to internal path:', href);
+      console.warn('Failed to transform 5chan link to internal path:', href);
       return <Link to={href}>{children}</Link>;
     }
   }
@@ -226,8 +226,8 @@ const Markdown = ({ content, title }: MarkdownProps) => {
 
   const isInCatalogView = isCatalogView(useLocation().pathname, useParams());
 
-  // Preprocess content to convert plain text plebchan patterns to markdown links
-  const processedContent = preprocessPlebchanPatterns(content || '');
+  // Preprocess content to convert plain text 5chan patterns to markdown links
+  const processedContent = preprocess5chanPatterns(content || '');
 
   return (
     <span className={styles.markdown}>

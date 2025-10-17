@@ -12,7 +12,7 @@ export interface MultisubSubplebbit {
   address: string;
   tags?: string[];
   features?: string[];
-  plebchanAutoSubscribe?: boolean;
+  autoSubscribe5Chan?: boolean;
   lowUptime?: boolean;
 }
 
@@ -58,7 +58,7 @@ export const useDefaultSubplebbits = () => {
 
         // Cache auto-subscribe addresses when we fetch subplebbits
         cacheAutoSubscribeAddresses = filteredSubplebbits
-          .filter((sub: MultisubSubplebbit) => sub.plebchanAutoSubscribe && sub.address)
+          .filter((sub: MultisubSubplebbit) => sub.autoSubscribe5Chan && sub.address)
           .map((sub: MultisubSubplebbit) => sub.address);
 
         setState({

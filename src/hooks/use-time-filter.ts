@@ -2,11 +2,11 @@ import assert from 'assert';
 import { useParams } from 'react-router-dom';
 
 // the timestamp the last time the user visited
-const lastVisitTimestamp = localStorage.getItem('plebchanLastVisitTimestamp');
+const lastVisitTimestamp = localStorage.getItem('5chanLastVisitTimestamp');
 
 // update the last visited timestamp every n seconds
 setInterval(() => {
-  localStorage.setItem('plebchanLastVisitTimestamp', Date.now().toString());
+  localStorage.setItem('5chanLastVisitTimestamp', Date.now().toString());
 }, 60 * 1000);
 
 const timeFilterNamesToSeconds: Record<string, number | undefined> = {

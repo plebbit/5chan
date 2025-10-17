@@ -46,7 +46,7 @@ jobs:
         run: node scripts/release-body > release-body.txt
       - uses: ncipollo/release-action@v1
         with:
-          artifacts: 'dist/plebchan*.AppImage,dist/plebchan-html*.zip'
+          artifacts: 'dist/5chan*.AppImage,dist/5chan-html*.zip'
           token: ${{ secrets.GITHUB_TOKEN }}
           replacesArtifacts: true
           bodyFile: "release-body.txt"
@@ -93,7 +93,7 @@ jobs:
         run: node scripts/release-body > release-body.txt
       - uses: ncipollo/release-action@v1
         with:
-          artifacts: 'dist/plebchan*.dmg'
+          artifacts: 'dist/5chan*.dmg'
           token: ${{ secrets.GITHUB_TOKEN }}
           replacesArtifacts: true
           bodyFile: "release-body.txt"
@@ -127,7 +127,7 @@ jobs:
         run: node scripts/release-body > release-body.txt
       - uses: ncipollo/release-action@v1
         with:
-          artifacts: 'dist/plebchan*.exe'
+          artifacts: 'dist/5chan*.exe'
           token: ${{ secrets.GITHUB_TOKEN }}
           replacesArtifacts: true
           bodyFile: "release-body.txt"
@@ -174,14 +174,14 @@ jobs:
       # to create keystore: keytool -genkey -v -keystore plebbit.keystore -keyalg RSA -keysize 2048 -validity 10000 -alias release
       - run: cd android/app/build/outputs/apk/release && apksigner sign --ks ../../../../../plebbit.keystore --ks-pass pass:${{ secrets.PLEBBIT_REACT_KEYSTORE_PASSWORD }} --ks-key-alias release --out app-release-signed.apk app-release-unsigned-zip.apk
       # move apk to dist folder
-      - run: mkdir -p dist && mv android/app/build/outputs/apk/release/app-release-signed.apk dist/plebchan-$(node -e "console.log(require('./package.json').version)").apk
+      - run: mkdir -p dist && mv android/app/build/outputs/apk/release/app-release-signed.apk dist/5chan-$(node -e "console.log(require('./package.json').version)").apk
       - run: ls dist
 
       # publish version release
       - run: node scripts/release-body > release-body.txt
       - uses: ncipollo/release-action@v1
         with:
-          artifacts: 'dist/plebchan*.apk'
+          artifacts: 'dist/5chan*.apk'
           token: ${{ secrets.GITHUB_TOKEN }}
           replacesArtifacts: true
           bodyFile: "release-body.txt"

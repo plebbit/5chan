@@ -450,7 +450,7 @@ const Catalog = () => {
     let documentTitle = title ? title : shortAddress;
     if (isInAllView) documentTitle = t('all');
     else if (isInSubscriptionsView) documentTitle = t('subscriptions');
-    document.title = documentTitle + ` - ${t('catalog')} - plebchan`;
+    document.title = documentTitle + ` - ${t('catalog')} - 5chan`;
   }, [title, shortAddress, isInAllView, isInSubscriptionsView, t]);
 
   // Clear matched filters when component mounts or when subplebbit changes
