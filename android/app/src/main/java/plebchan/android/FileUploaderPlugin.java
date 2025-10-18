@@ -1,4 +1,4 @@
-package 5chan.android;
+package fivechan.android;
 
 import android.app.Activity;
 import android.content.Intent;

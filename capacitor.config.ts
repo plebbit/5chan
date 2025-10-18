@@ -1,7 +1,7 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: '5chan.android',
+  appId: 'fivechan.android',
   appName: '5chan',
   webDir: 'build',
   plugins: {

@@ -21,12 +21,12 @@ function createHtmlArchive() {
     return;
   }
   const zipBinPath = path.resolve(rootPath, 'node_modules', '7zip-bin', 'linux', 'x64', '7za');
-  const 5chanHtmlFolderName = `5chan-html-${packageJson.version}`;
-  const outputFile = path.resolve(distFolderPath, `${5chanHtmlFolderName}.zip`);
+  const fivechanHtmlFolderName = `5chan-html-${packageJson.version}`;
+  const outputFile = path.resolve(distFolderPath, `${fivechanHtmlFolderName}.zip`);
   const inputFolder = path.resolve(rootPath, 'build');
   try {
     execSync(`${zipBinPath} a ${outputFile} ${inputFolder}`);
-    execSync(`${zipBinPath} rn -r ${outputFile} build ${5chanHtmlFolderName}`);
+    execSync(`${zipBinPath} rn -r ${outputFile} build ${fivechanHtmlFolderName}`);
   } catch (e) {
     console.error('electron build createHtmlArchive error:', e);
   }
