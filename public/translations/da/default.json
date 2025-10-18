@@ -2,7 +2,7 @@
   "what_is_5chan": "Hvad er 5chan?",
   "go": "gå",
   "or": "eller",
-  "5chan_description": "5chan er et serverløst, adminløst, decentraliseret og open-source 4chan-alternativ, hvor enhver kan oprette og kryptografisk eje ubegrænsede opslagstavler. Alle opslagstavler er selv-hostet af deres ejere, som kører <1>bitsocial</1> noder, som brugere forbinder til peer-to-peer. Alle data er kun tekst, inklusive links til at indlæse medier/embeds. Du er velkommen til at klikke på en opslagstavle nedenfor, der interesserer dig, og springe direkte ind!",
+  "5chan_description": "5chan er et serverløst, adminløst, decentraliseret og open-source 4chan-alternativ, hvor enhver kan oprette og kryptografisk eje ubegrænsede opslagstavler. Alle opslagstavler er selv-hostet af deres ejere, som kører <1>plebbit</1> noder, som brugere forbinder til peer-to-peer. Alle data er kun tekst, inklusive links til at indlæse medier/embeds. Du er velkommen til at klikke på en opslagstavle nedenfor, der interesserer dig, og springe direkte ind!",
   "no_global_rules_info": "Du kan altid forbinde til enhver opslagstavle, fuldt P2P, ingen kan stoppe dig. Indsæt simpelthen dens adresse i søgefeltet ovenfor.",
   "boards": "opslagstavler",
   "popular_threads": "Populære tråde",

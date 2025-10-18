@@ -2,7 +2,7 @@
   "what_is_5chan": "¿Qué es 5chan?",
   "go": "ir",
   "or": "o",
-  "5chan_description": "5chan es una alternativa descentralizada, sin servidor, sin administrador y de código abierto de 4chan donde cualquiera puede crear y poseer criptográficamente foros ilimitados. Todos los foros son auto-hospedados por sus propietarios, quienes ejecutan nodos <1>bitsocial</1> a los que los usuarios se conectan peer-to-peer. Todos los datos son solo texto, incluyendo enlaces para cargar medios/embeds. ¡Siéntete libre de hacer clic en un foro a continuación que te interese y únete de inmediato!",
+  "5chan_description": "5chan es una alternativa descentralizada, sin servidor, sin administrador y de código abierto de 4chan donde cualquiera puede crear y poseer criptográficamente foros ilimitados. Todos los foros son auto-hospedados por sus propietarios, quienes ejecutan nodos <1>plebbit</1> a los que los usuarios se conectan peer-to-peer. Todos los datos son solo texto, incluyendo enlaces para cargar medios/embeds. ¡Siéntete libre de hacer clic en un foro a continuación que te interese y únete de inmediato!",
   "no_global_rules_info": "Siempre puedes conectarte a cualquier foro, completamente P2P, nadie puede detenerte. Simplemente pega su dirección en el campo de búsqueda de arriba.",
   "boards": "foros",
   "popular_threads": "Hilos populares",

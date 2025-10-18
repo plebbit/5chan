@@ -2,7 +2,7 @@
   "what_is_5chan": "Apa itu 5chan?",
   "go": "pergi",
   "or": "atau",
-  "5chan_description": "5chan adalah alternatif 4chan tanpa server, tanpa admin, terdesentralisasi dan open-source di mana siapa pun bisa membuat dan memiliki kriptografis papan tak terbatas. Semua papan di-host sendiri oleh pemiliknya, yang menjalankan node <1>bitsocial</1> yang dihubungkan pengguna peer-to-peer. Semua data hanya teks, termasuk tautan untuk memuat media/embeds. Jangan ragu untuk mengklik papan di bawah yang menarik bagi Anda dan bergabung segera!",
+  "5chan_description": "5chan adalah alternatif 4chan tanpa server, tanpa admin, terdesentralisasi dan open-source di mana siapa pun bisa membuat dan memiliki kriptografis papan tak terbatas. Semua papan di-host sendiri oleh pemiliknya, yang menjalankan node <1>plebbit</1> yang dihubungkan pengguna peer-to-peer. Semua data hanya teks, termasuk tautan untuk memuat media/embeds. Jangan ragu untuk mengklik papan di bawah yang menarik bagi Anda dan bergabung segera!",
   "no_global_rules_info": "Anda selalu dapat terhubung ke papan mana pun, sepenuhnya P2P, tidak ada yang bisa menghentikan Anda. Cukup tempelkan alamatnya di bidang pencarian di atas.",
   "boards": "papan pesan",
   "popular_threads": "Benang populer",

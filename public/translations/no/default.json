@@ -2,7 +2,7 @@
   "what_is_5chan": "Hva er 5chan?",
   "go": "gå",
   "or": "eller",
-  "5chan_description": "5chan er et serverløst, adminløst, desentralisert og open-source alternativ til 4chan der hvem som helst kan opprette og kryptografisk eie ubegrensede fora. Alle fora er selv-hostet av sine eiere, som kjører <1>bitsocial</1> noder som brukere kobler til peer-to-peer. Alle data er bare tekst, inkludert lenker for å laste medier/embeds. Ikke nøl med å klikke på et forum nedenfor som interesserer deg og bli med en gang!",
+  "5chan_description": "5chan er et serverløst, adminløst, desentralisert og open-source alternativ til 4chan der hvem som helst kan opprette og kryptografisk eie ubegrensede fora. Alle fora er selv-hostet av sine eiere, som kjører <1>plebbit</1> noder som brukere kobler til peer-to-peer. Alle data er bare tekst, inkludert lenker for å laste medier/embeds. Ikke nøl med å klikke på et forum nedenfor som interesserer deg og bli med en gang!",
   "no_global_rules_info": "Du kan alltid koble til hvilket som helst forum, fullt P2P, ingen kan stoppe deg. Lim bare adressen i søkefeltet ovenfor.",
   "boards": "fora",
   "popular_threads": "Populære tråder",

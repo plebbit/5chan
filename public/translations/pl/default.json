@@ -2,7 +2,7 @@
   "what_is_5chan": "Co to jest 5chan?",
   "go": "iść",
   "or": "lub",
-  "5chan_description": "5chan to bezserwerowa, bezadministracyjna, zdecentralizowana i open-source alternatywa dla 4chan, gdzie każdy może tworzyć i kryptograficznie posiadać nieograniczone fora. Wszystkie fora są hostowane przez ich właścicieli, którzy uruchamiają węzły <1>bitsocial</1>, z którymi użytkownicy łączą się peer-to-peer. Wszystkie dane to tylko tekst, w tym linki do ładowania mediów/embeds. Śmiało kliknij na forum poniżej, które Cię interesuje, i dołącz!",
+  "5chan_description": "5chan to bezserwerowa, bezadministracyjna, zdecentralizowana i open-source alternatywa dla 4chan, gdzie każdy może tworzyć i kryptograficznie posiadać nieograniczone fora. Wszystkie fora są hostowane przez ich właścicieli, którzy uruchamiają węzły <1>plebbit</1>, z którymi użytkownicy łączą się peer-to-peer. Wszystkie dane to tylko tekst, w tym linki do ładowania mediów/embeds. Śmiało kliknij na forum poniżej, które Cię interesuje, i dołącz!",
   "no_global_rules_info": "Zawsze możesz połączyć się z dowolnym forum, w pełni P2P, nikt nie może cię zatrzymać. Po prostu wklej jego adres w polu wyszukiwania powyżej.",
   "boards": "fora",
   "popular_threads": "Popularne wątki",

@@ -2,7 +2,7 @@
   "what_is_5chan": "Co je 5chan?",
   "go": "jít",
   "or": "nebo",
-  "5chan_description": "5chan je decentralizovaná alternativa 4chan bez serveru, bez administrátorů, open-source, kde si každý může vytvořit a kryptograficky vlastnit neomezené nástěnky. Všechny nástěnky jsou hostovány jejich vlastníky, kteří provozují <1>bitsocial</1> uzly, ke kterým se uživatelé připojují peer-to-peer. Všechna data jsou pouze textová, včetně odkazů pro načítání médií/embedů. Neváhejte kliknout na nástěnku níže, která vás zajímá, a okamžitě se připojit!",
+  "5chan_description": "5chan je decentralizovaná alternativa 4chan bez serveru, bez administrátorů, open-source, kde si každý může vytvořit a kryptograficky vlastnit neomezené nástěnky. Všechny nástěnky jsou hostovány jejich vlastníky, kteří provozují <1>plebbit</1> uzly, ke kterým se uživatelé připojují peer-to-peer. Všechna data jsou pouze textová, včetně odkazů pro načítání médií/embedů. Neváhejte kliknout na nástěnku níže, která vás zajímá, a okamžitě se připojit!",
   "no_global_rules_info": "Můžete se vždy připojit k jakékoli nástěnce, plně P2P, nikdo vás nemůže zastavit. Jednoduše vložte její adresu do vyhledávacího pole výše.",
   "boards": "nástěnky",
   "popular_threads": "Oblíbená vlákna",

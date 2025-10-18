@@ -2,7 +2,7 @@
   "what_is_5chan": "Cos'è 5chan?",
   "go": "vai",
   "or": "oppure",
-  "5chan_description": "5chan è un'alternativa a 4chan decentralizzata, senza server, senza amministratori e open-source, in cui chiunque può creare e possedere criptograficamente board illimitate. Tutte le board sono self-hosted dai loro proprietari, che eseguono nodi <1>bitsocial</1> a cui gli utenti si connettono peer-to-peer. Tutti i dati sono solo testo, inclusi i link per caricare media/embeds. Sentiti libero di cliccare su una board qui sotto che ti interessa e unisciti subito!",
+  "5chan_description": "5chan è un'alternativa a 4chan decentralizzata, senza server, senza amministratori e open-source, in cui chiunque può creare e possedere criptograficamente board illimitate. Tutte le board sono self-hosted dai loro proprietari, che eseguono nodi <1>plebbit</1> a cui gli utenti si connettono peer-to-peer. Tutti i dati sono solo testo, inclusi i link per caricare media/embeds. Sentiti libero di cliccare su una board qui sotto che ti interessa e unisciti subito!",
   "no_global_rules_info": "Puoi sempre connetterti a qualsiasi board, completamente P2P, nessuno può fermarti. Basta incollare il suo indirizzo nel campo di ricerca sopra.",
   "boards": "board",
   "popular_threads": "Thread popolari",

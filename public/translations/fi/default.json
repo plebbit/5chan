@@ -2,7 +2,7 @@
   "what_is_5chan": "Mikä on 5chan?",
   "go": "mennä",
   "or": "tai",
-  "5chan_description": "5chan on palvelin- ja ylläpitovapaa hajautettu avoimen lähdekoodin vaihtoehto 4chanille, jossa kuka tahansa voi luoda ja kryptografisesti omistaa rajoittamattomasti foorumeita. Kaikki foorumit ovat omistajiensa itsehostaamia, jotka ajavat <1>bitsocial</1>-solmuja, joihin käyttäjät yhdistyvät vertaisverkossa. Kaikki tiedot ovat vain tekstiä, mukaan lukien linkit mediasisältöjen/upotusten lataamiseen. Voit vapaasti klikata alla olevaa foorumia, joka kiinnostaa sinua, ja liittyä heti mukaan!",
+  "5chan_description": "5chan on palvelin- ja ylläpitovapaa hajautettu avoimen lähdekoodin vaihtoehto 4chanille, jossa kuka tahansa voi luoda ja kryptografisesti omistaa rajoittamattomasti foorumeita. Kaikki foorumit ovat omistajiensa itsehostaamia, jotka ajavat <1>plebbit</1>-solmuja, joihin käyttäjät yhdistyvät vertaisverkossa. Kaikki tiedot ovat vain tekstiä, mukaan lukien linkit mediasisältöjen/upotusten lataamiseen. Voit vapaasti klikata alla olevaa foorumia, joka kiinnostaa sinua, ja liittyä heti mukaan!",
   "no_global_rules_info": "Voit aina yhdistää mihin tahansa foorumiin, täysin P2P, kukaan ei voi pysäyttää sinua. Liitä vain sen osoite yllä olevaan hakukenttään.",
   "boards": "foorumit",
   "popular_threads": "Suositut langat",
