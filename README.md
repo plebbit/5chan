@@ -1,6 +1,6 @@
 <img src="https://github.com/plebeius-eth/assets/blob/main/5chan-logo.jpg" width="378" height="123">
 
-_Telegram group for this repo https://t.me/5chanreact_
+_Telegram group for this repo https://t.me/fivechandev
 
 # 5chan
 
