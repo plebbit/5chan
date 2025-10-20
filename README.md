@@ -4,7 +4,7 @@ _Telegram group for this repo https://t.me/fivechandev
 
 # 5chan
 
-5chan is a serverless, adminless, decentralized 4chan alternative where any pleb can create and own unlimited boards. All data comes from the Plebbit protocol, it's all text including links from which media is embedded, shared peer-to-peer. Users do not need to register an account before participating in the community.
+5chan is a serverless, adminless, decentralized and open-source 4chan alternative, where anyone can create and cryptographically own unlimited boards. All boards are selfhosted by their owners, who run [plebbit nodes](https://github.com/plebbit/plebbit-cli) that users connect to, peer-to-peer. All data is text-only, including links to load media/embeds.
 
 - web version: https://5chan.app, also available using Brave/IPFS Companion on https://5chan.eth
 
