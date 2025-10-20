@@ -6,7 +6,7 @@ import styles from './faq.module.css';
 const FAQ = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
-    document.title = 'FAQ - plebchan';
+    document.title = 'FAQ - 5chan';
   }, []);
 
   return (
@@ -18,8 +18,8 @@ const FAQ = () => {
             <h2>Frequently Asked Questions</h2>
           </div>
           <div className={styles.boxContent}>
-            Welcome to Plebchan's <strong>F</strong>requently <strong>A</strong>sked <strong>Q</strong>uestions page. Please remember that Plebchan does <i>not</i> have
-            global admins or rules.
+            Welcome to 5chan's <strong>F</strong>requently <strong>A</strong>sked <strong>Q</strong>uestions page. Please remember that 5chan does <i>not</i> have global
+            admins or rules.
           </div>
         </div>
         <div className={styles.columns}>
@@ -35,7 +35,7 @@ const FAQ = () => {
                   </strong>
                   <ul>
                     <li>
-                      <HashLink to='#whatplebchan'>What is Plebchan?</HashLink>
+                      <HashLink to='#what5chan'>What is 5chan?</HashLink>
                     </li>
                     <ul>
                       <li>
@@ -82,11 +82,11 @@ const FAQ = () => {
             </div>
             <div className={styles.boxContent}>
               <dl>
-                <dt className={styles.first} id='whatplebchan'>
-                  What is Plebchan?
+                <dt className={styles.first} id='what5chan'>
+                  What is 5chan?
                 </dt>
                 <dd>
-                  Plebchan is a serverless, adminless, decentralized 4chan alternative where any pleb can create and own unlimited boards. All data comes from the Plebbit
+                  5chan is a serverless, adminless, decentralized 4chan alternative where any pleb can create and own unlimited boards. All data comes from the Plebbit
                   protocol, it's all text including links from which media is embedded, shared peer-to-peer. Users do not need to register an account before participating
                   in the community.
                 </dd>
@@ -106,9 +106,9 @@ const FAQ = () => {
                   To post as "Anonymous", simply do not fill in the [Name] field when submitting content.
                   <br />
                   <br />
-                  Plebchan uses the Plebbit protocol to function, which does not leak IP addresses of people who post. When you post on Plebchan, no board admin can know
-                  your IP address, nor can the app itself, which is just static HTML. However, the Plebbit protocol is not fully anonymous, it uses IPFS, which means your
-                  IP address is part of a public P2P swarm, similarly to how BitTorrent works.
+                  5chan uses the Plebbit protocol to function, which does not leak IP addresses of people who post. When you post on 5chan, no board admin can know your
+                  IP address, nor can the app itself, which is just static HTML. However, the Plebbit protocol is not fully anonymous, it uses IPFS, which means your IP
+                  address is part of a public P2P swarm, similarly to how BitTorrent works.
                 </dd>
                 <dt id='register'>Can I register a username?</dt>
                 <dd>
@@ -123,16 +123,16 @@ const FAQ = () => {
                 <dt id='howimage'>How do I post an image?</dt>
                 <dd>
                   You need a link to the image, ideally using an image hosting service, like Imgur or catbox.moe. Paste the link to the image in the [Link] field when
-                  submitting content. Plebchan will attempt to load the media from the link and show its type next to the [Link] field. If the link type is "webpage", the
+                  submitting content. 5chan will attempt to load the media from the link and show its type next to the [Link] field. If the link type is "webpage", the
                   link is not an image, and you should try another link.
                   <br />
                   <br />
-                  You can also post videos, audios and gifs by pasting their direct links. Plebchan also supports the following websites to embed media without a direct
+                  You can also post videos, audios and gifs by pasting their direct links. 5chan also supports the following websites to embed media without a direct
                   link: YouTube, Twitter/X, Reddit, Twitch, TikTok, Instagram, Odysee, Bitchute, Streamable, Spotify and Soundcloud.
                 </dd>
                 <dt id='uploadimage'>Can I upload an image?</dt>
                 <dd>
-                  Yes, but only in the Android app, which you can download on <a href='https://github.com/plebbit/plebchan/releases/latest'>GitHub</a>. The app is able to
+                  Yes, but only in the Android app, which you can download on <a href='https://github.com/plebbit/5chan/releases/latest'>GitHub</a>. The app is able to
                   automatically upload media to image hosting services, like Imgur or catbox.moe, sharing your IP address with the image hosting service. This is not
                   possible in the browser, which can't make backend requests.
                   <br />
@@ -141,21 +141,21 @@ const FAQ = () => {
                   when submitting content. You can paste any link, not just image links. You can also get an image link from social media, by right clicking the image and
                   selecting "Copy image URL", or by using tools such as <a href='https://cobalt.tools/'>cobalt</a>.<br />
                   <br />
-                  The reason why uploading media directly to boards is not possible, is because Plebchan is a client for the Plebbit protocol, which is text-only
-                  (including links, from which media is embedded by clients). However, Plebbit uses IPFS, so in theory it could let users upload media to the subplebbit
-                  (board) owner's IPFS node, and then post the direct IPFS link for the media. This is not enabled because loading media from IPFS is extremely slow at
-                  the moment (because most people have slow internet).
+                  The reason why uploading media directly to boards is not possible, is because 5chan is a client for the Plebbit protocol, which is text-only (including
+                  links, from which media is embedded by clients). However, Plebbit uses IPFS, so in theory it could let users upload media to the subplebbit (board)
+                  owner's IPFS node, and then post the direct IPFS link for the media. This is not enabled because loading media from IPFS is extremely slow at the moment
+                  (because most people have slow internet).
                 </dd>
                 <dt id='postimage'>Must I post an image?</dt>
                 <dd>
-                  It depends on the board. Each board has its own rules, and a board owner might decide to only allow posts with images in their community. Plebchan
+                  It depends on the board. Each board has its own rules, and a board owner might decide to only allow posts with images in their community. 5chan
                   automatically filters out text-only threads in the catalog view, to resemble an imageboard, and you can disable this in the [Filters] menu.
                 </dd>
                 <dt id='replyimage'>Can I reply with an image?</dt>
                 <dd>
                   Yes. To reply to a thread with an image of your own, fill in the post box as you normally would, making sure to specify a direct image link (e.g.,
-                  ending in .png or .jpeg) in the "Link" field. Plebchan will attempt to load the image, and if it worked it will show the Link type as "image", next to
-                  the field, before posting. If the Link type is "webpage", the link is not an image, and you should try another link.
+                  ending in .png or .jpeg) in the "Link" field. 5chan will attempt to load the image, and if it worked it will show the Link type as "image", next to the
+                  field, before posting. If the Link type is "webpage", the link is not an image, and you should try another link.
                 </dd>
                 <dt id='quote'>How do I quote somebody?</dt>
                 <dd>
@@ -163,14 +163,14 @@ const FAQ = () => {
                   <span className='greentext'>{'>'}This is a quote</span>").
                   <br />
                   <br />
-                  Unlike 4chan and other imageboards, Plebchan does <i>not</i> allow to quote more than one post at a time. You can only reply to one post at a time. This
-                  is because Plebchan is a client for the Plebbit protocol, which is designed to be an alternative to Reddit-like social media, in which you can only
-                  reply to one post at a time.
+                  Unlike 4chan and other imageboards, 5chan does <i>not</i> allow to quote more than one post at a time. You can only reply to one post at a time. This is
+                  because 5chan is a client for the Plebbit protocol, which is designed to be an alternative to Reddit-like social media, in which you can only reply to
+                  one post at a time.
                   <br />
                   <br />
-                  Further, post numbers are not possible on Plebchan, because Plebbit is fully decentralized (serverless) using IPFS, meaning there is no central database
-                  to store post numbers, and it uses CIDs to load posts directly. Retrieving the CID from an hypothetical post number from the single board's database
-                  would be far too expensive for the node to calculate.
+                  Further, post numbers are not possible on 5chan, because Plebbit is fully decentralized (serverless) using IPFS, meaning there is no central database to
+                  store post numbers, and it uses CIDs to load posts directly. Retrieving the CID from an hypothetical post number from the single board's database would
+                  be far too expensive for the node to calculate.
                   <br />
                   <br />
                 </dd>

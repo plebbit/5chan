@@ -1,4 +1,4 @@
-package plebchan.android;
+package fivechan.android;
 
 import android.content.Context;
 import android.database.Cursor;

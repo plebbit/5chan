@@ -10,7 +10,7 @@ function addPortableToPortableExecutableFileName() {
   for (const file of files) {
     if (file.endsWith('.exe') && !file.match('Setup')) {
       const filePath = path.resolve(distFolderPath, file);
-      const renamedFilePath = path.resolve(distFolderPath, file.replace('plebchan', 'plebchan Portable'));
+      const renamedFilePath = path.resolve(distFolderPath, file.replace('5chan', '5chan Portable'));
       fs.moveSync(filePath, renamedFilePath);
     }
   }
@@ -21,12 +21,12 @@ function createHtmlArchive() {
     return;
   }
   const zipBinPath = path.resolve(rootPath, 'node_modules', '7zip-bin', 'linux', 'x64', '7za');
-  const plebchanHtmlFolderName = `plebchan-html-${packageJson.version}`;
-  const outputFile = path.resolve(distFolderPath, `${plebchanHtmlFolderName}.zip`);
+  const fivechanHtmlFolderName = `5chan-html-${packageJson.version}`;
+  const outputFile = path.resolve(distFolderPath, `${fivechanHtmlFolderName}.zip`);
   const inputFolder = path.resolve(rootPath, 'build');
   try {
     execSync(`${zipBinPath} a ${outputFile} ${inputFolder}`);
-    execSync(`${zipBinPath} rn -r ${outputFile} build ${plebchanHtmlFolderName}`);
+    execSync(`${zipBinPath} rn -r ${outputFile} build ${fivechanHtmlFolderName}`);
   } catch (e) {
     console.error('electron build createHtmlArchive error:', e);
   }

@@ -266,18 +266,10 @@ const Board = () => {
 
   useEffect(() => {
     const boardTitle = title ? title : shortAddress || subplebbitAddress;
-    document.title = boardTitle + ' - plebchan';
+    document.title = boardTitle + ' - 5chan';
   }, [title, shortAddress, subplebbitAddress]);
 
-  // probably not necessary to show the error to the user if the feed loaded successfully
-  const [shouldShowErrorToUser, setShouldShowErrorToUser] = useState(false);
-  useEffect(() => {
-    if (error?.message && feed.length === 0) {
-      setShouldShowErrorToUser(true);
-    } else if (feed.length > 0) {
-      setShouldShowErrorToUser(false);
-    }
-  }, [error, feed]);
+  const shouldShowErrorToUser = error?.message && feed.length === 0;
 
   return (
     <>

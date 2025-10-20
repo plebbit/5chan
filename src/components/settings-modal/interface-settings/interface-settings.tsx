@@ -22,21 +22,21 @@ const CheckForUpdates = () => {
   const checkForUpdates = async () => {
     try {
       setLoading(true);
-      const packageRes = await fetch('https://raw.githubusercontent.com/plebbit/plebchan/master/package.json', { cache: 'no-cache' });
+      const packageRes = await fetch('https://raw.githubusercontent.com/plebbit/5chan/master/package.json', { cache: 'no-cache' });
       const packageData = await packageRes.json();
       let updateAvailable = false;
 
       if (packageJson.version !== packageData.version) {
         const newVersionText = t('new_stable_version', { newVersion: packageData.version, oldVersion: packageJson.version });
         const updateActionText = isElectron
-          ? t('download_latest_desktop', { link: 'https://github.com/plebbit/plebchan/releases/latest', interpolation: { escapeValue: false } })
+          ? t('download_latest_desktop', { link: 'https://github.com/plebbit/5chan/releases/latest', interpolation: { escapeValue: false } })
           : t('refresh_to_update');
         alert(newVersionText + ' ' + updateActionText);
         updateAvailable = true;
       }
 
       if (commitRef && commitRef.length > 0) {
-        const commitRes = await fetch('https://api.github.com/repos/plebbit/plebchan/commits?per_page=1&sha=development', { cache: 'no-cache' });
+        const commitRes = await fetch('https://api.github.com/repos/plebbit/5chan/commits?per_page=1&sha=development', { cache: 'no-cache' });
         const commitData = await commitRes.json();
 
         const latestCommitHash = commitData[0].sha;
@@ -52,7 +52,7 @@ const CheckForUpdates = () => {
       if (!updateAvailable) {
         alert(
           commitRef
-            ? `${t('latest_development_version', { commit: commitRef.slice(0, 7), link: 'https://plebchan.app/#/', interpolation: { escapeValue: false } })}`
+            ? `${t('latest_development_version', { commit: commitRef.slice(0, 7), link: 'https://5chan.app/#/', interpolation: { escapeValue: false } })}`
             : `${t('latest_stable_version', { version: packageJson.version })}`,
         );
       }

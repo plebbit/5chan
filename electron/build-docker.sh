@@ -14,7 +14,7 @@ dockerfile='
 FROM electronuserland/builder:16
 
 # install node_modules
-WORKDIR /usr/src/plebchan
+WORKDIR /usr/src/5chan
 COPY ./package.json .
 COPY ./yarn.lock .
 RUN yarn
@@ -41,22 +41,22 @@ RUN yarn build
 echo $'node_modules\ndist' > .dockerignore
 echo "$dockerfile" | sudo docker build \
   . \
-  --tag plebchan-electron-builder \
+  --tag 5chan-electron-builder \
   --file -
 rm .dockerignore
 
 # build linux binary
 sudo docker run \
-  --name plebchan-electron-builder \
-  --volume "$root_path"/dist:/usr/src/plebchan/dist \
+  --name 5chan-electron-builder \
+  --volume "$root_path"/dist:/usr/src/5chan/dist \
   --rm \
-  plebchan-electron-builder \
+  5chan-electron-builder \
   yarn electron:build:linux
 
 # build windows binary
 sudo docker run \
-  --name plebchan-electron-builder \
-  --volume "$root_path"/dist:/usr/src/plebchan/dist \
+  --name 5chan-electron-builder \
+  --volume "$root_path"/dist:/usr/src/5chan/dist \
   --rm \
-  plebchan-electron-builder \
+  5chan-electron-builder \
   yarn electron:build:windows

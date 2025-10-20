@@ -1,5 +1,5 @@
 {
-  "name": "plebchan",
+  "name": "5chan",
   "version": "0.5.3",
   "description": "A GUI for plebbit similar to 4chan",
   "type": "module",
@@ -10,7 +10,7 @@
     "@capacitor/status-bar": "7.0.1",
     "@capawesome/capacitor-android-edge-to-edge-support": "7.2.2",
     "@floating-ui/react": "0.26.1",
-    "@plebbit/plebbit-react-hooks": "https://github.com/plebbit/plebbit-react-hooks.git#60177ea1bfc4df4bcde6a793656e01b11a85aa1d",
+    "@plebbit/plebbit-react-hooks": "https://github.com/plebbit/plebbit-react-hooks.git#eecac4503b7099b2dde22505869f2a70d280e14f",
     "@react-spring/web": "9.7.5",
     "@testing-library/jest-dom": "5.14.1",
     "@testing-library/react": "13.0.0",
@@ -45,6 +45,7 @@
     "remark-supersub": "1.0.0",
     "tcp-port-used": "1.0.2",
     "typescript": "5.1.6",
+    "uuid": "^13.0.0",
     "zustand": "4.4.3"
   },
   "scripts": {
@@ -68,7 +69,9 @@
     "android:build:icons": "cordova-res android --skip-config --copy --resources /tmp/plebbit-react-android-icons --icon-source ./android/icons/icon.png --splash-source ./android/icons/splash.png --icon-foreground-source ./android/icons/icon-foreground.png --icon-background-source '#ffffee'",
     "prettier": "prettier {src,electron}/**/*.{js,ts,tsx} --write",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0",
-    "android:build": "yarn build && npx cap sync android && npx cap run android"
+    "android:build": "yarn build && npx cap sync android && npx cap run android",
+    "i18n:update": "node scripts/update-translations.js",
+    "i18n:update:dry": "node scripts/update-translations.js --dry"
   },
   "browserslist": {
     "production": [
@@ -126,8 +129,8 @@
   },
   "main": "electron/main.js",
   "build": {
-    "appId": "plebchan.desktop",
-    "productName": "plebchan",
+    "appId": "5chan.desktop",
+    "productName": "5chan",
     "beforePack": "electron/before-pack.js",
     "afterAllArtifactBuild": "electron/after-all-artifact-build.cjs",
     "extraResources": [

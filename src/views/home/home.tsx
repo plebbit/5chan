@@ -47,11 +47,11 @@ const InfoBox = () => {
   return (
     <div className={`${styles.box} ${styles.infoBox}`}>
       <div className={styles.infoboxBar}>
-        <h2>{t('what_is_plebchan')}</h2>
+        <h2>{t('what_is_5chan')}</h2>
       </div>
       <div className={styles.boxContent}>
         <Trans
-          i18nKey='plebchan_description'
+          i18nKey='5chan_description'
           shouldUnescape={true}
           components={{
             1: <Link key='plebbit-link' to='https://plebbit.com' target='_blank' rel='noopener noreferrer' />,
@@ -138,7 +138,7 @@ export const Footer = () => {
           </a>
         </li>
         <li>
-          <a href='https://github.com/plebbit/plebchan' target='_blank' rel='noopener noreferrer'>
+          <a href='https://github.com/plebbit/5chan' target='_blank' rel='noopener noreferrer'>
             GitHub
           </a>
         </li>
@@ -176,7 +176,7 @@ const Home = () => {
   const { subplebbits } = useSubplebbits({ subplebbitAddresses });
 
   useEffect(() => {
-    document.title = 'plebchan';
+    document.title = '5chan';
   }, []);
 
   return (

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Comment, Role, useComment, useEditedComment, useSubplebbit } from '@plebbit/plebbit-react-hooks';
 import useSubplebbitsStore from '@plebbit/plebbit-react-hooks/dist/stores/subplebbits';
@@ -80,19 +80,12 @@ const PostPage = () => {
   useEffect(() => {
     const boardTitle = title ? title : shortAddress || subplebbitAddress;
     const postTitle = post?.title?.slice(0, 30) || post?.content?.slice(0, 30);
-    const postDucumentTitle = (postTitle ? postTitle.trim() + '... - ' : '') + boardTitle + ' - plebchan';
-    document.title = isInAllView ? `${t('all')} - plebchan` : postDucumentTitle;
+    const postDucumentTitle = (postTitle ? postTitle.trim() + '... - ' : '') + boardTitle + ' - 5chan';
+    document.title = isInAllView ? `${t('all')} - 5chan` : postDucumentTitle;
   }, [title, shortAddress, subplebbitAddress, post?.title, post?.content, isInAllView, t]);
 
   // probably not necessary to show the error to the user if the post loaded successfully
-  const [shouldShowErrorToUser, setShouldShowErrorToUser] = useState(false);
-  useEffect(() => {
-    if (post?.error && ((post?.replyCount > 0 && post?.replies?.length === 0) || (post?.state === 'failed' && post?.error))) {
-      setShouldShowErrorToUser(true);
-    } else if (post?.replyCount > 0 && post?.replies?.length > 0) {
-      setShouldShowErrorToUser(false);
-    }
-  }, [post]);
+  const shouldShowErrorToUser = post?.error && ((post?.replyCount > 0 && post?.replies?.length === 0) || (post?.state === 'failed' && post?.error));
 
   return (
     <div className={styles.content}>

@@ -19,15 +19,15 @@ releaseChangelog = releaseChangelog.trim().replace(/\n\n+/g, '\n\n')
 
 const releaseBody = `This version fixes a bug that prevented publishing.
 
-- Web app: https://plebchan.app
-- Decentralized web app: https://plebchan.eth (only works on [Brave Browser](https://brave.com/) or via [IPFS Companion](https://docs.ipfs.tech/install/ipfs-companion/#prerequisites))
+- Web app: https://5chan.app
+- Decentralized web app: https://5chan.eth (only works on [Brave Browser](https://brave.com/) or via [IPFS Companion](https://docs.ipfs.tech/install/ipfs-companion/#prerequisites))
 
 ## Downloads
 
-- Android app: [Download APK](https://github.com/plebbit/plebchan/releases/download/v${version}/plebchan-${version}.apk)
-- Linux app: [Download AppImage](https://github.com/plebbit/plebchan/releases/download/v${version}/plebchan-${version}.AppImage)
-- macOS app: [Download DMG](https://github.com/plebbit/plebchan/releases/download/v${version}/plebchan-${version}.dmg)
-- Windows app: [Download EXE](https://github.com/plebbit/plebchan/releases/download/v${version}/plebchan.Setup.${version}.exe)
+- Android app: [Download APK](https://github.com/plebbit/5chan/releases/download/v${version}/5chan-${version}.apk)
+- Linux app: [Download AppImage](https://github.com/plebbit/5chan/releases/download/v${version}/5chan-${version}.AppImage)
+- macOS app: [Download DMG](https://github.com/plebbit/5chan/releases/download/v${version}/5chan-${version}.dmg)
+- Windows app: [Download EXE](https://github.com/plebbit/5chan/releases/download/v${version}/5chan.Setup.${version}.exe)
 
 ${releaseChangelog}`
 

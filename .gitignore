@@ -96,6 +96,7 @@ out
 # Nuxt.js build / generate output
 .nuxt
 dist
+dev-dist
 
 # Gatsby files
 .cache/
@@ -159,3 +160,5 @@ yarn-debug.log*
 yarn-error.log*
 
 .vscode
+.cursor
+.playwright-mcp

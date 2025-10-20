@@ -127,13 +127,11 @@ const PostInfo = ({ post, postReplyCount = 0, roles, isHidden }: PostProps) => {
           </span>
           {!(isDescription || isRules) && (
             <>
-              {author?.avatar && !(deleted || removed) && !hideAvatars ? (
+              {author?.avatar && !(deleted || removed) && !hideAvatars && avatarImageUrl ? (
                 <span className={styles.authorAvatar}>
                   <img src={avatarImageUrl} alt='' />
                 </span>
-              ) : (
-                ' '
-              )}
+              ) : null}
               (ID:{' '}
               {deleted ? (
                 t('deleted')

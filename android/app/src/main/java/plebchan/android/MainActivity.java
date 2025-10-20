@@ -1,4 +1,4 @@
-package plebchan.android;
+package fivechan.android;
 
 import android.os.Bundle;
 import com.getcapacitor.BridgeActivity;

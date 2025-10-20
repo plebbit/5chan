@@ -16,33 +16,33 @@ if [ -z "${DEPLOY_USER+xxx}" ]; then echo "DEPLOY_USER not set" && exit; fi
 if [ -z "${DEPLOY_PASSWORD+xxx}" ]; then echo "DEPLOY_PASSWORD not set" && exit; fi
 
 # save version
-PLEBCHAN_VERSION=$(node -e "console.log(require('../package.json').version)")
-PLEBCHAN_HTML_NAME="plebchan-html-$PLEBCHAN_VERSION"
+FIVECHAN_VERSION=$(node -e "console.log(require('../package.json').version)")
+FIVECHAN_HTML_NAME="5chan-html-$FIVECHAN_VERSION"
 
 SCRIPT="
 # download html
 cd ~
-rm $PLEBCHAN_HTML_NAME.zip
-rm -fr $PLEBCHAN_HTML_NAME
-wget https://github.com/plebbit/plebchan/releases/download/v$PLEBCHAN_VERSION/$PLEBCHAN_HTML_NAME.zip || exit
+rm $FIVECHAN_HTML_NAME.zip
+rm -fr $FIVECHAN_HTML_NAME
+wget https://github.com/plebbit/5chan/releases/download/v$FIVECHAN_VERSION/$FIVECHAN_HTML_NAME.zip || exit
 
 # extract html
-unzip $PLEBCHAN_HTML_NAME.zip || exit
-rm $PLEBCHAN_HTML_NAME.zip || exit
+unzip $FIVECHAN_HTML_NAME.zip || exit
+rm $FIVECHAN_HTML_NAME.zip || exit
 
 # add to ipfs
-CID=\`ipfs add --recursive --pin --quieter $PLEBCHAN_HTML_NAME | tail -n 1\`
+CID=\`ipfs add --recursive --pin --quieter $FIVECHAN_HTML_NAME | tail -n 1\`
 ipfs pin add --recursive \"\$CID\"
 
 # start ipfs daemon if not started
 ipfs init
 nohup ipfs daemon &
 
-# the CID of plebchan html, add this CID to ENS
+# the CID of 5chan html, add this CID to ENS
 sleep 3
 echo \"\"
 CID=\`ipfs cid base32 \$CID\`
-echo $PLEBCHAN_HTML_NAME \"CID: \$CID\"
+echo $FIVECHAN_HTML_NAME \"CID: \$CID\"
 echo \"\"
 "
 

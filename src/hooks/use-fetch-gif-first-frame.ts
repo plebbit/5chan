@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import localForageLru from '@plebbit/plebbit-react-hooks/dist/lib/localforage-lru/index.js';
 
-const gifFrameDb = localForageLru.createInstance({ name: 'plebchanGifFrames', size: 500 });
+const gifFrameDb = localForageLru.createInstance({ name: '5chanGifFrames', size: 500 });
 
 const getCachedGifFrame = async (url: string): Promise<string | null> => {
   return await gifFrameDb.getItem(url);

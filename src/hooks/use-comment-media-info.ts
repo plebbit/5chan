@@ -1,42 +1,80 @@
-import { useCallback, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
-import { getCommentMediaInfo, fetchWebpageThumbnailIfNeeded } from '../lib/utils/media-utils';
+import { getCommentMediaInfo, fetchWebpageThumbnailIfNeeded, CommentMediaInfo } from '../lib/utils/media-utils';
 import { isPendingPostView, isPostPageView } from '../lib/utils/view-utils';
 
-export const useCommentMediaInfo = (link: string, thumbnailUrl: string, linkWidth: number, linkHeight: number) => {
+/**
+ * Hook to fetch and cache media info with thumbnail dimensions for comments.
+ * Properly tracks thumbnail dimensions using state so they're available after the image loads.
+ */
+export const useCommentMediaInfo = (link: string, thumbnailUrl: string, linkWidth: number, linkHeight: number): CommentMediaInfo | undefined => {
   const location = useLocation();
   const params = useParams();
   const isInPostPageView = isPostPageView(location.pathname, params);
   const isInPendingPostView = isPendingPostView(location.pathname, params);
 
-  // some sites have CORS access, so the thumbnail can be fetched client-side, which is helpful if subplebbit.settings.fetchThumbnailUrls is false
-  const fetchThumbnail = useCallback(async () => {
-    let commentMediaInfo = getCommentMediaInfo(link, thumbnailUrl, linkWidth, linkHeight);
-    if (commentMediaInfo?.type === 'webpage' && !commentMediaInfo.thumbnail) {
-      const newMediaInfo = await fetchWebpageThumbnailIfNeeded(commentMediaInfo);
-      // Fetch the dimensions of the thumbnail
-      if (newMediaInfo.thumbnail) {
-        const img = new Image();
-        img.onload = () => {
-          commentMediaInfo = {
-            ...newMediaInfo,
-            thumbnailWidth: img.width,
-            thumbnailHeight: img.height,
-          };
-        };
-        img.src = newMediaInfo.thumbnail;
-      }
-      commentMediaInfo = newMediaInfo;
-    }
-    return commentMediaInfo;
-  }, [link, thumbnailUrl, linkWidth, linkHeight]);
+  const [thumbnailDimensions, setThumbnailDimensions] = useState<{ width: number; height: number } | null>(null);
 
+  // Fetch and cache thumbnail dimensions for webpage media
   useEffect(() => {
-    // don't fetch in feed view, it displaces the posts
-    if (isInPostPageView && isInPendingPostView) {
-      fetchThumbnail();
-    }
-  }, [fetchThumbnail, isInPostPageView, isInPendingPostView]);
+    if (!(isInPostPageView || isInPendingPostView)) return;
 
-  return getCommentMediaInfo(link, thumbnailUrl, linkWidth, linkHeight);
+    // Reset dimensions when inputs change to avoid stale state
+    setThumbnailDimensions(null);
+
+    let isMounted = true;
+    let img: HTMLImageElement | null = null;
+
+    const fetchAndCacheThumbnail = async () => {
+      const mediaInfo = getCommentMediaInfo(link, thumbnailUrl, linkWidth, linkHeight);
+
+      if (mediaInfo?.type === 'webpage' && !mediaInfo.thumbnail) {
+        const newMediaInfo = await fetchWebpageThumbnailIfNeeded(mediaInfo);
+
+        if (newMediaInfo.thumbnail && isMounted) {
+          img = new Image();
+
+          const handleLoad = () => {
+            // Only update state if component is still mounted and this is the latest request
+            if (isMounted && img) {
+              setThumbnailDimensions({ width: img.width, height: img.height });
+            }
+          };
+
+          const handleError = () => {
+            // Silently handle failed image loads
+          };
+
+          img.onload = handleLoad;
+          img.onerror = handleError;
+          img.src = newMediaInfo.thumbnail;
+        }
+      }
+    };
+
+    fetchAndCacheThumbnail();
+
+    // Cleanup function to prevent memory leaks and race conditions
+    return () => {
+      isMounted = false;
+      if (img) {
+        // Remove event handlers to prevent them from being called after cleanup
+        img.onload = null;
+        img.onerror = null;
+      }
+    };
+  }, [link, thumbnailUrl, linkWidth, linkHeight, isInPostPageView, isInPendingPostView]);
+
+  const mediaInfo = getCommentMediaInfo(link, thumbnailUrl, linkWidth, linkHeight);
+
+  // Return media info with cached thumbnail dimensions if available
+  if (thumbnailDimensions && mediaInfo) {
+    return {
+      ...mediaInfo,
+      thumbnailWidth: thumbnailDimensions.width,
+      thumbnailHeight: thumbnailDimensions.height,
+    };
+  }
+
+  return mediaInfo;
 };
