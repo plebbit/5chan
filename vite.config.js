@@ -4,8 +4,11 @@ import { resolve } from 'path';
 import { nodePolyfills } from 'vite-plugin-node-polyfills';
 import eslint from 'vite-plugin-eslint';
 import { VitePWA } from 'vite-plugin-pwa';
+import reactScan from '@react-scan/vite-plugin-react-scan';
+import { reactGrab } from 'react-grab/plugins/vite';
 
 const isProduction = process.env.NODE_ENV === 'production';
+const isDevelopment = process.env.NODE_ENV === 'development';
 
 export default defineConfig({
   plugins: [
@@ -18,6 +21,13 @@ export default defineConfig({
         ]
       }
     }),
+    // Only include React Scan in development mode - never in production builds
+    (isDevelopment || (!isProduction && process.env.NODE_ENV !== 'production')) && reactScan({
+      showToolbar: true,
+      playSound: true,
+    }),
+    // Only include React Grab in development mode - never in production builds
+    (isDevelopment || (!isProduction && process.env.NODE_ENV !== 'production')) && reactGrab(),
     !isProduction && eslint({
       lintOnStart: true,
       overrideConfigFile: './.eslintrc.cjs',
