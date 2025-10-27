@@ -13,7 +13,7 @@ import { shouldShowSnow } from '../../lib/snow';
 import Tooltip from '../tooltip';
 import _ from 'lodash';
 
-const totalBanners = 63;
+const totalBanners = 1;
 
 const ImageBanner = () => {
   const [imagePath] = useState(() => {
