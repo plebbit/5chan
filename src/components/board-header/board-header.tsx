@@ -13,15 +13,24 @@ import { shouldShowSnow } from '../../lib/snow';
 import Tooltip from '../tooltip';
 import _ from 'lodash';
 
-const totalBanners = 1;
+const totalBanners = 4;
 
 const ImageBanner = () => {
-  const [imagePath] = useState(() => {
-    const randomBannerIndex = Math.floor(Math.random() * totalBanners) + 1;
-    return `assets/banners/banner-${randomBannerIndex}.jpg`;
-  });
+  const [index] = useState(() => Math.floor(Math.random() * totalBanners) + 1);
+  const jpg = `assets/banners/banner-${index}.jpg`;
+  const gif = `assets/banners/banner-${index}.gif`;
 
-  return <img src={imagePath} alt='' />;
+  return (
+    <img
+      src={jpg}
+      alt=''
+      onError={(e) => {
+        const img = e.currentTarget;
+        img.onerror = null;
+        img.src = gif;
+      }}
+    />
+  );
 };
 
 const BoardHeader = () => {
