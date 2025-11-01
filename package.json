@@ -131,7 +131,8 @@
   },
   "resolutions": {
     "@bonfida/spl-name-service": "3.0.0",
-    "@libp2p/utils": "6.7.1"
+    "@libp2p/utils": "7.0.7",
+    "@noble/hashes": "1.8.0"
   },
   "main": "electron/main.js",
   "build": {

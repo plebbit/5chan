@@ -163,7 +163,9 @@ export default defineConfig({
       'stream': 'stream-browserify',
       'crypto': 'crypto-browserify',
       'buffer': 'buffer',
-    }
+    },
+    // Force resolving to main exports to avoid missing specifier errors
+    mainFields: ['browser', 'module', 'main']
   },
   server: {
     port: 3000,
