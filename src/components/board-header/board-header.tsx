@@ -14,8 +14,12 @@ import Tooltip from '../tooltip';
 import _ from 'lodash';
 
 // Dynamically import all banner images at build time
-const bannerModules = import.meta.glob('/public/assets/banners/banner-*.{jpg,jpeg,gif,png}', { eager: true, as: 'url' });
-const bannerPaths = Object.keys(bannerModules).map((path) => path.replace('/public/', ''));
+const bannerModules = import.meta.glob('/public/assets/banners/banner-*.{jpg,jpeg,gif,png}', {
+  eager: true,
+  query: '?url',
+  import: 'default',
+});
+const bannerPaths = Object.values(bannerModules) as string[];
 
 const ImageBanner = () => {
   const [banner] = useState(() => bannerPaths[Math.floor(Math.random() * bannerPaths.length)]);
