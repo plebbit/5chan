@@ -3,14 +3,10 @@ import { Link, useLocation } from 'react-router-dom';
 import useSubplebbitsStore from '@plebbit/plebbit-react-hooks/dist/stores/subplebbits';
 import { HomeLogo } from '../home';
 import styles from './not-found.module.css';
-
-const totalNotFoundImages = 2;
+import { NOT_FOUND_IMAGES } from '../../generated/asset-manifest';
 
 const NotFoundImage = () => {
-  const [imagePath] = useState(() => {
-    const randomBannerIndex = Math.floor(Math.random() * totalNotFoundImages) + 1;
-    return `assets/not-found/not-found-${randomBannerIndex}.jpg`;
-  });
+  const [imagePath] = useState(() => NOT_FOUND_IMAGES[Math.floor(Math.random() * NOT_FOUND_IMAGES.length)]);
 
   return <img src={imagePath} alt='' />;
 };

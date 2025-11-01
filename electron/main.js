@@ -16,6 +16,17 @@ const dirname = path.dirname(__filename);
 // Load package.json dynamically
 const packageJson = JSON.parse(fs.readFileSync(path.join(dirname, '../package.json'), 'utf-8'));
 
+// Enforce GTK 3 on Linux to avoid mixing GTK 4 and GTK 3 in the same process
+// which can happen on some distros/desktops and crashes AppImage with:
+// "GTK 2/3 symbols detected. Using GTK 2/3 and GTK 4 in the same process is not supported"
+if (process.platform === 'linux') {
+  try {
+    app.commandLine.appendSwitch('gtk-version', '3');
+  } catch (e) {
+    // ignore – if unsupported, Electron will simply ignore this switch
+  }
+}
+
 let startIpfsError;
 startIpfs.onError = (error) => {
   // only show error once or it spams the user

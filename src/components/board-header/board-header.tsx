@@ -12,16 +12,12 @@ import useIsSubplebbitOffline from '../../hooks/use-is-subplebbit-offline';
 import { shouldShowSnow } from '../../lib/snow';
 import Tooltip from '../tooltip';
 import _ from 'lodash';
-
-const totalBanners = 63;
+import { BANNERS } from '../../generated/asset-manifest';
 
 const ImageBanner = () => {
-  const [imagePath] = useState(() => {
-    const randomBannerIndex = Math.floor(Math.random() * totalBanners) + 1;
-    return `assets/banners/banner-${randomBannerIndex}.jpg`;
-  });
+  const [banner] = useState(() => BANNERS[Math.floor(Math.random() * BANNERS.length)]);
 
-  return <img src={imagePath} alt='' />;
+  return <img src={banner} alt='' />;
 };
 
 const BoardHeader = () => {

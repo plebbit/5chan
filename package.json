@@ -49,6 +49,9 @@
     "zustand": "4.4.3"
   },
   "scripts": {
+    "generate:assets": "node scripts/generate-asset-manifest.js",
+    "prebuild": "yarn generate:assets",
+    "prestart": "yarn generate:assets",
     "start": "vite",
     "build": "cross-env PUBLIC_URL=./ GENERATE_SOURCEMAP=false vite build",
     "build:preload": "vite build --config electron/vite.preload.config.js",
@@ -91,6 +94,7 @@
     "@capacitor/android": "7.2.0",
     "@capacitor/cli": "7.2.0",
     "@capacitor/core": "7.2.0",
+    "@react-scan/vite-plugin-react-scan": "^0.1.8",
     "@electron/rebuild": "4.0.0",
     "@types/memoizee": "0.4.9",
     "@typescript-eslint/eslint-plugin": "8.29.0",
@@ -114,6 +118,8 @@
     "eslint-plugin-react-compiler": "19.0.0-beta-40c6c23-20250301",
     "eslint-plugin-react-hooks": "5.2.0",
     "husky": "4.3.8",
+    "react-grab": "^0.0.18",
+    "react-scan": "^0.4.3",
     "isomorphic-fetch": "3.0.0",
     "lint-staged": "12.3.8",
     "stream-browserify": "3.0.0",

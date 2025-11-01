@@ -11,8 +11,8 @@ const useInitialTheme = (pendingPostSubplebbitAddress?: string) => {
   const { subplebbitAddress: paramsSubplebbitAddress, accountCommentIndex } = useParams<{ subplebbitAddress: string; accountCommentIndex?: string }>();
   const commentIndex = accountCommentIndex ? parseInt(accountCommentIndex) : undefined;
   const pendingPost = useAccountComment({ commentIndex });
-  const getTheme = useThemeStore((state) => state.getTheme);
-  const currentTheme = useThemeStore((state) => state.currentTheme);
+  // Subscribe to the actual themes data, not just functions
+  const themes = useThemeStore((state) => state.themes);
   const subplebbits = useDefaultSubplebbits();
   const params = useParams();
   const isInHomeView = isHomeView(location.pathname);
@@ -30,23 +30,23 @@ const useInitialTheme = (pendingPostSubplebbitAddress?: string) => {
       if (subplebbitAddress) {
         const subplebbit = subplebbits.find((s) => s.address === subplebbitAddress);
         if (subplebbit && subplebbit.tags && subplebbit.tags.some((tag) => nsfwTags.includes(tag))) {
-          theme = getTheme('nsfw', false) || 'yotsuba';
+          theme = themes.nsfw || 'yotsuba';
         } else {
-          theme = getTheme('sfw', false) || 'yotsuba-b';
+          theme = themes.sfw || 'yotsuba-b';
         }
       } else {
-        theme = currentTheme || 'yotsuba';
+        theme = 'yotsuba';
       }
     } else if (isInAllView || isInSubscriptionsView || isInModView) {
-      theme = getTheme('sfw', false) || 'yotsuba-b'; // Add 'false' parameter
+      theme = themes.sfw || 'yotsuba-b';
     } else if (isInHomeView || isInNotFoundView) {
       theme = 'yotsuba';
     } else if (paramsSubplebbitAddress) {
       const subplebbit = subplebbits.find((s) => s.address === paramsSubplebbitAddress);
       if (subplebbit && subplebbit.tags && subplebbit.tags.some((tag) => nsfwTags.includes(tag))) {
-        theme = getTheme('nsfw', false) || 'yotsuba'; // Add 'false' parameter
+        theme = themes.nsfw || 'yotsuba';
       } else {
-        theme = getTheme('sfw', false) || 'yotsuba-b'; // Add 'false' parameter
+        theme = themes.sfw || 'yotsuba-b';
       }
     }
 
@@ -59,8 +59,7 @@ const useInitialTheme = (pendingPostSubplebbitAddress?: string) => {
     isInHomeView,
     isInNotFoundView,
     paramsSubplebbitAddress,
-    getTheme,
-    currentTheme,
+    themes,
     subplebbits,
     pendingPostSubplebbitAddress,
     pendingPost,
