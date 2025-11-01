@@ -13,24 +13,14 @@ import { shouldShowSnow } from '../../lib/snow';
 import Tooltip from '../tooltip';
 import _ from 'lodash';
 
-const totalBanners = 4;
+// Dynamically import all banner images at build time
+const bannerModules = import.meta.glob('/public/assets/banners/banner-*.{jpg,jpeg,gif,png}', { eager: true, as: 'url' });
+const bannerPaths = Object.keys(bannerModules).map((path) => path.replace('/public/', ''));
 
 const ImageBanner = () => {
-  const [index] = useState(() => Math.floor(Math.random() * totalBanners) + 1);
-  const jpg = `assets/banners/banner-${index}.jpg`;
-  const gif = `assets/banners/banner-${index}.gif`;
+  const [banner] = useState(() => bannerPaths[Math.floor(Math.random() * bannerPaths.length)]);
 
-  return (
-    <img
-      src={jpg}
-      alt=''
-      onError={(e) => {
-        const img = e.currentTarget;
-        img.onerror = null;
-        img.src = gif;
-      }}
-    />
-  );
+  return <img src={banner} alt='' />;
 };
 
 const BoardHeader = () => {
