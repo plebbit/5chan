@@ -3,26 +3,10 @@ import { Link, useLocation } from 'react-router-dom';
 import useSubplebbitsStore from '@plebbit/plebbit-react-hooks/dist/stores/subplebbits';
 import { HomeLogo } from '../home';
 import styles from './not-found.module.css';
-
-// Dynamically import all not-found images at build time
-const notFoundModules = import.meta.glob('/public/assets/not-found/not-found-*.{jpg,jpeg,gif,png}', {
-  eager: true,
-  query: '?url',
-  import: 'default',
-});
-const notFoundPaths = Object.values(notFoundModules) as string[];
+import { NOT_FOUND_IMAGES } from '../../generated/asset-manifest';
 
 const NotFoundImage = () => {
-  const [imagePath] = useState(() => {
-    if (notFoundPaths.length === 0) {
-      return null;
-    }
-    return notFoundPaths[Math.floor(Math.random() * notFoundPaths.length)];
-  });
-
-  if (!imagePath) {
-    return null;
-  }
+  const [imagePath] = useState(() => NOT_FOUND_IMAGES[Math.floor(Math.random() * NOT_FOUND_IMAGES.length)]);
 
   return <img src={imagePath} alt='' />;
 };

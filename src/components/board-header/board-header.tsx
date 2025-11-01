@@ -12,17 +12,10 @@ import useIsSubplebbitOffline from '../../hooks/use-is-subplebbit-offline';
 import { shouldShowSnow } from '../../lib/snow';
 import Tooltip from '../tooltip';
 import _ from 'lodash';
-
-// Dynamically import all banner images at build time
-const bannerModules = import.meta.glob('/public/assets/banners/banner-*.{jpg,jpeg,gif,png}', {
-  eager: true,
-  query: '?url',
-  import: 'default',
-});
-const bannerPaths = Object.values(bannerModules) as string[];
+import { BANNERS } from '../../generated/asset-manifest';
 
 const ImageBanner = () => {
-  const [banner] = useState(() => bannerPaths[Math.floor(Math.random() * bannerPaths.length)]);
+  const [banner] = useState(() => BANNERS[Math.floor(Math.random() * BANNERS.length)]);
 
   return <img src={banner} alt='' />;
 };
