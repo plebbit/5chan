@@ -4,13 +4,25 @@ import useSubplebbitsStore from '@plebbit/plebbit-react-hooks/dist/stores/subple
 import { HomeLogo } from '../home';
 import styles from './not-found.module.css';
 
-const totalNotFoundImages = 2;
+// Dynamically import all not-found images at build time
+const notFoundModules = import.meta.glob('/public/assets/not-found/not-found-*.{jpg,jpeg,gif,png}', {
+  eager: true,
+  query: '?url',
+  import: 'default',
+});
+const notFoundPaths = Object.values(notFoundModules) as string[];
 
 const NotFoundImage = () => {
   const [imagePath] = useState(() => {
-    const randomBannerIndex = Math.floor(Math.random() * totalNotFoundImages) + 1;
-    return `assets/not-found/not-found-${randomBannerIndex}.jpg`;
+    if (notFoundPaths.length === 0) {
+      return null;
+    }
+    return notFoundPaths[Math.floor(Math.random() * notFoundPaths.length)];
   });
+
+  if (!imagePath) {
+    return null;
+  }
 
   return <img src={imagePath} alt='' />;
 };
