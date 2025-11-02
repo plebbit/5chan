@@ -202,7 +202,9 @@ export default defineConfig({
       'buffer',
       'process',
       'stream-browserify',
-      'isomorphic-fetch'
+      'isomorphic-fetch',
+      'workbox-core',
+      'workbox-precaching'
     ],
   },
   esbuild: {
