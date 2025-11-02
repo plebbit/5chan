@@ -18,14 +18,20 @@ const notFoundImages = readdirSync(notFoundDir)
   .filter((file) => /^not-found-.*\.(jpg|jpeg|gif|png)$/i.test(file))
   .map((file) => `assets/not-found/${file}`);
 
-// Generate TypeScript file
+// Generate TypeScript file with proper formatting (matches prettier config)
+const formatArray = (arr) => {
+  if (arr.length === 0) return '[]';
+  if (arr.length === 1) return `['${arr[0]}']`;
+  return '[\n  ' + arr.map((item) => `'${item}',`).join('\n  ') + '\n]';
+};
+
 const output = `// Auto-generated file - do not edit manually
 // Run 'node scripts/generate-asset-manifest.js' to regenerate
 // This file is generated from public/assets/ directory
 
-export const BANNERS = ${JSON.stringify(banners, null, 2)} as const;
+export const BANNERS = ${formatArray(banners)} as const;
 
-export const NOT_FOUND_IMAGES = ${JSON.stringify(notFoundImages, null, 2)} as const;
+export const NOT_FOUND_IMAGES = ${formatArray(notFoundImages)} as const;
 `;
 
 // Ensure directory exists
