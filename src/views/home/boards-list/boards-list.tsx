@@ -10,6 +10,7 @@ import styles from './boards-list.module.css';
 const Board = ({ subplebbit, isMobile }: { subplebbit: MultisubSubplebbit; isMobile: boolean }) => {
   const { t } = useTranslation();
   const { address, title, nsfw } = subplebbit || {};
+  const boardTitle = title?.replace(/^\/[^/]+\/\s*-\s*/, '') || '';
   const displayAddress = address && Plebbit.getShortAddress(address);
 
   return (
@@ -21,7 +22,7 @@ const Board = ({ subplebbit, isMobile }: { subplebbit: MultisubSubplebbit; isMob
         </p>
       </td>
       <td>
-        <p className={styles.boardCell}>{title || displayAddress}</p>
+        <p className={styles.boardCell}>{boardTitle || displayAddress}</p>
       </td>
     </tr>
   );

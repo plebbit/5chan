@@ -14,8 +14,7 @@ import { removeMarkdown } from '../../../lib/utils/post-utils';
 
 interface PopularThreadProps {
   post: Comment;
-  boardTitle: string | undefined;
-  boardShortAddress: string;
+  multisub: MultisubSubplebbit[];
 }
 
 export const ContentPreview = ({ content, maxLength = 99 }: { content: string; maxLength?: number }) => {
@@ -25,16 +24,20 @@ export const ContentPreview = ({ content, maxLength = 99 }: { content: string; m
   return truncatedText;
 };
 
-const PopularThreadCard = ({ post, boardTitle, boardShortAddress }: PopularThreadProps) => {
+const PopularThreadCard = ({ post, multisub }: PopularThreadProps) => {
   const { cid, content, link, linkHeight, linkWidth, subplebbitAddress, thumbnailUrl, title } = post || {};
   const commentMediaInfo = getCommentMediaInfo(link, thumbnailUrl, linkWidth, linkHeight);
 
+  // Find the matching MultisubSubplebbit entry and get its title
+  const multisubEntry = multisub.find((ms) => ms?.address === subplebbitAddress);
+  const boardTitle = multisubEntry?.title?.replace(/^\/[^/]+\/\s*-\s*/, '') || '';
+
   return (
     <div className={styles.popularThread} key={cid}>
-      <div className={styles.title}>{boardTitle || boardShortAddress}</div>
+      <div className={styles.title}>{boardTitle}</div>
       <div className={styles.mediaContainer}>
         <Link to={`/p/${subplebbitAddress}/c/${cid}`}>
-          <CatalogPostMedia commentMediaInfo={commentMediaInfo} isOutOfFeed={true} />
+          <CatalogPostMedia commentMediaInfo={commentMediaInfo} isOutOfFeed={true} cid={cid} />
         </Link>
       </div>
       <div className={styles.threadContent}>
@@ -83,9 +86,7 @@ const PopularThreadsBox = ({ multisub, subplebbits }: { multisub: MultisubSubple
         {popularPosts.length === 0 ? (
           <LoadingEllipsis string={t('loading')} />
         ) : (
-          popularPosts.map((post: any) => (
-            <PopularThreadCard key={post.cid} post={post} boardTitle={post.subplebbitTitle || post.subplebbitAddress} boardShortAddress={post.subplebbitAddress} />
-          ))
+          popularPosts.map((post: any) => <PopularThreadCard key={post.cid} post={post} multisub={multisub} />)
         )}
       </div>
     </div>
