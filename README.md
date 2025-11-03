@@ -21,7 +21,7 @@ In the plebbit protocol, a 5chan board is called a _subplebbit_. To run a subple
 Peers can connect to your subplebbit using any plebbit client, such as 5chan or Seedit. They only need the subplebbit's address, which is not stored in any central database, as plebbit is a pure peer-to-peer protocol.
 
 ### How to add a board to the boards list
-The boards list on 5chan is plebbit's [temporary-default-subplebbits](https://github.com/plebbit/temporary-default-subplebbits) list. You can open a pull request in that repo to add your subplebbit to the list, or contact devs via telegram [@plebbit](https://t.me/plebbit). In the future, this process will be automated by submitting proposals to a plebbit DAO, using the [plebbit token](https://etherscan.io/token/0xea81dab2e0ecbc6b5c4172de4c22b6ef6e55bd8f).
+The boards list on 5chan is plebbit's [lists](https://github.com/plebbit/lists) repository, specifically the [5chan-multisub.json](https://github.com/plebbit/lists/blob/master/5chan-multisub.json) file. You can open a pull request in that repo to add your subplebbit to the list, or contact devs via telegram [@plebbit](https://t.me/plebbit). In the future, this process will be automated by submitting proposals to a plebbit DAO, using the [plebbit token](https://etherscan.io/token/0xea81dab2e0ecbc6b5c4172de4c22b6ef6e55bd8f).
 
 ## To run locally
 

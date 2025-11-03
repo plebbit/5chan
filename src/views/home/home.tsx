@@ -10,7 +10,7 @@ import BoardsList from './boards-list';
 import Version from '../../components/version';
 import _ from 'lodash';
 
-// https://github.com/plebbit/temporary-default-subplebbits/blob/master/README.md
+// https://github.com/plebbit/lists/blob/master/5chan-multisub.json
 
 const SearchBar = () => {
   const searchInputRef = useRef<HTMLInputElement>(null);

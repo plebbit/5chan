@@ -10,10 +10,7 @@ export interface MultisubMetadata {
 export interface MultisubSubplebbit {
   title?: string;
   address: string;
-  tags?: string[];
-  features?: string[];
-  autoSubscribe5Chan?: boolean;
-  lowUptime?: boolean;
+  nsfw?: boolean;
 }
 
 export interface DefaultSubplebbitsState {
@@ -24,7 +21,6 @@ export interface DefaultSubplebbitsState {
 
 let cacheSubplebbits: MultisubSubplebbit[] | null = null;
 let cacheMetadata: MultisubMetadata | null = null;
-let cacheAutoSubscribeAddresses: string[] | null = null;
 
 export const useDefaultSubplebbits = () => {
   const [state, setState] = useState<DefaultSubplebbitsState>({
@@ -45,24 +41,17 @@ export const useDefaultSubplebbits = () => {
 
     (async () => {
       try {
-        const multisub = await fetch('https://raw.githubusercontent.com/plebbit/temporary-default-subplebbits/master/multisub.json').then((res) => {
+        const multisub = await fetch('https://raw.githubusercontent.com/plebbit/lists/master/5chan-multisub.json').then((res) => {
           if (!res.ok) {
             throw new Error(`HTTP error! status: ${res.status}`);
           }
           return res.json();
         });
 
-        const filteredSubplebbits = multisub.subplebbits.filter((sub: MultisubSubplebbit) => !sub.lowUptime);
-
-        cacheSubplebbits = filteredSubplebbits;
-
-        // Cache auto-subscribe addresses when we fetch subplebbits
-        cacheAutoSubscribeAddresses = filteredSubplebbits
-          .filter((sub: MultisubSubplebbit) => sub.autoSubscribe5Chan && sub.address)
-          .map((sub: MultisubSubplebbit) => sub.address);
+        cacheSubplebbits = multisub.subplebbits;
 
         setState({
-          subplebbits: filteredSubplebbits,
+          subplebbits: multisub.subplebbits,
           loading: false,
           error: null,
         });
@@ -80,8 +69,6 @@ export const useDefaultSubplebbits = () => {
   // To maintain backward compatibility, return the subplebbits array directly
   return cacheSubplebbits || state.subplebbits;
 };
-
-export const getAutoSubscribeAddresses = () => cacheAutoSubscribeAddresses || [];
 
 export const useDefaultSubplebbitsState = () => {
   const [state, setState] = useState<DefaultSubplebbitsState>({
@@ -102,12 +89,14 @@ export const useDefaultSubplebbitsState = () => {
 
     (async () => {
       try {
-        const multisub = await fetch('https://raw.githubusercontent.com/plebbit/temporary-default-subplebbits/master/multisub.json').then((res) => {
+        const multisub = await fetch('https://raw.githubusercontent.com/plebbit/lists/master/5chan-multisub.json').then((res) => {
           if (!res.ok) {
             throw new Error(`HTTP error! status: ${res.status}`);
           }
           return res.json();
         });
+
+        cacheSubplebbits = multisub.subplebbits;
 
         setState({
           subplebbits: multisub.subplebbits,
@@ -143,7 +132,7 @@ export const useMultisubMetadata = () => {
     (async () => {
       try {
         const multisub = await fetch(
-          'https://raw.githubusercontent.com/plebbit/temporary-default-subplebbits/master/multisub.json',
+          'https://raw.githubusercontent.com/plebbit/lists/master/5chan-multisub.json',
           // { cache: 'no-cache' }
         ).then((res) => res.json());
         const { title, description, createdAt, updatedAt } = multisub;
@@ -157,18 +146,4 @@ export const useMultisubMetadata = () => {
   }, []);
 
   return cacheMetadata || metadata;
-};
-
-const getUniqueTags = (multisub: any) => {
-  const allTags = new Set<string>();
-  Object.values(multisub).forEach((sub: any) => {
-    if (sub?.tags?.length) {
-      sub.tags.forEach((tag: string) => allTags.add(tag));
-    }
-  });
-  return Array.from(allTags).sort();
-};
-
-export const useDefaultSubplebbitTags = (subplebbits: any) => {
-  return useMemo(() => getUniqueTags(subplebbits), [subplebbits]);
 };

@@ -3,7 +3,6 @@ import { useLocation, useParams } from 'react-router-dom';
 import useThemeStore from '../stores/use-theme-store';
 import { useDefaultSubplebbits } from './use-default-subplebbits';
 import { isAllView, isHomeView, isNotFoundView, isPendingPostView, isSubscriptionsView, isModView } from '../lib/utils/view-utils';
-import { nsfwTags } from '../constants/nsfwTags';
 import { useAccountComment } from '@plebbit/plebbit-react-hooks';
 
 const useInitialTheme = (pendingPostSubplebbitAddress?: string) => {
@@ -29,7 +28,7 @@ const useInitialTheme = (pendingPostSubplebbitAddress?: string) => {
       const subplebbitAddress = pendingPostSubplebbitAddress || pendingPost?.subplebbitAddress;
       if (subplebbitAddress) {
         const subplebbit = subplebbits.find((s) => s.address === subplebbitAddress);
-        if (subplebbit && subplebbit.tags && subplebbit.tags.some((tag) => nsfwTags.includes(tag))) {
+        if (subplebbit?.nsfw) {
           theme = themes.nsfw || 'yotsuba';
         } else {
           theme = themes.sfw || 'yotsuba-b';
@@ -43,7 +42,7 @@ const useInitialTheme = (pendingPostSubplebbitAddress?: string) => {
       theme = 'yotsuba';
     } else if (paramsSubplebbitAddress) {
       const subplebbit = subplebbits.find((s) => s.address === paramsSubplebbitAddress);
-      if (subplebbit && subplebbit.tags && subplebbit.tags.some((tag) => nsfwTags.includes(tag))) {
+      if (subplebbit?.nsfw) {
         theme = themes.nsfw || 'yotsuba';
       } else {
         theme = themes.sfw || 'yotsuba-b';

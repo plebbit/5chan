@@ -9,7 +9,7 @@ import { getCommentMediaInfo } from '../../../lib/utils/media-utils';
 import { CatalogPostMedia } from '../../../components/catalog-row';
 import LoadingEllipsis from '../../../components/loading-ellipsis';
 import BoxModal from '../box-modal';
-import { nsfwTags } from '../../../constants/nsfwTags';
+import { MultisubSubplebbit } from '../../../hooks/use-default-subplebbits';
 import { removeMarkdown } from '../../../lib/utils/post-utils';
 
 interface PopularThreadProps {
@@ -50,7 +50,7 @@ const PopularThreadCard = ({ post, boardTitle, boardShortAddress }: PopularThrea
   );
 };
 
-const PopularThreadsBox = ({ multisub, subplebbits }: { multisub: Subplebbit[]; subplebbits: any }) => {
+const PopularThreadsBox = ({ multisub, subplebbits }: { multisub: MultisubSubplebbit[]; subplebbits: any }) => {
   const { t } = useTranslation();
   const { showWorksafeContentOnly, showNsfwContentOnly } = usePopularThreadsOptionsStore();
 
@@ -58,13 +58,13 @@ const PopularThreadsBox = ({ multisub, subplebbits }: { multisub: Subplebbit[]; 
     if (showWorksafeContentOnly) {
       return subplebbits.filter((sub: Subplebbit) => {
         const multisubEntry = multisub.find((ms) => ms?.address === sub?.address);
-        return multisubEntry ? !multisubEntry.tags.some((tag: string) => nsfwTags.includes(tag)) : true;
+        return multisubEntry ? !multisubEntry.nsfw : true;
       });
     }
     if (showNsfwContentOnly) {
       return subplebbits.filter((sub: Subplebbit) => {
         const multisubEntry = multisub.find((ms) => ms?.address === sub?.address);
-        return multisubEntry ? multisubEntry.tags.some((tag: string) => nsfwTags.includes(tag)) : false;
+        return multisubEntry ? multisubEntry.nsfw : false;
       });
     }
     return subplebbits;

@@ -5,7 +5,6 @@ import { initSnow, removeSnow } from './lib/snow';
 import { isAllView, isModView, isSubscriptionsView } from './lib/utils/view-utils';
 import useReplyModalStore from './stores/use-reply-modal-store';
 import useSpecialThemeStore from './stores/use-special-theme-store';
-import { useAutoSubscribe } from './hooks/use-auto-subscribe';
 import useIsMobile from './hooks/use-is-mobile';
 import useTheme from './hooks/use-theme';
 import styles from './app.module.css';
@@ -117,54 +116,50 @@ const GlobalLayout = () => {
   );
 };
 
-const App = () => {
-  useAutoSubscribe();
+const App = () => (
+  <div className={styles.app}>
+    <Routes>
+      <Route element={<GlobalLayout />}>
+        <Route path='/' element={<Home />} />
+        <Route path='/:tag' element={<Home />} />
+        <Route path='/faq' element={<FAQ />} />
+        <Route path='*' element={<NotFound />} />
+        <Route element={<BoardLayout />}>
+          <Route path='/p/:subplebbitAddress' element={<Board />} />
+          <Route path='/p/:subplebbitAddress/settings' element={<Board />} />
+          <Route path='/p/:subplebbitAddress/catalog' element={<Catalog />} />
+          <Route path='/p/:subplebbitAddress/catalog/settings' element={<Catalog />} />
 
-  return (
-    <div className={styles.app}>
-      <Routes>
-        <Route element={<GlobalLayout />}>
-          <Route path='/' element={<Home />} />
-          <Route path='/:tag' element={<Home />} />
-          <Route path='/faq' element={<FAQ />} />
-          <Route path='*' element={<NotFound />} />
-          <Route element={<BoardLayout />}>
-            <Route path='/p/:subplebbitAddress' element={<Board />} />
-            <Route path='/p/:subplebbitAddress/settings' element={<Board />} />
-            <Route path='/p/:subplebbitAddress/catalog' element={<Catalog />} />
-            <Route path='/p/:subplebbitAddress/catalog/settings' element={<Catalog />} />
+          <Route path='/p/:subplebbitAddress/c/:commentCid' element={<Post />} />
+          <Route path='/p/:subplebbitAddress/c/:commentCid/settings' element={<Post />} />
+          <Route path='/p/:subplebbitAddress/description' element={<Post />} />
+          <Route path='/p/:subplebbitAddress/description/settings' element={<Post />} />
+          <Route path='/p/:subplebbitAddress/rules' element={<Post />} />
+          <Route path='/p/:subplebbitAddress/rules/settings' element={<Post />} />
 
-            <Route path='/p/:subplebbitAddress/c/:commentCid' element={<Post />} />
-            <Route path='/p/:subplebbitAddress/c/:commentCid/settings' element={<Post />} />
-            <Route path='/p/:subplebbitAddress/description' element={<Post />} />
-            <Route path='/p/:subplebbitAddress/description/settings' element={<Post />} />
-            <Route path='/p/:subplebbitAddress/rules' element={<Post />} />
-            <Route path='/p/:subplebbitAddress/rules/settings' element={<Post />} />
+          <Route path='/p/all/:timeFilterName?' element={<Board />} />
+          <Route path='/p/all/:timeFilterName?/settings' element={<Board />} />
+          <Route path='/p/all/description' element={<Post />} />
+          <Route path='/p/all/catalog/:timeFilterName?' element={<Catalog />} />
+          <Route path='/p/all/catalog/:timeFilterName?/settings' element={<Catalog />} />
 
-            <Route path='/p/all/:timeFilterName?' element={<Board />} />
-            <Route path='/p/all/:timeFilterName?/settings' element={<Board />} />
-            <Route path='/p/all/description' element={<Post />} />
-            <Route path='/p/all/catalog/:timeFilterName?' element={<Catalog />} />
-            <Route path='/p/all/catalog/:timeFilterName?/settings' element={<Catalog />} />
+          <Route path='/p/subscriptions/:timeFilterName?' element={<Board />} />
+          <Route path='/p/subscriptions/:timeFilterName?/settings' element={<Board />} />
+          <Route path='/p/subscriptions/catalog/:timeFilterName?' element={<Catalog />} />
+          <Route path='/p/subscriptions/catalog/:timeFilterName?/settings' element={<Catalog />} />
 
-            <Route path='/p/subscriptions/:timeFilterName?' element={<Board />} />
-            <Route path='/p/subscriptions/:timeFilterName?/settings' element={<Board />} />
-            <Route path='/p/subscriptions/catalog/:timeFilterName?' element={<Catalog />} />
-            <Route path='/p/subscriptions/catalog/:timeFilterName?/settings' element={<Catalog />} />
+          <Route path='/p/mod/:timeFilterName?' element={<Board />} />
+          <Route path='/p/mod/:timeFilterName?/settings' element={<Board />} />
+          <Route path='/p/mod/catalog/:timeFilterName?' element={<Catalog />} />
+          <Route path='/p/mod/catalog/:timeFilterName?/settings' element={<Catalog />} />
 
-            <Route path='/p/mod/:timeFilterName?' element={<Board />} />
-            <Route path='/p/mod/:timeFilterName?/settings' element={<Board />} />
-            <Route path='/p/mod/catalog/:timeFilterName?' element={<Catalog />} />
-            <Route path='/p/mod/catalog/:timeFilterName?/settings' element={<Catalog />} />
-
-            <Route path='/profile/:accountCommentIndex' element={<PendingPost />} />
-            <Route path='/profile/:accountCommentIndex/settings' element={<PendingPost />} />
-          </Route>
-          <Route path='/not-found' element={<NotFound />} />
+          <Route path='/profile/:accountCommentIndex' element={<PendingPost />} />
+          <Route path='/profile/:accountCommentIndex/settings' element={<PendingPost />} />
         </Route>
-      </Routes>
-    </div>
-  );
-};
+        <Route path='/not-found' element={<NotFound />} />
+      </Route>
+    </Routes>
+  </div>
+);
 
 export default App;
