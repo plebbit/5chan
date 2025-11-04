@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Plebbit from '@plebbit/plebbit-js';
 import { useDefaultSubplebbitsState, MultisubSubplebbit } from '../../../hooks/use-default-subplebbits';
 import useIsMobile from '../../../hooks/use-is-mobile';
 import LoadingEllipsis from '../../../components/loading-ellipsis';
+import useDisclaimerModalStore from '../../../stores/use-disclaimer-modal-store';
 import styles from './boards-list.module.css';
 
 const Board = ({ subplebbit, isMobile }: { subplebbit: MultisubSubplebbit; isMobile: boolean }) => {
@@ -12,12 +13,23 @@ const Board = ({ subplebbit, isMobile }: { subplebbit: MultisubSubplebbit; isMob
   const { address, title, nsfw } = subplebbit || {};
   const boardTitle = title?.replace(/^\/[^/]+\/\s*-\s*/, '') || '';
   const displayAddress = address && Plebbit.getShortAddress(address);
+  const navigate = useNavigate();
+  const { showDisclaimerModal } = useDisclaimerModalStore();
+
+  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    if (address) {
+      showDisclaimerModal(address, navigate);
+    }
+  };
 
   return (
     <tr key={address}>
       <td>
         <p className={styles.boardCell}>
-          <Link to={`/p/${address}`}>{displayAddress}</Link>
+          <Link to={`/p/${address}`} onClick={handleLinkClick}>
+            {displayAddress}
+          </Link>
           {nsfw && <span className={styles.nsfw}> ({t('nsfw')})</span>}
         </p>
       </td>
