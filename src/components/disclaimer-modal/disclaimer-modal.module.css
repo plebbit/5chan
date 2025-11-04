@@ -43,38 +43,26 @@
 .closeButton {
   all: unset;
   cursor: pointer;
-  color: rgb(255, 255, 255);
-  font-size: 16px;
-  line-height: 16px;
-  width: 18px;
-  height: 18px;
-  text-align: center;
-  user-select: none;
+  width: 16px;
+  height: 16px;
+  margin-top: 4px;
+  margin-right: 4px;
+  position: absolute;
+  top: 0;
+  right: 0;
   background-image: var(--disclaimer-modal-close-button-background-image);
   background-size: 100%;
   background-position: center;
   background-repeat: no-repeat;
 }
 
-.closeButton:hover {
-  opacity: 0.8;
-}
-
 .bd {
   padding: 10px;
 }
 
-.bd p {
-  margin: 0 0 10px 0;
-}
-
-.bd ol {
-  margin: 0;
-  padding-left: 20px;
-}
-
 .bd li {
-  margin-bottom: 10px;
+  list-style-type: decimal;
+  list-style-position: inside;
 }
 
 .bd a {
