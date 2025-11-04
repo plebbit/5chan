@@ -95,50 +95,67 @@ export const useDefaultSubplebbits = () => {
       return;
     }
 
+    let isMounted = true;
+
     (async () => {
       try {
         // Check localStorage first
         const cachedData = getFromLocalStorage();
         if (cachedData) {
           cacheSubplebbits = cachedData.subplebbits;
-          setState({
-            subplebbits: cachedData.subplebbits,
-            loading: false,
-            error: null,
-          });
-          // Still try to fetch fresh data in background (don't await)
-          fetchMultisubData().then((data) => {
-            cacheSubplebbits = data.subplebbits;
+          if (isMounted) {
             setState({
-              subplebbits: data.subplebbits,
+              subplebbits: cachedData.subplebbits,
               loading: false,
               error: null,
             });
-          });
+          }
+          // Still try to fetch fresh data in background (don't await)
+          fetchMultisubData()
+            .then((data) => {
+              if (isMounted) {
+                cacheSubplebbits = data.subplebbits;
+                setState({
+                  subplebbits: data.subplebbits,
+                  loading: false,
+                  error: null,
+                });
+              }
+            })
+            .catch((e) => {
+              console.warn('Background fetch failed:', e);
+            });
           return;
         }
 
         // No cache, fetch fresh data
         const multisub = await fetchMultisubData();
-        cacheSubplebbits = multisub.subplebbits;
-
-        setState({
-          subplebbits: multisub.subplebbits,
-          loading: false,
-          error: null,
-        });
+        if (isMounted) {
+          cacheSubplebbits = multisub.subplebbits;
+          setState({
+            subplebbits: multisub.subplebbits,
+            loading: false,
+            error: null,
+          });
+        }
       } catch (e) {
         console.warn('Failed to load subplebbits:', e);
         // Fallback to vendored data
         const fallbackData = defaultSubplebbitsData as MultisubData;
-        cacheSubplebbits = fallbackData.subplebbits;
-        setState({
-          subplebbits: fallbackData.subplebbits,
-          loading: false,
-          error: null,
-        });
+        if (isMounted) {
+          cacheSubplebbits = fallbackData.subplebbits;
+          setState({
+            subplebbits: fallbackData.subplebbits,
+            loading: false,
+            error: null,
+          });
+        }
       }
     })();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   // To maintain backward compatibility, return the subplebbits array directly
@@ -162,50 +179,67 @@ export const useDefaultSubplebbitsState = () => {
       return;
     }
 
+    let isMounted = true;
+
     (async () => {
       try {
         // Check localStorage first
         const cachedData = getFromLocalStorage();
         if (cachedData) {
           cacheSubplebbits = cachedData.subplebbits;
-          setState({
-            subplebbits: cachedData.subplebbits,
-            loading: false,
-            error: null,
-          });
-          // Still try to fetch fresh data in background (don't await)
-          fetchMultisubData().then((data) => {
-            cacheSubplebbits = data.subplebbits;
+          if (isMounted) {
             setState({
-              subplebbits: data.subplebbits,
+              subplebbits: cachedData.subplebbits,
               loading: false,
               error: null,
             });
-          });
+          }
+          // Still try to fetch fresh data in background (don't await)
+          fetchMultisubData()
+            .then((data) => {
+              if (isMounted) {
+                cacheSubplebbits = data.subplebbits;
+                setState({
+                  subplebbits: data.subplebbits,
+                  loading: false,
+                  error: null,
+                });
+              }
+            })
+            .catch((e) => {
+              console.warn('Background fetch failed:', e);
+            });
           return;
         }
 
         // No cache, fetch fresh data
         const multisub = await fetchMultisubData();
-        cacheSubplebbits = multisub.subplebbits;
-
-        setState({
-          subplebbits: multisub.subplebbits,
-          loading: false,
-          error: null,
-        });
+        if (isMounted) {
+          cacheSubplebbits = multisub.subplebbits;
+          setState({
+            subplebbits: multisub.subplebbits,
+            loading: false,
+            error: null,
+          });
+        }
       } catch (e) {
         console.warn('Failed to load subplebbits:', e);
         // Fallback to vendored data
         const fallbackData = defaultSubplebbitsData as MultisubData;
-        cacheSubplebbits = fallbackData.subplebbits;
-        setState({
-          subplebbits: fallbackData.subplebbits,
-          loading: false,
-          error: null,
-        });
+        if (isMounted) {
+          cacheSubplebbits = fallbackData.subplebbits;
+          setState({
+            subplebbits: fallbackData.subplebbits,
+            loading: false,
+            error: null,
+          });
+        }
       }
     })();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   return state;
@@ -223,6 +257,9 @@ export const useMultisubMetadata = () => {
     if (cacheMetadata) {
       return;
     }
+
+    let isMounted = true;
+
     (async () => {
       try {
         // Check localStorage first
@@ -235,45 +272,61 @@ export const useMultisubMetadata = () => {
             updatedAt: cachedData.updatedAt,
           };
           cacheMetadata = metadata;
-          setMetadata(metadata);
+          if (isMounted) {
+            setMetadata(metadata);
+          }
           // Still try to fetch fresh data in background (don't await)
-          fetchMultisubData().then((data) => {
-            const freshMetadata: MultisubMetadata = {
-              title: data.title,
-              description: data.description,
-              createdAt: data.createdAt,
-              updatedAt: data.updatedAt,
-            };
-            cacheMetadata = freshMetadata;
-            setMetadata(freshMetadata);
-          });
+          fetchMultisubData()
+            .then((data) => {
+              if (isMounted) {
+                const freshMetadata: MultisubMetadata = {
+                  title: data.title,
+                  description: data.description,
+                  createdAt: data.createdAt,
+                  updatedAt: data.updatedAt,
+                };
+                cacheMetadata = freshMetadata;
+                setMetadata(freshMetadata);
+              }
+            })
+            .catch((e) => {
+              console.warn('Background metadata fetch failed:', e);
+            });
           return;
         }
 
         // No cache, fetch fresh data
         const multisub = await fetchMultisubData();
-        const metadata: MultisubMetadata = {
-          title: multisub.title,
-          description: multisub.description,
-          createdAt: multisub.createdAt,
-          updatedAt: multisub.updatedAt,
-        };
-        cacheMetadata = metadata;
-        setMetadata(metadata);
+        if (isMounted) {
+          const metadata: MultisubMetadata = {
+            title: multisub.title,
+            description: multisub.description,
+            createdAt: multisub.createdAt,
+            updatedAt: multisub.updatedAt,
+          };
+          cacheMetadata = metadata;
+          setMetadata(metadata);
+        }
       } catch (e) {
         console.warn('Failed to load metadata, using vendored fallback:', e);
         // Fallback to vendored data
         const fallbackData = defaultSubplebbitsData as MultisubData;
-        const metadata: MultisubMetadata = {
-          title: fallbackData.title,
-          description: fallbackData.description,
-          createdAt: fallbackData.createdAt,
-          updatedAt: fallbackData.updatedAt,
-        };
-        cacheMetadata = metadata;
-        setMetadata(metadata);
+        if (isMounted) {
+          const metadata: MultisubMetadata = {
+            title: fallbackData.title,
+            description: fallbackData.description,
+            createdAt: fallbackData.createdAt,
+            updatedAt: fallbackData.updatedAt,
+          };
+          cacheMetadata = metadata;
+          setMetadata(metadata);
+        }
       }
     })();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   return cacheMetadata || metadata;
