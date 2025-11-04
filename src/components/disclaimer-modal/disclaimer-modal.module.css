@@ -36,7 +36,7 @@
 .hd h2 {
   margin: 0;
   padding: 0;
-  font-size: 13px;
+  font-size: 131%;
   font-weight: bold;
 }
 
@@ -50,6 +50,10 @@
   height: 18px;
   text-align: center;
   user-select: none;
+  background-image: var(--disclaimer-modal-close-button-background-image);
+  background-size: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .closeButton:hover {
@@ -81,22 +85,6 @@
 .disclaimerFooter {
   padding: 10px;
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   gap: 10px;
-  border-top: 1px solid rgb(136, 0, 0);
 }
-
-.disclaimerFooter button {
-  padding: 4px 12px;
-  border: 1px solid rgb(136, 0, 0);
-  background-color: rgb(255, 255, 255);
-  color: rgb(136, 0, 0);
-  cursor: pointer;
-  font-size: 13px;
-  font-family: arial, helvetica, clean, sans-serif;
-}
-
-.disclaimerFooter button:hover {
-  background-color: rgb(250, 250, 250);
-}
-

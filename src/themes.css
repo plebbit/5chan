@@ -72,6 +72,7 @@
   --homepage-box-link-text-color-hover: #e00;
   --homepage-box-link-text-decoration: none;
   --homepage-box-link-text-decoration-hover: underline;
+  --disclaimer-modal-close-button-background-image: url("/assets/buttons/icon-close-red.png");
 
   /* footer */
   --footer-item-background-color-desktop: #fed;
@@ -284,6 +285,7 @@
   --homepage-box-link-text-color-hover: #d00;
   --homepage-box-link-text-decoration: none;
   --homepage-box-link-text-decoration-hover: underline;
+  --disclaimer-modal-close-button-background-image: url("/assets/buttons/icon-close-red.png");
 
   /* horizontal rule */
   --hr-border: none;
@@ -673,6 +675,7 @@
   --homepage-box-bar-text-color: #000;
   --homepage-box-bar-background-color: #98e;
   --homepage-box-bar-text-color-hover: #fff;
+  --disclaimer-modal-close-button-background-image: url("/assets/buttons/icon-close-red.png");
 
   /* media */
   --media-thumbnail-background-color: rgba(0, 0, 0, 0.05);
@@ -864,6 +867,7 @@
   --homepage-box-border-color: rgb(45, 47, 51);
   --homepage-box-bar-text-color: #c5c8c6;
   --homepage-box-bar-text-color-hover: #c5c8c6;
+  --disclaimer-modal-close-button-background-image: url("/assets/buttons/icon-close-red.png");
 
   /* horizontal rule */
   --hr-border: none;

@@ -25,9 +25,7 @@ const DisclaimerModal = () => {
       <div className={styles.disclaimerDialog}>
         <div className={styles.hd}>
           <h2>Disclaimer</h2>
-          <button className={styles.closeButton} onClick={closeDisclaimerModal} title='Close'>
-            ×
-          </button>
+          <button className={styles.closeButton} onClick={closeDisclaimerModal} title='Close' />
         </div>
         <div className={styles.bd}>
           <p>To access boards on 5chan (the &quot;website&quot;), you understand and agree to the following:</p>
