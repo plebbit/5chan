@@ -25,6 +25,7 @@
 }
 
 .hd {
+  position: relative;
   background-color: rgb(136, 0, 0);
   color: rgb(255, 255, 255);
   padding: 4px 6px;
@@ -45,11 +46,9 @@
   cursor: pointer;
   width: 16px;
   height: 16px;
-  margin-top: 4px;
-  margin-right: 4px;
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 4px;
+  right: 4px;
   background-image: var(--disclaimer-modal-close-button-background-image);
   background-size: 100%;
   background-position: center;
@@ -63,6 +62,11 @@
 .bd li {
   list-style-type: decimal;
   list-style-position: inside;
+  margin-bottom: 16px;
+}
+
+.bd li:last-child {
+  margin-bottom: 0;
 }
 
 .bd a {
