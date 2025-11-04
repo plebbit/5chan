@@ -4,7 +4,7 @@ import styles from './disclaimer-modal.module.css';
 
 const DisclaimerModal = () => {
   const navigate = useNavigate();
-  const { showModal, targetAddress, closeDisclaimerModal, acceptDisclaimer } = useDisclaimerModalStore();
+  const { showModal, closeDisclaimerModal, acceptDisclaimer } = useDisclaimerModalStore();
 
   if (!showModal) {
     return null;
