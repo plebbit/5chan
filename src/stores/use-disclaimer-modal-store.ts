@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { NavigateFunction } from 'react-router-dom';
 
-const DISCLAIMER_ACCEPTED_KEY = '5chan-disclaimer-accepted';
+export const DISCLAIMER_ACCEPTED_KEY = '5chan-disclaimer-accepted';
 
 interface DisclaimerModalState {
   showModal: boolean;

@@ -157,7 +157,13 @@
 }
 
 .filterModal .selected::before {
-  content: '✔ ';
+  content: '✓ ';
+}
+
+.filterModal .separator {
+  border-bottom: 1px solid #ccc;
+  margin: 6px 0 4px;
+  padding: 0;
 }
 
 .footer a {
@@ -244,6 +250,72 @@
   display: inline-block;
   width: 33%;
   text-transform: capitalize;
+}
+
+.boardsContent {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 0.5em;
+  padding-top: 0.25em;
+  padding-bottom: 0;
+}
+
+.boardsColumn {
+  flex: 1;
+  min-width: 150px;
+  vertical-align: top;
+}
+
+.boardsColumn h3:not(.nsfwBadge) {
+  display: inline;
+  font-weight: 700;
+  font-size: 100%;
+  margin: 0;
+  margin-bottom: 5px;
+  text-transform: capitalize;
+  color: #800;
+  text-decoration: underline;
+}
+
+.nsfwBadge {
+  display: inline;
+  color: #e00;
+  font-size: 100% !important;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: smaller;
+  vertical-align: baseline;
+}
+
+.nsfwBadge sup {
+  vertical-align: baseline;
+  position: relative;
+  top: -0.2em;
+  font-size: 85%;
+}
+
+.boardsColumn ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  margin-bottom: 15px;
+}
+
+.boardsColumn li {
+  margin: 0;
+  padding: 0;
+  line-height: 1.5em;
+}
+
+.boardsColumn a {
+  color: var(--homepage-box-link-text-color) !important;
+  text-decoration: none;
+}
+
+.boardsColumn a:hover {
+  color: var(--homepage-box-link-text-color-hover) !important;
+  text-decoration: underline;
 }
 
 @media (max-width: 640px) {
