@@ -146,7 +146,7 @@ dev-dist
 /coverage
 
 # production
-/build
+# (using dist, already ignored above)
 
 # misc
 .DS_Store

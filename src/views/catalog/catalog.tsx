@@ -129,7 +129,7 @@ const Catalog = () => {
 
   const isInAllView = isAllView(location.pathname);
   const defaultSubplebbits = useDefaultSubplebbits();
-  const { hideAdultBoards, hideGoreBoards } = useInterfaceSettingsStore();
+  const { hideAdultBoards } = useInterfaceSettingsStore();
   const { showTextOnlyThreads, filterItems, searchText, clearMatchedFilters } = useCatalogFiltersStore();
 
   const account = useAccount();
@@ -139,11 +139,8 @@ const Catalog = () => {
   const subplebbitAddresses = useMemo(() => {
     const filteredDefaultSubplebbits = defaultSubplebbits
       .filter((subplebbit) => {
-        const { tags } = subplebbit;
-        const hasGoreTag = tags?.includes('gore');
-        const hasAdultTag = tags?.includes('adult');
-
-        if ((hasGoreTag && hideGoreBoards) || (hasAdultTag && hideAdultBoards)) {
+        // Hide NSFW boards if hideAdultBoards is enabled (treating NSFW as adult content)
+        if (subplebbit.nsfw && hideAdultBoards) {
           return false;
         }
         return true;
@@ -159,7 +156,7 @@ const Catalog = () => {
     }
     // Only include subplebbitAddress if it's defined
     return subplebbitAddress ? [subplebbitAddress] : [];
-  }, [isInAllView, isInSubscriptionsView, subplebbitAddress, defaultSubplebbits, subscriptions, hideAdultBoards, hideGoreBoards]);
+  }, [isInAllView, isInSubscriptionsView, subplebbitAddress, defaultSubplebbits, subscriptions, hideAdultBoards]);
 
   const { imageSize } = useCatalogStyleStore();
   const columnWidth = imageSize === 'Large' ? 270 : 180;

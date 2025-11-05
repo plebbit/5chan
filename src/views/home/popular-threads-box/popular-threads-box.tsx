@@ -9,13 +9,12 @@ import { getCommentMediaInfo } from '../../../lib/utils/media-utils';
 import { CatalogPostMedia } from '../../../components/catalog-row';
 import LoadingEllipsis from '../../../components/loading-ellipsis';
 import BoxModal from '../box-modal';
-import { nsfwTags } from '../../../constants/nsfwTags';
+import { MultisubSubplebbit } from '../../../hooks/use-default-subplebbits';
 import { removeMarkdown } from '../../../lib/utils/post-utils';
 
 interface PopularThreadProps {
   post: Comment;
-  boardTitle: string | undefined;
-  boardShortAddress: string;
+  multisub: MultisubSubplebbit[];
 }
 
 export const ContentPreview = ({ content, maxLength = 99 }: { content: string; maxLength?: number }) => {
@@ -25,16 +24,20 @@ export const ContentPreview = ({ content, maxLength = 99 }: { content: string; m
   return truncatedText;
 };
 
-const PopularThreadCard = ({ post, boardTitle, boardShortAddress }: PopularThreadProps) => {
+const PopularThreadCard = ({ post, multisub }: PopularThreadProps) => {
   const { cid, content, link, linkHeight, linkWidth, subplebbitAddress, thumbnailUrl, title } = post || {};
   const commentMediaInfo = getCommentMediaInfo(link, thumbnailUrl, linkWidth, linkHeight);
 
+  // Find the matching MultisubSubplebbit entry and get its title
+  const multisubEntry = multisub.find((ms) => ms?.address === subplebbitAddress);
+  const boardTitle = multisubEntry?.title?.replace(/^\/[^/]+\/\s*-\s*/, '') || '';
+
   return (
     <div className={styles.popularThread} key={cid}>
-      <div className={styles.title}>{boardTitle || boardShortAddress}</div>
+      <div className={styles.title}>{boardTitle}</div>
       <div className={styles.mediaContainer}>
         <Link to={`/p/${subplebbitAddress}/c/${cid}`}>
-          <CatalogPostMedia commentMediaInfo={commentMediaInfo} isOutOfFeed={true} />
+          <CatalogPostMedia commentMediaInfo={commentMediaInfo} isOutOfFeed={true} cid={cid} />
         </Link>
       </div>
       <div className={styles.threadContent}>
@@ -50,7 +53,7 @@ const PopularThreadCard = ({ post, boardTitle, boardShortAddress }: PopularThrea
   );
 };
 
-const PopularThreadsBox = ({ multisub, subplebbits }: { multisub: Subplebbit[]; subplebbits: any }) => {
+const PopularThreadsBox = ({ multisub, subplebbits }: { multisub: MultisubSubplebbit[]; subplebbits: any }) => {
   const { t } = useTranslation();
   const { showWorksafeContentOnly, showNsfwContentOnly } = usePopularThreadsOptionsStore();
 
@@ -58,13 +61,13 @@ const PopularThreadsBox = ({ multisub, subplebbits }: { multisub: Subplebbit[]; 
     if (showWorksafeContentOnly) {
       return subplebbits.filter((sub: Subplebbit) => {
         const multisubEntry = multisub.find((ms) => ms?.address === sub?.address);
-        return multisubEntry ? !multisubEntry.tags.some((tag: string) => nsfwTags.includes(tag)) : true;
+        return multisubEntry ? !multisubEntry.nsfw : true;
       });
     }
     if (showNsfwContentOnly) {
       return subplebbits.filter((sub: Subplebbit) => {
         const multisubEntry = multisub.find((ms) => ms?.address === sub?.address);
-        return multisubEntry ? multisubEntry.tags.some((tag: string) => nsfwTags.includes(tag)) : false;
+        return multisubEntry ? multisubEntry.nsfw : false;
       });
     }
     return subplebbits;
@@ -83,9 +86,7 @@ const PopularThreadsBox = ({ multisub, subplebbits }: { multisub: Subplebbit[]; 
         {popularPosts.length === 0 ? (
           <LoadingEllipsis string={t('loading')} />
         ) : (
-          popularPosts.map((post: any) => (
-            <PopularThreadCard key={post.cid} post={post} boardTitle={post.subplebbitTitle || post.subplebbitAddress} boardShortAddress={post.subplebbitAddress} />
-          ))
+          popularPosts.map((post: any) => <PopularThreadCard key={post.cid} post={post} multisub={multisub} />)
         )}
       </div>
     </div>

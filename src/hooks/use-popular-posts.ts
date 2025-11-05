@@ -22,7 +22,18 @@ const usePopularPosts = (subplebbits: Subplebbit[]) => {
 
           if (subplebbit?.posts?.pages?.hot?.comments) {
             for (const post of Object.values(subplebbit.posts.pages.hot.comments as Comment)) {
-              const { deleted, link, linkHeight, linkWidth, locked, pinned, removed, replyCount, thumbnailUrl, timestamp } = post;
+              const {
+                deleted,
+                link,
+                linkHeight,
+                linkWidth,
+                locked,
+                pinned,
+                removed,
+                replyCount,
+                thumbnailUrl,
+                // timestamp
+              } = post;
 
               try {
                 const commentMediaInfo = getCommentMediaInfo(link, thumbnailUrl, linkWidth, linkHeight);
@@ -30,12 +41,12 @@ const usePopularPosts = (subplebbits: Subplebbit[]) => {
 
                 if (
                   hasThumbnail &&
-                  (replyCount > 0 || postsPerSub > 1) &&
+                  replyCount > 1 &&
                   !deleted &&
                   !removed &&
                   !locked &&
                   !pinned &&
-                  timestamp > Date.now() / 1000 - 60 * 60 * 24 * 30 &&
+                  // timestamp > Date.now() / 1000 - 60 * 60 * 24 * 30 &&
                   !uniqueLinks.has(link)
                 ) {
                   subplebbitPosts.push(post);

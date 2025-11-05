@@ -10,7 +10,7 @@
     "@capacitor/status-bar": "7.0.1",
     "@capawesome/capacitor-android-edge-to-edge-support": "7.2.2",
     "@floating-ui/react": "0.26.1",
-    "@plebbit/plebbit-react-hooks": "https://github.com/plebbit/plebbit-react-hooks.git#eecac4503b7099b2dde22505869f2a70d280e14f",
+    "@plebbit/plebbit-react-hooks": "https://github.com/plebbit/plebbit-react-hooks.git#3323ee84401a3ad53d5cbc620bf4d33498bcc102",
     "@react-spring/web": "9.7.5",
     "@testing-library/jest-dom": "5.14.1",
     "@testing-library/react": "13.0.0",
@@ -58,7 +58,7 @@
     "build-netlify": "cross-env NODE_OPTIONS=\"--max_old_space_size=4096\" PUBLIC_URL=./ GENERATE_SOURCEMAP=true VITE_COMMIT_REF=$COMMIT_REF CI='' vite build",
     "test": "vitest",
     "preview": "vite preview",
-    "analyze-bundle": "cross-env PUBLIC_URL=./ GENERATE_SOURCEMAP=true vite build && npx source-map-explorer 'build/assets/*.js'",
+    "analyze-bundle": "cross-env PUBLIC_URL=./ GENERATE_SOURCEMAP=true vite build && npx source-map-explorer 'dist/assets/*.js'",
     "electron": "yarn build:preload && cross-env ELECTRON_IS_DEV=1 yarn electron:before && cross-env ELECTRON_IS_DEV=1 electron .",
     "electron:no-delete-data": "yarn electron:before:download-ipfs && electron .",
     "electron:start": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && yarn electron\"",
@@ -94,8 +94,8 @@
     "@capacitor/android": "7.2.0",
     "@capacitor/cli": "7.2.0",
     "@capacitor/core": "7.2.0",
-    "@react-scan/vite-plugin-react-scan": "^0.1.8",
     "@electron/rebuild": "4.0.0",
+    "@react-scan/vite-plugin-react-scan": "^0.1.8",
     "@types/memoizee": "0.4.9",
     "@typescript-eslint/eslint-plugin": "8.29.0",
     "@typescript-eslint/parser": "8.29.0",
@@ -118,10 +118,10 @@
     "eslint-plugin-react-compiler": "19.0.0-beta-40c6c23-20250301",
     "eslint-plugin-react-hooks": "5.2.0",
     "husky": "4.3.8",
-    "react-grab": "^0.0.18",
-    "react-scan": "^0.4.3",
     "isomorphic-fetch": "3.0.0",
     "lint-staged": "12.3.8",
+    "react-grab": "^0.0.18",
+    "react-scan": "^0.4.3",
     "stream-browserify": "3.0.0",
     "vite": "6.2.1",
     "vite-plugin-eslint": "1.8.1",
@@ -131,7 +131,8 @@
   },
   "resolutions": {
     "@bonfida/spl-name-service": "3.0.0",
-    "@libp2p/utils": "6.7.1"
+    "@libp2p/utils": "7.0.7",
+    "@noble/hashes": "1.8.0"
   },
   "main": "electron/main.js",
   "build": {
@@ -149,7 +150,7 @@
       }
     ],
     "files": [
-      "build/**/*",
+      "dist/**/*",
       "electron/**/*",
       "package.json",
       "node_modules/**/*"

@@ -163,7 +163,7 @@ export default defineConfig({
       'stream': 'stream-browserify',
       'crypto': 'crypto-browserify',
       'buffer': 'buffer',
-    }
+    },
   },
   server: {
     port: 3000,
@@ -176,7 +176,7 @@ export default defineConfig({
     }
   },
   build: {
-    outDir: 'build',
+    outDir: 'dist',
     emptyOutDir: true,
     sourcemap: process.env.GENERATE_SOURCEMAP === 'true',
     target: process.env.ELECTRON ? 'electron-renderer' : 'modules',
@@ -202,7 +202,9 @@ export default defineConfig({
       'buffer',
       'process',
       'stream-browserify',
-      'isomorphic-fetch'
+      'isomorphic-fetch',
+      'workbox-core',
+      'workbox-precaching'
     ],
   },
   esbuild: {

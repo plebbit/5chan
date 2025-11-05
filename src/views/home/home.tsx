@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef, FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
 import { useSubplebbits } from '@plebbit/plebbit-react-hooks';
@@ -8,19 +8,23 @@ import useSubplebbitsStats from '../../hooks/use-subplebbits-stats';
 import PopularThreadsBox from './popular-threads-box';
 import BoardsList from './boards-list';
 import Version from '../../components/version';
+import useDisclaimerModalStore from '../../stores/use-disclaimer-modal-store';
+import DisclaimerModal from '../../components/disclaimer-modal';
 import _ from 'lodash';
 
-// https://github.com/plebbit/temporary-default-subplebbits/blob/master/README.md
+// https://github.com/plebbit/lists/blob/master/5chan-multisub.json
 
 const SearchBar = () => {
   const searchInputRef = useRef<HTMLInputElement>(null);
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const { showDisclaimerModal } = useDisclaimerModalStore();
 
-  const handleSearchSubmit = () => {
+  const handleSearchSubmit = (e: FormEvent) => {
+    e.preventDefault();
     const searchInput = searchInputRef.current?.value;
     if (searchInput) {
-      navigate(`/p/${searchInput}`);
+      showDisclaimerModal(searchInput, navigate);
     }
   };
 
@@ -180,15 +184,18 @@ const Home = () => {
   }, []);
 
   return (
-    <div className={styles.content}>
-      <HomeLogo />
-      <SearchBar />
-      <InfoBox />
-      <BoardsList multisub={defaultSubplebbits} />
-      <PopularThreadsBox multisub={defaultSubplebbits} subplebbits={subplebbits} />
-      <Stats subplebbitAddresses={subplebbitAddresses} />
-      <Footer />
-    </div>
+    <>
+      <DisclaimerModal />
+      <div className={styles.content}>
+        <HomeLogo />
+        <SearchBar />
+        <InfoBox />
+        <BoardsList multisub={defaultSubplebbits} />
+        <PopularThreadsBox multisub={defaultSubplebbits} subplebbits={subplebbits} />
+        <Stats subplebbitAddresses={subplebbitAddresses} />
+        <Footer />
+      </div>
+    </>
   );
 };
 

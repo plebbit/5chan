@@ -3,7 +3,6 @@ import { useLocation, useParams } from 'react-router-dom';
 import { isAllView, isSubscriptionsView, isModView } from '../lib/utils/view-utils';
 import useThemeStore from '../stores/use-theme-store';
 import { useDefaultSubplebbits } from './use-default-subplebbits';
-import { nsfwTags } from '../constants/nsfwTags';
 import { useAccountComment } from '@plebbit/plebbit-react-hooks';
 import useSpecialThemeStore from '../stores/use-special-theme-store';
 import { isChristmas } from '../lib/utils/time-utils';
@@ -64,7 +63,7 @@ const useTheme = (): [string, (theme: string) => void] => {
       storedTheme = themes.sfw;
     } else if (subplebbitAddress) {
       const subplebbit = subplebbits.find((s) => s.address === subplebbitAddress);
-      if (subplebbit && subplebbit.tags && subplebbit.tags.some((tag) => nsfwTags.includes(tag))) {
+      if (subplebbit?.nsfw) {
         storedTheme = themes.nsfw;
       } else {
         storedTheme = themes.sfw;
@@ -85,7 +84,7 @@ const useTheme = (): [string, (theme: string) => void] => {
         await setThemeStore('sfw', newTheme);
       } else if (subplebbitAddress) {
         const subplebbit = subplebbits.find((s) => s.address === subplebbitAddress);
-        if (subplebbit && subplebbit.tags && subplebbit.tags.some((tag) => nsfwTags.includes(tag))) {
+        if (subplebbit?.nsfw) {
           await setThemeStore('nsfw', newTheme);
         } else {
           await setThemeStore('sfw', newTheme);
