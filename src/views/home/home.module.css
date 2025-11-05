@@ -247,18 +247,22 @@
 }
 
 .boardsContent {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
+  display: block;
   padding: 0.5em;
   padding-top: 0.25em;
   padding-bottom: 0;
 }
 
+.boardsContent::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
 .boardsColumn {
-  flex: 1;
-  min-width: 150px;
-  vertical-align: top;
+  display: block;
+  float: left;
+  width: 145px;
 }
 
 .boardsColumn h3:not(.nsfwBadge) {
@@ -293,13 +297,12 @@
   list-style: none;
   padding: 0;
   margin: 0;
-  margin-bottom: 15px;
 }
 
 .boardsColumn li {
   margin: 0;
   padding: 0;
-  line-height: 1.5em;
+  line-height: 130%;
 }
 
 .boardsColumn a {
@@ -310,6 +313,10 @@
 .boardsColumn a:hover {
   color: var(--homepage-box-link-text-color-hover) !important;
   text-decoration: underline;
+}
+
+.boardsColumn a.placeholder {
+  text-decoration: line-through;
 }
 
 @media (max-width: 640px) {
