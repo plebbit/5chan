@@ -23,7 +23,7 @@
   --body-background-pattern-image: url("/assets/background-fade.png");
   --body-font-color: maroon;
   --body-font-family: arial, helvetica, sans-serif;
-  --body-font-size: 10pt;
+  --body-font-size: 13px;
 
   /* catalog post */
   --catalog-post-menu-desktop-btn-color: navy;
@@ -239,7 +239,7 @@
   --body-background-pattern-image: url("/assets/background-fade-blue.png");
   --body-font-color: #000;
   --body-font-family: arial, helvetica, sans-serif;
-  --body-font-size: 10pt;
+  --body-font-size: 13px;
 
   /* catalog post */
   --catalog-post-menu-desktop-btn-color: navy;
@@ -819,7 +819,7 @@
   --body-background-pattern-image: none;
   --body-font-color: #c5c8c6;
   --body-font-family: arial, helvetica, sans-serif;
-  --body-font-size: 10pt;
+  --body-font-size: 13px;
 
   /* board banner */
   --banner-image-border: 1px solid #000;
@@ -1040,7 +1040,7 @@
   --body-background-pattern-image: none;
   --body-font-color: #333;
   --body-font-family: arial, helvetica, sans-serif;
-  --body-font-size: 10pt;
+  --body-font-size: 13px;
 
   /* board banner */
   --banner-image-border: 1px solid #000;
