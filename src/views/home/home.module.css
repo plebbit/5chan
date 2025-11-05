@@ -160,12 +160,6 @@
   content: '✓ ';
 }
 
-.filterModal .separator {
-  border-bottom: 1px solid #ccc;
-  margin: 6px 0 4px;
-  padding: 0;
-}
-
 .footer a {
   text-transform: capitalize;
 }
