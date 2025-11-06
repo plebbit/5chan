@@ -6,7 +6,7 @@ import Plebbit from '@plebbit/plebbit-js';
 import useSubplebbitsStore from '@plebbit/plebbit-react-hooks/dist/stores/subplebbits';
 import { isAllView, isSubscriptionsView, isModView } from '../../lib/utils/view-utils';
 import styles from './board-header.module.css';
-import { useMultisubMetadata } from '../../hooks/use-default-subplebbits';
+import { useMultisubMetadata, useDefaultSubplebbits } from '../../hooks/use-default-subplebbits';
 import useIsMobile from '../../hooks/use-is-mobile';
 import useIsSubplebbitOffline from '../../hooks/use-is-subplebbit-offline';
 import { shouldShowSnow } from '../../lib/snow';
@@ -35,13 +35,18 @@ const BoardHeader = () => {
   const { address, shortAddress } = subplebbit || {};
 
   const multisubMetadata = useMultisubMetadata();
+  const defaultSubplebbits = useDefaultSubplebbits();
+
+  // Find matching subplebbit from default list to get its title
+  const defaultSubplebbit = subplebbitAddress ? defaultSubplebbits.find((s) => s.address === subplebbitAddress) : null;
+
   const title = isInAllView
     ? multisubMetadata?.title || 'all'
     : isInSubscriptionsView
     ? 'Subscriptions'
     : isInModView
     ? _.startCase(t('boards_you_moderate'))
-    : subplebbit?.title;
+    : defaultSubplebbit?.title || subplebbit?.title;
   const subtitle = isInAllView ? 'p/all' : isInSubscriptionsView ? 'p/subscriptions' : isInModView ? 'p/mod' : `p/${address}`;
 
   const { isOffline, isOnlineStatusLoading, offlineIconClass, offlineTitle } = useIsSubplebbitOffline(subplebbit);

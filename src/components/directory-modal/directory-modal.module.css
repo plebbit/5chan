@@ -1,0 +1,120 @@
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(128, 128, 128, 0.5);
+  z-index: 999;
+}
+
+.directoryDialog {
+  position: absolute;
+  width: 500px;
+  top: 50px;
+  left: 50%;
+  margin-left: -251px;
+  background-color: rgb(255, 255, 255);
+  border: 1px solid rgb(136, 0, 0);
+  color: rgb(136, 0, 0);
+  box-shadow: rgba(0, 0, 0, 0.1) 2px 2px 0px 1px;
+  font-family: arial, helvetica, clean, sans-serif;
+  font-size: 13px;
+  line-height: 16.003px;
+  z-index: 1000;
+}
+
+@media (max-width: 600px) {
+  .directoryDialog {
+    width: calc(100% - 20px);
+    margin-left: -50%;
+    left: 50%;
+    max-width: 500px;
+  }
+}
+
+.hd {
+  position: relative;
+  background-color: rgb(136, 0, 0);
+  color: rgb(255, 255, 255);
+  padding: 4px 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.hd h2 {
+  margin: 0;
+  padding: 0;
+  font-size: 131%;
+  font-weight: bold;
+}
+
+.closeButton {
+  all: unset;
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background-image: var(--disclaimer-modal-close-button-background-image);
+  background-size: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.bd {
+  padding: 10px;
+}
+
+.introMessage {
+  font-size: 15px;
+  margin: 10px 0 20px 0;
+  text-align: center;
+}
+
+.introMessage strong {
+  font-weight: bold;
+}
+
+.section {
+  margin-bottom: 20px;
+}
+
+.section:last-child {
+  margin-bottom: 0;
+}
+
+.section h3 {
+  margin: 0 0 8px 0;
+  padding: 0;
+  font-size: 14px;
+  font-weight: bold;
+  color: rgb(136, 0, 0);
+  letter-spacing: 0.3px;
+}
+
+.section p {
+  margin: 0 0 12px 0;
+  font-size: 13px;
+  line-height: 16.003px;
+}
+
+.section p:last-child {
+  margin-bottom: 0;
+}
+
+.bd a {
+  color: rgb(136, 0, 0);
+  text-decoration: underline;
+}
+
+.directoryFooter {
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+

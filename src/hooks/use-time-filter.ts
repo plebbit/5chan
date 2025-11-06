@@ -4,10 +4,21 @@ import { useParams } from 'react-router-dom';
 // the timestamp the last time the user visited
 const lastVisitTimestamp = localStorage.getItem('5chanLastVisitTimestamp');
 
-// update the last visited timestamp every n seconds
-setInterval(() => {
-  localStorage.setItem('5chanLastVisitTimestamp', Date.now().toString());
-}, 60 * 1000);
+// Singleton pattern to ensure only one interval is ever created
+// This prevents memory leaks from multiple intervals being created during HMR or module re-evaluation
+// Using window object to persist across hot module reloads
+declare global {
+  interface Window {
+    _5chanLastVisitTimestampIntervalId?: number;
+  }
+}
+
+if (!window._5chanLastVisitTimestampIntervalId) {
+  // update the last visited timestamp every n seconds
+  window._5chanLastVisitTimestampIntervalId = window.setInterval(() => {
+    localStorage.setItem('5chanLastVisitTimestamp', Date.now().toString());
+  }, 60 * 1000);
+}
 
 const timeFilterNamesToSeconds: Record<string, number | undefined> = {
   '1h': 60 * 60,
