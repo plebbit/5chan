@@ -6,7 +6,7 @@ import { useAccount, useAccountComment, useAccountSubplebbits } from '@plebbit/p
 import { isAllView, isCatalogView, isSubscriptionsView } from '../../lib/utils/view-utils';
 import { useDefaultSubplebbitAddresses } from '../../hooks/use-default-subplebbits';
 import { TimeFilter } from '../board-buttons';
-import useDirectoryModalStore from '../../stores/use-directory-modal-store';
+import useCreateBoardModalStore from '../../stores/use-create-board-modal-store';
 import styles from './topbar.module.css';
 import _, { debounce } from 'lodash';
 
@@ -76,7 +76,7 @@ const TopBarDesktop = () => {
   const params = useParams();
   const isInCatalogView = isCatalogView(location.pathname, params);
   const [showSearchBar, setShowSearchBar] = useState(false);
-  const { openDirectoryModal } = useDirectoryModalStore();
+  const { openCreateBoardModal } = useCreateBoardModalStore();
 
   const subscriptions = account?.subscriptions;
 
@@ -110,7 +110,7 @@ const TopBarDesktop = () => {
           </>
         )}
         [
-        <span className={styles.temporaryButton} onClick={() => openDirectoryModal('create-button')} style={{ cursor: 'pointer' }}>
+        <span className={styles.temporaryButton} onClick={() => openCreateBoardModal()} style={{ cursor: 'pointer' }}>
           {t('create_board')}
         </span>
         ]

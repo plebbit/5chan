@@ -9,7 +9,9 @@ import PopularThreadsBox from './popular-threads-box';
 import BoardsList from './boards-list';
 import Version from '../../components/version';
 import useDisclaimerModalStore from '../../stores/use-disclaimer-modal-store';
+import useDirectoryModalStore from '../../stores/use-directory-modal-store';
 import DisclaimerModal from '../../components/disclaimer-modal';
+import DirectoryModal from '../../components/directory-modal';
 import _ from 'lodash';
 
 // https://github.com/plebbit/lists/blob/master/5chan-multisub.json
@@ -178,14 +180,23 @@ const Home = () => {
   const defaultSubplebbits = useDefaultSubplebbits();
   const subplebbitAddresses = useDefaultSubplebbitAddresses();
   const { subplebbits } = useSubplebbits({ subplebbitAddresses });
+  const { closeDirectoryModal } = useDirectoryModalStore();
 
   useEffect(() => {
     document.title = '5chan';
   }, []);
 
+  // Close directory modal when navigating away from home
+  useEffect(() => {
+    return () => {
+      closeDirectoryModal();
+    };
+  }, [closeDirectoryModal]);
+
   return (
     <>
       <DisclaimerModal />
+      <DirectoryModal />
       <div className={styles.content}>
         <HomeLogo />
         <SearchBar />

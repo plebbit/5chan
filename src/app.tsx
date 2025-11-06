@@ -4,7 +4,7 @@ import { useAccountComment } from '@plebbit/plebbit-react-hooks';
 import { initSnow, removeSnow } from './lib/snow';
 import { isAllView, isModView, isSubscriptionsView } from './lib/utils/view-utils';
 import useReplyModalStore from './stores/use-reply-modal-store';
-import useDirectoryModalStore from './stores/use-directory-modal-store';
+import useCreateBoardModalStore from './stores/use-create-board-modal-store';
 import useSpecialThemeStore from './stores/use-special-theme-store';
 import useIsMobile from './hooks/use-is-mobile';
 import useTheme from './hooks/use-theme';
@@ -19,7 +19,7 @@ import Post from './views/post';
 import { DesktopBoardButtons, MobileBoardButtons } from './components/board-buttons';
 import BoardHeader from './components/board-header';
 import ChallengeModal from './components/challenge-modal';
-import DirectoryModal from './components/directory-modal';
+import CreateBoardModal from './components/create-board-modal';
 import ReplyModal from './components/reply-modal';
 import PostForm from './components/post-form';
 import SubplebbitStats from './components/subplebbit-stats';
@@ -34,6 +34,7 @@ const BoardLayout = () => {
   const isInSubscriptionsView = isSubscriptionsView(location.pathname, useParams());
   const isInModView = isModView(location.pathname);
   const pendingPost = useAccountComment({ commentIndex: accountCommentIndex ? parseInt(accountCommentIndex) : undefined });
+  const { closeCreateBoardModal } = useCreateBoardModalStore();
 
   // Christmas theme
   const { isEnabled: isSpecialEnabled } = useSpecialThemeStore();
@@ -46,6 +47,11 @@ const BoardLayout = () => {
     };
   }, [isSpecialEnabled, isMobile]);
 
+  // Close create board modal when navigating to a different page
+  useEffect(() => {
+    closeCreateBoardModal();
+  }, [location.pathname, closeCreateBoardModal]);
+
   // force rerender of post form when navigating between pages, except when opening settings modal in current view
   const key = location.pathname.endsWith('/settings')
     ? `${subplebbitAddress}-${location.pathname.replace(/\/settings$/, '')}`
@@ -54,6 +60,7 @@ const BoardLayout = () => {
   return (
     <div className={styles.boardLayout}>
       <TopBar />
+      <CreateBoardModal />
       <BoardHeader />
       {isMobile
         ? (subplebbitAddress || isInAllView || isInModView || isInSubscriptionsView || pendingPost?.subplebbitAddress) && (
@@ -95,20 +102,13 @@ const GlobalLayout = () => {
   }, [theme]);
 
   const { activeCid, threadCid, subplebbitAddress, closeModal, showReplyModal, scrollY } = useReplyModalStore();
-  const { closeDirectoryModal } = useDirectoryModalStore();
 
   const location = useLocation();
   const isInSettingsView = location.pathname.endsWith('/settings');
 
-  // Close directory modal when navigating to a different page
-  useEffect(() => {
-    closeDirectoryModal();
-  }, [location.pathname, closeDirectoryModal]);
-
   return (
     <>
       <ChallengeModal />
-      <DirectoryModal />
       {activeCid && threadCid && subplebbitAddress && (
         <ReplyModal
           closeModal={closeModal}
