@@ -82,10 +82,10 @@ const BoardsList = ({ multisub }: { multisub: MultisubSubplebbit[] }) => {
   const showWorksafeOnly = boardFilter === 'worksafe';
 
   // Category visibility based on filter
-  const showJapaneseCulture = showAll || showWorksafeOnly;
+  const showJapaneseCulture = showAll || showWorksafeOnly || showNsfwOnly;
   const showVideoGames = showAll || showWorksafeOnly;
   const showInterests = showAll || showWorksafeOnly;
-  const showCreative = showAll || showWorksafeOnly;
+  const showCreative = showAll || showWorksafeOnly || showNsfwOnly;
   const showOther = showAll || showWorksafeOnly;
   const showMisc = showAll || showNsfwOnly;
   const showAdult = showAll || showNsfwOnly;
@@ -105,56 +105,66 @@ const BoardsList = ({ multisub }: { multisub: MultisubSubplebbit[] }) => {
               <>
                 <h3>Japanese Culture</h3>
                 <ul>
-                  <li>
-                    <Link to='#' onClick={(e) => e.preventDefault()} className={styles.placeholder}>
-                      Anime & Manga
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to='#' onClick={(e) => e.preventDefault()} className={styles.placeholder}>
-                      Anime/Cute
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to='#' onClick={(e) => e.preventDefault()} className={styles.placeholder}>
-                      Anime/Wallpapers
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to='#' onClick={(e) => e.preventDefault()} className={styles.placeholder}>
-                      Mecha
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to='#' onClick={(e) => e.preventDefault()} className={styles.placeholder}>
-                      Cosplay & EGL
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to='#' onClick={(e) => e.preventDefault()} className={styles.placeholder}>
-                      Cute/Male
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to='#' onClick={(e) => e.preventDefault()} className={styles.placeholder}>
-                      Flash
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to='#' onClick={(e) => e.preventDefault()} className={styles.placeholder}>
-                      Transportation
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to='#' onClick={(e) => e.preventDefault()} className={styles.placeholder}>
-                      Otaku Culture
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to='#' onClick={(e) => e.preventDefault()} className={styles.placeholder}>
-                      Virtual YouTubers
-                    </Link>
-                  </li>
+                  {(showAll || showWorksafeOnly) && (
+                    <>
+                      <li>
+                        <Link to='#' onClick={(e) => e.preventDefault()} className={styles.placeholder}>
+                          Anime & Manga
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to='#' onClick={(e) => e.preventDefault()} className={styles.placeholder}>
+                          Anime/Cute
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to='#' onClick={(e) => e.preventDefault()} className={styles.placeholder}>
+                          Anime/Wallpapers
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to='#' onClick={(e) => e.preventDefault()} className={styles.placeholder}>
+                          Mecha
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to='#' onClick={(e) => e.preventDefault()} className={styles.placeholder}>
+                          Cosplay & EGL
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to='#' onClick={(e) => e.preventDefault()} className={styles.placeholder}>
+                          Cute/Male
+                        </Link>
+                      </li>
+                    </>
+                  )}
+                  {(showAll || showNsfwOnly) && (
+                    <li>
+                      <Link to='#' onClick={(e) => e.preventDefault()} className={styles.placeholder}>
+                        Flash
+                      </Link>
+                    </li>
+                  )}
+                  {(showAll || showWorksafeOnly) && (
+                    <>
+                      <li>
+                        <Link to='#' onClick={(e) => e.preventDefault()} className={styles.placeholder}>
+                          Transportation
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to='#' onClick={(e) => e.preventDefault()} className={styles.placeholder}>
+                          Otaku Culture
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to='#' onClick={(e) => e.preventDefault()} className={styles.placeholder}>
+                          Virtual YouTubers
+                        </Link>
+                      </li>
+                    </>
+                  )}
                 </ul>
               </>
             )}
@@ -299,76 +309,90 @@ const BoardsList = ({ multisub }: { multisub: MultisubSubplebbit[] }) => {
           <div className={styles.boardsColumn}>
             <h3>Creative</h3>
             <ul>
-              <li>
-                <Link to='#' onClick={(e) => e.preventDefault()} className={styles.placeholder}>
-                  Oekaki
-                </Link>
-              </li>
-              <li>
-                <Link to='#' onClick={(e) => e.preventDefault()} className={styles.placeholder}>
-                  Papercraft & Origami
-                </Link>
-              </li>
-              <li>
-                <Link to='#' onClick={(e) => e.preventDefault()} className={styles.placeholder}>
-                  Photography
-                </Link>
-              </li>
-              <li>
-                <Link to='#' onClick={(e) => e.preventDefault()} className={styles.placeholder}>
-                  Food & Cooking
-                </Link>
-              </li>
-              <li>
-                <Link to='#' onClick={(e) => e.preventDefault()} className={styles.placeholder}>
-                  Artwork/Critique
-                </Link>
-              </li>
-              <li>
-                <Link to='#' onClick={(e) => e.preventDefault()} className={styles.placeholder}>
-                  Wallpapers/General
-                </Link>
-              </li>
-              <li>
-                <Link to='#' onClick={(e) => e.preventDefault()} className={styles.placeholder}>
-                  Literature
-                </Link>
-              </li>
-              <li>
-                <Link to='#' onClick={(e) => e.preventDefault()} className={styles.placeholder}>
-                  Music
-                </Link>
-              </li>
-              <li>
-                <Link to='#' onClick={(e) => e.preventDefault()} className={styles.placeholder}>
-                  Fashion
-                </Link>
-              </li>
-              <li>
-                <Link to='#' onClick={(e) => e.preventDefault()} className={styles.placeholder}>
-                  3DCG
-                </Link>
-              </li>
-              <li>
-                <Link to='#' onClick={(e) => e.preventDefault()} className={styles.placeholder}>
-                  Graphic Design
-                </Link>
-              </li>
-              <li>
-                <Link to='#' onClick={(e) => e.preventDefault()} className={styles.placeholder}>
-                  Do-It-Yourself
-                </Link>
-              </li>
-              <li>
-                <Link to='#' onClick={(e) => e.preventDefault()} className={styles.placeholder}>
-                  Worksafe GIF
-                </Link>
-              </li>
-              <li>
-                <Link to='#' onClick={(e) => e.preventDefault()} className={styles.placeholder}>
-                  Quests
-                </Link>
-              </li>
+              {(showAll || showNsfwOnly) && (
+                <li>
+                  <Link to='#' onClick={(e) => e.preventDefault()} className={styles.placeholder}>
+                    Oekaki
+                  </Link>
+                </li>
+              )}
+              {(showAll || showWorksafeOnly) && (
+                <>
+                  <li>
+                    <Link to='#' onClick={(e) => e.preventDefault()} className={styles.placeholder}>
+                      Papercraft & Origami
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to='#' onClick={(e) => e.preventDefault()} className={styles.placeholder}>
+                      Photography
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to='#' onClick={(e) => e.preventDefault()} className={styles.placeholder}>
+                      Food & Cooking
+                    </Link>
+                  </li>
+                </>
+              )}
+              {(showAll || showNsfwOnly) && (
+                <li>
+                  <Link to='#' onClick={(e) => e.preventDefault()} className={styles.placeholder}>
+                    Artwork/Critique
+                  </Link>
+                </li>
+              )}
+              {(showAll || showNsfwOnly) && (
+                <li>
+                  <Link to='#' onClick={(e) => e.preventDefault()} className={styles.placeholder}>
+                    Wallpapers/General
+                  </Link>
+                </li>
+              )}
+              {(showAll || showWorksafeOnly) && (
+                <>
+                  <li>
+                    <Link to='#' onClick={(e) => e.preventDefault()} className={styles.placeholder}>
+                      Literature
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to='#' onClick={(e) => e.preventDefault()} className={styles.placeholder}>
+                      Music
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to='#' onClick={(e) => e.preventDefault()} className={styles.placeholder}>
+                      Fashion
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to='#' onClick={(e) => e.preventDefault()} className={styles.placeholder}>
+                      3DCG
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to='#' onClick={(e) => e.preventDefault()} className={styles.placeholder}>
+                      Graphic Design
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to='#' onClick={(e) => e.preventDefault()} className={styles.placeholder}>
+                      Do-It-Yourself
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to='#' onClick={(e) => e.preventDefault()} className={styles.placeholder}>
+                      Worksafe GIF
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to='#' onClick={(e) => e.preventDefault()} className={styles.placeholder}>
+                      Quests
+                    </Link>
+                  </li>
+                </>
+              )}
             </ul>
           </div>
         )}
