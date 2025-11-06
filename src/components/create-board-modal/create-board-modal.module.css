@@ -14,12 +14,13 @@
   top: 50px;
   left: 50%;
   margin-left: -251px;
-  background-color: rgb(255, 255, 255);
-  border: 1px solid rgb(136, 0, 0);
-  color: rgb(136, 0, 0);
+  background-color: var(--settings-modal-background-color);
+  border-top: var(--settings-modal-border-top);
+  border-right: var(--settings-modal-border-right);
+  border-bottom: var(--settings-modal-border-bottom);
+  border-left: var(--settings-modal-border-left);
   box-shadow: rgba(0, 0, 0, 0.1) 2px 2px 0px 1px;
-  font-family: arial, helvetica, clean, sans-serif;
-  font-size: 13px;
+  font-size: var(--body-font-size);
   line-height: 16.003px;
   z-index: 1000;
 }
@@ -35,12 +36,11 @@
 
 .hd {
   position: relative;
-  background-color: rgb(136, 0, 0);
-  color: rgb(255, 255, 255);
   padding: 4px 6px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border-bottom: var(--settings-modal-header-border-bottom);
 }
 
 .hd h2 {
@@ -58,10 +58,11 @@
   position: absolute;
   top: 4px;
   right: 4px;
-  background-image: var(--disclaimer-modal-close-button-background-image);
+  background-image: var(--settings-modal-close-button-background-image);
   background-size: 100%;
   background-position: center;
   background-repeat: no-repeat;
+  image-rendering: pixelated;
 }
 
 .bd {
@@ -79,15 +80,14 @@
 .section h3 {
   margin: 0 0 8px 0;
   padding: 0;
-  font-size: 14px;
+  font-size: calc(var(--body-font-size) * 1.077);
   font-weight: bold;
-  color: rgb(136, 0, 0);
   letter-spacing: 0.3px;
 }
 
 .section p {
   margin: 0 0 12px 0;
-  font-size: 13px;
+  font-size: var(--body-font-size);
   line-height: 16.003px;
 }
 
@@ -96,8 +96,12 @@
 }
 
 .bd a {
-  color: rgb(136, 0, 0);
+  color: var(--button-desktop-text-color);
   text-decoration: underline;
+}
+
+.bd a:hover {
+  color: var(--button-desktop-text-color-hover);
 }
 
 .createBoardFooter {
