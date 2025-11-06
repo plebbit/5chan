@@ -6,6 +6,7 @@ import { useAccount, useAccountComment, useAccountSubplebbits } from '@plebbit/p
 import { isAllView, isCatalogView, isSubscriptionsView } from '../../lib/utils/view-utils';
 import { useDefaultSubplebbitAddresses } from '../../hooks/use-default-subplebbits';
 import { TimeFilter } from '../board-buttons';
+import useDirectoryModalStore from '../../stores/use-directory-modal-store';
 import styles from './topbar.module.css';
 import _, { debounce } from 'lodash';
 
@@ -75,6 +76,7 @@ const TopBarDesktop = () => {
   const params = useParams();
   const isInCatalogView = isCatalogView(location.pathname, params);
   const [showSearchBar, setShowSearchBar] = useState(false);
+  const { openDirectoryModal } = useDirectoryModalStore();
 
   const subscriptions = account?.subscriptions;
 
@@ -108,16 +110,8 @@ const TopBarDesktop = () => {
           </>
         )}
         [
-        <span className={styles.temporaryButton}>
-          <a href='https://plebbit.github.io/docs/learn/clients/5chan/create-a-board' target='_blank' rel='noopener noreferrer'>
-            {t('create_board')}
-          </a>
-        </span>
-        ] [
-        <span className={styles.temporaryButton}>
-          <a href='https://seedit.app/#/communities/vote' target='_blank' rel='noopener noreferrer'>
-            {t('vote')}
-          </a>
+        <span className={styles.temporaryButton} onClick={openDirectoryModal} style={{ cursor: 'pointer' }}>
+          {t('create_board')}
         </span>
         ]
       </span>
