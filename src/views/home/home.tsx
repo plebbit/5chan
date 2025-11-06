@@ -10,7 +10,6 @@ import BoardsList from './boards-list';
 import Version from '../../components/version';
 import useDisclaimerModalStore from '../../stores/use-disclaimer-modal-store';
 import DisclaimerModal from '../../components/disclaimer-modal';
-import DirectoryModal from '../../components/directory-modal';
 import _ from 'lodash';
 
 // https://github.com/plebbit/lists/blob/master/5chan-multisub.json
@@ -187,7 +186,6 @@ const Home = () => {
   return (
     <>
       <DisclaimerModal />
-      <DirectoryModal />
       <div className={styles.content}>
         <HomeLogo />
         <SearchBar />

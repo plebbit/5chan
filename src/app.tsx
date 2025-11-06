@@ -4,6 +4,7 @@ import { useAccountComment } from '@plebbit/plebbit-react-hooks';
 import { initSnow, removeSnow } from './lib/snow';
 import { isAllView, isModView, isSubscriptionsView } from './lib/utils/view-utils';
 import useReplyModalStore from './stores/use-reply-modal-store';
+import useDirectoryModalStore from './stores/use-directory-modal-store';
 import useSpecialThemeStore from './stores/use-special-theme-store';
 import useIsMobile from './hooks/use-is-mobile';
 import useTheme from './hooks/use-theme';
@@ -18,6 +19,7 @@ import Post from './views/post';
 import { DesktopBoardButtons, MobileBoardButtons } from './components/board-buttons';
 import BoardHeader from './components/board-header';
 import ChallengeModal from './components/challenge-modal';
+import DirectoryModal from './components/directory-modal';
 import ReplyModal from './components/reply-modal';
 import PostForm from './components/post-form';
 import SubplebbitStats from './components/subplebbit-stats';
@@ -93,13 +95,20 @@ const GlobalLayout = () => {
   }, [theme]);
 
   const { activeCid, threadCid, subplebbitAddress, closeModal, showReplyModal, scrollY } = useReplyModalStore();
+  const { closeDirectoryModal } = useDirectoryModalStore();
 
   const location = useLocation();
   const isInSettingsView = location.pathname.endsWith('/settings');
 
+  // Close directory modal when navigating to a different page
+  useEffect(() => {
+    closeDirectoryModal();
+  }, [location.pathname, closeDirectoryModal]);
+
   return (
     <>
       <ChallengeModal />
+      <DirectoryModal />
       {activeCid && threadCid && subplebbitAddress && (
         <ReplyModal
           closeModal={closeModal}
