@@ -194,9 +194,11 @@ const MobileQuotePreview = ({ backlinkReply, quotelinkReply, isBacklinkReply, is
   });
 
   useEffect(() => {
-    window.addEventListener('resize', () => update());
+    // Create a stable function reference for proper cleanup
+    const handleResize = () => update();
+    window.addEventListener('resize', handleResize);
     return () => {
-      window.removeEventListener('resize', () => update());
+      window.removeEventListener('resize', handleResize);
     };
   }, [update]);
 
