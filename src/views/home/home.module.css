@@ -3,8 +3,8 @@
   height: 100%;
   margin: auto;
   text-align: left;
-  width: 750px;
-  min-width: 750px;
+  width: 748px;
+  min-width: 748px;
 }
 
 .logo img {
@@ -251,6 +251,7 @@
   padding: 0.5em;
   padding-top: 0.25em;
   padding-bottom: 0;
+  line-height: 130%;
 }
 
 .boardsContent::after {
@@ -286,10 +287,8 @@
 }
 
 .nsfwBadge sup {
-  vertical-align: baseline;
-  position: relative;
-  top: -0.2em;
-  font-size: 85%;
+  vertical-align: text-bottom;
+  font-size: smaller;
 }
 
 .boardsColumn ul {
@@ -349,7 +348,7 @@
 @media (min-width: 640px) {
   .footer {
     border-top: 1px solid;
-    width: 750px;
+    width: 748px;
     display: inline-flex;
     justify-content: center;
     font-size: 12px;
