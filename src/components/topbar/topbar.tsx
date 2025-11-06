@@ -110,7 +110,7 @@ const TopBarDesktop = () => {
           </>
         )}
         [
-        <span className={styles.temporaryButton} onClick={openDirectoryModal} style={{ cursor: 'pointer' }}>
+        <span className={styles.temporaryButton} onClick={() => openDirectoryModal('create-button')} style={{ cursor: 'pointer' }}>
           {t('create_board')}
         </span>
         ]

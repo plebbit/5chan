@@ -1,17 +1,22 @@
 import { create } from 'zustand';
 
+type ModalContext = 'placeholder' | 'create-button';
+
 interface DirectoryModalState {
   showModal: boolean;
-  openDirectoryModal: () => void;
+  modalContext: ModalContext;
+  openDirectoryModal: (context?: ModalContext) => void;
   closeDirectoryModal: () => void;
 }
 
 const useDirectoryModalStore = create<DirectoryModalState>((set) => ({
   showModal: false,
+  modalContext: 'placeholder',
 
-  openDirectoryModal: () => {
+  openDirectoryModal: (context: ModalContext = 'placeholder') => {
     set({
       showModal: true,
+      modalContext: context,
     });
   },
 

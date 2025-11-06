@@ -49,7 +49,7 @@ const BoardsList = ({ multisub }: { multisub: MultisubSubplebbit[] }) => {
   // Handler for placeholder board links
   const handlePlaceholderClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
-    openDirectoryModal();
+    openDirectoryModal('placeholder');
   };
 
   if (loading) {

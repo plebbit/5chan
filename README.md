@@ -4,40 +4,106 @@ _Telegram group for this repo https://t.me/fivechandev_
 
 # 5chan
 
-5chan is a serverless, adminless, decentralized and open-source 4chan alternative, where anyone can create and cryptographically own unlimited boards. All boards are selfhosted by their owners, who run [plebbit nodes](https://github.com/plebbit/plebbit-cli) that users connect to, peer-to-peer. All data is text-only, including links to load media/embeds.
+5chan is a serverless, adminless, decentralized and open-source 4chan alternative built on the [Plebbit protocol](https://plebbit.com). It features the same directory structure as 4chan, but with a crucial difference: **anyone can create and own boards, and multiple boards can compete for each directory slot**.
 
-- web version: https://5chan.app, also available using Brave/IPFS Companion on https://5chan.eth
+## Key Features
 
-### Downloads
-- desktop version (full p2p plebbit node, seeds automatically): available for Mac/Windows/Linux, [download link in the release page](https://github.com/plebbit/5chan/releases/latest)
-- mobile version: available for Android, [download link in the release page](https://github.com/plebbit/5chan/releases/latest)
+### Decentralized Board Ownership
+Unlike traditional imageboards, 5chan has no global admins or central authority. Anyone can create unlimited boards using their own [plebbit node](https://github.com/plebbit/plebbit-cli). Each board owner runs their own P2P node that users connect to peer-to-peer, giving them complete control over their board's content, moderation, and rules.
 
-## How to create a board
-In the plebbit protocol, a 5chan board is called a _subplebbit_. To run a subplebbit, you can choose between two options:
+### Competitive Directory System
+5chan maintains the familiar 4chan directory structure (Japanese Culture, Video Games, Interests, Creative, etc.), but introduces competition: **multiple boards can compete for each directory slot**. For example, there can be unlimited "Business & Finance" boards, but only the highest-voted one appears in the directory on the homepage.
 
-1. If you prefer to use a **GUI**, download the desktop version of the Seedit client, available for Windows, MacOS and Linux: [latest release](https://github.com/plebbit/seedit/releases/latest). Create a subplebbit using using the familiar old.reddit-like UI, and modify its settings to your liking. The app runs an IPFS node, meaning you have to keep it running to have your board online.
-2. If you prefer to use a **command line interface**, install plebbit-cli, available for Windows, MacOS and Linux: [latest release](https://github.com/plebbit/plebbit-cli/releases/latest). Follow the instructions in the readme of the repo. When running the daemon for the first time, it will output WebUI links you can use to manage your subplebbit with the ease of the GUI.
+Currently, directory assignments are temporarily handpicked by developers through GitHub pull requests. In the future, this will be fully automated through **gasless pubsub voting** (see [Future Roadmap](#future-roadmap) below), making the process completely decentralized and community-driven.
 
-Peers can connect to your subplebbit using any plebbit client, such as 5chan or Seedit. They only need the subplebbit's address, which is not stored in any central database, as plebbit is a pure peer-to-peer protocol.
+### How It Works
 
-### How to add a board to the boards list
-The boards list on 5chan is plebbit's [lists](https://github.com/plebbit/lists) repository, specifically the [5chan-multisub.json](https://github.com/plebbit/lists/blob/master/5chan-multisub.json) file. You can open a pull request in that repo to add your subplebbit to the list, or contact devs via telegram [@plebbit](https://t.me/plebbit). In the future, this process will be automated by submitting proposals to a plebbit DAO, using the [plebbit token](https://etherscan.io/token/0xea81dab2e0ecbc6b5c4172de4c22b6ef6e55bd8f).
+- **Current System**: Developers manually curate directory assignments by reviewing pull requests to the [5chan-multisub.json](https://github.com/plebbit/lists/blob/master/5chan-multisub.json) file. This is temporary until DAO curation is implemented.
 
-## To run locally
+- **Future System**: Directory board assignments will be determined through gasless voting using pubsub. Community members will vote on which board should be assigned to each directory, and the highest-voted board will automatically become the directory board. This creates a competitive marketplace where board quality and community engagement determine directory placement.
 
-1. Install Node v22 (Download from https://nodejs.org)
-2. Install Yarn: `npm install -g yarn`
-3. `yarn install --frozen-lockfile` to install 5chan dependencies
-4. `yarn start` to run the web client
+- **Accessing Boards**: Users can access any board at any time using its address, regardless of directory assignment. Boards can be accessed via the search bar, by subscribing to them (which adds them to the top bar), or by directly navigating to their address.
 
-### Scripts:
+### Future Roadmap
 
-- Web client: `yarn start`
-- Electron client (must start web client first): `yarn electron`
-- Electron client and don't delete data: `yarn electron:no-delete-data`
-- Web client and electron client: `yarn electron:start`
-- Web client and electron client and don't delete data: `yarn electron:start:no-delete-data`
+The protocol design for pubsub voting is already drafted in [plebbit-js issue #25](https://github.com/plebbit/plebbit-js/issues/25). This will enable:
+- Gasless voting using pubsub topics
+- Weighted voting based on token balances
+- Automatic directory resolution based on vote tallies
+- Full decentralization without any intermediaries
 
-### Build:
+This feature is on the plebbit-js roadmap but hasn't been implemented yet.
 
-The linux/windows/mac/android build scripts are in https://github.com/plebbit/5chan/blob/master/.github/workflows/release.yml
+## Downloads
+
+- **Web version**: https://5chan.app (also available using Brave/IPFS Companion on https://5chan.eth)
+- **Desktop version** (full P2P plebbit node, seeds automatically): Available for Mac/Windows/Linux, [download from the release page](https://github.com/plebbit/5chan/releases/latest)
+- **Mobile version**: Available for Android, [download from the release page](https://github.com/plebbit/5chan/releases/latest)
+
+## Creating a Board
+
+In the plebbit protocol, a 5chan board is called a _subplebbit_. To create and run a subplebbit, you can choose between two options:
+
+### Option 1: Seedit GUI Client (Recommended for beginners)
+
+1. Download the desktop version of the Seedit client, available for Windows, macOS, and Linux: [latest release](https://github.com/plebbit/seedit/releases/latest)
+2. Create a subplebbit using the familiar old.reddit-like UI
+3. Modify its settings to your liking
+4. Keep the app running to keep your board online (it runs an IPFS node)
+
+### Option 2: plebbit-cli Command Line Interface
+
+1. Install plebbit-cli, available for Windows, macOS, and Linux: [latest release](https://github.com/plebbit/plebbit-cli/releases/latest)
+2. Follow the instructions in the repo's README
+3. When running the daemon for the first time, it will output WebUI links you can use to manage your subplebbit with a GUI
+
+Once created, anyone can connect to your subplebbit using any plebbit client (such as 5chan or Seedit) by using the subplebbit's address. The address is not stored in any central database—plebbit is a pure peer-to-peer protocol.
+
+## Submitting Your Board to a Directory
+
+To have your board appear in a directory on the 5chan homepage:
+
+1. Ensure your board meets these requirements:
+   - Active and well-moderated
+   - Relevant to the directory category
+   - **99% uptime** (since a board acts like its own server—it's a P2P node)
+
+2. Open a pull request on GitHub by editing the [5chan-multisub.json](https://github.com/plebbit/lists/blob/master/5chan-multisub.json) file
+
+3. Add your board's entry with:
+   - Title
+   - Address
+   - NSFW status (if applicable)
+
+4. The developers will review your PR and merge it if approved
+
+**Note**: Even if your board isn't assigned to a directory, users can still access it at any time using its address. Directory assignment only affects visibility on the homepage.
+
+## Development
+
+### Prerequisites
+
+- Node.js v22 (Download from https://nodejs.org)
+- Yarn: `npm install -g yarn`
+
+### Setup
+
+1. Clone the repository
+2. Install dependencies: `yarn install --frozen-lockfile`
+3. Start the web client: `yarn start`
+
+### Scripts
+
+- **Web client**: `yarn start`
+- **Electron client** (must start web client first): `yarn electron`
+- **Electron client** (don't delete data): `yarn electron:no-delete-data`
+- **Web client and electron client**: `yarn electron:start`
+- **Web client and electron client** (don't delete data): `yarn electron:start:no-delete-data`
+
+### Build
+
+The Linux/Windows/macOS/Android build scripts are in [.github/workflows/release.yml](https://github.com/plebbit/5chan/blob/master/.github/workflows/release.yml)
+
+## License
+
+5chan is open-source software (GPLv2 license) with no owner—anyone can host their own instance on any domain. The operator of any domain is merely hosting the web app and does not own, create, moderate, or control 5chan or any board content, which is stored peer-to-peer and generated by board owners and users.
