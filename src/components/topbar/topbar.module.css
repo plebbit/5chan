@@ -23,8 +23,7 @@
 }
 
 .placeholder {
-  text-decoration: line-through;
-  color: var(--topbar-desktop-link-text-color);
+  color: var(--topbar-separator-color);
 }
 
 .navTopRight {
