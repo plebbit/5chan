@@ -7,6 +7,7 @@ import { getCommentMediaInfo, getHasThumbnail } from '../../lib/utils/media-util
 import { isAllView, isSubscriptionsView } from '../../lib/utils/view-utils';
 import useCatalogFeedRows from '../../hooks/use-catalog-feed-rows';
 import { useDefaultSubplebbits } from '../../hooks/use-default-subplebbits';
+import { useResolvedSubplebbitAddress, useBoardPath } from '../../hooks/use-resolved-subplebbit-address';
 import { useFeedStateString } from '../../hooks/use-state-string';
 import useTimeFilter from '../../hooks/use-time-filter';
 import useWindowWidth from '../../hooks/use-window-width';
@@ -125,7 +126,8 @@ const createCombinedFilter = (
 const Catalog = () => {
   const { t } = useTranslation();
   const location = useLocation();
-  const { subplebbitAddress } = useParams<{ subplebbitAddress: string }>();
+  const subplebbitAddress = useResolvedSubplebbitAddress();
+  const boardPath = useBoardPath(subplebbitAddress);
 
   const isInAllView = isAllView(location.pathname);
   const defaultSubplebbits = useDefaultSubplebbits();
@@ -366,7 +368,7 @@ const Catalog = () => {
                   i18nKey='more_threads_last_week'
                   values={{ currentTimeFilterName, count: feed.length }}
                   components={{
-                    1: <Link to={(isInAllView ? '/p/all/catalog' : isInSubscriptionsView ? '/p/subscriptions/catalog' : `/p/${subplebbitAddress}/catalog`) + '/1w'} />,
+                    1: <Link to={(isInAllView ? '/all/catalog' : isInSubscriptionsView ? '/subscriptions/catalog' : `/${boardPath}/catalog`) + '/1w'} />,
                   }}
                 />
               </div>
@@ -376,7 +378,7 @@ const Catalog = () => {
                   i18nKey='more_threads_last_month'
                   values={{ currentTimeFilterName, count: feed.length }}
                   components={{
-                    1: <Link to={(isInAllView ? '/p/all/catalog' : isInSubscriptionsView ? '/p/subscriptions/catalog' : `/p/${subplebbitAddress}/catalog`) + '/1m'} />,
+                    1: <Link to={(isInAllView ? '/all/catalog' : isInSubscriptionsView ? '/subscriptions/catalog' : `/${boardPath}/catalog`) + '/1m'} />,
                   }}
                 />
               </div>

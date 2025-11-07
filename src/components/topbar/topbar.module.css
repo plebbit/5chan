@@ -22,6 +22,10 @@
   cursor: pointer;
 }
 
+.placeholder {
+  color: var(--topbar-separator-color);
+}
+
 .navTopRight {
   float: right;
   text-transform: capitalize;

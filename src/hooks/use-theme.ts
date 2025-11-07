@@ -3,6 +3,7 @@ import { useLocation, useParams } from 'react-router-dom';
 import { isAllView, isSubscriptionsView, isModView } from '../lib/utils/view-utils';
 import useThemeStore from '../stores/use-theme-store';
 import { useDefaultSubplebbits } from './use-default-subplebbits';
+import { useResolvedSubplebbitAddress } from './use-resolved-subplebbit-address';
 import { useAccountComment } from '@plebbit/plebbit-react-hooks';
 import useSpecialThemeStore from '../stores/use-special-theme-store';
 import { isChristmas } from '../lib/utils/time-utils';
@@ -33,7 +34,8 @@ const useTheme = (): [string, (theme: string) => void] => {
   const isInAllView = isAllView(location.pathname);
   const isInSubscriptionsView = isSubscriptionsView(location.pathname, params);
   const isInModView = isModView(location.pathname);
-  const subplebbitAddress = params?.subplebbitAddress || pendingPostSubplebbitAddress;
+  const resolvedAddress = useResolvedSubplebbitAddress();
+  const subplebbitAddress = resolvedAddress || pendingPostSubplebbitAddress;
 
   // Check for Christmas and initialize special theme if needed
   useEffect(() => {

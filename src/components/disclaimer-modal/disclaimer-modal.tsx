@@ -1,10 +1,12 @@
 import { useNavigate } from 'react-router-dom';
 import useDisclaimerModalStore from '../../stores/use-disclaimer-modal-store';
+import useDirectoryModalStore from '../../stores/use-directory-modal-store';
 import styles from './disclaimer-modal.module.css';
 
 const DisclaimerModal = () => {
   const navigate = useNavigate();
-  const { showModal, closeDisclaimerModal, acceptDisclaimer } = useDisclaimerModalStore();
+  const { showModal, closeDisclaimerModal, acceptDisclaimer, targetBoardPath } = useDisclaimerModalStore();
+  const { openDirectoryModal } = useDirectoryModalStore();
 
   if (!showModal) {
     return null;
@@ -17,7 +19,13 @@ const DisclaimerModal = () => {
   };
 
   const handleAccept = () => {
-    acceptDisclaimer(navigate);
+    // If there's no board path (placeholder), show directory modal instead
+    if (!targetBoardPath) {
+      closeDisclaimerModal();
+      openDirectoryModal();
+    } else {
+      acceptDisclaimer(navigate);
+    }
   };
 
   return (

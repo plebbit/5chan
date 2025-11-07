@@ -9,7 +9,8 @@ import { getCommentMediaInfo } from '../../../lib/utils/media-utils';
 import { CatalogPostMedia } from '../../../components/catalog-row';
 import LoadingEllipsis from '../../../components/loading-ellipsis';
 import BoxModal from '../box-modal';
-import { MultisubSubplebbit } from '../../../hooks/use-default-subplebbits';
+import { MultisubSubplebbit, useDefaultSubplebbits } from '../../../hooks/use-default-subplebbits';
+import { getBoardPath } from '../../../lib/utils/route-utils';
 import { removeMarkdown } from '../../../lib/utils/post-utils';
 
 interface PopularThreadProps {
@@ -27,16 +28,18 @@ export const ContentPreview = ({ content, maxLength = 99 }: { content: string; m
 const PopularThreadCard = ({ post, multisub }: PopularThreadProps) => {
   const { cid, content, link, linkHeight, linkWidth, subplebbitAddress, thumbnailUrl, title } = post || {};
   const commentMediaInfo = getCommentMediaInfo(link, thumbnailUrl, linkWidth, linkHeight);
+  const defaultSubplebbits = useDefaultSubplebbits();
 
   // Find the matching MultisubSubplebbit entry and get its title
   const multisubEntry = multisub.find((ms) => ms?.address === subplebbitAddress);
   const boardTitle = multisubEntry?.title?.replace(/^\/[^/]+\/\s*-\s*/, '') || '';
+  const boardPath = subplebbitAddress ? getBoardPath(subplebbitAddress, defaultSubplebbits) : '';
 
   return (
     <div className={styles.popularThread} key={cid}>
       <div className={styles.title}>{boardTitle}</div>
       <div className={styles.mediaContainer}>
-        <Link to={`/p/${subplebbitAddress}/c/${cid}`}>
+        <Link to={`/${boardPath}/thread/${cid}`}>
           <CatalogPostMedia commentMediaInfo={commentMediaInfo} isOutOfFeed={true} cid={cid} />
         </Link>
       </div>

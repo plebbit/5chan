@@ -314,7 +314,7 @@
 }
 
 .boardsColumn a.placeholder {
-  text-decoration: line-through;
+  color: #aaa !important;
 }
 
 @media (max-width: 640px) {

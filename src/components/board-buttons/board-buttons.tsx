@@ -4,6 +4,9 @@ import { useAccountComment, useSubscribe } from '@plebbit/plebbit-react-hooks';
 import useSubplebbitsStore from '@plebbit/plebbit-react-hooks/dist/stores/subplebbits';
 import useSubplebbitsPagesStore from '@plebbit/plebbit-react-hooks/dist/stores/subplebbits-pages';
 import { isAllView, isCatalogView, isDescriptionView, isModView, isPendingPostView, isPostPageView, isSubscriptionsView } from '../../lib/utils/view-utils';
+import { useDefaultSubplebbits } from '../../hooks/use-default-subplebbits';
+import { getBoardPath } from '../../lib/utils/route-utils';
+import { useResolvedSubplebbitAddress } from '../../hooks/use-resolved-subplebbit-address';
 import useCatalogFiltersStore from '../../stores/use-catalog-filters-store';
 import useCatalogStyleStore from '../../stores/use-catalog-style-store';
 import useFeedResetStore from '../../stores/use-feed-reset-store';
@@ -29,19 +32,26 @@ interface BoardButtonsProps {
 const CatalogButton = ({ address, isInAllView, isInSubscriptionsView, isInModView }: BoardButtonsProps) => {
   const { t } = useTranslation();
   const params = useParams();
+  const defaultSubplebbits = useDefaultSubplebbits();
 
   const createCatalogLink = () => {
     if (isInAllView) {
-      if (params?.timeFilterName) return `/p/all/catalog/${params.timeFilterName}`;
-      return `/p/all/catalog`;
+      if (params?.timeFilterName) return `/all/catalog/${params.timeFilterName}`;
+      return `/all/catalog`;
     } else if (isInSubscriptionsView) {
-      if (params?.timeFilterName) return `/p/subscriptions/catalog/${params.timeFilterName}`;
-      return `/p/subscriptions/catalog`;
+      if (params?.timeFilterName) return `/subscriptions/catalog/${params.timeFilterName}`;
+      return `/subscriptions/catalog`;
     } else if (isInModView) {
-      if (params?.timeFilterName) return `/p/mod/catalog/${params.timeFilterName}`;
-      return `/p/mod/catalog`;
+      if (params?.timeFilterName) return `/mod/catalog/${params.timeFilterName}`;
+      return `/mod/catalog`;
     }
-    return `/p/${address}/catalog`;
+    let boardPath = '';
+    if (address) {
+      boardPath = getBoardPath(address, defaultSubplebbits);
+    } else if (Array.isArray(defaultSubplebbits) && defaultSubplebbits.length > 0 && defaultSubplebbits[0]?.address) {
+      boardPath = getBoardPath(defaultSubplebbits[0].address, defaultSubplebbits);
+    }
+    return `/${boardPath}/catalog`;
   };
 
   return (
@@ -65,19 +75,26 @@ const SubscribeButton = ({ address }: BoardButtonsProps) => {
 const ReturnButton = ({ address, isInAllView, isInSubscriptionsView, isInModView }: BoardButtonsProps) => {
   const { t } = useTranslation();
   const params = useParams();
+  const defaultSubplebbits = useDefaultSubplebbits();
 
   const createReturnLink = () => {
     if (isInAllView) {
-      if (params?.timeFilterName) return `/p/all/${params.timeFilterName}`;
-      return `/p/all`;
+      if (params?.timeFilterName) return `/all/${params.timeFilterName}`;
+      return `/all`;
     } else if (isInSubscriptionsView) {
-      if (params?.timeFilterName) return `/p/subscriptions/${params.timeFilterName}`;
-      return `/p/subscriptions`;
+      if (params?.timeFilterName) return `/subscriptions/${params.timeFilterName}`;
+      return `/subscriptions`;
     } else if (isInModView) {
-      if (params?.timeFilterName) return `/p/mod/${params.timeFilterName}`;
-      return `/p/mod`;
+      if (params?.timeFilterName) return `/mod/${params.timeFilterName}`;
+      return `/mod`;
     }
-    return `/p/${address}`;
+    let boardPath = '';
+    if (address) {
+      boardPath = getBoardPath(address, defaultSubplebbits);
+    } else if (Array.isArray(defaultSubplebbits) && defaultSubplebbits.length > 0 && defaultSubplebbits[0]?.address) {
+      boardPath = getBoardPath(defaultSubplebbits[0].address, defaultSubplebbits);
+    }
+    return `/${boardPath}`;
   };
 
   return (
@@ -206,16 +223,16 @@ export const TimeFilter = ({ isInAllView, isInCatalogView, isInSubscriptionsView
     const timeFilterName = event.target.value;
     const link = isInAllView
       ? isInCatalogView
-        ? `/p/all/catalog/${timeFilterName}`
-        : `/p/all/${timeFilterName}`
+        ? `/all/catalog/${timeFilterName}`
+        : `/all/${timeFilterName}`
       : isInSubscriptionsView
       ? isInCatalogView
-        ? `/p/subscriptions/catalog/${timeFilterName}`
-        : `/p/subscriptions/${timeFilterName}`
+        ? `/subscriptions/catalog/${timeFilterName}`
+        : `/subscriptions/${timeFilterName}`
       : isInModView
       ? isInCatalogView
-        ? `/p/mod/catalog/${timeFilterName}`
-        : `/p/mod/${timeFilterName}`
+        ? `/mod/catalog/${timeFilterName}`
+        : `/mod/${timeFilterName}`
       : null;
     link && navigate(link);
   };
@@ -256,7 +273,8 @@ export const MobileBoardButtons = () => {
   const isInModView = isModView(location.pathname);
 
   const accountComment = useAccountComment({ commentIndex: params?.accountCommentIndex as any });
-  const subplebbitAddress = params?.subplebbitAddress || accountComment?.subplebbitAddress;
+  const resolvedAddress = useResolvedSubplebbitAddress();
+  const subplebbitAddress = resolvedAddress || accountComment?.subplebbitAddress;
 
   const { filteredCount, searchText } = useCatalogFiltersStore();
 
@@ -319,11 +337,12 @@ const PostPageStats = () => {
   const params = useParams();
   const location = useLocation();
   const isInDescriptionView = isDescriptionView(location.pathname, params);
+  const resolvedAddress = useResolvedSubplebbitAddress();
 
   const comment = useSubplebbitsPagesStore((state) => state.comments[params?.commentCid as string]);
-  const subplebbit = useSubplebbitsStore((state) => state.subplebbits[params?.subplebbitAddress as string]);
+  const subplebbit = useSubplebbitsStore((state) => state.subplebbits[resolvedAddress as string]);
 
-  const descriptionReplyCount = location?.pathname.startsWith('/p/all/') ? 0 : subplebbit?.rules?.length > 0 ? 1 : 0;
+  const descriptionReplyCount = location?.pathname.startsWith('/all/') ? 0 : subplebbit?.rules?.length > 0 ? 1 : 0;
   const { closed, pinned, replyCount } = comment || {};
   const linkCount = useCountLinksInReplies(comment);
 
@@ -344,7 +363,8 @@ export const DesktopBoardButtons = () => {
   const params = useParams();
   const location = useLocation();
   const accountComment = useAccountComment({ commentIndex: params?.accountCommentIndex as any });
-  const subplebbitAddress = params?.subplebbitAddress || accountComment?.subplebbitAddress;
+  const resolvedAddress = useResolvedSubplebbitAddress();
+  const subplebbitAddress = resolvedAddress || accountComment?.subplebbitAddress;
   const isInCatalogView = isCatalogView(location.pathname, params);
   const isInAllView = isAllView(location.pathname);
   const isInPendingPostPage = isPendingPostView(location.pathname, params);
@@ -438,6 +458,9 @@ const SearchOPsBar = () => {
   const isInAllView = isAllView(location.pathname);
   const isInSubscriptionsView = isSubscriptionsView(location.pathname, useParams());
   const isInModView = isModView(location.pathname);
+  const defaultSubplebbits = useDefaultSubplebbits();
+  const resolvedAddress = useResolvedSubplebbitAddress();
+  const boardPath = resolvedAddress ? getBoardPath(resolvedAddress, defaultSubplebbits) : params?.boardIdentifier || params?.subplebbitAddress;
 
   const handleSearch = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
@@ -447,18 +470,18 @@ const SearchOPsBar = () => {
 
         if (isInAllView) {
           catalogUrl = params?.timeFilterName
-            ? `/p/all/catalog/${params.timeFilterName}?q=${encodeURIComponent(searchQuery)}`
-            : `/p/all/catalog?q=${encodeURIComponent(searchQuery)}`;
+            ? `/all/catalog/${params.timeFilterName}?q=${encodeURIComponent(searchQuery)}`
+            : `/all/catalog?q=${encodeURIComponent(searchQuery)}`;
         } else if (isInSubscriptionsView) {
           catalogUrl = params?.timeFilterName
-            ? `/p/subscriptions/catalog/${params.timeFilterName}?q=${encodeURIComponent(searchQuery)}`
-            : `/p/subscriptions/catalog?q=${encodeURIComponent(searchQuery)}`;
+            ? `/subscriptions/catalog/${params.timeFilterName}?q=${encodeURIComponent(searchQuery)}`
+            : `/subscriptions/catalog?q=${encodeURIComponent(searchQuery)}`;
         } else if (isInModView) {
           catalogUrl = params?.timeFilterName
-            ? `/p/mod/catalog/${params.timeFilterName}?q=${encodeURIComponent(searchQuery)}`
-            : `/p/mod/catalog?q=${encodeURIComponent(searchQuery)}`;
+            ? `/mod/catalog/${params.timeFilterName}?q=${encodeURIComponent(searchQuery)}`
+            : `/mod/catalog?q=${encodeURIComponent(searchQuery)}`;
         } else {
-          catalogUrl = `/p/${params?.subplebbitAddress}/catalog?q=${encodeURIComponent(searchQuery)}`;
+          catalogUrl = `/${boardPath}/catalog?q=${encodeURIComponent(searchQuery)}`;
         }
 
         navigate(catalogUrl);

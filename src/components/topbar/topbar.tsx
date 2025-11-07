@@ -1,12 +1,18 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Plebbit from '@plebbit/plebbit-js';
 import { useAccount, useAccountComment, useAccountSubplebbits } from '@plebbit/plebbit-react-hooks';
 import { isAllView, isCatalogView, isSubscriptionsView } from '../../lib/utils/view-utils';
-import { useDefaultSubplebbitAddresses } from '../../hooks/use-default-subplebbits';
+import { useDefaultSubplebbitAddresses, useDefaultSubplebbits, MultisubSubplebbit } from '../../hooks/use-default-subplebbits';
+import { useBoardPath, useResolvedSubplebbitAddress } from '../../hooks/use-resolved-subplebbit-address';
+import { getBoardPath, extractDirectoryFromTitle } from '../../lib/utils/route-utils';
 import { TimeFilter } from '../board-buttons';
+import useCreateBoardModalStore from '../../stores/use-create-board-modal-store';
+import useTopbarEditModalStore from '../../stores/use-topbar-edit-modal-store';
+import useTopbarVisibilityStore from '../../stores/use-topbar-visibility-store';
 import useDirectoryModalStore from '../../stores/use-directory-modal-store';
+import { BOARD_CODE_GROUPS, getAllBoardCodes } from '../../constants/board-codes';
 import styles from './topbar.module.css';
 import _, { debounce } from 'lodash';
 
@@ -55,7 +61,7 @@ const SearchBar = ({ setShowSearchBar }: { setShowSearchBar: (show: boolean) => 
     const searchInput = searchInputRef.current?.value;
     if (searchInput) {
       searchInputRef.current.value = '';
-      navigate(`/p/${searchInput}`);
+      navigate(`/${searchInput}`);
       setShowSearchBar(false);
     }
   };
@@ -69,6 +75,16 @@ const SearchBar = ({ setShowSearchBar }: { setShowSearchBar: (show: boolean) => 
   );
 };
 
+// Helper function to find board address by directory code
+const findBoardAddressByCode = (code: string, defaultSubplebbits: MultisubSubplebbit[]): string | null => {
+  const entry = defaultSubplebbits.find((subplebbit) => {
+    if (!subplebbit.title) return false;
+    const directory = extractDirectoryFromTitle(subplebbit.title);
+    return directory === code;
+  });
+  return entry?.address || null;
+};
+
 const TopBarDesktop = () => {
   const { t } = useTranslation();
   const account = useAccount();
@@ -76,41 +92,126 @@ const TopBarDesktop = () => {
   const params = useParams();
   const isInCatalogView = isCatalogView(location.pathname, params);
   const [showSearchBar, setShowSearchBar] = useState(false);
+  const [showAllTemporarily, setShowAllTemporarily] = useState(false);
+  const { openCreateBoardModal } = useCreateBoardModalStore();
+  const { openTopbarEditModal } = useTopbarEditModalStore();
   const { openDirectoryModal } = useDirectoryModalStore();
+  const { visibleDirectories, visibleSubscriptions } = useTopbarVisibilityStore();
+  const defaultSubplebbits = useDefaultSubplebbits();
 
-  const subscriptions = account?.subscriptions;
+  // Memoize allBoardCodes since it's derived from a constant
+  const allBoardCodes = useMemo(() => getAllBoardCodes(), []);
 
+  const subscriptions = account?.subscriptions || [];
   const { accountSubplebbits } = useAccountSubplebbits();
   const accountSubplebbitAddresses = Object.keys(accountSubplebbits);
+
+  // Filter subscriptions to only show visible ones
+  const visibleSubscriptionAddresses = subscriptions.filter((address: string) => visibleSubscriptions.has(address));
+
+  // Check if any directories are hidden
+  const hasHiddenDirectories = useMemo(() => {
+    return allBoardCodes.some((code) => !visibleDirectories.has(code));
+  }, [allBoardCodes, visibleDirectories]);
+
+  // Determine which directories to show (all if temporarily showing all, otherwise only visible ones)
+  const directoriesToShow = useMemo(() => {
+    if (showAllTemporarily) {
+      return new Set(allBoardCodes);
+    }
+    return visibleDirectories;
+  }, [showAllTemporarily, visibleDirectories, allBoardCodes]);
+
+  // Initialize visibility store on mount
+  useEffect(() => {
+    useTopbarVisibilityStore.getState().initialize();
+  }, []);
+
+  // Render a board code link or placeholder
+  const renderBoardCode = (code: string, isLastInGroup: boolean) => {
+    const address = findBoardAddressByCode(code, defaultSubplebbits);
+    const isPlaceholder = !address;
+
+    const handleClick = (e: React.MouseEvent) => {
+      // If no address exists, prevent navigation and open directory modal
+      if (!address) {
+        e.preventDefault();
+        e.stopPropagation();
+        openDirectoryModal();
+      }
+    };
+
+    const linkContent = (
+      <>
+        {isPlaceholder ? (
+          <span className={styles.placeholder} onClick={handleClick} style={{ cursor: 'pointer' }}>
+            {code}
+          </span>
+        ) : (
+          <Link to={`/${code}${isInCatalogView ? '/catalog' : ''}`} onClick={handleClick}>
+            {code}
+          </Link>
+        )}
+      </>
+    );
+
+    return (
+      <span key={code}>
+        {linkContent}
+        {!isLastInGroup && ' / '}
+      </span>
+    );
+  };
+
+  // Render a subscription link
+  const renderSubscription = (address: string, index: number, total: number) => {
+    const boardPath = getBoardPath(address, defaultSubplebbits);
+    const displayText = address.endsWith('.eth') || address.endsWith('.sol') ? address : Plebbit.getShortAddress(address);
+
+    return (
+      <span key={address}>
+        {boardPath && boardPath.trim() ? <Link to={`/${boardPath}${isInCatalogView ? '/catalog' : ''}`}>{displayText}</Link> : <span>{displayText}</span>}
+        {index !== total - 1 && ' / '}
+      </span>
+    );
+  };
 
   return (
     <div className={styles.boardNavDesktop}>
       <span className={styles.boardList}>
-        [<Link to='/p/all'>all</Link> / <Link to='/p/subscriptions'>subscriptions</Link>
+        [<Link to='/all'>all</Link> / <Link to='/subscriptions'>subscriptions</Link>
         {accountSubplebbitAddresses.length > 0 && (
           <>
             {' '}
-            / <Link to='/p/mod'>mod</Link>
+            / <Link to='/mod'>mod</Link>
           </>
         )}
         ]{' '}
-        {subscriptions?.length > 0 && (
+        {BOARD_CODE_GROUPS.map((group, groupIndex) => {
+          const visibleCodes = group.filter((code) => directoriesToShow.has(code));
+          if (visibleCodes.length === 0) return null;
+
+          return <span key={groupIndex}>[{visibleCodes.map((code, codeIndex) => renderBoardCode(code, codeIndex === visibleCodes.length - 1))}] </span>;
+        })}
+        {hasHiddenDirectories && !showAllTemporarily && (
           <>
+            {' '}
             [
-            {subscriptions.map((address: any, index: any) => (
-              <span key={index}>
-                {index === 0 ? null : ' '}
-                <Link to={`/p/${address}${isInCatalogView ? '/catalog' : ''}`}>
-                  {address.endsWith('.eth') || address.endsWith('.sol') ? address : address.slice(0, 10).concat('...')}
-                </Link>
-                {index !== subscriptions?.length - 1 ? ' /' : null}
-              </span>
-            ))}
+            <span className={styles.temporaryButton} onClick={() => setShowAllTemporarily(true)} style={{ cursor: 'pointer' }} title='Show all'>
+              ...
+            </span>
             ]{' '}
           </>
         )}
+        {visibleSubscriptionAddresses.length > 0 && (
+          <>[{visibleSubscriptionAddresses.map((address: string, index: number) => renderSubscription(address, index, visibleSubscriptionAddresses.length))}] </>
+        )}
         [
-        <span className={styles.temporaryButton} onClick={() => openDirectoryModal('create-button')} style={{ cursor: 'pointer' }}>
+        <span className={styles.temporaryButton} onClick={() => openTopbarEditModal()} style={{ cursor: 'pointer' }}>
+          {_.capitalize(t('edit'))}
+        </span>
+        ] [
+        <span className={styles.temporaryButton} onClick={() => openCreateBoardModal()} style={{ cursor: 'pointer' }}>
           {t('create_board')}
         </span>
         ]
@@ -128,6 +229,7 @@ const TopBarMobile = ({ subplebbitAddress }: { subplebbitAddress: string }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const subplebbitAddresses = useDefaultSubplebbitAddresses();
+  const defaultSubplebbits = useDefaultSubplebbits();
   const displaySubplebbitAddress = subplebbitAddress && subplebbitAddress.length > 30 ? subplebbitAddress.slice(0, 30).concat('...') : subplebbitAddress;
   const [showSearchBar, setShowSearchBar] = useState(false);
 
@@ -138,21 +240,36 @@ const TopBarMobile = ({ subplebbitAddress }: { subplebbitAddress: string }) => {
   const isInAllView = isAllView(location.pathname);
   const isInCatalogView = isCatalogView(location.pathname, params);
   const isInSubscriptionsView = isSubscriptionsView(location.pathname, params);
-  const selectValue = isInAllView ? 'all' : isInSubscriptionsView ? 'subscriptions' : subplebbitAddress;
+  const boardPath = useBoardPath(subplebbitAddress);
+  const selectValue = isInAllView ? 'all' : isInSubscriptionsView ? 'subscriptions' : boardPath || subplebbitAddress;
 
   const { accountSubplebbits } = useAccountSubplebbits();
   const accountSubplebbitAddresses = Object.keys(accountSubplebbits);
 
   const boardSelect = (
-    <select value={selectValue} onChange={(e) => navigate(`/p/${e.target.value}${isInCatalogView ? '/catalog' : ''}`)}>
+    <select
+      value={selectValue}
+      onChange={(e) => {
+        const value = e.target.value;
+        // If it's a directory code or special route, use it directly
+        if (value === 'all' || value === 'subscriptions' || value === 'mod') {
+          navigate(`/${value}${isInCatalogView ? '/catalog' : ''}`);
+        } else {
+          // Otherwise, resolve to board path
+          const path = getBoardPath(value, defaultSubplebbits);
+          navigate(`/${path}${isInCatalogView ? '/catalog' : ''}`);
+        }
+      }}
+    >
       {!currentSubplebbitIsInList && subplebbitAddress && <option value={subplebbitAddress}>{displaySubplebbitAddress}</option>}
       <option value='all'>all</option>
       <option value='subscriptions'>subscriptions</option>
       {accountSubplebbitAddresses.length > 0 && <option value='mod'>mod</option>}
       {subplebbitAddresses.map((address: any, index: number) => {
         const subplebbitAddress = address?.includes('.') ? address : Plebbit.getShortAddress(address);
+        const boardPath = getBoardPath(address, defaultSubplebbits);
         return (
-          <option key={index} value={address}>
+          <option key={index} value={boardPath}>
             {Plebbit.getShortAddress(subplebbitAddress)}
           </option>
         );
@@ -200,7 +317,8 @@ const TopBarMobile = ({ subplebbitAddress }: { subplebbitAddress: string }) => {
 const TopBar = () => {
   const params = useParams();
   const accountComment = useAccountComment({ commentIndex: params?.accountCommentIndex as any });
-  const subplebbitAddress = params?.subplebbitAddress || accountComment?.subplebbitAddress;
+  const resolvedSubplebbitAddress = useResolvedSubplebbitAddress();
+  const subplebbitAddress = resolvedSubplebbitAddress || accountComment?.subplebbitAddress;
 
   return (
     <>

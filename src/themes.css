@@ -72,7 +72,13 @@
   --homepage-box-link-text-color-hover: #e00;
   --homepage-box-link-text-decoration: none;
   --homepage-box-link-text-decoration-hover: underline;
-  --disclaimer-modal-close-button-background-image: url("/assets/buttons/icon-close-red.png");
+  --directory-modal-background-color: rgb(255, 255, 255);
+  --directory-modal-border: 1px solid rgb(136, 0, 0);
+  --directory-modal-text-color: rgb(136, 0, 0);
+  --directory-modal-header-background-color: rgb(136, 0, 0);
+  --directory-modal-header-text-color: rgb(255, 255, 255);
+  --directory-modal-close-button-background-image: url("/assets/buttons/cross-red.png");
+  
 
   /* footer */
   --footer-item-background-color-desktop: #fed;
@@ -208,7 +214,7 @@
   --topbar-desktop-link-text-color: #800;
   --topbar-desktop-link-text-color-hover: #e00;
   --topbar-desktop-link-text-decoration: none;
-  --topbar-desktop-link-text-decoration-hover: underline;
+  --topbar-desktop-link-text-decoration-hover: none;
   --topbar-mobile-background-color: #f0e0d6;
   --topbar-mobile-border-bottom: 2px solid #d9c5b7;
   --topbar-mobile-font-size: 10px;
@@ -285,7 +291,12 @@
   --homepage-box-link-text-color-hover: #d00;
   --homepage-box-link-text-decoration: none;
   --homepage-box-link-text-decoration-hover: underline;
-  --disclaimer-modal-close-button-background-image: url("/assets/buttons/icon-close-red.png");
+  --directory-modal-background-color: #d6daf0;
+  --directory-modal-border: 1px solid #b7c5d9;
+  --directory-modal-text-color: #000;
+  --directory-modal-header-background-color: #98e;
+  --directory-modal-header-text-color: #000;
+  --directory-modal-close-button-background-image: url("/assets/buttons/cross-blue.png");
 
   /* horizontal rule */
   --hr-border: none;
@@ -485,6 +496,14 @@
   --close-button-background-image: url("/assets/buttons/cross-red.png");
   --open-help-button-background-image: url("/assets/buttons/help-red.png");
 
+  /* directory modal */
+  --directory-modal-background-color: #f0e0d6;
+  --directory-modal-border: 1px solid rgba(0, 0, 0, 0.20);
+  --directory-modal-text-color: #800;
+  --directory-modal-header-background-color: #ea8;
+  --directory-modal-header-text-color: #800;
+  --directory-modal-close-button-background-image: url("/assets/buttons/cross-red.png");
+
   /* footer */
   --footer-item-background-color-desktop: #fed;
 
@@ -675,7 +694,12 @@
   --homepage-box-bar-text-color: #000;
   --homepage-box-bar-background-color: #98e;
   --homepage-box-bar-text-color-hover: #fff;
-  --disclaimer-modal-close-button-background-image: url("/assets/buttons/icon-close-red.png");
+  --directory-modal-background-color: #d6daf0;
+  --directory-modal-border: 1px solid rgba(0, 0, 0, 0.20);
+  --directory-modal-text-color: #000;
+  --directory-modal-header-background-color: #98e;
+  --directory-modal-header-text-color: #000;
+  --directory-modal-close-button-background-image: url("/assets/buttons/cross-blue.png");
 
   /* media */
   --media-thumbnail-background-color: rgba(0, 0, 0, 0.05);
@@ -867,7 +891,12 @@
   --homepage-box-border-color: rgb(45, 47, 51);
   --homepage-box-bar-text-color: #c5c8c6;
   --homepage-box-bar-text-color-hover: #c5c8c6;
-  --disclaimer-modal-close-button-background-image: url("/assets/buttons/icon-close-red.png");
+  --directory-modal-background-color: #282a2e;
+  --directory-modal-border: 1px solid #111;
+  --directory-modal-text-color: #c5c8c6;
+  --directory-modal-header-background-color: #282a2e;
+  --directory-modal-header-text-color: #c5c8c6;
+  --directory-modal-close-button-background-image: url("/assets/buttons/cross-dark.png");
 
   /* horizontal rule */
   --hr-border: none;
@@ -1206,6 +1235,14 @@
   --settings-modal-close-button-background-image: url("/assets/buttons/cross-photon.png");
   --settings-modal-show-button-background-image: url("/assets/buttons/plus-photon.png");
   --settings-modal-hide-button-background-image: url("/assets/buttons/minus-photon.png");
+
+  /* directory modal */
+  --directory-modal-background-color: #ddd;
+  --directory-modal-border: 1px solid #ccc;
+  --directory-modal-text-color: #333;
+  --directory-modal-header-background-color: #ddd;
+  --directory-modal-header-text-color: #333;
+  --directory-modal-close-button-background-image: url("/assets/buttons/cross-photon.png");
 
   /* stats */
   --stats-font-size: 11px;

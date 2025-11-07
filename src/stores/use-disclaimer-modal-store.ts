@@ -6,7 +6,8 @@ export const DISCLAIMER_ACCEPTED_KEY = '5chan-disclaimer-accepted';
 interface DisclaimerModalState {
   showModal: boolean;
   targetAddress: string | null;
-  showDisclaimerModal: (address: string, navigate: NavigateFunction) => void;
+  targetBoardPath: string | null;
+  showDisclaimerModal: (address: string, navigate: NavigateFunction, boardPath?: string) => void;
   closeDisclaimerModal: () => void;
   acceptDisclaimer: (navigate: NavigateFunction) => void;
 }
@@ -30,12 +31,19 @@ const setDisclaimerAccepted = (): void => {
 const useDisclaimerModalStore = create<DisclaimerModalState>((set) => ({
   showModal: false,
   targetAddress: null,
+  targetBoardPath: null,
 
-  showDisclaimerModal: (address: string, navigate: NavigateFunction) => {
+  showDisclaimerModal: (address: string, navigate: NavigateFunction, boardPath?: string | null) => {
     // Check if user has already accepted the disclaimer
     if (hasAcceptedDisclaimer()) {
-      // Navigate directly without showing modal
-      navigate(`/p/${address}`);
+      // If there's a valid board path, navigate directly
+      if (boardPath) {
+        navigate(`/${boardPath}`);
+        return;
+      }
+      // If no board path (placeholder), don't navigate - we'll handle this separately
+      // Don't show disclaimer modal either since it's already accepted
+      // Caller should handle showing directory modal or other UI
       return;
     }
 
@@ -43,6 +51,7 @@ const useDisclaimerModalStore = create<DisclaimerModalState>((set) => ({
     set({
       showModal: true,
       targetAddress: address,
+      targetBoardPath: boardPath || null,
     });
   },
 
@@ -50,6 +59,7 @@ const useDisclaimerModalStore = create<DisclaimerModalState>((set) => ({
     set({
       showModal: false,
       targetAddress: null,
+      targetBoardPath: null,
     });
   },
 
@@ -59,15 +69,17 @@ const useDisclaimerModalStore = create<DisclaimerModalState>((set) => ({
     // Save acceptance to localStorage
     setDisclaimerAccepted();
 
-    // Navigate to the target address
-    if (state.targetAddress) {
-      navigate(`/p/${state.targetAddress}`);
+    // Navigate to the target board path (or address if no path)
+    const path = state.targetBoardPath || state.targetAddress;
+    if (path) {
+      navigate(`/${path}`);
     }
 
     // Close the modal
     set({
       showModal: false,
       targetAddress: null,
+      targetBoardPath: null,
     });
   },
 }));

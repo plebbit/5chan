@@ -1,11 +1,8 @@
-import { useLocation } from 'react-router-dom';
-import useDirectoryModalStore from '../../stores/use-directory-modal-store';
-import styles from './directory-modal.module.css';
+import useCreateBoardModalStore from '../../stores/use-create-board-modal-store';
+import styles from './create-board-modal.module.css';
 
-const DirectoryModal = () => {
-  const { showModal, closeDirectoryModal } = useDirectoryModalStore();
-  const location = useLocation();
-  const isHomeView = location.pathname === '/';
+const CreateBoardModal = () => {
+  const { showModal, closeCreateBoardModal } = useCreateBoardModalStore();
 
   if (!showModal) {
     return null;
@@ -13,32 +10,18 @@ const DirectoryModal = () => {
 
   const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
-      closeDirectoryModal();
+      closeCreateBoardModal();
     }
   };
 
   return (
-    <div className={`${styles.backdrop} ${isHomeView ? styles.backdropHome : ''}`} onClick={handleBackdropClick}>
-      <div className={styles.directoryDialog}>
+    <div className={styles.backdrop} onClick={handleBackdropClick}>
+      <div className={styles.createBoardDialog}>
         <div className={styles.hd}>
-          <h2>Submit a Board to a Directory</h2>
-          <button className={styles.closeButton} onClick={closeDirectoryModal} title='Close' />
+          <h2>Create a Board</h2>
+          <button className={styles.closeButton} onClick={closeCreateBoardModal} title='Close' />
         </div>
         <div className={styles.bd}>
-          <p className={styles.introMessage}>
-            <strong>The board you clicked on doesn&apos;t exist yet, but it can be yours!</strong>
-          </p>
-
-          <div className={styles.section}>
-            <h3>Directory vs Regular Board</h3>
-            <p>
-              A &quot;directory board&quot; is assigned to a category on the homepage (like &quot;Anime & Manga&quot; or &quot;Video Games&quot;). Directory assignments
-              are temporary and handpicked by devs until DAO curation is implemented.{' '}
-              <strong>Anyone can create a board and users can access it anytime using its address</strong>—use the search bar, direct links, or the
-              &quot;[Subscribe]&quot; button to access boards regardless of directory assignment.
-            </p>
-          </div>
-
           <div className={styles.section}>
             <h3>Creating Your Board</h3>
             <p>
@@ -52,14 +35,6 @@ const DirectoryModal = () => {
               </a>
               . <strong>Build a following:</strong> Users can subscribe to your board via the &quot;[Subscribe]&quot; button, which adds it to their top bar. You can gain
               subscribers through direct links, word of mouth, or search—no directory assignment or dev approval needed.
-            </p>
-          </div>
-
-          <div className={styles.section}>
-            <h3>Directory Requirements</h3>
-            <p>
-              Boards need 99% uptime (they&apos;re P2P nodes), plus be active, well-moderated, and relevant to the category. Devs review and approve/reject based on these
-              criteria.
             </p>
           </div>
 
@@ -94,12 +69,12 @@ const DirectoryModal = () => {
             </p>
           </div>
         </div>
-        <div className={styles.directoryFooter}>
-          <button onClick={closeDirectoryModal}>Close</button>
+        <div className={styles.createBoardFooter}>
+          <button onClick={closeCreateBoardModal}>Close</button>
         </div>
       </div>
     </div>
   );
 };
 
-export default DirectoryModal;
+export default CreateBoardModal;

@@ -8,28 +8,25 @@
   z-index: 999;
 }
 
-.backdropHome {
-  background-color: rgba(128, 128, 128, 0.5);
-}
-
-.directoryDialog {
+.createBoardDialog {
   position: absolute;
   width: 500px;
   top: 50px;
   left: 50%;
-  margin-left: -251px;
-  background-color: var(--directory-modal-background-color, #f0e0d6);
-  border: var(--directory-modal-border, 1px solid #d9bfb7);
-  color: var(--directory-modal-text-color, #800);
+  margin-left: -250px;
+  background-color: var(--settings-modal-background-color);
+  border-top: var(--settings-modal-border-top);
+  border-right: var(--settings-modal-border-right);
+  border-bottom: var(--settings-modal-border-bottom);
+  border-left: var(--settings-modal-border-left);
   box-shadow: rgba(0, 0, 0, 0.1) 2px 2px 0px 1px;
-  font-family: arial, helvetica, clean, sans-serif;
-  font-size: 13px;
+  font-size: var(--body-font-size);
   line-height: 16.003px;
   z-index: 1000;
 }
 
 @media (max-width: 600px) {
-  .directoryDialog {
+  .createBoardDialog {
     width: calc(100% - 20px);
     margin-left: -50%;
     left: 50%;
@@ -39,12 +36,11 @@
 
 .hd {
   position: relative;
-  background-color: var(--directory-modal-header-background-color, #ea8);
-  color: var(--directory-modal-header-text-color, #800);
   padding: 4px 6px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border-bottom: var(--settings-modal-header-border-bottom);
 }
 
 .hd h2 {
@@ -62,24 +58,15 @@
   position: absolute;
   top: 4px;
   right: 4px;
-  background-image: var(--directory-modal-close-button-background-image, url("/assets/buttons/cross-red.png"));
+  background-image: var(--settings-modal-close-button-background-image);
   background-size: 100%;
   background-position: center;
   background-repeat: no-repeat;
+  image-rendering: pixelated;
 }
 
 .bd {
   padding: 10px;
-}
-
-.introMessage {
-  font-size: 15px;
-  margin: 10px 0 20px 0;
-  text-align: center;
-}
-
-.introMessage strong {
-  font-weight: bold;
 }
 
 .section {
@@ -93,15 +80,14 @@
 .section h3 {
   margin: 0 0 8px 0;
   padding: 0;
-  font-size: 14px;
+  font-size: calc(var(--body-font-size) * 1.077);
   font-weight: bold;
-  color: var(--directory-modal-text-color, #800);
   letter-spacing: 0.3px;
 }
 
 .section p {
   margin: 0 0 12px 0;
-  font-size: 13px;
+  font-size: var(--body-font-size);
   line-height: 16.003px;
 }
 
@@ -110,15 +96,18 @@
 }
 
 .bd a {
-  color: var(--directory-modal-text-color, #800);
+  color: var(--button-desktop-text-color);
   text-decoration: underline;
 }
 
-.directoryFooter {
+.bd a:hover {
+  color: var(--button-desktop-text-color-hover);
+}
+
+.createBoardFooter {
   padding: 10px;
   display: flex;
   justify-content: center;
   gap: 10px;
 }
-
 

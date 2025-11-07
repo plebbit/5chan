@@ -158,7 +158,9 @@ export const useDefaultSubplebbits = () => {
     };
   }, []);
 
-  // To maintain backward compatibility, return the subplebbits array directly
+  // Always prefer cacheSubplebbits (module-level, stable reference) when available
+  // Only use state.subplebbits during initial load before cache is populated
+  // This ensures a stable reference for memoization in consuming hooks
   return cacheSubplebbits || state.subplebbits;
 };
 

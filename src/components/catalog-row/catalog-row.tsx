@@ -9,6 +9,8 @@ import { shouldShowSnow } from '../../lib/snow';
 import { getHasThumbnail } from '../../lib/utils/media-utils';
 import { getFormattedTimeAgo } from '../../lib/utils/time-utils';
 import { isAllView, isSubscriptionsView } from '../../lib/utils/view-utils';
+import { useDefaultSubplebbits } from '../../hooks/use-default-subplebbits';
+import { getBoardPath } from '../../lib/utils/route-utils';
 import useCatalogFiltersStore from '../../stores/use-catalog-filters-store';
 import useCatalogStyleStore from '../../stores/use-catalog-style-store';
 import useEditCommentPrivileges from '../../hooks/use-author-privileges';
@@ -138,8 +140,10 @@ const CatalogPost = ({ post }: { post: Comment }) => {
   const params = useParams();
   const isInAllView = isAllView(location.pathname);
   const isInSubscriptionsView = isSubscriptionsView(location.pathname, params);
+  const defaultSubplebbits = useDefaultSubplebbits();
+  const boardPath = subplebbitAddress ? getBoardPath(subplebbitAddress, defaultSubplebbits) : '';
 
-  const postLink = isInAllView && isDescription ? `/p/all/description` : `/p/${subplebbitAddress}/${isDescription ? 'description' : isRules ? 'rules' : `c/${cid}`}`;
+  const postLink = isInAllView && isDescription ? '/all/description' : `/${boardPath}/${isDescription ? 'description' : isRules ? 'rules' : `thread/${cid}`}`;
 
   const threadIcons = (
     <div className={styles.threadIcons}>

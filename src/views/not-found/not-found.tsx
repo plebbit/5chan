@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import useSubplebbitsStore from '@plebbit/plebbit-react-hooks/dist/stores/subplebbits';
+import { useDefaultSubplebbits } from '../../hooks/use-default-subplebbits';
+import { getSubplebbitAddress } from '../../lib/utils/route-utils';
 import { HomeLogo } from '../home';
 import styles from './not-found.module.css';
 import { NOT_FOUND_IMAGES } from '../../generated/asset-manifest';
@@ -13,7 +15,11 @@ const NotFoundImage = () => {
 
 const NotFound = () => {
   const location = useLocation();
-  const subplebbitAddress = location.pathname.startsWith('/p/') ? location.pathname.split('/')[2] : '';
+  // Extract boardIdentifier from pathname (could be directory code or address)
+  const pathParts = location.pathname.split('/').filter(Boolean);
+  const boardIdentifier = pathParts[0] && pathParts[0] !== 'not-found' && pathParts[0] !== 'faq' ? pathParts[0] : '';
+  const defaultSubplebbits = useDefaultSubplebbits();
+  const subplebbitAddress = boardIdentifier ? getSubplebbitAddress(boardIdentifier, defaultSubplebbits) : '';
   const subplebbit = useSubplebbitsStore((state) => state.subplebbits[subplebbitAddress]);
   const { address, shortAddress } = subplebbit || {};
 
@@ -32,7 +38,7 @@ const NotFound = () => {
                 <>
                   <br />
                   <div className={styles.backToBoard}>
-                    [<Link to={`/p/${subplebbitAddress}`}>Back to p/{shortAddress}</Link>]
+                    [<Link to={`/${boardIdentifier || subplebbitAddress}`}>Back to p/{shortAddress || subplebbitAddress}</Link>]
                   </div>
                 </>
               )}

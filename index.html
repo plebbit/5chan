@@ -10,6 +10,12 @@
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/manifest.json" />
     <title>5chan</title>
+    <script>
+      // Redirect non-hash URLs to hash URLs on initial load
+      if (window.location.pathname && window.location.pathname !== '/' && window.location.pathname !== '/index.html' && !window.location.hash) {
+        window.location.replace('/#' + window.location.pathname + window.location.search);
+      }
+    </script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
