@@ -1,6 +1,6 @@
 import { useEffect, useState, useMemo } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { useAccount } from '@plebbit/plebbit-react-hooks';
-import Plebbit from '@plebbit/plebbit-js';
 import useTopbarEditModalStore from '../../stores/use-topbar-edit-modal-store';
 import useTopbarVisibilityStore from '../../stores/use-topbar-visibility-store';
 import { getAllBoardCodes } from '../../constants/board-codes';
@@ -11,6 +11,7 @@ const TopbarEditModal = () => {
   const { visibleDirectories, visibleSubscriptions, setDirectoryVisibility, setSubscriptionVisibility } = useTopbarVisibilityStore();
   const account = useAccount();
   const subscriptions = account?.subscriptions || [];
+  const location = useLocation();
 
   // Convert visible directories set to space-separated string for input
   const directoriesToString = (dirs: Set<string>): string => {
@@ -36,16 +37,17 @@ const TopbarEditModal = () => {
   // Local state for text input (will be saved on Save click)
   // Empty string means all directories visible (default), otherwise show only the specified codes
   const [localDirectoryInput, setLocalDirectoryInput] = useState<string>(allDirectoriesVisible ? '' : directoriesToString(visibleDirectories));
-  const [localSubscriptionVisibility, setLocalSubscriptionVisibility] = useState<Set<string>>(visibleSubscriptions);
+  // Check if all subscriptions are visible (if any subscription is visible, show subscriptions is checked)
+  const [showSubscriptions, setShowSubscriptions] = useState<boolean>(subscriptions.length > 0 && subscriptions.some((addr: string) => visibleSubscriptions.has(addr)));
 
   // Update local state when modal opens or store changes
   useEffect(() => {
     if (showModal) {
       const allVisible = allBoardCodes.every((code) => visibleDirectories.has(code));
       setLocalDirectoryInput(allVisible ? '' : directoriesToString(visibleDirectories));
-      setLocalSubscriptionVisibility(new Set(visibleSubscriptions));
+      setShowSubscriptions(subscriptions.length > 0 && subscriptions.some((addr: string) => visibleSubscriptions.has(addr)));
     }
-  }, [showModal, visibleDirectories, visibleSubscriptions, allBoardCodes]);
+  }, [showModal, visibleDirectories, visibleSubscriptions, allBoardCodes, subscriptions]);
 
   if (!showModal) {
     return null;
@@ -55,16 +57,6 @@ const TopbarEditModal = () => {
     if (e.target === e.currentTarget) {
       closeTopbarEditModal();
     }
-  };
-
-  const handleSubscriptionToggle = (address: string) => {
-    const newSet = new Set(localSubscriptionVisibility);
-    if (newSet.has(address)) {
-      newSet.delete(address);
-    } else {
-      newSet.add(address);
-    }
-    setLocalSubscriptionVisibility(newSet);
   };
 
   const handleSave = () => {
@@ -84,8 +76,10 @@ const TopbarEditModal = () => {
     }
 
     // Apply subscription visibility changes
+    // If showSubscriptions is checked, make all subscriptions visible
+    // Otherwise, hide all subscriptions
     subscriptions.forEach((address: string) => {
-      setSubscriptionVisibility(address, localSubscriptionVisibility.has(address));
+      setSubscriptionVisibility(address, showSubscriptions);
     });
 
     closeTopbarEditModal();
@@ -100,8 +94,6 @@ const TopbarEditModal = () => {
         </div>
         <div className={styles.bd}>
           <div className={styles.section}>
-            <h3>Directory Boards</h3>
-            <p>Enter directory codes separated by spaces (e.g., "jp tg mu"):</p>
             <input
               type='text'
               className={styles.directoryInput}
@@ -113,19 +105,22 @@ const TopbarEditModal = () => {
 
           {subscriptions.length > 0 && (
             <div className={styles.section}>
-              <h3>Subscriptions</h3>
-              <p>Select which subscriptions to show in the topbar:</p>
-              <div className={styles.checkboxGroup}>
-                {subscriptions.map((address: string) => {
-                  const displayText = address.endsWith('.eth') || address.endsWith('.sol') ? address : Plebbit.getShortAddress(address);
-                  const isChecked = localSubscriptionVisibility.has(address);
-                  return (
-                    <div key={address} className={styles.checkboxItem}>
-                      <input type='checkbox' id={`subscription-${address}`} checked={isChecked} onChange={() => handleSubscriptionToggle(address)} />
-                      <label htmlFor={`subscription-${address}`}>{displayText}</label>
-                    </div>
-                  );
-                })}
+              <div className={styles.checkboxItem}>
+                <input type='checkbox' id='show-subscriptions' checked={showSubscriptions} onChange={(e) => setShowSubscriptions(e.target.checked)} />
+                <label htmlFor='show-subscriptions'>
+                  show subscriptions (
+                  <Link
+                    to={location.pathname.replace(/\/$/, '') + '/settings#subscriptions-settings'}
+                    className={styles.editSubscriptionsLink}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      closeTopbarEditModal();
+                    }}
+                  >
+                    edit subscriptions
+                  </Link>
+                  )
+                </label>
               </div>
             </div>
           )}

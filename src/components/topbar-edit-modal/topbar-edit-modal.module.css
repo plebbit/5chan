@@ -10,19 +10,21 @@
 
 .topbarEditDialog {
   position: absolute;
-  width: 600px;
+  width: 400px;
   max-height: 80vh;
-  top: 50px;
+  top: 50%;
   left: 50%;
-  margin-left: -300px;
+  margin-left: -200px;
+  transform: translateY(-50%);
+  padding: 2px;
   background-color: var(--settings-modal-background-color);
   border-top: var(--settings-modal-border-top);
   border-right: var(--settings-modal-border-right);
   border-bottom: var(--settings-modal-border-bottom);
   border-left: var(--settings-modal-border-left);
-  box-shadow: rgba(0, 0, 0, 0.1) 2px 2px 0px 1px;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 0px 5px 0px;
   font-size: var(--body-font-size);
-  line-height: 16.003px;
+  line-height: normal;
   z-index: 1000;
   display: flex;
   flex-direction: column;
@@ -39,28 +41,29 @@
 
 .hd {
   position: relative;
-  padding: 4px 6px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  padding: 0px 0px 5px;
+  margin: 5px 0px;
+  text-align: center;
   border-bottom: var(--settings-modal-header-border-bottom);
 }
 
 .hd h2 {
   margin: 0;
   padding: 0;
-  font-size: 131%;
-  font-weight: bold;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 14px;
+  height: 14px;
 }
 
 .closeButton {
   all: unset;
   cursor: pointer;
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
   position: absolute;
-  top: 4px;
-  right: 4px;
+  top: -2px;
+  right: 3px;
   background-image: var(--settings-modal-close-button-background-image);
   background-size: 100%;
   background-position: center;
@@ -69,13 +72,14 @@
 }
 
 .bd {
-  padding: 10px;
   overflow-y: auto;
   flex: 1;
+  padding: 0;
+  margin: 0;
 }
 
 .section {
-  margin-bottom: 20px;
+  margin-bottom: 0;
 }
 
 .section:last-child {
@@ -92,15 +96,20 @@
 
 .directoryInput {
   width: 100%;
-  padding: 4px;
-  font-size: var(--body-font-size);
-  border: var(--reply-modal-field-input-border, 1px solid #aaa);
+  padding: 2px 4px 3px;
+  font-size: 13.3333px;
+  margin: 0 0 5px;
+  box-sizing: border-box;
   outline: none;
-  font-family: var(--body-font-family, arial, helvetica, sans-serif);
+  font-family: Arial, sans-serif;
+  border: var(--post-form-field-input-border, revert);
+  background-color: var(--post-form-field-input-background-color, revert);
+  color: var(--post-form-field-input-color);
 }
 
 .directoryInput:focus {
-  border: var(--reply-modal-field-input-border-focus, 1px solid #ea8);
+  outline: none;
+  border: var(--post-form-field-input-focus-border, revert);
 }
 
 .checkboxGroup {
@@ -114,6 +123,7 @@
   display: flex;
   align-items: center;
   gap: 4px;
+  margin-bottom: 5px;
 }
 
 .checkboxItem input[type='checkbox'] {
@@ -126,11 +136,20 @@
   user-select: none;
 }
 
-.topbarEditFooter {
-  padding: 10px;
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  border-top: var(--settings-modal-header-border-bottom);
+.editSubscriptionsLink {
+  font-size: var(--body-font-size);
+  color: var(--link-color, #0000ee);
+  text-decoration: underline;
+  cursor: pointer;
 }
 
+.editSubscriptionsLink:hover {
+  color: var(--link-hover-color, #551a8b);
+}
+
+.topbarEditFooter {
+  padding: 0;
+  margin: 0;
+  text-align: center;
+  padding-bottom: 5px;
+}
