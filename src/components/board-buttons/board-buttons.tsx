@@ -45,7 +45,7 @@ const CatalogButton = ({ address, isInAllView, isInSubscriptionsView, isInModVie
       if (params?.timeFilterName) return `/mod/catalog/${params.timeFilterName}`;
       return `/mod/catalog`;
     }
-    const boardPath = address ? getBoardPath(address, defaultSubplebbits) : address;
+    const boardPath = address ? getBoardPath(address, defaultSubplebbits) : defaultSubplebbits || '';
     return `/${boardPath}/catalog`;
   };
 
@@ -83,7 +83,7 @@ const ReturnButton = ({ address, isInAllView, isInSubscriptionsView, isInModView
       if (params?.timeFilterName) return `/mod/${params.timeFilterName}`;
       return `/mod`;
     }
-    const boardPath = address ? getBoardPath(address, defaultSubplebbits) : address;
+    const boardPath = address ? getBoardPath(address, defaultSubplebbits) : defaultSubplebbits || '';
     return `/${boardPath}`;
   };
 
