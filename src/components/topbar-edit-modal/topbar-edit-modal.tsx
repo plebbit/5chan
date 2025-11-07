@@ -4,8 +4,6 @@ import Plebbit from '@plebbit/plebbit-js';
 import useTopbarEditModalStore from '../../stores/use-topbar-edit-modal-store';
 import useTopbarVisibilityStore from '../../stores/use-topbar-visibility-store';
 import { getAllBoardCodes } from '../../constants/board-codes';
-import { getBoardPath } from '../../lib/utils/route-utils';
-import { useDefaultSubplebbits } from '../../hooks/use-default-subplebbits';
 import styles from './topbar-edit-modal.module.css';
 
 const TopbarEditModal = () => {
@@ -13,7 +11,6 @@ const TopbarEditModal = () => {
   const { visibleDirectories, visibleSubscriptions, setDirectoryVisibility, setSubscriptionVisibility } = useTopbarVisibilityStore();
   const account = useAccount();
   const subscriptions = account?.subscriptions || [];
-  const defaultSubplebbits = useDefaultSubplebbits();
 
   // Convert visible directories set to space-separated string for input
   const directoriesToString = (dirs: Set<string>): string => {
@@ -120,13 +117,12 @@ const TopbarEditModal = () => {
               <p>Select which subscriptions to show in the topbar:</p>
               <div className={styles.checkboxGroup}>
                 {subscriptions.map((address: string) => {
-                  const boardPath = getBoardPath(address, defaultSubplebbits);
                   const displayText = address.endsWith('.eth') || address.endsWith('.sol') ? address : Plebbit.getShortAddress(address);
                   const isChecked = localSubscriptionVisibility.has(address);
                   return (
                     <div key={address} className={styles.checkboxItem}>
                       <input type='checkbox' id={`subscription-${address}`} checked={isChecked} onChange={() => handleSubscriptionToggle(address)} />
-                      <label htmlFor={`subscription-${address}`}>{boardPath || displayText}</label>
+                      <label htmlFor={`subscription-${address}`}>{displayText}</label>
                     </div>
                   );
                 })}
