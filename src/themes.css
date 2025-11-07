@@ -214,7 +214,7 @@
   --topbar-desktop-link-text-color: #800;
   --topbar-desktop-link-text-color-hover: #e00;
   --topbar-desktop-link-text-decoration: none;
-  --topbar-desktop-link-text-decoration-hover: underline;
+  --topbar-desktop-link-text-decoration-hover: none;
   --topbar-mobile-background-color: #f0e0d6;
   --topbar-mobile-border-bottom: 2px solid #d9c5b7;
   --topbar-mobile-font-size: 10px;
