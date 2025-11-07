@@ -11,6 +11,7 @@ import { isValidURL } from '../../lib/utils/url-utils';
 import { isAllView, isDescriptionView, isModView, isPostPageView, isRulesView, isSubscriptionsView } from '../../lib/utils/view-utils';
 import useAnonMode from '../../hooks/use-anon-mode';
 import { useDefaultSubplebbitAddresses } from '../../hooks/use-default-subplebbits';
+import { useResolvedSubplebbitAddress } from '../../hooks/use-resolved-subplebbit-address';
 import useFetchGifFirstFrame from '../../hooks/use-fetch-gif-first-frame';
 import useIsSubplebbitOffline from '../../hooks/use-is-subplebbit-offline';
 import usePublishPost from '../../hooks/use-publish-post';
@@ -45,7 +46,8 @@ const PostFormTable = ({ closeForm, postCid }: { closeForm: () => void; postCid:
   const author = account?.author || {};
   const { displayName } = author || {};
   const accountComment = useAccountComment({ commentIndex: params?.accountCommentIndex as any });
-  const subplebbitAddress = params?.subplebbitAddress || accountComment?.subplebbitAddress;
+  const resolvedAddress = useResolvedSubplebbitAddress();
+  const subplebbitAddress = resolvedAddress || accountComment?.subplebbitAddress;
   const { setPublishPostOptions, postIndex, publishPost, publishPostOptions, resetPublishPostOptions } = usePublishPost({ subplebbitAddress });
 
   const textRef = useRef<HTMLTextAreaElement>(null);
@@ -160,7 +162,7 @@ const PostFormTable = ({ closeForm, postCid }: { closeForm: () => void; postCid:
     if (typeof postIndex === 'number') {
       resetPublishPostOptions();
       resetFields();
-      navigate(`/profile/${postIndex}`);
+      navigate(`/pending/${postIndex}`);
     }
   }, [postIndex, resetPublishPostOptions, navigate]);
 
@@ -458,7 +460,8 @@ const PostForm = () => {
   const [showForm, setShowForm] = useState(false);
 
   const accountComment = useAccountComment({ commentIndex: params?.accountCommentIndex as any });
-  const subplebbitAddress = params?.subplebbitAddress || accountComment?.subplebbitAddress;
+  const resolvedAddress = useResolvedSubplebbitAddress();
+  const subplebbitAddress = resolvedAddress || accountComment?.subplebbitAddress;
   const subplebbit = useSubplebbitsStore((state) => state.subplebbits[subplebbitAddress]);
   const { isOffline, isOnlineStatusLoading, offlineTitle } = useIsSubplebbitOffline(subplebbit);
 

@@ -10,6 +10,8 @@ import { hashStringToColor, getTextColorForBackground } from '../../lib/utils/po
 import { getFormattedDate, getFormattedTimeAgo } from '../../lib/utils/time-utils';
 import { isValidURL } from '../../lib/utils/url-utils';
 import { isAllView, isPendingPostView, isPostPageView, isSubscriptionsView } from '../../lib/utils/view-utils';
+import { useDefaultSubplebbits } from '../../hooks/use-default-subplebbits';
+import { getBoardPath } from '../../lib/utils/route-utils';
 import useAvatarVisibilityStore from '../../stores/use-avatar-visibility-store';
 import useAuthorAddressClick from '../../hooks/use-author-address-click';
 import { useCommentMediaInfo } from '../../hooks/use-comment-media-info';
@@ -62,6 +64,8 @@ const PostInfo = ({ post, postReplyCount = 0, roles, isHidden }: PostProps) => {
   const { showOmittedReplies } = useShowOmittedReplies();
   const { imageUrl: avatarImageUrl } = useAuthorAvatar({ author });
   const { hideAvatars } = useAvatarVisibilityStore();
+  const defaultSubplebbits = useDefaultSubplebbits();
+  const boardPath = subplebbitAddress ? getBoardPath(subplebbitAddress, defaultSubplebbits) : '';
 
   const params = useParams();
   const location = useLocation();
@@ -165,13 +169,13 @@ const PostInfo = ({ post, postReplyCount = 0, roles, isHidden }: PostProps) => {
           {subplebbitAddress && (isInAllView || isInSubscriptionsView) && !isReply && (
             <span className={styles.postNumLink}>
               {' '}
-              <Link to={`/p/${subplebbitAddress}`}>p/{subplebbitAddress && Plebbit.getShortAddress(subplebbitAddress)}</Link>{' '}
+              <Link to={`/${boardPath}`}>p/{subplebbitAddress && Plebbit.getShortAddress(subplebbitAddress)}</Link>{' '}
             </span>
           )}
           {!(isDescription || isRules) &&
             (cid ? (
               <span className={styles.postNumLink}>
-                <Link to={`/p/${subplebbitAddress}/c/${cid}`} className={styles.linkToPost} title={t('link_to_post')} onClick={(e) => !cid && e.preventDefault()}>
+                <Link to={`/${boardPath}/thread/${cid}`} className={styles.linkToPost} title={t('link_to_post')} onClick={(e) => !cid && e.preventDefault()}>
                   c/
                 </Link>
                 <span className={styles.replyToPost} title={t('reply_to_post')} onMouseDown={onReplyModalClick}>
@@ -200,7 +204,7 @@ const PostInfo = ({ post, postReplyCount = 0, roles, isHidden }: PostProps) => {
             <span className={styles.replyButton}>
               [
               <Link
-                to={isInAllView && isDescription ? '/p/all/description' : `/p/${subplebbitAddress}/${isDescription ? 'description' : isRules ? 'rules' : `c/${postCid}`}`}
+                to={isInAllView && isDescription ? '/all/description' : `/${boardPath}/${isDescription ? 'description' : isRules ? 'rules' : `thread/${postCid}`}`}
                 onClick={(e) => !cid && !isDescription && !isRules && e.preventDefault()}
               >
                 {_.capitalize(t('reply'))}
@@ -314,8 +318,10 @@ const Reply = ({ postReplyCount, reply, roles }: PostProps) => {
 
   const { author, cid, deleted, link, linkHeight, linkWidth, postCid, reason, removed, spoiler, subplebbitAddress, thumbnailUrl, parentCid } = post || {};
   const { isDescription, isRules } = post || {}; // custom properties, not from api
+  const defaultSubplebbits = useDefaultSubplebbits();
+  const boardPath = subplebbitAddress ? getBoardPath(subplebbitAddress, defaultSubplebbits) : '';
 
-  const isRouteLinkToReply = useLocation().pathname.startsWith(`/p/${subplebbitAddress}/c/${cid}`);
+  const isRouteLinkToReply = useLocation().pathname.startsWith(`/${boardPath}/thread/${cid}`);
   const { hidden } = useHide({ cid });
 
   const commentMediaInfo = useCommentMediaInfo(link, thumbnailUrl, linkWidth, linkHeight);
@@ -354,6 +360,8 @@ const PostDesktop = ({ post, roles, showAllReplies, showReplies = true }: PostPr
   const location = useLocation();
   const isInPendingPostView = isPendingPostView(location.pathname, params);
   const isInPostPageView = isPostPageView(location.pathname, params);
+  const defaultSubplebbits = useDefaultSubplebbits();
+  const boardPath = subplebbitAddress ? getBoardPath(subplebbitAddress, defaultSubplebbits) : '';
 
   const { hidden, unhide, hide } = useHide({ cid });
   const isHidden = hidden && !isInPostPageView;
@@ -430,14 +438,14 @@ const PostDesktop = ({ post, roles, showAllReplies, showReplies = true }: PostPr
               <Trans
                 i18nKey={'replies_and_links_omitted'}
                 shouldUnescape={true}
-                components={{ 1: <Link key={cid} to={`/p/${subplebbitAddress}/c/${cid}`} /> }}
+                components={{ 1: <Link key={cid} to={`/${boardPath}/thread/${cid}`} /> }}
                 values={{ repliesCount, linksCount }}
               />
             ) : (
               <Trans
                 i18nKey={'replies_omitted'}
                 shouldUnescape={true}
-                components={{ 1: <Link key={cid} to={`/p/${subplebbitAddress}/c/${cid}`} /> }}
+                components={{ 1: <Link key={cid} to={`/${boardPath}/thread/${cid}`} /> }}
                 values={{ repliesCount }}
               />
             )}

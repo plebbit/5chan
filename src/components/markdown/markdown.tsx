@@ -172,9 +172,9 @@ const renderAnchorLink = (children: React.ReactNode, href: string) => {
         shouldReplaceText = children[0] === href || children[0].trim() === href.trim();
       }
 
-      // For display purposes, remove leading slash from paths like "/p/something"
+      // For display purposes, remove leading slash from paths like "/biz" or board identifiers
       let displayText: React.ReactNode = children;
-      if (shouldReplaceText && internalPath.startsWith('/p/')) {
+      if (shouldReplaceText && internalPath.match(/^\/[^/]+$/)) {
         displayText = internalPath.substring(1); // Remove leading slash
       } else if (shouldReplaceText) {
         displayText = internalPath;
@@ -188,7 +188,15 @@ const renderAnchorLink = (children: React.ReactNode, href: string) => {
   }
 
   // Handle hash routes and internal patterns (including routes that start with /#/)
-  if (href.startsWith('#/') || href.startsWith('/#/') || href.startsWith('/p/') || href.match(/^\/p\/[^/]+(\/c\/[^/]+)?$/)) {
+  // Support both old format (/p/...) for backward compatibility and new format (/{boardIdentifier}/...)
+  if (
+    href.startsWith('#/') ||
+    href.startsWith('/#/') ||
+    href.startsWith('/p/') ||
+    href.match(/^\/p\/[^/]+(\/c\/[^/]+)?$/) ||
+    href.match(/^\/[^/]+(\/thread\/[^/]+)?$/) ||
+    href.match(/^\/[^/]+\/(catalog|description|rules)(\/settings)?$/)
+  ) {
     return <Link to={href}>{children}</Link>;
   }
 

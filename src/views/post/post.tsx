@@ -4,6 +4,7 @@ import { Comment, Role, useComment, useEditedComment, useSubplebbit } from '@ple
 import useSubplebbitsStore from '@plebbit/plebbit-react-hooks/dist/stores/subplebbits';
 import { useLocation, useParams } from 'react-router-dom';
 import { isAllView, isDescriptionView, isRulesView } from '../../lib/utils/view-utils';
+import { useResolvedSubplebbitAddress } from '../../hooks/use-resolved-subplebbit-address';
 import useIsMobile from '../../hooks/use-is-mobile';
 import ErrorDisplay from '../../components/error-display/error-display';
 import PostDesktop from '../../components/post-desktop';
@@ -53,7 +54,8 @@ const PostPage = () => {
   const { t } = useTranslation();
   const params = useParams();
   const location = useLocation();
-  const { commentCid, subplebbitAddress } = params;
+  const { commentCid } = params;
+  const subplebbitAddress = useResolvedSubplebbitAddress();
   const isInAllView = isAllView(location.pathname);
   const isInDescriptionView = isDescriptionView(location.pathname, params);
   const isInRulesView = isRulesView(location.pathname, params);
@@ -101,7 +103,7 @@ const PostPage = () => {
           avatarUrl={suggested?.avatarUrl}
           createdAt={createdAt}
           description={description}
-          replyCount={location.pathname.startsWith('/p/all/') ? 0 : rules?.length > 0 ? 1 : 0}
+          replyCount={location.pathname.startsWith('/all/') ? 0 : rules?.length > 0 ? 1 : 0}
           subplebbitAddress={subplebbitAddress}
           shortAddress={shortAddress}
           title={title}

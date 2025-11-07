@@ -1,6 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useDefaultSubplebbitsState, MultisubSubplebbit } from '../../../hooks/use-default-subplebbits';
+import { useDefaultSubplebbitsState, useDefaultSubplebbits, MultisubSubplebbit } from '../../../hooks/use-default-subplebbits';
+import { getBoardPath } from '../../../lib/utils/route-utils';
 import LoadingEllipsis from '../../../components/loading-ellipsis';
 import useDisclaimerModalStore from '../../../stores/use-disclaimer-modal-store';
 import useDirectoryModalStore from '../../../stores/use-directory-modal-store';
@@ -34,16 +35,19 @@ const BoardsList = ({ multisub }: { multisub: MultisubSubplebbit[] }) => {
   const { showDisclaimerModal } = useDisclaimerModalStore();
   const { openDirectoryModal } = useDirectoryModalStore();
   const { useCatalogLinks, boardFilter } = useBoardsFilterStore();
+  const defaultSubplebbits = useDefaultSubplebbits();
 
   const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, address: string) => {
     e.preventDefault();
-    showDisclaimerModal(address, navigate);
+    const boardPath = getBoardPath(address, defaultSubplebbits);
+    showDisclaimerModal(address, navigate, boardPath);
   };
 
   // Helper to generate link URL with optional catalog suffix
   const getBoardLink = (address: string | null): string => {
     if (!address) return '#';
-    return `/p/${address}${useCatalogLinks ? '/catalog' : ''}`;
+    const boardPath = getBoardPath(address, defaultSubplebbits);
+    return `/${boardPath}${useCatalogLinks ? '/catalog' : ''}`;
   };
 
   // Handler for placeholder board links

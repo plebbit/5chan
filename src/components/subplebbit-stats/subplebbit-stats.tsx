@@ -5,6 +5,7 @@ import useSubplebbitsStore from '@plebbit/plebbit-react-hooks/dist/stores/subple
 import useSubplebbitsPagesStore from '@plebbit/plebbit-react-hooks/dist/stores/subplebbits-pages';
 import useSubplebbitStatsVisibilityStore from '../../stores/use-subplebbit-stats-visibility-store';
 import { isDescriptionView, isRulesView } from '../../lib/utils/view-utils';
+import { useResolvedSubplebbitAddress } from '../../hooks/use-resolved-subplebbit-address';
 import styles from './subplebbit-stats.module.css';
 
 const SubplebbitStats = () => {
@@ -12,7 +13,8 @@ const SubplebbitStats = () => {
   const params = useParams();
 
   const accountComment = useAccountComment({ commentIndex: params?.accountCommentIndex as any });
-  const subplebbitAddress = params?.subplebbitAddress || accountComment?.subplebbitAddress;
+  const resolvedAddress = useResolvedSubplebbitAddress();
+  const subplebbitAddress = resolvedAddress || accountComment?.subplebbitAddress;
 
   const subplebbit = useSubplebbitsStore((state) => state.subplebbits[subplebbitAddress]);
   const { address, createdAt } = subplebbit || {};

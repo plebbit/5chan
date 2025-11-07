@@ -3,6 +3,8 @@ import { createPortal } from 'react-dom';
 import { Link, useNavigate } from 'react-router-dom';
 import { Comment, useAccount } from '@plebbit/plebbit-react-hooks';
 import { useFloating, offset, shift, size, autoUpdate, Placement } from '@floating-ui/react';
+import { useDefaultSubplebbits } from '../../hooks/use-default-subplebbits';
+import { getBoardPath } from '../../lib/utils/route-utils';
 import useAnonModeStore from '../../stores/use-anon-mode-store';
 import useIsMobile from '../../hooks/use-is-mobile';
 import styles from '../../views/post/post.module.css';
@@ -58,6 +60,7 @@ const DesktopQuotePreview = ({ backlinkReply, quotelinkReply, isBacklinkReply, i
   const [outOfViewCid, setOutOfViewCid] = useState<string | null>(null);
   const placementRef = useRef<Placement>('right');
   const availableWidthRef = useRef<number>(0);
+  const defaultSubplebbits = useDefaultSubplebbits();
 
   const { refs, floatingStyles, update } = useFloating({
     placement: placementRef.current,
@@ -100,7 +103,8 @@ const DesktopQuotePreview = ({ backlinkReply, quotelinkReply, isBacklinkReply, i
   const handleClick = (e: React.MouseEvent, cid: string | undefined, subplebbitAddress: string | undefined) => {
     e.preventDefault();
     if (cid && subplebbitAddress) {
-      navigate(`/p/${subplebbitAddress}/c/${cid}`);
+      const boardPath = getBoardPath(subplebbitAddress, defaultSubplebbits);
+      navigate(`/${boardPath}/thread/${cid}`);
       setTimeout(() => {
         const element = document.querySelector(`[data-cid="${cid}"]`);
         element?.scrollIntoView();
@@ -131,7 +135,7 @@ const DesktopQuotePreview = ({ backlinkReply, quotelinkReply, isBacklinkReply, i
     <>
       <Link
         className={styles.backlink}
-        to={`/p/${backlinkReply?.subplebbitAddress}/c/${backlinkReply?.cid}`}
+        to={`/${getBoardPath(backlinkReply?.subplebbitAddress || '', defaultSubplebbits)}/thread/${backlinkReply?.cid}`}
         ref={refs.setReference}
         onMouseOver={() => handleMouseOver(backlinkReply?.cid)}
         onMouseLeave={() => handleMouseLeave(backlinkReply?.cid)}
@@ -158,7 +162,7 @@ const DesktopQuotePreview = ({ backlinkReply, quotelinkReply, isBacklinkReply, i
   const replyQuotelink = (
     <>
       <Link
-        to={`/p/${quotelinkReply?.subplebbitAddress}/c/${quotelinkReply?.cid}`}
+        to={`/${getBoardPath(quotelinkReply?.subplebbitAddress || '', defaultSubplebbits)}/thread/${quotelinkReply?.cid}`}
         ref={refs.setReference}
         className={styles.quoteLink}
         onMouseOver={() => handleMouseOver(quotelinkReply?.cid)}
@@ -186,6 +190,7 @@ const DesktopQuotePreview = ({ backlinkReply, quotelinkReply, isBacklinkReply, i
 const MobileQuotePreview = ({ backlinkReply, quotelinkReply, isBacklinkReply, isQuotelinkReply }: ReplyQuotePreviewProps) => {
   const [hoveredCid, setHoveredCid] = useState<string | null>(null);
   const [outOfViewCid, setOutOfViewCid] = useState<string | null>(null);
+  const defaultSubplebbits = useDefaultSubplebbits();
 
   const { refs, floatingStyles, update } = useFloating({
     placement: 'bottom',
@@ -207,7 +212,8 @@ const MobileQuotePreview = ({ backlinkReply, quotelinkReply, isBacklinkReply, is
   const handleClick = (e: React.MouseEvent, cid: string | undefined, subplebbitAddress: string | undefined) => {
     e.preventDefault();
     if (cid && subplebbitAddress) {
-      navigate(`/p/${subplebbitAddress}/c/${cid}`);
+      const boardPath = getBoardPath(subplebbitAddress, defaultSubplebbits);
+      navigate(`/${boardPath}/thread/${cid}`);
       setTimeout(() => {
         const element = document.querySelector(`[data-cid="${cid}"]`);
         element?.scrollIntoView();
@@ -246,7 +252,7 @@ const MobileQuotePreview = ({ backlinkReply, quotelinkReply, isBacklinkReply, is
       </span>
       {backlinkReply?.shortCid && (
         <Link
-          to={`/p/${backlinkReply?.subplebbitAddress}/c/${backlinkReply?.cid}`}
+          to={`/${getBoardPath(backlinkReply?.subplebbitAddress || '', defaultSubplebbits)}/thread/${backlinkReply?.cid}`}
           className={styles.backlinkHash}
           onClick={(e) => handleClick(e, backlinkReply?.cid, backlinkReply?.subplebbitAddress)}
         >
@@ -283,7 +289,7 @@ const MobileQuotePreview = ({ backlinkReply, quotelinkReply, isBacklinkReply, is
       {quotelinkReply?.shortCid && (
         <Link
           className={styles.quoteLink}
-          to={`/p/${quotelinkReply?.subplebbitAddress}/c/${quotelinkReply?.cid}`}
+          to={`/${getBoardPath(quotelinkReply?.subplebbitAddress || '', defaultSubplebbits)}/thread/${quotelinkReply?.cid}`}
           onClick={(e) => handleClick(e, quotelinkReply?.cid, quotelinkReply?.subplebbitAddress)}
         >
           {' '}

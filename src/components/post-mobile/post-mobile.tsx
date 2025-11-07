@@ -10,6 +10,8 @@ import { getHasThumbnail } from '../../lib/utils/media-utils';
 import { getTextColorForBackground, hashStringToColor } from '../../lib/utils/post-utils';
 import { getFormattedDate, getFormattedTimeAgo } from '../../lib/utils/time-utils';
 import { isAllView, isPendingPostView, isPostPageView, isSubscriptionsView } from '../../lib/utils/view-utils';
+import { useDefaultSubplebbits } from '../../hooks/use-default-subplebbits';
+import { getBoardPath } from '../../lib/utils/route-utils';
 import useAvatarVisibilityStore from '../../stores/use-avatar-visibility-store';
 import useAuthorAddressClick from '../../hooks/use-author-address-click';
 import { useCommentMediaInfo } from '../../hooks/use-comment-media-info';
@@ -29,6 +31,7 @@ import useReplyModalStore from '../../stores/use-reply-modal-store';
 
 const PostInfoAndMedia = ({ post, postReplyCount = 0, roles }: PostProps) => {
   const { t } = useTranslation();
+  const defaultSubplebbits = useDefaultSubplebbits();
   const {
     author,
     cid,
@@ -48,6 +51,7 @@ const PostInfoAndMedia = ({ post, postReplyCount = 0, roles }: PostProps) => {
     timestamp,
     thumbnailUrl,
   } = post || {};
+  const boardPath = subplebbitAddress ? getBoardPath(subplebbitAddress, defaultSubplebbits) : '';
   const isReply = parentCid;
   const title = post?.title?.trim();
   const { isDescription, isRules } = post || {}; // custom properties, not from api
@@ -174,14 +178,14 @@ const PostInfoAndMedia = ({ post, postReplyCount = 0, roles }: PostProps) => {
             {subplebbitAddress && (isInAllView || isInSubscriptionsView) && !isReply && (
               <div className={styles.postNumLink}>
                 {' '}
-                <Link to={`/p/${subplebbitAddress}`}>p/{subplebbitAddress && Plebbit.getShortAddress(subplebbitAddress)}</Link>
+                <Link to={`/${boardPath}`}>p/{subplebbitAddress && Plebbit.getShortAddress(subplebbitAddress)}</Link>
               </div>
             )}
             <Tooltip children={<span>{getFormattedDate(timestamp)}</span>} content={getFormattedTimeAgo(timestamp)} />{' '}
             {!(isDescription || isRules) &&
               (cid ? (
                 <span className={styles.postNumLink}>
-                  <Link to={`/p/${subplebbitAddress}/c/${cid}`} className={styles.linkToPost} title={t('link_to_post')} onClick={(e) => !cid && e.preventDefault()}>
+                  <Link to={`/${boardPath}/thread/${cid}`} className={styles.linkToPost} title={t('link_to_post')} onClick={(e) => !cid && e.preventDefault()}>
                     c/
                   </Link>
                   <span className={styles.replyToPost} title={t('reply_to_post')} onMouseDown={onReplyModalClick}>
@@ -259,7 +263,9 @@ const Reply = ({ postReplyCount, reply, roles }: PostProps) => {
     post = editedComment;
   }
   const { author, cid, deleted, postCid, reason, removed, subplebbitAddress } = post || {};
-  const isRouteLinkToReply = useLocation().pathname.startsWith(`/p/${subplebbitAddress}/c/${cid}`);
+  const defaultSubplebbits = useDefaultSubplebbits();
+  const boardPath = subplebbitAddress ? getBoardPath(subplebbitAddress, defaultSubplebbits) : '';
+  const isRouteLinkToReply = useLocation().pathname.startsWith(`/${boardPath}/thread/${cid}`);
   const { hidden } = useHide({ cid });
 
   return (
@@ -289,6 +295,8 @@ const PostMobile = ({ post, roles, showAllReplies, showReplies = true }: PostPro
   const isInAllView = isAllView(location.pathname);
   const isInPendingPostView = isPendingPostView(location.pathname, params);
   const isInPostView = isPostPageView(location.pathname, params);
+  const defaultSubplebbits = useDefaultSubplebbits();
+  const boardPath = subplebbitAddress ? getBoardPath(subplebbitAddress, defaultSubplebbits) : '';
   const linksCount = useCountLinksInReplies(post);
   const replies = useReplies(post);
 
@@ -345,7 +353,7 @@ const PostMobile = ({ post, roles, showAllReplies, showReplies = true }: PostPro
                     {linksCount > 0 && ` / ${linksCount} Links`}
                   </span>
                   <Link
-                    to={isInAllView && isDescription ? '/p/all/description' : `/p/${subplebbitAddress}/${isDescription ? 'description' : isRules ? 'rules' : `c/${cid}`}`}
+                    to={isInAllView && isDescription ? '/all/description' : `/${boardPath}/${isDescription ? 'description' : isRules ? 'rules' : `thread/${cid}`}`}
                     className='button'
                   >
                     {t('view_thread')}

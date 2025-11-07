@@ -13,7 +13,10 @@ const NotFoundImage = () => {
 
 const NotFound = () => {
   const location = useLocation();
-  const subplebbitAddress = location.pathname.startsWith('/p/') ? location.pathname.split('/')[2] : '';
+  // Extract boardIdentifier from pathname (could be directory code or address)
+  const pathParts = location.pathname.split('/').filter(Boolean);
+  const boardIdentifier = pathParts[0] && pathParts[0] !== 'not-found' && pathParts[0] !== 'faq' ? pathParts[0] : '';
+  const subplebbitAddress = boardIdentifier || '';
   const subplebbit = useSubplebbitsStore((state) => state.subplebbits[subplebbitAddress]);
   const { address, shortAddress } = subplebbit || {};
 
@@ -32,7 +35,7 @@ const NotFound = () => {
                 <>
                   <br />
                   <div className={styles.backToBoard}>
-                    [<Link to={`/p/${subplebbitAddress}`}>Back to p/{shortAddress}</Link>]
+                    [<Link to={`/${boardIdentifier || subplebbitAddress}`}>Back to p/{shortAddress}</Link>]
                   </div>
                 </>
               )}

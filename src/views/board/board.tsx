@@ -8,6 +8,7 @@ import { shouldShowSnow } from '../../lib/snow';
 import { getCommentMediaInfo, getHasThumbnail } from '../../lib/utils/media-utils';
 import { isAllView, isSubscriptionsView, isModView } from '../../lib/utils/view-utils';
 import { useDefaultSubplebbitAddresses } from '../../hooks/use-default-subplebbits';
+import { useResolvedSubplebbitAddress, useBoardPath } from '../../hooks/use-resolved-subplebbit-address';
 import { useFeedStateString } from '../../hooks/use-state-string';
 import useTimeFilter from '../../hooks/use-time-filter';
 import useInterfaceSettingsStore from '../../stores/use-interface-settings-store';
@@ -35,7 +36,8 @@ const createThreadsWithoutImagesFilter = () => ({
 const Board = () => {
   const { t } = useTranslation();
   const location = useLocation();
-  const { subplebbitAddress } = useParams<{ subplebbitAddress: string }>();
+  const subplebbitAddress = useResolvedSubplebbitAddress();
+  const boardPath = useBoardPath(subplebbitAddress);
   const { hideThreadsWithoutImages } = useInterfaceSettingsStore();
 
   const isInAllView = isAllView(location.pathname);
@@ -194,7 +196,7 @@ const Board = () => {
                   i18nKey='more_threads_last_week'
                   values={{ currentTimeFilterName, count: feed.length }}
                   components={{
-                    1: <Link to={(isInAllView ? '/p/all' : isInSubscriptionsView ? '/p/subscriptions' : isInModView ? '/p/mod' : `/p/${subplebbitAddress}`) + '/1w'} />,
+                    1: <Link to={(isInAllView ? '/all' : isInSubscriptionsView ? '/subscriptions' : isInModView ? '/mod' : `/${boardPath}`) + '/1w'} />,
                   }}
                 />
               </div>
@@ -204,7 +206,7 @@ const Board = () => {
                   i18nKey='more_threads_last_month'
                   values={{ currentTimeFilterName, count: feed.length }}
                   components={{
-                    1: <Link to={(isInAllView ? '/p/all' : isInSubscriptionsView ? '/p/subscriptions' : isInModView ? '/p/mod' : `/p/${subplebbitAddress}`) + '/1m'} />,
+                    1: <Link to={(isInAllView ? '/all' : isInSubscriptionsView ? '/subscriptions' : isInModView ? '/mod' : `/${boardPath}`) + '/1m'} />,
                   }}
                 />
               </div>

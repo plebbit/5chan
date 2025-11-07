@@ -42,17 +42,30 @@ export const is5chanLink = (url: string): boolean => {
       routePath = parsedUrl.hash.substring(1); // Remove the # to get the path
     }
 
-    // For pleb.bz, only support the exact sharelink format
+    // For pleb.bz, only support the exact sharelink format (legacy /p/... format)
     if (hostname === 'pleb.bz') {
       // Must match exactly: /p/{subplebbitAddress}/c/{cid}
       // Allow redirect parameter since these are still valid internal links
       return /^\/p\/[^/]+\/c\/[^/]+$/.test(routePath);
     }
 
-    // For other 5chan hostnames, support:
+    // For other 5chan hostnames, support both old and new formats:
+    // Old format (for backward compatibility):
     // - /p/{subplebbitAddress}
     // - /p/{subplebbitAddress}/c/{commentCid}
-    return /^\/p\/[^/]+(\/c\/[^/]+)?$/.test(routePath);
+    // New format:
+    // - /{boardIdentifier} (directory code or address)
+    // - /{boardIdentifier}/thread/{commentCid}
+    // - /{boardIdentifier}/catalog
+    // - /{boardIdentifier}/description
+    // - /{boardIdentifier}/rules
+    // - /all, /subscriptions, /mod, /pending/{index}
+    return (
+      /^\/p\/[^/]+(\/c\/[^/]+)?$/.test(routePath) ||
+      /^\/[^/]+(\/thread\/[^/]+|\/catalog|\/description|\/rules)?$/.test(routePath) ||
+      /^\/(all|subscriptions|mod)(\/catalog|\/thread\/[^/]+)?(\/[^/]+)?$/.test(routePath) ||
+      /^\/pending\/[^/]+$/.test(routePath)
+    );
   } catch {
     return false;
   }
@@ -71,7 +84,8 @@ export const transform5chanLinkToInternal = (url: string): string | null => {
     if (parsedUrl.hash && parsedUrl.hash.startsWith('#/')) {
       // Extract the route from the hash, preserving any query params within the hash
       const hashPath = parsedUrl.hash.substring(1); // Remove the #
-      return hashPath;
+      // Transform old /p/... format to new format if needed
+      return transformOldPathToNew(hashPath);
     }
 
     // For regular pathname-based routes, remove redirect parameter from query string
@@ -81,10 +95,35 @@ export const transform5chanLinkToInternal = (url: string): string | null => {
     const cleanSearch = searchParams.toString();
     const searchString = cleanSearch ? `?${cleanSearch}` : '';
 
-    return parsedUrl.pathname + searchString + parsedUrl.hash;
+    // Transform old /p/... format to new format if needed
+    const transformedPath = transformOldPathToNew(parsedUrl.pathname);
+    return transformedPath + searchString + parsedUrl.hash;
   } catch {
     return null;
   }
+};
+
+// Transform old URL format (/p/{address}/c/{cid}) to new format (/{boardIdentifier}/thread/{cid})
+// Note: This function doesn't resolve directory codes - that's handled by the routing system
+const transformOldPathToNew = (path: string): string => {
+  // Transform /p/{address}/c/{cid} to /{address}/thread/{cid}
+  const oldPostPattern = /^\/p\/([^/]+)\/c\/([^/]+)$/;
+  const postMatch = path.match(oldPostPattern);
+  if (postMatch) {
+    const [, address, cid] = postMatch;
+    return `/${address}/thread/${cid}`;
+  }
+
+  // Transform /p/{address} to /{address}
+  const oldBoardPattern = /^\/p\/([^/]+)$/;
+  const boardMatch = path.match(oldBoardPattern);
+  if (boardMatch) {
+    const [, address] = boardMatch;
+    return `/${address}`;
+  }
+
+  // Return path as-is if it doesn't match old patterns
+  return path;
 };
 
 // Check if a string is a valid IPNS public key (52 chars starting with 12D3KooW)

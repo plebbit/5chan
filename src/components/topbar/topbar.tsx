@@ -4,7 +4,9 @@ import { useTranslation } from 'react-i18next';
 import Plebbit from '@plebbit/plebbit-js';
 import { useAccount, useAccountComment, useAccountSubplebbits } from '@plebbit/plebbit-react-hooks';
 import { isAllView, isCatalogView, isSubscriptionsView } from '../../lib/utils/view-utils';
-import { useDefaultSubplebbitAddresses } from '../../hooks/use-default-subplebbits';
+import { useDefaultSubplebbitAddresses, useDefaultSubplebbits } from '../../hooks/use-default-subplebbits';
+import { useBoardPath, useResolvedSubplebbitAddress } from '../../hooks/use-resolved-subplebbit-address';
+import { getBoardPath } from '../../lib/utils/route-utils';
 import { TimeFilter } from '../board-buttons';
 import useCreateBoardModalStore from '../../stores/use-create-board-modal-store';
 import styles from './topbar.module.css';
@@ -55,7 +57,7 @@ const SearchBar = ({ setShowSearchBar }: { setShowSearchBar: (show: boolean) => 
     const searchInput = searchInputRef.current?.value;
     if (searchInput) {
       searchInputRef.current.value = '';
-      navigate(`/p/${searchInput}`);
+      navigate(`/${searchInput}`);
       setShowSearchBar(false);
     }
   };
@@ -77,6 +79,7 @@ const TopBarDesktop = () => {
   const isInCatalogView = isCatalogView(location.pathname, params);
   const [showSearchBar, setShowSearchBar] = useState(false);
   const { openCreateBoardModal } = useCreateBoardModalStore();
+  const defaultSubplebbits = useDefaultSubplebbits();
 
   const subscriptions = account?.subscriptions;
 
@@ -86,26 +89,28 @@ const TopBarDesktop = () => {
   return (
     <div className={styles.boardNavDesktop}>
       <span className={styles.boardList}>
-        [<Link to='/p/all'>all</Link> / <Link to='/p/subscriptions'>subscriptions</Link>
+        [<Link to='/all'>all</Link> / <Link to='/subscriptions'>subscriptions</Link>
         {accountSubplebbitAddresses.length > 0 && (
           <>
             {' '}
-            / <Link to='/p/mod'>mod</Link>
+            / <Link to='/mod'>mod</Link>
           </>
         )}
         ]{' '}
         {subscriptions?.length > 0 && (
           <>
             [
-            {subscriptions.map((address: any, index: any) => (
-              <span key={index}>
-                {index === 0 ? null : ' '}
-                <Link to={`/p/${address}${isInCatalogView ? '/catalog' : ''}`}>
-                  {address.endsWith('.eth') || address.endsWith('.sol') ? address : address.slice(0, 10).concat('...')}
-                </Link>
-                {index !== subscriptions?.length - 1 ? ' /' : null}
-              </span>
-            ))}
+            {subscriptions.map((address: any, index: any) => {
+              const boardPath = getBoardPath(address, defaultSubplebbits);
+              const displayText = address.endsWith('.eth') || address.endsWith('.sol') ? address : address.slice(0, 10).concat('...');
+              return (
+                <span key={index}>
+                  {index === 0 ? null : ' '}
+                  {boardPath && boardPath.trim() ? <Link to={`/${boardPath}${isInCatalogView ? '/catalog' : ''}`}>{displayText}</Link> : <span>{displayText}</span>}
+                  {index !== subscriptions?.length - 1 ? ' /' : null}
+                </span>
+              );
+            })}
             ]{' '}
           </>
         )}
@@ -128,6 +133,7 @@ const TopBarMobile = ({ subplebbitAddress }: { subplebbitAddress: string }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const subplebbitAddresses = useDefaultSubplebbitAddresses();
+  const defaultSubplebbits = useDefaultSubplebbits();
   const displaySubplebbitAddress = subplebbitAddress && subplebbitAddress.length > 30 ? subplebbitAddress.slice(0, 30).concat('...') : subplebbitAddress;
   const [showSearchBar, setShowSearchBar] = useState(false);
 
@@ -138,21 +144,36 @@ const TopBarMobile = ({ subplebbitAddress }: { subplebbitAddress: string }) => {
   const isInAllView = isAllView(location.pathname);
   const isInCatalogView = isCatalogView(location.pathname, params);
   const isInSubscriptionsView = isSubscriptionsView(location.pathname, params);
-  const selectValue = isInAllView ? 'all' : isInSubscriptionsView ? 'subscriptions' : subplebbitAddress;
+  const boardPath = useBoardPath(subplebbitAddress);
+  const selectValue = isInAllView ? 'all' : isInSubscriptionsView ? 'subscriptions' : boardPath || subplebbitAddress;
 
   const { accountSubplebbits } = useAccountSubplebbits();
   const accountSubplebbitAddresses = Object.keys(accountSubplebbits);
 
   const boardSelect = (
-    <select value={selectValue} onChange={(e) => navigate(`/p/${e.target.value}${isInCatalogView ? '/catalog' : ''}`)}>
+    <select
+      value={selectValue}
+      onChange={(e) => {
+        const value = e.target.value;
+        // If it's a directory code or special route, use it directly
+        if (value === 'all' || value === 'subscriptions' || value === 'mod') {
+          navigate(`/${value}${isInCatalogView ? '/catalog' : ''}`);
+        } else {
+          // Otherwise, resolve to board path
+          const path = getBoardPath(value, defaultSubplebbits);
+          navigate(`/${path}${isInCatalogView ? '/catalog' : ''}`);
+        }
+      }}
+    >
       {!currentSubplebbitIsInList && subplebbitAddress && <option value={subplebbitAddress}>{displaySubplebbitAddress}</option>}
       <option value='all'>all</option>
       <option value='subscriptions'>subscriptions</option>
       {accountSubplebbitAddresses.length > 0 && <option value='mod'>mod</option>}
       {subplebbitAddresses.map((address: any, index: number) => {
         const subplebbitAddress = address?.includes('.') ? address : Plebbit.getShortAddress(address);
+        const boardPath = getBoardPath(address, defaultSubplebbits);
         return (
-          <option key={index} value={address}>
+          <option key={index} value={boardPath}>
             {Plebbit.getShortAddress(subplebbitAddress)}
           </option>
         );
@@ -200,7 +221,8 @@ const TopBarMobile = ({ subplebbitAddress }: { subplebbitAddress: string }) => {
 const TopBar = () => {
   const params = useParams();
   const accountComment = useAccountComment({ commentIndex: params?.accountCommentIndex as any });
-  const subplebbitAddress = params?.subplebbitAddress || accountComment?.subplebbitAddress;
+  const resolvedSubplebbitAddress = useResolvedSubplebbitAddress();
+  const subplebbitAddress = resolvedSubplebbitAddress || accountComment?.subplebbitAddress;
 
   return (
     <>
