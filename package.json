@@ -4,6 +4,7 @@
   "description": "A GUI for plebbit similar to 4chan",
   "type": "module",
   "author": "Plebbit Labs",
+  "license": "GPL-2.0",
   "private": true,
   "dependencies": {
     "@capacitor/app": "7.0.1",
