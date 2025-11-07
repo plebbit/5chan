@@ -14,9 +14,9 @@
   top: 50px;
   left: 50%;
   margin-left: -151px;
-  background-color: rgb(255, 255, 255);
-  border: 1px solid rgb(136, 0, 0);
-  color: rgb(136, 0, 0);
+  background-color: var(--disclaimer-modal-background-color, rgb(255, 255, 255));
+  border: var(--disclaimer-modal-border, 1px solid rgb(136, 0, 0));
+  color: var(--disclaimer-modal-text-color, rgb(136, 0, 0));
   box-shadow: rgba(0, 0, 0, 0.1) 2px 2px 0px 1px;
   font-family: arial, helvetica, clean, sans-serif;
   font-size: 13px;
@@ -26,8 +26,8 @@
 
 .hd {
   position: relative;
-  background-color: rgb(136, 0, 0);
-  color: rgb(255, 255, 255);
+  background-color: var(--disclaimer-modal-header-background-color, rgb(136, 0, 0));
+  color: var(--disclaimer-modal-header-text-color, rgb(255, 255, 255));
   padding: 4px 6px;
   display: flex;
   justify-content: space-between;
@@ -70,7 +70,7 @@
 }
 
 .bd a {
-  color: rgb(136, 0, 0);
+  color: var(--disclaimer-modal-text-color, rgb(136, 0, 0));
   text-decoration: underline;
 }
 

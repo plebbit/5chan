@@ -22,6 +22,11 @@
   cursor: pointer;
 }
 
+.placeholder {
+  text-decoration: line-through;
+  color: var(--topbar-desktop-link-text-color);
+}
+
 .navTopRight {
   float: right;
   text-transform: capitalize;

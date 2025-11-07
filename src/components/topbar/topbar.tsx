@@ -4,11 +4,15 @@ import { useTranslation } from 'react-i18next';
 import Plebbit from '@plebbit/plebbit-js';
 import { useAccount, useAccountComment, useAccountSubplebbits } from '@plebbit/plebbit-react-hooks';
 import { isAllView, isCatalogView, isSubscriptionsView } from '../../lib/utils/view-utils';
-import { useDefaultSubplebbitAddresses, useDefaultSubplebbits } from '../../hooks/use-default-subplebbits';
+import { useDefaultSubplebbitAddresses, useDefaultSubplebbits, MultisubSubplebbit } from '../../hooks/use-default-subplebbits';
 import { useBoardPath, useResolvedSubplebbitAddress } from '../../hooks/use-resolved-subplebbit-address';
-import { getBoardPath } from '../../lib/utils/route-utils';
+import { getBoardPath, extractDirectoryFromTitle } from '../../lib/utils/route-utils';
 import { TimeFilter } from '../board-buttons';
 import useCreateBoardModalStore from '../../stores/use-create-board-modal-store';
+import useTopbarEditModalStore from '../../stores/use-topbar-edit-modal-store';
+import useTopbarVisibilityStore from '../../stores/use-topbar-visibility-store';
+import useDirectoryModalStore from '../../stores/use-directory-modal-store';
+import { BOARD_CODE_GROUPS } from '../../constants/board-codes';
 import styles from './topbar.module.css';
 import _, { debounce } from 'lodash';
 
@@ -71,6 +75,16 @@ const SearchBar = ({ setShowSearchBar }: { setShowSearchBar: (show: boolean) => 
   );
 };
 
+// Helper function to find board address by directory code
+const findBoardAddressByCode = (code: string, defaultSubplebbits: MultisubSubplebbit[]): string | null => {
+  const entry = defaultSubplebbits.find((subplebbit) => {
+    if (!subplebbit.title) return false;
+    const directory = extractDirectoryFromTitle(subplebbit.title);
+    return directory === code;
+  });
+  return entry?.address || null;
+};
+
 const TopBarDesktop = () => {
   const { t } = useTranslation();
   const account = useAccount();
@@ -79,12 +93,71 @@ const TopBarDesktop = () => {
   const isInCatalogView = isCatalogView(location.pathname, params);
   const [showSearchBar, setShowSearchBar] = useState(false);
   const { openCreateBoardModal } = useCreateBoardModalStore();
+  const { openTopbarEditModal } = useTopbarEditModalStore();
+  const { openDirectoryModal } = useDirectoryModalStore();
+  const { visibleDirectories, visibleSubscriptions } = useTopbarVisibilityStore();
   const defaultSubplebbits = useDefaultSubplebbits();
 
-  const subscriptions = account?.subscriptions;
-
+  const subscriptions = account?.subscriptions || [];
   const { accountSubplebbits } = useAccountSubplebbits();
   const accountSubplebbitAddresses = Object.keys(accountSubplebbits);
+
+  // Filter subscriptions to only show visible ones
+  const visibleSubscriptionAddresses = subscriptions.filter((address: string) => visibleSubscriptions.has(address));
+
+  // Initialize visibility store on mount
+  useEffect(() => {
+    useTopbarVisibilityStore.getState().initialize();
+  }, []);
+
+  // Render a board code link or placeholder
+  const renderBoardCode = (code: string, isLastInGroup: boolean) => {
+    const address = findBoardAddressByCode(code, defaultSubplebbits);
+    const isPlaceholder = !address;
+
+    const handleClick = (e: React.MouseEvent) => {
+      // If no address exists, prevent navigation and open directory modal
+      if (!address) {
+        e.preventDefault();
+        e.stopPropagation();
+        openDirectoryModal();
+      }
+    };
+
+    const linkContent = (
+      <>
+        {isPlaceholder ? (
+          <span className={styles.placeholder} onClick={handleClick} style={{ cursor: 'pointer' }}>
+            {code}
+          </span>
+        ) : (
+          <Link to={`/${code}${isInCatalogView ? '/catalog' : ''}`} onClick={handleClick}>
+            {code}
+          </Link>
+        )}
+      </>
+    );
+
+    return (
+      <span key={code}>
+        {linkContent}
+        {!isLastInGroup && ' / '}
+      </span>
+    );
+  };
+
+  // Render a subscription link
+  const renderSubscription = (address: string, index: number, total: number) => {
+    const boardPath = getBoardPath(address, defaultSubplebbits);
+    const displayText = address.endsWith('.eth') || address.endsWith('.sol') ? address : Plebbit.getShortAddress(address);
+
+    return (
+      <span key={address}>
+        {boardPath && boardPath.trim() ? <Link to={`/${boardPath}${isInCatalogView ? '/catalog' : ''}`}>{displayText}</Link> : <span>{displayText}</span>}
+        {index !== total - 1 && ' / '}
+      </span>
+    );
+  };
 
   return (
     <div className={styles.boardNavDesktop}>
@@ -97,24 +170,20 @@ const TopBarDesktop = () => {
           </>
         )}
         ]{' '}
-        {subscriptions?.length > 0 && (
-          <>
-            [
-            {subscriptions.map((address: any, index: any) => {
-              const boardPath = getBoardPath(address, defaultSubplebbits);
-              const displayText = address.endsWith('.eth') || address.endsWith('.sol') ? address : address.slice(0, 10).concat('...');
-              return (
-                <span key={index}>
-                  {index === 0 ? null : ' '}
-                  {boardPath && boardPath.trim() ? <Link to={`/${boardPath}${isInCatalogView ? '/catalog' : ''}`}>{displayText}</Link> : <span>{displayText}</span>}
-                  {index !== subscriptions?.length - 1 ? ' /' : null}
-                </span>
-              );
-            })}
-            ]{' '}
-          </>
+        {BOARD_CODE_GROUPS.map((group, groupIndex) => {
+          const visibleCodes = group.filter((code) => visibleDirectories.has(code));
+          if (visibleCodes.length === 0) return null;
+
+          return <span key={groupIndex}>[{visibleCodes.map((code, codeIndex) => renderBoardCode(code, codeIndex === visibleCodes.length - 1))}] </span>;
+        })}
+        {visibleSubscriptionAddresses.length > 0 && (
+          <>[{visibleSubscriptionAddresses.map((address: string, index: number) => renderSubscription(address, index, visibleSubscriptionAddresses.length))}] </>
         )}
         [
+        <span className={styles.temporaryButton} onClick={() => openTopbarEditModal()} style={{ cursor: 'pointer' }}>
+          {_.capitalize(t('edit'))}
+        </span>
+        ] [
         <span className={styles.temporaryButton} onClick={() => openCreateBoardModal()} style={{ cursor: 'pointer' }}>
           {t('create_board')}
         </span>

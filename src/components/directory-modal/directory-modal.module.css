@@ -4,8 +4,12 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(128, 128, 128, 0.5);
+  background-color: rgba(0, 0, 0, 0.25);
   z-index: 999;
+}
+
+.backdropHome {
+  background-color: rgba(128, 128, 128, 0.5);
 }
 
 .directoryDialog {
@@ -14,9 +18,9 @@
   top: 50px;
   left: 50%;
   margin-left: -251px;
-  background-color: rgb(255, 255, 255);
-  border: 1px solid rgb(136, 0, 0);
-  color: rgb(136, 0, 0);
+  background-color: var(--directory-modal-background-color, #f0e0d6);
+  border: var(--directory-modal-border, 1px solid #d9bfb7);
+  color: var(--directory-modal-text-color, #800);
   box-shadow: rgba(0, 0, 0, 0.1) 2px 2px 0px 1px;
   font-family: arial, helvetica, clean, sans-serif;
   font-size: 13px;
@@ -35,8 +39,8 @@
 
 .hd {
   position: relative;
-  background-color: rgb(136, 0, 0);
-  color: rgb(255, 255, 255);
+  background-color: var(--directory-modal-header-background-color, #ea8);
+  color: var(--directory-modal-header-text-color, #800);
   padding: 4px 6px;
   display: flex;
   justify-content: space-between;
@@ -58,7 +62,7 @@
   position: absolute;
   top: 4px;
   right: 4px;
-  background-image: var(--disclaimer-modal-close-button-background-image);
+  background-image: var(--directory-modal-close-button-background-image, url("/assets/buttons/cross-red.png"));
   background-size: 100%;
   background-position: center;
   background-repeat: no-repeat;
@@ -91,7 +95,7 @@
   padding: 0;
   font-size: 14px;
   font-weight: bold;
-  color: rgb(136, 0, 0);
+  color: var(--directory-modal-text-color, #800);
   letter-spacing: 0.3px;
 }
 
@@ -106,7 +110,7 @@
 }
 
 .bd a {
-  color: rgb(136, 0, 0);
+  color: var(--directory-modal-text-color, #800);
   text-decoration: underline;
 }
 

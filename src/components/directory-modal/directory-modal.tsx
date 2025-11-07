@@ -1,8 +1,11 @@
+import { useLocation } from 'react-router-dom';
 import useDirectoryModalStore from '../../stores/use-directory-modal-store';
 import styles from './directory-modal.module.css';
 
 const DirectoryModal = () => {
   const { showModal, closeDirectoryModal } = useDirectoryModalStore();
+  const location = useLocation();
+  const isHomeView = location.pathname === '/';
 
   if (!showModal) {
     return null;
@@ -15,7 +18,7 @@ const DirectoryModal = () => {
   };
 
   return (
-    <div className={styles.backdrop} onClick={handleBackdropClick}>
+    <div className={`${styles.backdrop} ${isHomeView ? styles.backdropHome : ''}`} onClick={handleBackdropClick}>
       <div className={styles.directoryDialog}>
         <div className={styles.hd}>
           <h2>Submit a Board to a Directory</h2>

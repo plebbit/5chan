@@ -26,6 +26,9 @@ import ReplyModal from './components/reply-modal';
 import PostForm from './components/post-form';
 import SubplebbitStats from './components/subplebbit-stats';
 import TopBar from './components/topbar';
+import TopbarEditModal from './components/topbar-edit-modal';
+import DirectoryModal from './components/directory-modal';
+import DisclaimerModal from './components/disclaimer-modal';
 import SettingsModal from './components/settings-modal';
 
 const BoardLayout = () => {
@@ -65,6 +68,9 @@ const BoardLayout = () => {
     <div className={styles.boardLayout}>
       <TopBar />
       <CreateBoardModal />
+      <TopbarEditModal />
+      <DirectoryModal />
+      <DisclaimerModal />
       <BoardHeader />
       {isMobile
         ? (subplebbitAddress || isInAllView || isInModView || isInSubscriptionsView || pendingPost?.subplebbitAddress) && (
