@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useAccount } from '@plebbit/plebbit-react-hooks';
 import Plebbit from '@plebbit/plebbit-js';
 import useTopbarEditModalStore from '../../stores/use-topbar-edit-modal-store';
@@ -30,17 +30,25 @@ const TopbarEditModal = () => {
     return new Set(codes);
   };
 
+  // Memoize board codes to avoid recalculating
+  const allBoardCodes = useMemo(() => getAllBoardCodes(), []);
+
+  // Check if all directories are visible (default state)
+  const allDirectoriesVisible = useMemo(() => allBoardCodes.every((code) => visibleDirectories.has(code)), [allBoardCodes, visibleDirectories]);
+
   // Local state for text input (will be saved on Save click)
-  const [localDirectoryInput, setLocalDirectoryInput] = useState<string>(directoriesToString(visibleDirectories));
+  // Empty string means all directories visible (default), otherwise show only the specified codes
+  const [localDirectoryInput, setLocalDirectoryInput] = useState<string>(allDirectoriesVisible ? '' : directoriesToString(visibleDirectories));
   const [localSubscriptionVisibility, setLocalSubscriptionVisibility] = useState<Set<string>>(visibleSubscriptions);
 
   // Update local state when modal opens or store changes
   useEffect(() => {
     if (showModal) {
-      setLocalDirectoryInput(directoriesToString(visibleDirectories));
+      const allVisible = allBoardCodes.every((code) => visibleDirectories.has(code));
+      setLocalDirectoryInput(allVisible ? '' : directoriesToString(visibleDirectories));
       setLocalSubscriptionVisibility(new Set(visibleSubscriptions));
     }
-  }, [showModal, visibleDirectories, visibleSubscriptions]);
+  }, [showModal, visibleDirectories, visibleSubscriptions, allBoardCodes]);
 
   if (!showModal) {
     return null;
@@ -63,14 +71,20 @@ const TopbarEditModal = () => {
   };
 
   const handleSave = () => {
-    // Parse directory input and apply changes
-    const inputDirectories = stringToDirectories(localDirectoryInput);
-    const allCodes = getAllBoardCodes();
-
-    // Hide all directories first, then show only the ones in the input
-    allCodes.forEach((code) => {
-      setDirectoryVisibility(code, inputDirectories.has(code));
-    });
+    // If input is empty, show all directories (default behavior)
+    // Otherwise, show only the directories specified in the input
+    if (localDirectoryInput.trim() === '') {
+      // Show all directories
+      allBoardCodes.forEach((code) => {
+        setDirectoryVisibility(code, true);
+      });
+    } else {
+      // Show only specified directories
+      const inputDirectories = stringToDirectories(localDirectoryInput);
+      allBoardCodes.forEach((code) => {
+        setDirectoryVisibility(code, inputDirectories.has(code));
+      });
+    }
 
     // Apply subscription visibility changes
     subscriptions.forEach((address: string) => {
@@ -80,19 +94,12 @@ const TopbarEditModal = () => {
     closeTopbarEditModal();
   };
 
-  const handleCancel = () => {
-    // Reset local state to match store
-    setLocalDirectoryInput(directoriesToString(visibleDirectories));
-    setLocalSubscriptionVisibility(new Set(visibleSubscriptions));
-    closeTopbarEditModal();
-  };
-
   return (
     <div className={styles.backdrop} onClick={handleBackdropClick}>
       <div className={styles.topbarEditDialog}>
         <div className={styles.hd}>
           <h2>Custom Board List</h2>
-          <button className={styles.closeButton} onClick={handleCancel} title='Close' />
+          <button className={styles.closeButton} onClick={closeTopbarEditModal} title='Close' />
         </div>
         <div className={styles.bd}>
           <div className={styles.section}>
@@ -129,7 +136,6 @@ const TopbarEditModal = () => {
         </div>
         <div className={styles.topbarEditFooter}>
           <button onClick={handleSave}>Save</button>
-          <button onClick={handleCancel}>Cancel</button>
         </div>
       </div>
     </div>

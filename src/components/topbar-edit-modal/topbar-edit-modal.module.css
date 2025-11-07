@@ -134,9 +134,3 @@
   border-top: var(--settings-modal-header-border-bottom);
 }
 
-.topbarEditFooter button {
-  padding: 4px 12px;
-  cursor: pointer;
-  font-size: var(--body-font-size);
-}
-
