@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Plebbit from '@plebbit/plebbit-js';
@@ -12,7 +12,7 @@ import useCreateBoardModalStore from '../../stores/use-create-board-modal-store'
 import useTopbarEditModalStore from '../../stores/use-topbar-edit-modal-store';
 import useTopbarVisibilityStore from '../../stores/use-topbar-visibility-store';
 import useDirectoryModalStore from '../../stores/use-directory-modal-store';
-import { BOARD_CODE_GROUPS } from '../../constants/board-codes';
+import { BOARD_CODE_GROUPS, getAllBoardCodes } from '../../constants/board-codes';
 import styles from './topbar.module.css';
 import _, { debounce } from 'lodash';
 
@@ -92,11 +92,15 @@ const TopBarDesktop = () => {
   const params = useParams();
   const isInCatalogView = isCatalogView(location.pathname, params);
   const [showSearchBar, setShowSearchBar] = useState(false);
+  const [showAllTemporarily, setShowAllTemporarily] = useState(false);
   const { openCreateBoardModal } = useCreateBoardModalStore();
   const { openTopbarEditModal } = useTopbarEditModalStore();
   const { openDirectoryModal } = useDirectoryModalStore();
   const { visibleDirectories, visibleSubscriptions } = useTopbarVisibilityStore();
   const defaultSubplebbits = useDefaultSubplebbits();
+
+  // Memoize allBoardCodes since it's derived from a constant
+  const allBoardCodes = useMemo(() => getAllBoardCodes(), []);
 
   const subscriptions = account?.subscriptions || [];
   const { accountSubplebbits } = useAccountSubplebbits();
@@ -104,6 +108,19 @@ const TopBarDesktop = () => {
 
   // Filter subscriptions to only show visible ones
   const visibleSubscriptionAddresses = subscriptions.filter((address: string) => visibleSubscriptions.has(address));
+
+  // Check if any directories are hidden
+  const hasHiddenDirectories = useMemo(() => {
+    return allBoardCodes.some((code) => !visibleDirectories.has(code));
+  }, [allBoardCodes, visibleDirectories]);
+
+  // Determine which directories to show (all if temporarily showing all, otherwise only visible ones)
+  const directoriesToShow = useMemo(() => {
+    if (showAllTemporarily) {
+      return new Set(allBoardCodes);
+    }
+    return visibleDirectories;
+  }, [showAllTemporarily, visibleDirectories, allBoardCodes]);
 
   // Initialize visibility store on mount
   useEffect(() => {
@@ -171,11 +188,21 @@ const TopBarDesktop = () => {
         )}
         ]{' '}
         {BOARD_CODE_GROUPS.map((group, groupIndex) => {
-          const visibleCodes = group.filter((code) => visibleDirectories.has(code));
+          const visibleCodes = group.filter((code) => directoriesToShow.has(code));
           if (visibleCodes.length === 0) return null;
 
           return <span key={groupIndex}>[{visibleCodes.map((code, codeIndex) => renderBoardCode(code, codeIndex === visibleCodes.length - 1))}] </span>;
         })}
+        {hasHiddenDirectories && !showAllTemporarily && (
+          <>
+            {' '}
+            [
+            <span className={styles.temporaryButton} onClick={() => setShowAllTemporarily(true)} style={{ cursor: 'pointer' }} title='Show all'>
+              ...
+            </span>
+            ]{' '}
+          </>
+        )}
         {visibleSubscriptionAddresses.length > 0 && (
           <>[{visibleSubscriptionAddresses.map((address: string, index: number) => renderSubscription(address, index, visibleSubscriptionAddresses.length))}] </>
         )}
