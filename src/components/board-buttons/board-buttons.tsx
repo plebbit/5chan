@@ -45,7 +45,12 @@ const CatalogButton = ({ address, isInAllView, isInSubscriptionsView, isInModVie
       if (params?.timeFilterName) return `/mod/catalog/${params.timeFilterName}`;
       return `/mod/catalog`;
     }
-    const boardPath = address ? getBoardPath(address, defaultSubplebbits) : defaultSubplebbits || '';
+    let boardPath = '';
+    if (address) {
+      boardPath = getBoardPath(address, defaultSubplebbits);
+    } else if (Array.isArray(defaultSubplebbits) && defaultSubplebbits.length > 0 && defaultSubplebbits[0]?.address) {
+      boardPath = getBoardPath(defaultSubplebbits[0].address, defaultSubplebbits);
+    }
     return `/${boardPath}/catalog`;
   };
 
@@ -83,7 +88,12 @@ const ReturnButton = ({ address, isInAllView, isInSubscriptionsView, isInModView
       if (params?.timeFilterName) return `/mod/${params.timeFilterName}`;
       return `/mod`;
     }
-    const boardPath = address ? getBoardPath(address, defaultSubplebbits) : defaultSubplebbits || '';
+    let boardPath = '';
+    if (address) {
+      boardPath = getBoardPath(address, defaultSubplebbits);
+    } else if (Array.isArray(defaultSubplebbits) && defaultSubplebbits.length > 0 && defaultSubplebbits[0]?.address) {
+      boardPath = getBoardPath(defaultSubplebbits[0].address, defaultSubplebbits);
+    }
     return `/${boardPath}`;
   };
 
