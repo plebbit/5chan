@@ -51,7 +51,7 @@ const PostInfoAndMedia = ({ post, postReplyCount = 0, roles }: PostProps) => {
     timestamp,
     thumbnailUrl,
   } = post || {};
-  const boardPath = subplebbitAddress ? getBoardPath(subplebbitAddress, defaultSubplebbits) : '';
+  const boardPath = subplebbitAddress ? getBoardPath(subplebbitAddress, defaultSubplebbits) : undefined;
   const isReply = parentCid;
   const title = post?.title?.trim();
   const { isDescription, isRules } = post || {}; // custom properties, not from api
@@ -175,7 +175,7 @@ const PostInfoAndMedia = ({ post, postReplyCount = 0, roles }: PostProps) => {
             )}
           </span>
           <span className={styles.dateTimePostNum}>
-            {subplebbitAddress && (isInAllView || isInSubscriptionsView) && !isReply && (
+            {subplebbitAddress && (isInAllView || isInSubscriptionsView) && !isReply && boardPath && (
               <div className={styles.postNumLink}>
                 {' '}
                 <Link to={`/${boardPath}`}>p/{subplebbitAddress && Plebbit.getShortAddress(subplebbitAddress)}</Link>
@@ -185,7 +185,12 @@ const PostInfoAndMedia = ({ post, postReplyCount = 0, roles }: PostProps) => {
             {!(isDescription || isRules) &&
               (cid ? (
                 <span className={styles.postNumLink}>
-                  <Link to={`/${boardPath}/thread/${cid}`} className={styles.linkToPost} title={t('link_to_post')} onClick={(e) => !cid && e.preventDefault()}>
+                  <Link
+                    to={boardPath ? `/${boardPath}/thread/${cid}` : `/thread/${cid}`}
+                    className={styles.linkToPost}
+                    title={t('link_to_post')}
+                    onClick={(e) => !cid && e.preventDefault()}
+                  >
                     c/
                   </Link>
                   <span className={styles.replyToPost} title={t('reply_to_post')} onMouseDown={onReplyModalClick}>
@@ -264,8 +269,10 @@ const Reply = ({ postReplyCount, reply, roles }: PostProps) => {
   }
   const { author, cid, deleted, postCid, reason, removed, subplebbitAddress } = post || {};
   const defaultSubplebbits = useDefaultSubplebbits();
-  const boardPath = subplebbitAddress ? getBoardPath(subplebbitAddress, defaultSubplebbits) : '';
-  const isRouteLinkToReply = useLocation().pathname.startsWith(`/${boardPath}/thread/${cid}`);
+  const boardPath = subplebbitAddress ? getBoardPath(subplebbitAddress, defaultSubplebbits) : undefined;
+  const location = useLocation();
+  const route = boardPath ? `/${boardPath}/thread/${cid}` : `/thread/${cid}`;
+  const isRouteLinkToReply = cid ? location.pathname.startsWith(route) : false;
   const { hidden } = useHide({ cid });
 
   return (
@@ -296,7 +303,7 @@ const PostMobile = ({ post, roles, showAllReplies, showReplies = true }: PostPro
   const isInPendingPostView = isPendingPostView(location.pathname, params);
   const isInPostView = isPostPageView(location.pathname, params);
   const defaultSubplebbits = useDefaultSubplebbits();
-  const boardPath = subplebbitAddress ? getBoardPath(subplebbitAddress, defaultSubplebbits) : '';
+  const boardPath = subplebbitAddress ? getBoardPath(subplebbitAddress, defaultSubplebbits) : undefined;
   const linksCount = useCountLinksInReplies(post);
   const replies = useReplies(post);
 
@@ -353,7 +360,13 @@ const PostMobile = ({ post, roles, showAllReplies, showReplies = true }: PostPro
                     {linksCount > 0 && ` / ${linksCount} Links`}
                   </span>
                   <Link
-                    to={isInAllView && isDescription ? '/all/description' : `/${boardPath}/${isDescription ? 'description' : isRules ? 'rules' : `thread/${cid}`}`}
+                    to={
+                      isInAllView && isDescription
+                        ? '/all/description'
+                        : boardPath
+                        ? `/${boardPath}/${isDescription ? 'description' : isRules ? 'rules' : `thread/${cid}`}`
+                        : `/${isDescription ? 'description' : isRules ? 'rules' : `thread/${cid}`}`
+                    }
                     className='button'
                   >
                     {t('view_thread')}

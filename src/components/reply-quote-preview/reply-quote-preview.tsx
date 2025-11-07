@@ -131,11 +131,14 @@ const DesktopQuotePreview = ({ backlinkReply, quotelinkReply, isBacklinkReply, i
     setOutOfViewCid(null);
   };
 
+  const backlinkBoardPath = backlinkReply?.subplebbitAddress ? getBoardPath(backlinkReply.subplebbitAddress, defaultSubplebbits) : undefined;
+  const backlinkRoute = backlinkReply?.cid ? (backlinkBoardPath ? `/${backlinkBoardPath}/thread/${backlinkReply.cid}` : `/thread/${backlinkReply.cid}`) : '#';
+
   const replyBacklink = (
     <>
       <Link
         className={styles.backlink}
-        to={`/${getBoardPath(backlinkReply?.subplebbitAddress || '', defaultSubplebbits)}/thread/${backlinkReply?.cid}`}
+        to={backlinkRoute}
         ref={refs.setReference}
         onMouseOver={() => handleMouseOver(backlinkReply?.cid)}
         onMouseLeave={() => handleMouseLeave(backlinkReply?.cid)}
@@ -159,10 +162,13 @@ const DesktopQuotePreview = ({ backlinkReply, quotelinkReply, isBacklinkReply, i
   const { getThreadSigner } = useAnonModeStore();
   const threadSigner = quotelinkReply?.postCid ? getThreadSigner(quotelinkReply?.postCid) : null;
 
+  const quotelinkBoardPath = quotelinkReply?.subplebbitAddress ? getBoardPath(quotelinkReply.subplebbitAddress, defaultSubplebbits) : undefined;
+  const quotelinkRoute = quotelinkReply?.cid ? (quotelinkBoardPath ? `/${quotelinkBoardPath}/thread/${quotelinkReply.cid}` : `/thread/${quotelinkReply.cid}`) : '#';
+
   const replyQuotelink = (
     <>
       <Link
-        to={`/${getBoardPath(quotelinkReply?.subplebbitAddress || '', defaultSubplebbits)}/thread/${quotelinkReply?.cid}`}
+        to={quotelinkRoute}
         ref={refs.setReference}
         className={styles.quoteLink}
         onMouseOver={() => handleMouseOver(quotelinkReply?.cid)}
@@ -250,16 +256,17 @@ const MobileQuotePreview = ({ backlinkReply, quotelinkReply, isBacklinkReply, is
       >
         {backlinkReply?.shortCid && `>>${backlinkReply?.shortCid}`}
       </span>
-      {backlinkReply?.shortCid && (
-        <Link
-          to={`/${getBoardPath(backlinkReply?.subplebbitAddress || '', defaultSubplebbits)}/thread/${backlinkReply?.cid}`}
-          className={styles.backlinkHash}
-          onClick={(e) => handleClick(e, backlinkReply?.cid, backlinkReply?.subplebbitAddress)}
-        >
-          {' '}
-          #
-        </Link>
-      )}
+      {backlinkReply?.shortCid &&
+        (() => {
+          const backlinkBoardPath = backlinkReply?.subplebbitAddress ? getBoardPath(backlinkReply.subplebbitAddress, defaultSubplebbits) : undefined;
+          const backlinkRoute = backlinkReply?.cid ? (backlinkBoardPath ? `/${backlinkBoardPath}/thread/${backlinkReply.cid}` : `/thread/${backlinkReply.cid}`) : '#';
+          return (
+            <Link to={backlinkRoute} className={styles.backlinkHash} onClick={(e) => handleClick(e, backlinkReply?.cid, backlinkReply?.subplebbitAddress)}>
+              {' '}
+              #
+            </Link>
+          );
+        })()}
       {hoveredCid === backlinkReply?.cid &&
         outOfViewCid === backlinkReply?.cid &&
         createPortal(
@@ -286,16 +293,21 @@ const MobileQuotePreview = ({ backlinkReply, quotelinkReply, isBacklinkReply, is
         {quotelinkReply?.shortCid && `>>${quotelinkReply?.shortCid}`}
         {(quotelinkReply?.author?.address === account?.author?.address || quotelinkReply?.author?.address === threadSigner?.address) && ' (You)'}
       </span>
-      {quotelinkReply?.shortCid && (
-        <Link
-          className={styles.quoteLink}
-          to={`/${getBoardPath(quotelinkReply?.subplebbitAddress || '', defaultSubplebbits)}/thread/${quotelinkReply?.cid}`}
-          onClick={(e) => handleClick(e, quotelinkReply?.cid, quotelinkReply?.subplebbitAddress)}
-        >
-          {' '}
-          #
-        </Link>
-      )}
+      {quotelinkReply?.shortCid &&
+        (() => {
+          const quotelinkBoardPath = quotelinkReply?.subplebbitAddress ? getBoardPath(quotelinkReply.subplebbitAddress, defaultSubplebbits) : undefined;
+          const quotelinkRoute = quotelinkReply?.cid
+            ? quotelinkBoardPath
+              ? `/${quotelinkBoardPath}/thread/${quotelinkReply.cid}`
+              : `/thread/${quotelinkReply.cid}`
+            : '#';
+          return (
+            <Link className={styles.quoteLink} to={quotelinkRoute} onClick={(e) => handleClick(e, quotelinkReply?.cid, quotelinkReply?.subplebbitAddress)}>
+              {' '}
+              #
+            </Link>
+          );
+        })()}
       {hoveredCid === quotelinkReply?.cid &&
         outOfViewCid === quotelinkReply?.cid &&
         createPortal(

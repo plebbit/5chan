@@ -8,9 +8,12 @@ export const extractDirectoryFromTitle = (title: string): string | null => {
   return match ? match[1] : null;
 };
 
-// Cache for maps to avoid recreating them on every call
-let cachedSubplebbits: MultisubSubplebbit[] | null = null;
+// Cache for directory-to-address map
+let cachedSubplebbitsForDirectory: MultisubSubplebbit[] | null = null;
 let cachedDirectoryToAddressMap: Map<string, string> | null = null;
+
+// Cache for address-to-directory map
+let cachedSubplebbitsForAddress: MultisubSubplebbit[] | null = null;
 let cachedAddressToDirectoryMap: Map<string, string> | null = null;
 
 /**
@@ -19,7 +22,7 @@ let cachedAddressToDirectoryMap: Map<string, string> | null = null;
  */
 export const getDirectoryToAddressMap = (subplebbits: MultisubSubplebbit[]): Map<string, string> => {
   // Check if we can use cached map (same array reference)
-  if (cachedDirectoryToAddressMap && cachedSubplebbits === subplebbits) {
+  if (cachedDirectoryToAddressMap && cachedSubplebbitsForDirectory === subplebbits) {
     return cachedDirectoryToAddressMap;
   }
 
@@ -35,7 +38,7 @@ export const getDirectoryToAddressMap = (subplebbits: MultisubSubplebbit[]): Map
 
   // Cache the map and array reference
   cachedDirectoryToAddressMap = map;
-  cachedSubplebbits = subplebbits;
+  cachedSubplebbitsForDirectory = subplebbits;
   return map;
 };
 
@@ -45,7 +48,7 @@ export const getDirectoryToAddressMap = (subplebbits: MultisubSubplebbit[]): Map
  */
 export const getAddressToDirectoryMap = (subplebbits: MultisubSubplebbit[]): Map<string, string> => {
   // Check if we can use cached map (same array reference)
-  if (cachedAddressToDirectoryMap && cachedSubplebbits === subplebbits) {
+  if (cachedAddressToDirectoryMap && cachedSubplebbitsForAddress === subplebbits) {
     return cachedAddressToDirectoryMap;
   }
 
@@ -61,7 +64,7 @@ export const getAddressToDirectoryMap = (subplebbits: MultisubSubplebbit[]): Map
 
   // Cache the map and array reference
   cachedAddressToDirectoryMap = map;
-  cachedSubplebbits = subplebbits;
+  cachedSubplebbitsForAddress = subplebbits;
   return map;
 };
 
