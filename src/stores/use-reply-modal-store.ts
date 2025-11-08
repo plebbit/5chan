@@ -28,6 +28,12 @@ const useReplyModalStore = create<ReplyModalState>((set, get) => ({
   },
 
   openReplyModal: (parentCid, postCid, subplebbitAddress) => {
+    // Don't update if already open with different parent
+    if (get().activeCid && get().activeCid !== parentCid) {
+      window.alert('Multiple quotes are not possible on 5chan for the time being, because of a protocol limitation. Please reply to one post at a time.');
+      return;
+    }
+
     // Get selected text
     const text = document.getSelection()?.toString();
     if (text) {
@@ -37,11 +43,6 @@ const useReplyModalStore = create<ReplyModalState>((set, get) => ({
     // Handle mobile scrollY
     const isMobile = window.innerWidth <= 768; // Simple check, adjust as needed
     const scrollY = isMobile ? window.scrollY : 0;
-
-    // Don't update if already open with different parent
-    if (get().activeCid && get().activeCid !== parentCid) {
-      return;
-    }
 
     set({
       activeCid: parentCid,
