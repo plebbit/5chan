@@ -295,5 +295,6 @@
   "help": "Help",
   "filter_and_highlights_help": "Filters en Markeringen Help",
   "filter_and_highlights": "Filters en markeringen",
-  "boards_you_moderate": "boards die je beheert"
+  "boards_you_moderate": "boards die je beheert",
+  "more_threads_last_year": "{{count}} threads sinds {{currentTimeFilterName}} — [<1>Meer threads van afgelopen jaar tonen</1>]"
 }

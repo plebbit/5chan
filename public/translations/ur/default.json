@@ -295,5 +295,6 @@
   "help": "مدد",
   "filter_and_highlights_help": "فلٹرز اور ہائی لائٹس کی مدد",
   "filter_and_highlights": "فلٹرز اور ہائلाइटس",
-  "boards_you_moderate": "وہ بورڈز جن کی آپ نگرانی کرتے ہیں"
+  "boards_you_moderate": "وہ بورڈز جن کی آپ نگرانی کرتے ہیں",
+  "more_threads_last_year": "{{count}} تھریڈز {{currentTimeFilterName}} سے — [<1>گزشتہ سال کے مزید تھریڈز دکھائیں</1>]"
 }

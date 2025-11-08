@@ -295,5 +295,6 @@
   "help": "Βοήθεια",
   "filter_and_highlights_help": "Βοήθεια φίλτρων και επισήμανσης",
   "filter_and_highlights": "Φίλτρα και Επισημάνσεις",
-  "boards_you_moderate": "Boards που διαχειρίζεστε"
+  "boards_you_moderate": "Boards που διαχειρίζεστε",
+  "more_threads_last_year": "{{count}} νήματα από {{currentTimeFilterName}} — [<1>Προβολή περισσότερων νημάτων από το περασμένο έτος</1>]"
 }

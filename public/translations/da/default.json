@@ -295,5 +295,6 @@
   "help": "Hjælp",
   "filter_and_highlights_help": "Filtre og fremhævelser Hjælp",
   "filter_and_highlights": "Filtre og fremhævninger",
-  "boards_you_moderate": "Boards du modererer"
+  "boards_you_moderate": "Boards du modererer",
+  "more_threads_last_year": "{{count}} tråde siden {{currentTimeFilterName}} — [<1>Vis flere tråde fra sidste år</1>]"
 }

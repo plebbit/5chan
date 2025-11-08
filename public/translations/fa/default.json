@@ -295,5 +295,6 @@
   "help": "کمک",
   "filter_and_highlights_help": "کمک فیلترها و برجسته‌ها",
   "filter_and_highlights": "فیلترها و برجسته‌ها",
-  "boards_you_moderate": "تابلوهایی که مدیریت می‌کنید"
+  "boards_you_moderate": "تابلوهایی که مدیریت می‌کنید",
+  "more_threads_last_year": "{{count}} پست از {{currentTimeFilterName}} — [<1>نمایش بیشتر پست‌های سال گذشته</1>]"
 }

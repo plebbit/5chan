@@ -295,5 +295,6 @@
   "help": "సహాయం",
   "filter_and_highlights_help": "ఫిల్టర్లు మరియు హైలైట్ సహాయం",
   "filter_and_highlights": "ఫిల్టర్లు మరియు హైలైట్స్",
-  "boards_you_moderate": "మీరు మోడరేట్ చేసే బోర్డులు"
+  "boards_you_moderate": "మీరు మోడరేట్ చేసే బోర్డులు",
+  "more_threads_last_year": "{{count}} థ్రెడ్‌లు {{currentTimeFilterName}} నుండి — [<1>గత సంవత్సరం నుండి మరిన్ని థ్రెడ్‌లను చూపించండి</1>]"
 }

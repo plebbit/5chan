@@ -295,5 +295,6 @@
   "help": "Segítség",
   "filter_and_highlights_help": "Szűrők és kiemelések súgó",
   "filter_and_highlights": "Szűrők és kiemelések",
-  "boards_you_moderate": "boardok, amelyeket moderálsz"
+  "boards_you_moderate": "boardok, amelyeket moderálsz",
+  "more_threads_last_year": "{{count}} szál {{currentTimeFilterName}} óta — [<1>Több szál megjelenítése a múlt évből</1>]"
 }

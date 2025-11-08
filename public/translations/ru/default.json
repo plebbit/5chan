@@ -295,5 +295,6 @@
   "help": "Помощь",
   "filter_and_highlights_help": "Помощь с фильтрами и выделениями",
   "filter_and_highlights": "Фильтры и выделения",
-  "boards_you_moderate": "boards, которые вы модерируете"
+  "boards_you_moderate": "boards, которые вы модерируете",
+  "more_threads_last_year": "{{count}} темы с {{currentTimeFilterName}} — [<1>Показать больше тем с прошлого года</1>]"
 }

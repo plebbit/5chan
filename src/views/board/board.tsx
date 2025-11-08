@@ -148,14 +148,23 @@ const Board = () => {
     newerThan: 60 * 60 * 24 * 30,
     filter: hideThreadsWithoutImages ? createThreadsWithoutImagesFilter() : undefined,
   });
+  const { feed: yearlyFeed } = useFeed({
+    subplebbitAddresses,
+    sortType,
+    newerThan: 60 * 60 * 24 * 365,
+    filter: hideThreadsWithoutImages ? createThreadsWithoutImagesFilter() : undefined,
+  });
 
   const feedLength = feed.length;
   const weeklyFeedLength = weeklyFeed.length;
   const monthlyFeedLength = monthlyFeed.length;
+  const yearlyFeedLength = yearlyFeed.length;
   const hasFeedLoaded = !!feed;
   const loadingStateString =
     useFeedStateString(subplebbitAddresses) ||
-    (!hasFeedLoaded || (feedLength === 0 && !(weeklyFeedLength > feedLength || monthlyFeedLength > feedLength)) ? t('loading_feed') : t('looking_for_more_posts'));
+    (!hasFeedLoaded || (feedLength === 0 && !(weeklyFeedLength > feedLength || monthlyFeedLength > feedLength || yearlyFeedLength > monthlyFeedLength))
+      ? t('loading_feed')
+      : t('looking_for_more_posts'));
 
   const [showMorePostsSuggestion, setShowMorePostsSuggestion] = useState(false);
   useEffect(() => {
@@ -189,7 +198,7 @@ const Board = () => {
           ) : (
             (isInAllView || isInSubscriptionsView || isInModView) &&
             showMorePostsSuggestion &&
-            monthlyFeed.length > feed.length &&
+            (monthlyFeed.length > feed.length || yearlyFeed.length > monthlyFeed.length) &&
             (() => {
               const basePath = isInAllView ? '/all' : isInSubscriptionsView ? '/subscriptions' : isInModView ? '/mod' : boardPath ? `/${boardPath}` : '';
               return weeklyFeed.length > feed.length ? (
@@ -202,13 +211,23 @@ const Board = () => {
                     }}
                   />
                 </div>
-              ) : (
+              ) : monthlyFeed.length > feed.length ? (
                 <div className={styles.morePostsSuggestion}>
                   <Trans
                     i18nKey='more_threads_last_month'
                     values={{ currentTimeFilterName, count: feed.length }}
                     components={{
                       1: <Link to={`${basePath}/1m`} />,
+                    }}
+                  />
+                </div>
+              ) : (
+                <div className={styles.morePostsSuggestion}>
+                  <Trans
+                    i18nKey='more_threads_last_year'
+                    values={{ currentTimeFilterName, count: feed.length }}
+                    components={{
+                      1: <Link to={`${basePath}/1y`} />,
                     }}
                   />
                 </div>

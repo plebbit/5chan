@@ -295,5 +295,6 @@
   "help": "Aiuto",
   "filter_and_highlights_help": "Aiuto su Filtri e Evidenziazioni",
   "filter_and_highlights": "Filtri e Evidenziazioni",
-  "boards_you_moderate": "board che moderi"
+  "boards_you_moderate": "board che moderi",
+  "more_threads_last_year": "{{count}} thread da {{currentTimeFilterName}} — [<1>Mostra altri thread dell'anno scorso</1>]"
 }

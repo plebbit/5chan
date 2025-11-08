@@ -285,6 +285,13 @@ const Catalog = () => {
     filter: createCombinedFilter(showTextOnlyThreads, filterItems, searchText, subplebbitAddress || 'all', handleFilterMatch),
   });
 
+  const { feed: yearlyFeed } = useFeed({
+    subplebbitAddresses,
+    sortType,
+    newerThan: 60 * 60 * 24 * 365,
+    filter: createCombinedFilter(showTextOnlyThreads, filterItems, searchText, subplebbitAddress || 'all', handleFilterMatch),
+  });
+
   const [showMorePostsSuggestion, setShowMorePostsSuggestion] = useState(false);
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -306,9 +313,12 @@ const Catalog = () => {
   const feedLength = feed.length;
   const weeklyFeedLength = weeklyFeed.length;
   const monthlyFeedLength = monthlyFeed.length;
+  const yearlyFeedLength = yearlyFeed.length;
   const hasFeedLoaded = !!feed;
   const loadingStateString =
-    useFeedStateString(subplebbitAddresses) || !hasFeedLoaded || (feedLength === 0 && !(weeklyFeedLength > feedLength || monthlyFeedLength > feedLength))
+    useFeedStateString(subplebbitAddresses) ||
+    !hasFeedLoaded ||
+    (feedLength === 0 && !(weeklyFeedLength > feedLength || monthlyFeedLength > feedLength || yearlyFeedLength > monthlyFeedLength))
       ? t('loading_feed')
       : t('looking_for_more_posts');
 
@@ -361,7 +371,7 @@ const Catalog = () => {
           ) : (
             (isInAllView || isInSubscriptionsView) &&
             showMorePostsSuggestion &&
-            monthlyFeed.length > feed.length &&
+            (monthlyFeed.length > feed.length || yearlyFeed.length > monthlyFeed.length) &&
             (weeklyFeed.length > feed.length ? (
               <div className={styles.stateString}>
                 <Trans
@@ -372,13 +382,23 @@ const Catalog = () => {
                   }}
                 />
               </div>
-            ) : (
+            ) : monthlyFeed.length > feed.length ? (
               <div className={styles.stateString}>
                 <Trans
                   i18nKey='more_threads_last_month'
                   values={{ currentTimeFilterName, count: feed.length }}
                   components={{
                     1: <Link to={(isInAllView ? '/all/catalog' : isInSubscriptionsView ? '/subscriptions/catalog' : `/${boardPath}/catalog`) + '/1m'} />,
+                  }}
+                />
+              </div>
+            ) : (
+              <div className={styles.stateString}>
+                <Trans
+                  i18nKey='more_threads_last_year'
+                  values={{ currentTimeFilterName, count: feed.length }}
+                  components={{
+                    1: <Link to={(isInAllView ? '/all/catalog' : isInSubscriptionsView ? '/subscriptions/catalog' : `/${boardPath}/catalog`) + '/1y'} />,
                   }}
                 />
               </div>
