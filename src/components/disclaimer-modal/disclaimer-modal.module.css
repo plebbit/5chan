@@ -55,6 +55,10 @@
   background-repeat: no-repeat;
 }
 
+.closeButtonHome {
+  background-image: url("/assets/buttons/icon-close-red.png");
+}
+
 .bd {
   padding: 10px;
 }

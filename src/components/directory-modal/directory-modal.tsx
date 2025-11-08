@@ -22,7 +22,7 @@ const DirectoryModal = () => {
       <div className={styles.directoryDialog}>
         <div className={styles.hd}>
           <h2>Submit a Board to a Directory</h2>
-          <button className={styles.closeButton} onClick={closeDirectoryModal} title='Close' />
+          <button className={`${styles.closeButton} ${isHomeView ? styles.closeButtonHome : ''}`} onClick={closeDirectoryModal} title='Close' />
         </div>
         <div className={styles.bd}>
           <p className={styles.introMessage}>
