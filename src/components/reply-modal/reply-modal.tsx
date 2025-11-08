@@ -230,7 +230,7 @@ const ReplyModal = ({ closeModal, showReplyModal, parentCid, postCid, scrollY, s
     }
   }, []);
 
-  const contentPrefix = `c/${parentCid && Plebbit.getShortCid(parentCid)}\n`;
+  const contentPrefix = `>>${parentCid && Plebbit.getShortCid(parentCid)}\n`;
 
   // enable spellcheck after the prefix is set
   useEffect(() => {
@@ -311,7 +311,7 @@ const ReplyModal = ({ closeModal, showReplyModal, parentCid, postCid, scrollY, s
       }}
     >
       <div className={`replyModalHandle ${styles.title}`} {...(!isMobile ? bind() : {})}>
-        {t('reply_to_cid', { cid: `c/${parentCid && Plebbit.getShortCid(parentCid)}`, interpolation: { escapeValue: false } })}
+        {t('reply_to_cid', { cid: `CID:${parentCid && Plebbit.getShortCid(parentCid)}`, interpolation: { escapeValue: false } })}
         <button
           className={styles.closeIcon}
           onClick={(e) => {

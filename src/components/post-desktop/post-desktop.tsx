@@ -181,7 +181,7 @@ const PostInfo = ({ post, postReplyCount = 0, roles, isHidden }: PostProps) => {
                   title={t('link_to_post')}
                   onClick={(e) => !cid && e.preventDefault()}
                 >
-                  c/
+                  CID:
                 </Link>
                 <span className={styles.replyToPost} title={t('reply_to_post')} onMouseDown={onReplyModalClick}>
                   {shortCid}
@@ -189,7 +189,7 @@ const PostInfo = ({ post, postReplyCount = 0, roles, isHidden }: PostProps) => {
               </span>
             ) : (
               <>
-                <span>c/</span>
+                <span>CID:</span>
                 <span className={styles.pendingCid}>
                   {state === 'failed' || stateString === 'Failed' ? _.capitalize(t('failed')) : state === 'pending' ? _.capitalize(t('pending')) : ''}
                 </span>
