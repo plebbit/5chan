@@ -10,7 +10,7 @@ const TopbarEditModal = () => {
   const { showModal, closeTopbarEditModal } = useTopbarEditModalStore();
   const { visibleDirectories, visibleSubscriptions, setDirectoryVisibility, setSubscriptionVisibility } = useTopbarVisibilityStore();
   const account = useAccount();
-  const subscriptions = account?.subscriptions || [];
+  const subscriptions = useMemo(() => account?.subscriptions || [], [account?.subscriptions]);
   const location = useLocation();
 
   // Convert visible directories set to space-separated string for input
