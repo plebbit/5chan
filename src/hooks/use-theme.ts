@@ -62,7 +62,7 @@ const useTheme = (): [string, (theme: string) => void] => {
 
     let storedTheme = null;
     if (isInAllView || isInSubscriptionsView || isInModView) {
-      storedTheme = themes.sfw;
+      storedTheme = themes.nsfw;
     } else if (subplebbitAddress) {
       const subplebbit = subplebbits.find((s) => s.address === subplebbitAddress);
       if (subplebbit?.nsfw) {
@@ -83,7 +83,7 @@ const useTheme = (): [string, (theme: string) => void] => {
   const setSubplebbitTheme = useCallback(
     async (newTheme: string) => {
       if (isInAllView || isInSubscriptionsView || isInModView) {
-        await setThemeStore('sfw', newTheme);
+        await setThemeStore('nsfw', newTheme);
       } else if (subplebbitAddress) {
         const subplebbit = subplebbits.find((s) => s.address === subplebbitAddress);
         if (subplebbit?.nsfw) {
