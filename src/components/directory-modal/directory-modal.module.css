@@ -31,9 +31,13 @@
 @media (max-width: 600px) {
   .directoryDialog {
     width: calc(100% - 20px);
-    margin-left: -50%;
-    left: 50%;
     max-width: 500px;
+    left: 50%;
+    top: 50%;
+    margin-left: 0;
+    transform: translate(-50%, -50%);
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
   }
 }
 
