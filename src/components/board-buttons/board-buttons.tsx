@@ -5,7 +5,7 @@ import useSubplebbitsStore from '@plebbit/plebbit-react-hooks/dist/stores/subple
 import useSubplebbitsPagesStore from '@plebbit/plebbit-react-hooks/dist/stores/subplebbits-pages';
 import { isAllView, isCatalogView, isDescriptionView, isModView, isPendingPostView, isPostPageView, isSubscriptionsView } from '../../lib/utils/view-utils';
 import { useDefaultSubplebbits } from '../../hooks/use-default-subplebbits';
-import { getBoardPath } from '../../lib/utils/route-utils';
+import { getBoardPath, isDirectoryBoard } from '../../lib/utils/route-utils';
 import { useResolvedSubplebbitAddress } from '../../hooks/use-resolved-subplebbit-address';
 import useCatalogFiltersStore from '../../stores/use-catalog-filters-store';
 import useCatalogStyleStore from '../../stores/use-catalog-style-store';
@@ -100,6 +100,28 @@ const ReturnButton = ({ address, isInAllView, isInSubscriptionsView, isInModView
   return (
     <button className='button'>
       <Link to={createReturnLink()}>{t('return')}</Link>
+    </button>
+  );
+};
+
+const VoteButton = () => {
+  const { t } = useTranslation();
+  const params = useParams();
+  const defaultSubplebbits = useDefaultSubplebbits();
+
+  // Get the boardIdentifier from params (try boardIdentifier first, then subplebbitAddress for backward compatibility)
+  const boardIdentifier = params.boardIdentifier || params.subplebbitAddress;
+
+  // Only render the vote button if we're on a directory board route
+  if (!boardIdentifier || !isDirectoryBoard(boardIdentifier, defaultSubplebbits)) {
+    return null;
+  }
+
+  const message = `Not available yet. Users will be able to submit and vote for boards competing for directory slots (like /${boardIdentifier}). The highest-voted board becomes the directory board.`;
+
+  return (
+    <button className={`button ${styles.disabledButton}`} title={message} onClick={() => window.alert(message)}>
+      {t('vote')}
     </button>
   );
 };
@@ -374,6 +396,11 @@ export const DesktopBoardButtons = () => {
 
   const { filteredCount, searchText } = useCatalogFiltersStore();
 
+  // Check if we should show the vote button (only for directory boards)
+  const defaultSubplebbits = useDefaultSubplebbits();
+  const boardIdentifier = params.boardIdentifier || params.subplebbitAddress;
+  const showVoteButton = boardIdentifier && isDirectoryBoard(boardIdentifier, defaultSubplebbits);
+
   return (
     <>
       <hr />
@@ -406,6 +433,12 @@ export const DesktopBoardButtons = () => {
               </>
             )}
             [<RefreshButton />]
+            {showVoteButton && (
+              <>
+                {' '}
+                [<VoteButton />]
+              </>
+            )}
             {isInCatalogView && searchText ? (
               <span className={styles.filteredThreadsCount}>
                 {' '}
