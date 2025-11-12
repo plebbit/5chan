@@ -43,13 +43,13 @@ const BoardHeader = () => {
   const defaultSubplebbit = subplebbitAddress ? defaultSubplebbits.find((s) => s.address === subplebbitAddress) : null;
 
   const title = isInAllView
-    ? multisubMetadata?.title || 'all'
+    ? multisubMetadata?.title || '/all/ - 5chan Directories'
     : isInSubscriptionsView
-    ? 'Subscriptions'
+    ? '/subs/ - Subscriptions'
     : isInModView
     ? _.startCase(t('boards_you_moderate'))
     : defaultSubplebbit?.title || subplebbit?.title;
-  const subtitle = isInAllView ? 'p/all' : isInSubscriptionsView ? 'p/subscriptions' : isInModView ? 'p/mod' : `p/${address || subplebbitAddress || ''}`;
+  const subtitle = isInAllView ? '/all/' : isInSubscriptionsView ? '/subs/' : isInModView ? '/mod/' : `${address || subplebbitAddress || ''}`;
 
   const { isOffline, isOnlineStatusLoading, offlineIconClass, offlineTitle } = useIsSubplebbitOffline(subplebbit);
 

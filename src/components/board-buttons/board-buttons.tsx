@@ -39,8 +39,8 @@ const CatalogButton = ({ address, isInAllView, isInSubscriptionsView, isInModVie
       if (params?.timeFilterName) return `/all/catalog/${params.timeFilterName}`;
       return `/all/catalog`;
     } else if (isInSubscriptionsView) {
-      if (params?.timeFilterName) return `/subscriptions/catalog/${params.timeFilterName}`;
-      return `/subscriptions/catalog`;
+      if (params?.timeFilterName) return `/subs/catalog/${params.timeFilterName}`;
+      return `/subs/catalog`;
     } else if (isInModView) {
       if (params?.timeFilterName) return `/mod/catalog/${params.timeFilterName}`;
       return `/mod/catalog`;
@@ -82,8 +82,8 @@ const ReturnButton = ({ address, isInAllView, isInSubscriptionsView, isInModView
       if (params?.timeFilterName) return `/all/${params.timeFilterName}`;
       return `/all`;
     } else if (isInSubscriptionsView) {
-      if (params?.timeFilterName) return `/subscriptions/${params.timeFilterName}`;
-      return `/subscriptions`;
+      if (params?.timeFilterName) return `/subs/${params.timeFilterName}`;
+      return `/subs`;
     } else if (isInModView) {
       if (params?.timeFilterName) return `/mod/${params.timeFilterName}`;
       return `/mod`;
@@ -249,8 +249,8 @@ export const TimeFilter = ({ isInAllView, isInCatalogView, isInSubscriptionsView
         : `/all/${timeFilterName}`
       : isInSubscriptionsView
       ? isInCatalogView
-        ? `/subscriptions/catalog/${timeFilterName}`
-        : `/subscriptions/${timeFilterName}`
+        ? `/subs/catalog/${timeFilterName}`
+        : `/subs/${timeFilterName}`
       : isInModView
       ? isInCatalogView
         ? `/mod/catalog/${timeFilterName}`
@@ -507,8 +507,8 @@ const SearchOPsBar = () => {
             : `/all/catalog?q=${encodeURIComponent(searchQuery)}`;
         } else if (isInSubscriptionsView) {
           catalogUrl = params?.timeFilterName
-            ? `/subscriptions/catalog/${params.timeFilterName}?q=${encodeURIComponent(searchQuery)}`
-            : `/subscriptions/catalog?q=${encodeURIComponent(searchQuery)}`;
+            ? `/subs/catalog/${params.timeFilterName}?q=${encodeURIComponent(searchQuery)}`
+            : `/subs/catalog?q=${encodeURIComponent(searchQuery)}`;
         } else if (isInModView) {
           catalogUrl = params?.timeFilterName
             ? `/mod/catalog/${params.timeFilterName}?q=${encodeURIComponent(searchQuery)}`

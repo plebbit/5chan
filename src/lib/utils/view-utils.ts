@@ -16,7 +16,7 @@ export const isBoardView = (pathname: string, params: ParamsType): boolean => {
   // Check if it's a board view (not all, subscriptions, mod, pending, or special routes)
   if (
     pathname.startsWith('/all') ||
-    pathname.startsWith('/subscriptions') ||
+    pathname.startsWith('/subs') ||
     pathname.startsWith('/mod') ||
     pathname.startsWith('/pending') ||
     pathname === '/' ||
@@ -40,10 +40,10 @@ export const isCatalogView = (pathname: string, params: ParamsType): boolean => 
     decodedPathname === `/all/catalog/settings` ||
     decodedPathname === `/all/catalog/${timeFilterName}` ||
     decodedPathname === `/all/catalog/${timeFilterName}/settings` ||
-    decodedPathname === `/subscriptions/catalog` ||
-    decodedPathname === `/subscriptions/catalog/settings` ||
-    decodedPathname === `/subscriptions/catalog/${timeFilterName}` ||
-    decodedPathname === `/subscriptions/catalog/${timeFilterName}/settings` ||
+    decodedPathname === `/subs/catalog` ||
+    decodedPathname === `/subs/catalog/settings` ||
+    decodedPathname === `/subs/catalog/${timeFilterName}` ||
+    decodedPathname === `/subs/catalog/${timeFilterName}/settings` ||
     decodedPathname === `/mod/catalog` ||
     decodedPathname === `/mod/catalog/settings` ||
     decodedPathname === `/mod/catalog/${timeFilterName}` ||
@@ -99,14 +99,14 @@ export const isSettingsView = (pathname: string, params: ParamsType): boolean =>
 export const isSubscriptionsView = (pathname: string, params: ParamsType): boolean => {
   const { timeFilterName } = params;
   return (
-    pathname === '/subscriptions' ||
-    pathname === '/subscriptions/settings' ||
-    pathname === `/subscriptions/${timeFilterName}` ||
-    pathname === `/subscriptions/${timeFilterName}/settings` ||
-    pathname === '/subscriptions/catalog' ||
-    pathname === '/subscriptions/catalog/settings' ||
-    pathname === `/subscriptions/catalog/${timeFilterName}` ||
-    pathname === `/subscriptions/catalog/${timeFilterName}/settings`
+    pathname === '/subs' ||
+    pathname === '/subs/settings' ||
+    pathname === `/subs/${timeFilterName}` ||
+    pathname === `/subs/${timeFilterName}/settings` ||
+    pathname === '/subs/catalog' ||
+    pathname === '/subs/catalog/settings' ||
+    pathname === `/subs/catalog/${timeFilterName}` ||
+    pathname === `/subs/catalog/${timeFilterName}/settings`
   );
 };
 

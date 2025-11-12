@@ -179,7 +179,7 @@ const TopBarDesktop = () => {
   return (
     <div className={styles.boardNavDesktop}>
       <span className={styles.boardList}>
-        [<Link to='/all'>all</Link> / <Link to='/subscriptions'>subscriptions</Link>
+        [<Link to='/all'>all</Link> / <Link to='/subs'>subs</Link>
         {accountSubplebbitAddresses.length > 0 && (
           <>
             {' '}

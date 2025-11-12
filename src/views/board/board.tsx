@@ -200,7 +200,7 @@ const Board = () => {
             showMorePostsSuggestion &&
             (monthlyFeed.length > feed.length || yearlyFeed.length > monthlyFeed.length) &&
             (() => {
-              const basePath = isInAllView ? '/all' : isInSubscriptionsView ? '/subscriptions' : isInModView ? '/mod' : boardPath ? `/${boardPath}` : '';
+              const basePath = isInAllView ? '/all' : isInSubscriptionsView ? '/subs' : isInModView ? '/mod' : boardPath ? `/${boardPath}` : '';
               return weeklyFeed.length > feed.length ? (
                 <div className={styles.morePostsSuggestion}>
                   <Trans

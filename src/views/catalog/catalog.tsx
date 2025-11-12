@@ -378,7 +378,7 @@ const Catalog = () => {
                   i18nKey='more_threads_last_week'
                   values={{ currentTimeFilterName, count: feed.length }}
                   components={{
-                    1: <Link to={(isInAllView ? '/all/catalog' : isInSubscriptionsView ? '/subscriptions/catalog' : `/${boardPath}/catalog`) + '/1w'} />,
+                    1: <Link to={(isInAllView ? '/all/catalog' : isInSubscriptionsView ? '/subs/catalog' : `/${boardPath}/catalog`) + '/1w'} />,
                   }}
                 />
               </div>
@@ -388,7 +388,7 @@ const Catalog = () => {
                   i18nKey='more_threads_last_month'
                   values={{ currentTimeFilterName, count: feed.length }}
                   components={{
-                    1: <Link to={(isInAllView ? '/all/catalog' : isInSubscriptionsView ? '/subscriptions/catalog' : `/${boardPath}/catalog`) + '/1m'} />,
+                    1: <Link to={(isInAllView ? '/all/catalog' : isInSubscriptionsView ? '/subs/catalog' : `/${boardPath}/catalog`) + '/1m'} />,
                   }}
                 />
               </div>
@@ -398,7 +398,7 @@ const Catalog = () => {
                   i18nKey='more_threads_last_year'
                   values={{ currentTimeFilterName, count: feed.length }}
                   components={{
-                    1: <Link to={(isInAllView ? '/all/catalog' : isInSubscriptionsView ? '/subscriptions/catalog' : `/${boardPath}/catalog`) + '/1y'} />,
+                    1: <Link to={(isInAllView ? '/all/catalog' : isInSubscriptionsView ? '/subs/catalog' : `/${boardPath}/catalog`) + '/1y'} />,
                   }}
                 />
               </div>

@@ -603,6 +603,20 @@ const BoardsList = ({ multisub }: { multisub: MultisubSubplebbit[] }) => {
             </ul>
           </div>
         )}
+
+        {/* Column 6: Meta */}
+        <div className={styles.boardsColumn}>
+          <h3>Multiboards</h3>
+          <NSFWBadge />
+          <ul>
+            <li>
+              <Link to='/all'>All 5chan Directories</Link>
+            </li>
+            <li>
+              <Link to='/subs'>Subscriptions</Link>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   );
