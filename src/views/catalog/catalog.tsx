@@ -327,7 +327,7 @@ const Catalog = () => {
       {state === 'failed' ? (
         <span className='red'>{state}</span>
       ) : isInSubscriptionsView && subscriptions?.length === 0 ? (
-        t('not_subscribed_to_any_board')
+        <span className='red'>{t('not_subscribed_to_any_board')}</span>
       ) : blocked ? (
         t('you_have_blocked_this_board')
       ) : !hasMore && combinedFeed.length === 0 ? (
