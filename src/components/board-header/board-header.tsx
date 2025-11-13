@@ -49,7 +49,7 @@ const BoardHeader = () => {
     : isInModView
     ? _.startCase(t('boards_you_moderate'))
     : defaultSubplebbit?.title || subplebbit?.title;
-  const subtitle = isInAllView ? '/all/' : isInSubscriptionsView ? '/subs/' : isInModView ? '/mod/' : `${address || subplebbitAddress || ''}`;
+  const subtitle = isInAllView ? '' : isInSubscriptionsView ? '' : isInModView ? '/mod/' : `${address || subplebbitAddress || ''}`;
 
   const { isOffline, isOnlineStatusLoading, offlineIconClass, offlineTitle } = useIsSubplebbitOffline(subplebbit);
 
