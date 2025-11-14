@@ -11,7 +11,7 @@ import { getFormattedDate, getFormattedTimeAgo } from '../../lib/utils/time-util
 import { isValidURL } from '../../lib/utils/url-utils';
 import { isAllView, isPendingPostView, isPostPageView, isSubscriptionsView } from '../../lib/utils/view-utils';
 import { useDefaultSubplebbits } from '../../hooks/use-default-subplebbits';
-import { getBoardPath, getBoardDisplayString } from '../../lib/utils/route-utils';
+import { getBoardPath } from '../../lib/utils/route-utils';
 import useAvatarVisibilityStore from '../../stores/use-avatar-visibility-store';
 import useAuthorAddressClick from '../../hooks/use-author-address-click';
 import { useCommentMediaInfo } from '../../hooks/use-comment-media-info';
@@ -71,7 +71,6 @@ const PostInfo = ({ post, postReplyCount = 0, roles, isHidden }: PostProps) => {
   const location = useLocation();
   const isInAllView = isAllView(location.pathname);
   const isInPostPageView = isPostPageView(location.pathname, params);
-  const isInSubscriptionsView = isSubscriptionsView(location.pathname, params);
 
   const userID = address && Plebbit.getShortAddress(address);
   const userIDBackgroundColor = hashStringToColor(userID);
@@ -280,7 +279,6 @@ const PostMedia = ({
   const [showThumbnail, setShowThumbnail] = useState(true);
 
   const mediaDimensions = getMediaDimensions(commentMediaInfo);
-  const boardDisplayString = getBoardDisplayString(subplebbitAddress, defaultSubplebbits);
   const boardPath = getBoardPath(subplebbitAddress, defaultSubplebbits);
 
   return (
@@ -288,7 +286,7 @@ const PostMedia = ({
       <div className={styles.fileText}>
         {subplebbitAddress && (isInAllView || isInSubscriptionsView) && boardPath && !parentCid && (
           <>
-            {t('board')}: <Link to={`/${boardPath}`}>{boardDisplayString}</Link>{' '}
+            {t('board')}: <Link to={`/${boardPath}`}>{boardPath}</Link>{' '}
           </>
         )}
         {t('link')}:{' '}

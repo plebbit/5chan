@@ -11,7 +11,7 @@ import { getTextColorForBackground, hashStringToColor } from '../../lib/utils/po
 import { getFormattedDate, getFormattedTimeAgo } from '../../lib/utils/time-utils';
 import { isAllView, isPendingPostView, isPostPageView, isSubscriptionsView } from '../../lib/utils/view-utils';
 import { useDefaultSubplebbits } from '../../hooks/use-default-subplebbits';
-import { getBoardPath, getBoardDisplayString } from '../../lib/utils/route-utils';
+import { getBoardPath } from '../../lib/utils/route-utils';
 import useAvatarVisibilityStore from '../../stores/use-avatar-visibility-store';
 import useAuthorAddressClick from '../../hooks/use-author-address-click';
 import { useCommentMediaInfo } from '../../hooks/use-comment-media-info';
@@ -178,7 +178,7 @@ const PostInfoAndMedia = ({ post, postReplyCount = 0, roles }: PostProps) => {
             {subplebbitAddress && (isInAllView || isInSubscriptionsView) && !isReply && boardPath && (
               <div className={styles.postNumLink}>
                 {' '}
-                <Link to={`/${boardPath}`}>Board: {getBoardDisplayString(subplebbitAddress, defaultSubplebbits)}</Link>
+                <Link to={`/${boardPath}`}>Board: {boardPath}</Link>
               </div>
             )}
             <Tooltip children={<span>{getFormattedDate(timestamp)}</span>} content={getFormattedTimeAgo(timestamp)} />{' '}

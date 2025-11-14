@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import Plebbit from '@plebbit/plebbit-js';
 import { useAccount, useAccountComment, useAccountSubplebbits } from '@plebbit/plebbit-react-hooks';
 import { isAllView, isCatalogView, isSubscriptionsView } from '../../lib/utils/view-utils';
-import { useDefaultSubplebbitAddresses, useDefaultSubplebbits, MultisubSubplebbit } from '../../hooks/use-default-subplebbits';
+import { useDefaultSubplebbits, MultisubSubplebbit } from '../../hooks/use-default-subplebbits';
 import { useBoardPath, useResolvedSubplebbitAddress } from '../../hooks/use-resolved-subplebbit-address';
 import { getBoardPath, extractDirectoryFromTitle } from '../../lib/utils/route-utils';
 import { TimeFilter } from '../board-buttons';
