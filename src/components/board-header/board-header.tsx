@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useParams } from 'react-router-dom';
-import { useAccountComment } from '@plebbit/plebbit-react-hooks';
+import { useAccount, useAccountComment } from '@plebbit/plebbit-react-hooks';
 import Plebbit from '@plebbit/plebbit-js';
 import useSubplebbitsStore from '@plebbit/plebbit-react-hooks/dist/stores/subplebbits';
 import { isAllView, isSubscriptionsView, isModView } from '../../lib/utils/view-utils';
@@ -42,6 +42,10 @@ const BoardHeader = () => {
   // Find matching subplebbit from default list to get its title
   const defaultSubplebbit = subplebbitAddress ? defaultSubplebbits.find((s) => s.address === subplebbitAddress) : null;
 
+  const account = useAccount() || {};
+  const subscriptions = account?.subscriptions || [];
+  const subscriptionsSubtitle = subscriptions?.length === 1 ? `${subscriptions?.length} subscription` : `${subscriptions?.length} subscriptions`;
+
   const title = isInAllView
     ? multisubMetadata?.title || '/all/ - 5chan Directories'
     : isInSubscriptionsView
@@ -49,7 +53,7 @@ const BoardHeader = () => {
     : isInModView
     ? _.startCase(t('boards_you_moderate'))
     : defaultSubplebbit?.title || subplebbit?.title;
-  const subtitle = isInAllView ? '' : isInSubscriptionsView ? '' : isInModView ? '/mod/' : `${address || subplebbitAddress || ''}`;
+  const subtitle = isInAllView ? '' : isInSubscriptionsView ? subscriptionsSubtitle : isInModView ? '/mod/' : `${address || subplebbitAddress || ''}`;
 
   const { isOffline, isOnlineStatusLoading, offlineIconClass, offlineTitle } = useIsSubplebbitOffline(subplebbit);
 
