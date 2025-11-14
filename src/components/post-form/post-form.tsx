@@ -10,7 +10,7 @@ import { formatMarkdown } from '../../lib/utils/post-utils';
 import { isValidURL } from '../../lib/utils/url-utils';
 import { isAllView, isDescriptionView, isModView, isPostPageView, isRulesView, isSubscriptionsView } from '../../lib/utils/view-utils';
 import useAnonMode from '../../hooks/use-anon-mode';
-import { useDefaultSubplebbits, useDefaultSubplebbitAddresses } from '../../hooks/use-default-subplebbits';
+import { useDefaultSubplebbits } from '../../hooks/use-default-subplebbits';
 import { useResolvedSubplebbitAddress } from '../../hooks/use-resolved-subplebbit-address';
 import useFetchGifFirstFrame from '../../hooks/use-fetch-gif-first-frame';
 import useIsSubplebbitOffline from '../../hooks/use-is-subplebbit-offline';
@@ -59,7 +59,6 @@ const PostFormTable = ({ closeForm, postCid }: { closeForm: () => void; postCid:
   const isInModView = isModView(location.pathname);
   const isInSubscriptionsView = isSubscriptionsView(location.pathname, useParams());
   const subscriptions = account?.subscriptions || [];
-  const defaultSubplebbitAddresses = useDefaultSubplebbitAddresses();
   const defaultSubplebbits = useDefaultSubplebbits();
 
   const { accountSubplebbits } = useAccountSubplebbits();
