@@ -100,3 +100,13 @@ export const isDirectoryBoard = (identifier: string, subplebbits: MultisubSubple
   const directoryToAddress = getDirectoryToAddressMap(subplebbits);
   return directoryToAddress.has(identifier);
 };
+
+/**
+ * Get board display string for a subplebbit address
+ * Returns directory code (e.g., "biz") if it's a directory board, otherwise returns the full address
+ */
+export const getBoardDisplayString = (subplebbitAddress: string, subplebbits: MultisubSubplebbit[]): string => {
+  const addressToDirectory = getAddressToDirectoryMap(subplebbits);
+  const directory = addressToDirectory.get(subplebbitAddress);
+  return directory || subplebbitAddress;
+};
