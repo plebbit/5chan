@@ -228,12 +228,12 @@ const TopBarDesktop = () => {
 const TopBarMobile = ({ subplebbitAddress }: { subplebbitAddress: string }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const subplebbitAddresses = useDefaultSubplebbitAddresses();
   const defaultSubplebbits = useDefaultSubplebbits();
   const displaySubplebbitAddress = subplebbitAddress && subplebbitAddress.length > 30 ? subplebbitAddress.slice(0, 30).concat('...') : subplebbitAddress;
   const [showSearchBar, setShowSearchBar] = useState(false);
 
-  const currentSubplebbitIsInList = subplebbitAddresses.some((address: string) => address === subplebbitAddress);
+  // Filter to only show directory boards (those with titles)
+  const directoryBoards = useMemo(() => defaultSubplebbits.filter((sub) => sub.title && extractDirectoryFromTitle(sub.title)), [defaultSubplebbits]);
 
   const location = useLocation();
   const params = useParams();
@@ -241,36 +241,37 @@ const TopBarMobile = ({ subplebbitAddress }: { subplebbitAddress: string }) => {
   const isInCatalogView = isCatalogView(location.pathname, params);
   const isInSubscriptionsView = isSubscriptionsView(location.pathname, params);
   const boardPath = useBoardPath(subplebbitAddress);
-  const selectValue = isInAllView ? 'all' : isInSubscriptionsView ? 'subscriptions' : boardPath || subplebbitAddress;
+  const selectValue = isInAllView ? 'all' : isInSubscriptionsView ? 'subs' : boardPath || subplebbitAddress;
 
   const { accountSubplebbits } = useAccountSubplebbits();
   const accountSubplebbitAddresses = Object.keys(accountSubplebbits);
+
+  // Check if current subplebbit is a directory board
+  const currentIsDirectoryBoard = directoryBoards.some((board) => board.address === subplebbitAddress);
 
   const boardSelect = (
     <select
       value={selectValue}
       onChange={(e) => {
         const value = e.target.value;
-        // If it's a directory code or special route, use it directly
-        if (value === 'all' || value === 'subscriptions' || value === 'mod') {
+        // If it's a special route, use it directly
+        if (value === 'all' || value === 'subs' || value === 'mod') {
           navigate(`/${value}${isInCatalogView ? '/catalog' : ''}`);
         } else {
-          // Otherwise, resolve to board path
-          const path = getBoardPath(value, defaultSubplebbits);
-          navigate(`/${path}${isInCatalogView ? '/catalog' : ''}`);
+          // Otherwise, it's a directory code, use it directly
+          navigate(`/${value}${isInCatalogView ? '/catalog' : ''}`);
         }
       }}
     >
-      {!currentSubplebbitIsInList && subplebbitAddress && <option value={subplebbitAddress}>{displaySubplebbitAddress}</option>}
+      {!currentIsDirectoryBoard && subplebbitAddress && <option value={subplebbitAddress}>{displaySubplebbitAddress}</option>}
       <option value='all'>all</option>
-      <option value='subscriptions'>subscriptions</option>
+      <option value='subs'>subs</option>
       {accountSubplebbitAddresses.length > 0 && <option value='mod'>mod</option>}
-      {subplebbitAddresses.map((address: any, index: number) => {
-        const subplebbitAddress = address?.includes('.') ? address : Plebbit.getShortAddress(address);
-        const boardPath = getBoardPath(address, defaultSubplebbits);
+      {directoryBoards.map((board, index) => {
+        const directoryCode = extractDirectoryFromTitle(board.title!);
         return (
-          <option key={index} value={boardPath}>
-            {Plebbit.getShortAddress(subplebbitAddress)}
+          <option key={index} value={directoryCode!}>
+            {board.title}
           </option>
         );
       })}
