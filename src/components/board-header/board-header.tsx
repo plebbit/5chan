@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useParams, useNavigate } from 'react-router-dom';
 import { useAccount, useAccountComment } from '@plebbit/plebbit-react-hooks';
 import Plebbit from '@plebbit/plebbit-js';
 import useSubplebbitsStore from '@plebbit/plebbit-react-hooks/dist/stores/subplebbits';
@@ -25,6 +25,7 @@ const BoardHeader = () => {
   const { t } = useTranslation();
   const location = useLocation();
   const params = useParams();
+  const navigate = useNavigate();
   const isInAllView = isAllView(location.pathname);
   const isInSubscriptionsView = isSubscriptionsView(location.pathname, useParams());
   const isInModView = isModView(location.pathname);
@@ -79,7 +80,12 @@ const BoardHeader = () => {
           </span>
         )}
       </div>
-      <div className={styles.boardSubtitle}>{subtitle}</div>
+      <div
+        className={`${styles.boardSubtitle} ${isInSubscriptionsView ? styles.clickableSubtitle : ''}`}
+        onClick={isInSubscriptionsView ? () => navigate('/subs/settings#subscriptions-settings') : undefined}
+      >
+        {subtitle}
+      </div>
       <hr />
     </div>
   );

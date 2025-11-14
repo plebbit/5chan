@@ -24,6 +24,14 @@
   color: var(--board-address-text-color);
 }
 
+.clickableSubtitle {
+  cursor: pointer;
+}
+
+.clickableSubtitle:hover {
+  text-decoration: underline;
+}
+
 .content hr {
   width: 90%;
 }
