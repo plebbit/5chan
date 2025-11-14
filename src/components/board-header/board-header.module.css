@@ -26,6 +26,7 @@
 
 .clickableSubtitle {
   cursor: pointer;
+  display: inline-block;
 }
 
 .clickableSubtitle:hover {

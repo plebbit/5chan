@@ -80,11 +80,14 @@ const BoardHeader = () => {
           </span>
         )}
       </div>
-      <div
-        className={`${styles.boardSubtitle} ${isInSubscriptionsView ? styles.clickableSubtitle : ''}`}
-        onClick={isInSubscriptionsView ? () => navigate('/subs/settings#subscriptions-settings') : undefined}
-      >
-        {subtitle}
+      <div className={styles.boardSubtitle}>
+        {isInSubscriptionsView ? (
+          <span className={styles.clickableSubtitle} onClick={() => navigate('/subs/settings#subscriptions-settings')}>
+            {subtitle}
+          </span>
+        ) : (
+          subtitle
+        )}
       </div>
       <hr />
     </div>
