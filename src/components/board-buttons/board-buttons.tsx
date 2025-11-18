@@ -300,11 +300,17 @@ export const MobileBoardButtons = () => {
 
   const { filteredCount, searchText } = useCatalogFiltersStore();
 
+  // Check if we should show the vote button (only for directory boards)
+  const defaultSubplebbits = useDefaultSubplebbits();
+  const boardIdentifier = params.boardIdentifier || params.subplebbitAddress;
+  const showVoteButton = boardIdentifier && isDirectoryBoard(boardIdentifier, defaultSubplebbits);
+
   return (
     <div className={`${styles.mobileBoardButtons} ${!isInCatalogView ? styles.addMargin : ''}`}>
       {isInPostView || isInPendingPostPage ? (
         <>
           <ReturnButton address={subplebbitAddress} isInAllView={isInAllView} isInSubscriptionsView={isInSubscriptionsView} isInModView={isInModView} />
+          {showVoteButton && <VoteButton />}
           <CatalogButton address={subplebbitAddress} isInAllView={isInAllView} isInSubscriptionsView={isInSubscriptionsView} isInModView={isInModView} />
           <SubscribeButton address={subplebbitAddress} />
           <div className={styles.secondRow}>
@@ -319,6 +325,7 @@ export const MobileBoardButtons = () => {
           ) : (
             <CatalogButton address={subplebbitAddress} isInAllView={isInAllView} isInSubscriptionsView={isInSubscriptionsView} isInModView={isInModView} />
           )}
+          {showVoteButton && <VoteButton />}
           {!(isInAllView || isInSubscriptionsView || isInModView) && <SubscribeButton address={subplebbitAddress} />}
           <RefreshButton />
           {isInCatalogView && searchText ? (
