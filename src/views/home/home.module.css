@@ -343,6 +343,14 @@
     color: var(--homepage-infobox-link-text-color);
     text-decoration: underline;
   }
+
+  .boardsColumn li {
+    padding: 5px 10px 5px 0;
+  }
+
+  .boardsColumn a {
+    font-size: 1.2em;
+  }
 }
 
 @media (min-width: 640px) {
