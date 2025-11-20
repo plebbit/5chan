@@ -24,16 +24,20 @@
   box-shadow: rgba(0, 0, 0, 0.1) 2px 2px 0px 1px;
   font-family: arial, helvetica, clean, sans-serif;
   font-size: 13px;
-  line-height: 16.003px;
+  line-height: 18px;
   z-index: 1000;
 }
 
 @media (max-width: 600px) {
   .directoryDialog {
     width: calc(100% - 20px);
-    margin-left: -50%;
-    left: 50%;
     max-width: 500px;
+    left: 50%;
+    top: 50%;
+    margin-left: 0;
+    transform: translate(-50%, -50%);
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
   }
 }
 
@@ -57,8 +61,8 @@
 .closeButton {
   all: unset;
   cursor: pointer;
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
   position: absolute;
   top: 4px;
   right: 4px;
@@ -66,6 +70,14 @@
   background-size: 100%;
   background-position: center;
   background-repeat: no-repeat;
+  image-rendering: pixelated;
+}
+
+.closeButtonHome {
+  width: 16px;
+  height: 16px;
+  background-image: url("/assets/buttons/icon-close-red.png");
+  image-rendering: auto;
 }
 
 .bd {

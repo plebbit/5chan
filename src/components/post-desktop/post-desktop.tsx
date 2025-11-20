@@ -71,7 +71,6 @@ const PostInfo = ({ post, postReplyCount = 0, roles, isHidden }: PostProps) => {
   const location = useLocation();
   const isInAllView = isAllView(location.pathname);
   const isInPostPageView = isPostPageView(location.pathname, params);
-  const isInSubscriptionsView = isSubscriptionsView(location.pathname, params);
 
   const userID = address && Plebbit.getShortAddress(address);
   const userIDBackgroundColor = hashStringToColor(userID);
@@ -166,12 +165,6 @@ const PostInfo = ({ post, postReplyCount = 0, roles, isHidden }: PostProps) => {
           {isDescription || isRules ? '' : ' '}
         </span>
         <span className={styles.postNum}>
-          {subplebbitAddress && (isInAllView || isInSubscriptionsView) && !isReply && boardPath && (
-            <span className={styles.postNumLink}>
-              {' '}
-              <Link to={`/${boardPath}`}>p/{subplebbitAddress && Plebbit.getShortAddress(subplebbitAddress)}</Link>{' '}
-            </span>
-          )}
           {!(isDescription || isRules) &&
             (cid ? (
               <span className={styles.postNumLink}>
@@ -181,7 +174,7 @@ const PostInfo = ({ post, postReplyCount = 0, roles, isHidden }: PostProps) => {
                   title={t('link_to_post')}
                   onClick={(e) => !cid && e.preventDefault()}
                 >
-                  c/
+                  CID:
                 </Link>
                 <span className={styles.replyToPost} title={t('reply_to_post')} onMouseDown={onReplyModalClick}>
                   {shortCid}
@@ -189,7 +182,7 @@ const PostInfo = ({ post, postReplyCount = 0, roles, isHidden }: PostProps) => {
               </span>
             ) : (
               <>
-                <span>c/</span>
+                <span>CID:</span>
                 <span className={styles.pendingCid}>
                   {state === 'failed' || stateString === 'Failed' ? _.capitalize(t('failed')) : state === 'pending' ? _.capitalize(t('pending')) : ''}
                 </span>
@@ -250,13 +243,31 @@ interface PostMediaProps {
   linkHeight: number;
   linkWidth: number;
   parentCid: string;
+  subplebbitAddress: string;
+  isInAllView: boolean;
+  isInSubscriptionsView: boolean;
 }
 
-const PostMedia = ({ commentMediaInfo, hasThumbnail, isDescription, isRules, spoiler, deleted, removed, linkHeight, linkWidth, parentCid }: PostMediaProps) => {
+const PostMedia = ({
+  commentMediaInfo,
+  hasThumbnail,
+  isDescription,
+  isRules,
+  spoiler,
+  deleted,
+  removed,
+  linkHeight,
+  linkWidth,
+  parentCid,
+  subplebbitAddress,
+  isInAllView,
+  isInSubscriptionsView,
+}: PostMediaProps) => {
   const { t } = useTranslation();
   const { url } = commentMediaInfo || {};
   let type = commentMediaInfo?.type;
   const gifFrameUrl = useFetchGifFirstFrame(url);
+  const defaultSubplebbits = useDefaultSubplebbits();
 
   if (type === 'gif' && gifFrameUrl !== null) {
     type = 'animated gif';
@@ -268,10 +279,16 @@ const PostMedia = ({ commentMediaInfo, hasThumbnail, isDescription, isRules, spo
   const [showThumbnail, setShowThumbnail] = useState(true);
 
   const mediaDimensions = getMediaDimensions(commentMediaInfo);
+  const boardPath = getBoardPath(subplebbitAddress, defaultSubplebbits);
 
   return (
     <div className={styles.file}>
       <div className={styles.fileText}>
+        {subplebbitAddress && (isInAllView || isInSubscriptionsView) && boardPath && !parentCid && (
+          <>
+            {t('board')}: <Link to={`/${boardPath}`}>{boardPath}</Link>{' '}
+          </>
+        )}
         {t('link')}:{' '}
         <a href={url} target='_blank' rel='noopener noreferrer'>
           {spoiler ? _.capitalize(t('spoiler')) : url && url.length > 30 ? url.slice(0, 30) + '...' : url}
@@ -337,6 +354,10 @@ const Reply = ({ postReplyCount, reply, roles }: PostProps) => {
   const isRouteLinkToReply = cid ? location.pathname.startsWith(route) : false;
   const { hidden } = useHide({ cid });
 
+  const isInAllView = isAllView(location.pathname);
+  const params = useParams();
+  const isInSubscriptionsView = isSubscriptionsView(location.pathname, params);
+
   const commentMediaInfo = useCommentMediaInfo(link, thumbnailUrl, linkWidth, linkHeight);
   const hasThumbnail = getHasThumbnail(commentMediaInfo, link);
 
@@ -357,6 +378,9 @@ const Reply = ({ postReplyCount, reply, roles }: PostProps) => {
             linkHeight={linkHeight}
             linkWidth={linkWidth}
             parentCid={parentCid}
+            subplebbitAddress={subplebbitAddress}
+            isInAllView={isInAllView}
+            isInSubscriptionsView={isInSubscriptionsView}
           />
         )}
         {!hidden && (!(removed || deleted) || ((removed || deleted) && reason)) && <CommentContent comment={post} />}
@@ -373,6 +397,8 @@ const PostDesktop = ({ post, roles, showAllReplies, showReplies = true }: PostPr
   const location = useLocation();
   const isInPendingPostView = isPendingPostView(location.pathname, params);
   const isInPostPageView = isPostPageView(location.pathname, params);
+  const isInAllView = isAllView(location.pathname);
+  const isInSubscriptionsView = isSubscriptionsView(location.pathname, params);
   const defaultSubplebbits = useDefaultSubplebbits();
   const boardPath = subplebbitAddress ? getBoardPath(subplebbitAddress, defaultSubplebbits) : undefined;
 
@@ -433,6 +459,9 @@ const PostDesktop = ({ post, roles, showAllReplies, showReplies = true }: PostPr
               linkHeight={linkHeight}
               linkWidth={linkWidth}
               parentCid={parentCid}
+              subplebbitAddress={subplebbitAddress}
+              isInAllView={isInAllView}
+              isInSubscriptionsView={isInSubscriptionsView}
             />
           )}
           <PostInfo isHidden={hidden} post={post} postReplyCount={replyCount} roles={roles} />

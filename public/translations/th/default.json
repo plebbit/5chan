@@ -295,5 +295,6 @@
   "help": "ช่วยเหลือ",
   "filter_and_highlights_help": "ตัวกรองและการเน้นความช่วยเหลือ",
   "filter_and_highlights": "ตัวกรองและไฮไลท์",
-  "boards_you_moderate": "บอร์ดที่คุณดูแล"
+  "boards_you_moderate": "บอร์ดที่คุณดูแล",
+  "more_threads_last_year": "{{count}} กระทู้ตั้งแต่ {{currentTimeFilterName}} — [<1>แสดงกระทู้จากปีที่แล้วเพิ่มเติม</1>]"
 }

@@ -295,5 +295,6 @@
   "help": "Pomoc",
   "filter_and_highlights_help": "Pomoc s filtry a zvýrazněním",
   "filter_and_highlights": "Filtry a zvýraznění",
-  "boards_you_moderate": "Fóra, která moderujete"
+  "boards_you_moderate": "Fóra, která moderujete",
+  "more_threads_last_year": "{{count}} příspěvků od {{currentTimeFilterName}} — [<1>Zobrazit více příspěvků z minulého roku</1>]"
 }

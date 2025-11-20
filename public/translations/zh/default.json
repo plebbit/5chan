@@ -295,5 +295,6 @@
   "help": "帮助",
   "filter_and_highlights_help": "过滤器和高亮帮助",
   "filter_and_highlights": "筛选器与高亮",
-  "boards_you_moderate": "您管理的板块"
+  "boards_you_moderate": "您管理的板块",
+  "more_threads_last_year": "{{count}} 主题自 {{currentTimeFilterName}} — [<1>显示更多去年的主题</1>]"
 }

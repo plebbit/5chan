@@ -63,6 +63,18 @@
   background-position: center;
   background-repeat: no-repeat;
   image-rendering: pixelated;
+  border-radius: 2px;
+}
+
+.closeButton:focus {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+.closeButton:focus-visible {
+  outline: 2px solid #0066cc;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px #0066cc, 0 0 0 4px rgba(0, 102, 204, 0.3);
 }
 
 .bd {

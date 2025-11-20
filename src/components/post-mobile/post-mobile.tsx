@@ -178,7 +178,7 @@ const PostInfoAndMedia = ({ post, postReplyCount = 0, roles }: PostProps) => {
             {subplebbitAddress && (isInAllView || isInSubscriptionsView) && !isReply && boardPath && (
               <div className={styles.postNumLink}>
                 {' '}
-                <Link to={`/${boardPath}`}>p/{subplebbitAddress && Plebbit.getShortAddress(subplebbitAddress)}</Link>
+                <Link to={`/${boardPath}`}>Board: {boardPath}</Link>
               </div>
             )}
             <Tooltip children={<span>{getFormattedDate(timestamp)}</span>} content={getFormattedTimeAgo(timestamp)} />{' '}
@@ -191,7 +191,7 @@ const PostInfoAndMedia = ({ post, postReplyCount = 0, roles }: PostProps) => {
                     title={t('link_to_post')}
                     onClick={(e) => !cid && e.preventDefault()}
                   >
-                    c/
+                    CID:
                   </Link>
                   <span className={styles.replyToPost} title={t('reply_to_post')} onMouseDown={onReplyModalClick}>
                     {shortCid.slice(0, -4)}
@@ -199,7 +199,7 @@ const PostInfoAndMedia = ({ post, postReplyCount = 0, roles }: PostProps) => {
                 </span>
               ) : (
                 <>
-                  <span>c/</span>
+                  <span>CID:</span>
                   <span className={styles.pendingCid}>
                     {state === 'failed' || stateString === 'Failed' ? _.capitalize(t('failed')) : state === 'pending' ? _.capitalize(t('pending')) : ''}
                   </span>

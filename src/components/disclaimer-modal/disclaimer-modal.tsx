@@ -1,10 +1,12 @@
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import useDisclaimerModalStore from '../../stores/use-disclaimer-modal-store';
 import useDirectoryModalStore from '../../stores/use-directory-modal-store';
 import styles from './disclaimer-modal.module.css';
 
 const DisclaimerModal = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const isHomeView = location.pathname === '/';
   const { showModal, closeDisclaimerModal, acceptDisclaimer, targetBoardPath } = useDisclaimerModalStore();
   const { openDirectoryModal } = useDirectoryModalStore();
 
@@ -33,7 +35,7 @@ const DisclaimerModal = () => {
       <div className={styles.disclaimerDialog}>
         <div className={styles.hd}>
           <h2>Disclaimer</h2>
-          <button className={styles.closeButton} onClick={closeDisclaimerModal} title='Close' />
+          <button className={`${styles.closeButton} ${isHomeView ? styles.closeButtonHome : ''}`} onClick={closeDisclaimerModal} title='Close' />
         </div>
         <div className={styles.bd}>
           <p>To access boards on 5chan (the &quot;website&quot;), you understand and agree to the following:</p>

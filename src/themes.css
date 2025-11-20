@@ -78,6 +78,7 @@
   --directory-modal-header-background-color: rgb(136, 0, 0);
   --directory-modal-header-text-color: rgb(255, 255, 255);
   --directory-modal-close-button-background-image: url("/assets/buttons/cross-red.png");
+  --disclaimer-modal-close-button-background-image: url("/assets/buttons/cross-red.png");
   
 
   /* footer */
@@ -297,6 +298,7 @@
   --directory-modal-header-background-color: #98e;
   --directory-modal-header-text-color: #000;
   --directory-modal-close-button-background-image: url("/assets/buttons/cross-blue.png");
+  --disclaimer-modal-close-button-background-image: url("/assets/buttons/cross-blue.png");
 
   /* horizontal rule */
   --hr-border: none;
@@ -503,6 +505,7 @@
   --directory-modal-header-background-color: #ea8;
   --directory-modal-header-text-color: #800;
   --directory-modal-close-button-background-image: url("/assets/buttons/cross-red.png");
+  --disclaimer-modal-close-button-background-image: url("/assets/buttons/cross-red.png");
 
   /* footer */
   --footer-item-background-color-desktop: #fed;
@@ -700,6 +703,7 @@
   --directory-modal-header-background-color: #98e;
   --directory-modal-header-text-color: #000;
   --directory-modal-close-button-background-image: url("/assets/buttons/cross-blue.png");
+  --disclaimer-modal-close-button-background-image: url("/assets/buttons/cross-blue.png");
 
   /* media */
   --media-thumbnail-background-color: rgba(0, 0, 0, 0.05);
@@ -897,6 +901,7 @@
   --directory-modal-header-background-color: #282a2e;
   --directory-modal-header-text-color: #c5c8c6;
   --directory-modal-close-button-background-image: url("/assets/buttons/cross-dark.png");
+  --disclaimer-modal-close-button-background-image: url("/assets/buttons/cross-dark.png");
 
   /* horizontal rule */
   --hr-border: none;
@@ -1243,6 +1248,7 @@
   --directory-modal-header-background-color: #ddd;
   --directory-modal-header-text-color: #333;
   --directory-modal-close-button-background-image: url("/assets/buttons/cross-photon.png");
+  --disclaimer-modal-close-button-background-image: url("/assets/buttons/cross-photon.png");
 
   /* stats */
   --stats-font-size: 11px;

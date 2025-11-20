@@ -22,7 +22,7 @@ const DirectoryModal = () => {
       <div className={styles.directoryDialog}>
         <div className={styles.hd}>
           <h2>Submit a Board to a Directory</h2>
-          <button className={styles.closeButton} onClick={closeDirectoryModal} title='Close' />
+          <button className={`${styles.closeButton} ${isHomeView ? styles.closeButtonHome : ''}`} onClick={closeDirectoryModal} title='Close' />
         </div>
         <div className={styles.bd}>
           <p className={styles.introMessage}>
@@ -30,19 +30,9 @@ const DirectoryModal = () => {
           </p>
 
           <div className={styles.section}>
-            <h3>Directory vs Regular Board</h3>
-            <p>
-              A &quot;directory board&quot; is assigned to a category on the homepage (like &quot;Anime & Manga&quot; or &quot;Video Games&quot;). Directory assignments
-              are temporary and handpicked by devs until DAO curation is implemented.{' '}
-              <strong>Anyone can create a board and users can access it anytime using its address</strong>—use the search bar, direct links, or the
-              &quot;[Subscribe]&quot; button to access boards regardless of directory assignment.
-            </p>
-          </div>
-
-          <div className={styles.section}>
             <h3>Creating Your Board</h3>
             <p>
-              Create a board using the{' '}
+              <strong>Anyone can create a board</strong> using the{' '}
               <a href='https://plebbit.github.io/docs/learn/clients/5chan/create-a-board' target='_blank' rel='noopener noreferrer'>
                 Seedit GUI client
               </a>{' '}
@@ -50,27 +40,21 @@ const DirectoryModal = () => {
               <a href='https://github.com/plebbit/plebbit-cli' target='_blank' rel='noopener noreferrer'>
                 plebbit-cli
               </a>
-              . <strong>Build a following:</strong> Users can subscribe to your board via the &quot;[Subscribe]&quot; button, which adds it to their top bar. You can gain
-              subscribers through direct links, word of mouth, or search—no directory assignment or dev approval needed.
+              . Users can access it anytime via the search bar, direct links, or by subscribing with the &quot;[Subscribe]&quot; button—
+              <strong>no directory assignment or dev approval needed</strong>. Directory boards are simply featured in homepage categories (like &quot;Anime &
+              Manga&quot;) and are handpicked by devs until DAO curation is implemented.
             </p>
           </div>
 
           <div className={styles.section}>
-            <h3>Directory Requirements</h3>
+            <h3>Directory Submission</h3>
             <p>
-              Boards need 99% uptime (they&apos;re P2P nodes), plus be active, well-moderated, and relevant to the category. Devs review and approve/reject based on these
-              criteria.
-            </p>
-          </div>
-
-          <div className={styles.section}>
-            <h3>Submitting to a Directory</h3>
-            <p>
-              Open a PR editing{' '}
+              To submit your board, open a PR editing{' '}
               <a href='https://github.com/plebbit/lists/blob/master/5chan-multisub.json' target='_blank' rel='noopener noreferrer'>
                 5chan-multisub.json
               </a>{' '}
-              with your board&apos;s title, address, and NSFW status. Devs will review and merge if approved. 99% uptime is required.
+              with your board&apos;s title, address, and NSFW status. Requirements: 99% uptime (they&apos;re P2P nodes), active, well-moderated, and relevant to the
+              category. Devs will review and approve/reject based on these criteria.
             </p>
           </div>
 
@@ -83,14 +67,6 @@ const DirectoryModal = () => {
                 design draft
               </a>
               .
-            </p>
-          </div>
-
-          <div className={styles.section}>
-            <h3>Decentralization</h3>
-            <p>
-              Devs can change directories via commits in the open-source repo. No centralized servers—anyone can fork, modify, and redeploy to their own domain. 5chan is
-              adminless with no central authority.
             </p>
           </div>
         </div>

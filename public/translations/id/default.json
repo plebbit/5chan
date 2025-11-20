@@ -295,5 +295,6 @@
   "help": "Bantuan",
   "filter_and_highlights_help": "Bantuan Filter dan Sorotan",
   "filter_and_highlights": "Filter dan Sorotan",
-  "boards_you_moderate": "board yang Anda moderasi"
+  "boards_you_moderate": "board yang Anda moderasi",
+  "more_threads_last_year": "{{count}} thread sejak {{currentTimeFilterName}} — [<1>Tampilkan lebih banyak thread dari tahun lalu</1>]"
 }

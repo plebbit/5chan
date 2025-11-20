@@ -101,6 +101,7 @@ const BoardsList = ({ multisub }: { multisub: MultisubSubplebbit[] }) => {
   const showOther = showAll || showWorksafeOnly;
   const showMisc = showAll || showNsfwOnly;
   const showAdult = showAll || showNsfwOnly;
+  const showMultiboards = showAll || showNsfwOnly;
 
   return (
     <div className={styles.box}>
@@ -599,6 +600,22 @@ const BoardsList = ({ multisub }: { multisub: MultisubSubplebbit[] }) => {
                 <Link to='#' onClick={handlePlaceholderClick} className={styles.placeholder}>
                   Adult Requests
                 </Link>
+              </li>
+            </ul>
+          </div>
+        )}
+
+        {/* Column 6: Meta */}
+        {showMultiboards && (
+          <div className={styles.boardsColumn}>
+            <h3>Multiboards</h3>
+            <NSFWBadge />
+            <ul>
+              <li>
+                <Link to='/all'>All 5chan Directories</Link>
+              </li>
+              <li>
+                <Link to='/subs'>Subscriptions</Link>
               </li>
             </ul>
           </div>

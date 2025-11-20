@@ -295,5 +295,6 @@
   "help": "मदत",
   "filter_and_highlights_help": "फिल्टर आणि हायलाइट्स सहाय्य",
   "filter_and_highlights": "फिल्टर आणि हायलाइट्स",
-  "boards_you_moderate": "तुम्ही ज्यांचे नियंत्रण करता अशा बोर्ड्स"
+  "boards_you_moderate": "तुम्ही ज्यांचे नियंत्रण करता अशा बोर्ड्स",
+  "more_threads_last_year": "{{count}} ध糀ं {{currentTimeFilterName}} पासून — [<1>गेल्या वर्षातील आणखी थ्रेड्स दाखवा</1>]"
 }

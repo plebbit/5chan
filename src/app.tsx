@@ -148,10 +148,10 @@ const App = () => (
           <Route path='/all/catalog/:timeFilterName?' element={<Catalog />} />
           <Route path='/all/catalog/:timeFilterName?/settings' element={<Catalog />} />
 
-          <Route path='/subscriptions/:timeFilterName?' element={<Board />} />
-          <Route path='/subscriptions/:timeFilterName?/settings' element={<Board />} />
-          <Route path='/subscriptions/catalog/:timeFilterName?' element={<Catalog />} />
-          <Route path='/subscriptions/catalog/:timeFilterName?/settings' element={<Catalog />} />
+          <Route path='/subs/:timeFilterName?' element={<Board />} />
+          <Route path='/subs/:timeFilterName?/settings' element={<Board />} />
+          <Route path='/subs/catalog/:timeFilterName?' element={<Catalog />} />
+          <Route path='/subs/catalog/:timeFilterName?/settings' element={<Catalog />} />
 
           <Route path='/mod/:timeFilterName?' element={<Board />} />
           <Route path='/mod/:timeFilterName?/settings' element={<Board />} />

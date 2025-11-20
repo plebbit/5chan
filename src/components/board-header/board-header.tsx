@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocation, useParams } from 'react-router-dom';
-import { useAccountComment } from '@plebbit/plebbit-react-hooks';
+import { useLocation, useParams, useNavigate } from 'react-router-dom';
+import { useAccount, useAccountComment } from '@plebbit/plebbit-react-hooks';
 import Plebbit from '@plebbit/plebbit-js';
 import useSubplebbitsStore from '@plebbit/plebbit-react-hooks/dist/stores/subplebbits';
 import { isAllView, isSubscriptionsView, isModView } from '../../lib/utils/view-utils';
@@ -25,6 +25,7 @@ const BoardHeader = () => {
   const { t } = useTranslation();
   const location = useLocation();
   const params = useParams();
+  const navigate = useNavigate();
   const isInAllView = isAllView(location.pathname);
   const isInSubscriptionsView = isSubscriptionsView(location.pathname, useParams());
   const isInModView = isModView(location.pathname);
@@ -42,14 +43,18 @@ const BoardHeader = () => {
   // Find matching subplebbit from default list to get its title
   const defaultSubplebbit = subplebbitAddress ? defaultSubplebbits.find((s) => s.address === subplebbitAddress) : null;
 
+  const account = useAccount() || {};
+  const subscriptions = account?.subscriptions || [];
+  const subscriptionsSubtitle = subscriptions?.length === 1 ? `${subscriptions?.length} subscription` : `${subscriptions?.length} subscriptions`;
+
   const title = isInAllView
-    ? multisubMetadata?.title || 'all'
+    ? multisubMetadata?.title || '/all/ - 5chan Directories'
     : isInSubscriptionsView
-    ? 'Subscriptions'
+    ? '/subs/ - Subscriptions'
     : isInModView
     ? _.startCase(t('boards_you_moderate'))
     : defaultSubplebbit?.title || subplebbit?.title;
-  const subtitle = isInAllView ? 'p/all' : isInSubscriptionsView ? 'p/subscriptions' : isInModView ? 'p/mod' : `p/${address || subplebbitAddress || ''}`;
+  const subtitle = isInAllView ? '' : isInSubscriptionsView ? subscriptionsSubtitle : isInModView ? '/mod/' : `${address || subplebbitAddress || ''}`;
 
   const { isOffline, isOnlineStatusLoading, offlineIconClass, offlineTitle } = useIsSubplebbitOffline(subplebbit);
 
@@ -75,7 +80,15 @@ const BoardHeader = () => {
           </span>
         )}
       </div>
-      <div className={styles.boardSubtitle}>{subtitle}</div>
+      <div className={styles.boardSubtitle}>
+        {isInSubscriptionsView ? (
+          <span className={styles.clickableSubtitle} onClick={() => navigate('/subs/settings#subscriptions-settings')}>
+            {subtitle}
+          </span>
+        ) : (
+          subtitle
+        )}
+      </div>
       <hr />
     </div>
   );
