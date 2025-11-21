@@ -143,13 +143,13 @@ jobs:
           cache: 'yarn'
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --network-timeout 100000 --network-concurrency 1
+        run: yarn install --frozen-lockfile --ignore-engines --network-timeout 100000 --network-concurrency 1
 
       - name: Download IPFS
         run: node electron/download-ipfs
 
       - name: Build React App
-        run: yarn build
+        run: CI='' yarn build
 
       - name: Build Electron App
         run: yarn electron:build:windows
