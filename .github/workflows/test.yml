@@ -1,0 +1,176 @@
+name: Test Builds
+
+on:
+  push:
+    branches: [ development, master ]
+  pull_request:
+    branches: [ development, master ]
+
+jobs:
+  test-linux:
+    name: Test Linux (Ubuntu)
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js v22
+        uses: actions/setup-node@v3
+        with:
+          node-version: 22
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile --ignore-engines
+
+      - name: Download IPFS
+        run: node electron/download-ipfs && chmod +x bin/linux/ipfs
+
+      - name: Build React App
+        run: CI='' yarn build
+
+      - name: Build Electron App (Linux)
+        run: yarn electron:build:linux
+
+      - name: Smoke Test
+        run: |
+          sudo apt-get install -y xvfb
+          echo "Testing AppImage startup..."
+          APPIMAGE=$(find dist -name "*.AppImage" | head -n 1)
+          echo "Found AppImage: $APPIMAGE"
+          chmod +x "$APPIMAGE"
+          xvfb-run --auto-servernum "$APPIMAGE" --no-sandbox --version
+
+  test-mac-intel:
+    name: Test Mac (Intel)
+    runs-on: macOS-13
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      
+      - name: Setup Node.js v22
+        uses: actions/setup-node@v3
+        with:
+          node-version: 22
+          cache: 'yarn'
+      
+      - name: Install missing dep for sqlite
+        run: |
+          python3 -m ensurepip
+          pip3 install setuptools
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile --ignore-engines
+
+      - name: Download IPFS
+        run: node electron/download-ipfs && chmod +x bin/mac/ipfs
+
+      - name: Build React App
+        run: CI='' yarn build
+
+      - name: Build Electron App
+        run: yarn electron:build:mac
+
+      - name: Smoke Test
+        run: |
+          # Check if .app exists (electron-builder usually creates it before packaging)
+          if [ -d "dist/mac/5chan.app" ]; then
+            echo "Testing dist/mac/5chan.app..."
+            ./dist/mac/5chan.app/Contents/MacOS/5chan --version
+          else
+            echo "Could not find dist/mac/5chan.app to test"
+            ls -R dist
+            exit 1
+          fi
+
+  test-mac-arm:
+    name: Test Mac (Apple Silicon)
+    runs-on: macOS-14
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      
+      - name: Setup Node.js v22
+        uses: actions/setup-node@v3
+        with:
+          node-version: 22
+          cache: 'yarn'
+
+      - name: Install missing dep for sqlite
+        run: |
+          python3 -m ensurepip
+          pip3 install setuptools
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile --ignore-engines
+
+      - name: Download IPFS
+        run: node electron/download-ipfs && chmod +x bin/mac/ipfs
+
+      - name: Build React App
+        run: CI='' yarn build
+
+      - name: Build Electron App
+        # On M1 runner, this should produce arm64 build
+        run: yarn electron:build:mac
+
+      - name: Smoke Test
+        run: |
+          if [ -d "dist/mac/5chan.app" ]; then
+            echo "Testing dist/mac/5chan.app..."
+            ./dist/mac/5chan.app/Contents/MacOS/5chan --version
+          else
+            echo "Could not find dist/mac/5chan.app to test"
+            ls -R dist
+            exit 1
+          fi
+
+  test-windows:
+    name: Test Windows
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      
+      - name: Setup Node.js v22
+        uses: actions/setup-node@v3
+        with:
+          node-version: 22
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile --network-timeout 100000 --network-concurrency 1
+
+      - name: Download IPFS
+        run: node electron/download-ipfs
+
+      - name: Build React App
+        run: yarn build
+
+      - name: Build Electron App
+        run: yarn electron:build:windows
+
+      - name: Smoke Test
+        shell: bash
+        run: |
+          # Try to find the unpacked executable first as it's easiest to run
+          if [ -d "dist/win-unpacked" ]; then
+             echo "Testing unpacked exe..."
+             ./dist/win-unpacked/5chan.exe --version
+          else
+             # Fallback to portable exe if unpacked not found
+             # Exclude Setup executables
+             EXE=$(find dist -name "*.exe" -not -name "*Setup*" | head -n 1)
+             if [ -n "$EXE" ]; then
+                echo "Testing portable exe: $EXE"
+                "$EXE" --version
+             else
+                echo "No executable found to test"
+                ls -R dist
+                exit 1
+             fi
+          fi
