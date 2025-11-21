@@ -4132,7 +4132,7 @@
   resolved "https://registry.yarnpkg.com/@protobufjs/utf8/-/utf8-1.1.0.tgz#a777360b5b39a1a2e5106f8e858f2fd2d060c570"
   integrity sha512-Vvn3zZrhQZkkBE8LSuW3em98c0FwgO4nxzv6OdSxPKJIEKY2bGbHn+mhGIPerzI4twdxaP8/0+06HBpwf345Lw==
 
-"@react-scan/vite-plugin-react-scan@^0.1.8":
+"@react-scan/vite-plugin-react-scan@0.1.8":
   version "0.1.8"
   resolved "https://registry.yarnpkg.com/@react-scan/vite-plugin-react-scan/-/vite-plugin-react-scan-0.1.8.tgz#b38bd331b152dd281aeb1a068802ab731e18126e"
   integrity sha512-szKSp6zgseIKtQzvuRQ8OXo4VdBpH663fG7ce0KBFKRyyRvAVq3/Oho9YaPon42ludX+Cfw/3zVfAzcuZZvs9w==
@@ -7925,15 +7925,15 @@ entities@^6.0.0:
   resolved "https://registry.yarnpkg.com/entities/-/entities-6.0.1.tgz#c28c34a43379ca7f61d074130b2f5f7020a30694"
   integrity sha512-aN97NXWF6AWBTahfVOIrB/NShkzi5H7F9r1s9mD3cDj4Ko5f2qhhVoYMibXF7GlLveb/D2ioWay8lxI97Ven3g==
 
+env-paths@3.0.0, env-paths@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/env-paths/-/env-paths-3.0.0.tgz#2f1e89c2f6dbd3408e1b1711dd82d62e317f58da"
+  integrity sha512-dtJUTepzMW3Lm/NPxRf3wP4642UWhjL2sQxc+ym2YMj1m/H2zDNQOlezafzkHwn6sMstjHTwG6iQQsctDW/b1A==
+
 env-paths@^2.2.0, env-paths@^2.2.1:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/env-paths/-/env-paths-2.2.1.tgz#420399d416ce1fbe9bc0a07c62fa68d67fd0f8f2"
   integrity sha512-+h1lkLKhZMTYjog1VEpJNG7NZJWcuc2DDk/qsqSTRRCOXiLjeQ1d1/udrUGhqMxUgAlwKNZ0cf2uqan5GLuS2A==
-
-env-paths@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/env-paths/-/env-paths-3.0.0.tgz#2f1e89c2f6dbd3408e1b1711dd82d62e317f58da"
-  integrity sha512-dtJUTepzMW3Lm/NPxRf3wP4642UWhjL2sQxc+ym2YMj1m/H2zDNQOlezafzkHwn6sMstjHTwG6iQQsctDW/b1A==
 
 err-code@3.0.1, err-code@^3.0.0, err-code@^3.0.1:
   version "3.0.1"
@@ -13346,7 +13346,7 @@ progress-events@^1.0.0, progress-events@^1.0.1:
   resolved "https://registry.yarnpkg.com/progress-events/-/progress-events-1.0.1.tgz#693b6d4153f08c1418ae3cd5fcad8596c91db7e8"
   integrity sha512-MOzLIwhpt64KIVN64h1MwdKWiyKFNc/S6BoYKPIVUHFg0/eIEyBulhWCgn678v/4c0ri3FdGuzXymNCv02MUIw==
 
-progress@^2.0.3:
+progress@2.0.3, progress@^2.0.3:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/progress/-/progress-2.0.3.tgz#7e8cf8d8f5b8f239c1bc68beb4eb78567d572ef8"
   integrity sha512-7PiHtLll5LdnKIMw100I+8xJXR5gW2QwWYkT6iJva0bXitZKa/XMrSbdmg3r2Xnaidz9Qumd0VPaMrZlF9V9sA==
@@ -13561,7 +13561,7 @@ react-dom@19.1.0:
   dependencies:
     scheduler "^0.26.0"
 
-react-grab@^0.0.18:
+react-grab@0.0.18:
   version "0.0.18"
   resolved "https://registry.yarnpkg.com/react-grab/-/react-grab-0.0.18.tgz#2ce7e1eb2b0625029011f2b04122a45f0bf006f1"
   integrity sha512-6+ipbbg3Rd1b9jsc4+f100KSgqNGe2RDLQ2jFEPUQiEiRtbt+8o+gpNPJhsDwliChmNAqimuecWAukTu26HpXg==
@@ -13648,7 +13648,7 @@ react-router@6.16.0:
   dependencies:
     "@remix-run/router" "1.9.0"
 
-react-scan@^0.4.3:
+react-scan@0.4.3:
   version "0.4.3"
   resolved "https://registry.yarnpkg.com/react-scan/-/react-scan-0.4.3.tgz#87b686c423d636f5d1b5049dab218f9f6a410e99"
   integrity sha512-jhAQuQ1nja6HUYrSpbmNFHqZPsRCXk8Yqu0lHoRIw9eb8N96uTfXCpVyQhTTnJ/nWqnwuvxbpKVG/oWZT8+iTQ==
@@ -15785,7 +15785,7 @@ uuid@11.1.0:
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-11.1.0.tgz#9549028be1753bb934fc96e2bca09bb4105ae912"
   integrity sha512-0/A9rDy9P7cJ+8w1c9WD9V//9Wj15Ce2MPz8Ri6032usz+NfePxx5AcN3bN+r6ZL6jEo066/yNYB3tn4pQEx+A==
 
-uuid@^13.0.0:
+uuid@13.0.0:
   version "13.0.0"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-13.0.0.tgz#263dc341b19b4d755eb8fe36b78d95a6b65707e8"
   integrity sha512-XQegIaBTVUjSHliKqcnFqYypAd4S+WCYt5NIeRs6w/UAry7z8Y9j5ZwRRL4kzq9U3sD6v+85er9FvkEaBpji2w==
