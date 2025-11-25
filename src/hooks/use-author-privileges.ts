@@ -19,10 +19,10 @@ const useAuthorPrivileges = ({ commentAuthorAddress, subplebbitAddress, postCid 
     const accountAuthorRole = roles?.[accountAuthorAddress]?.role;
     const isAccountMod = accountAuthorRole === 'admin' || accountAuthorRole === 'owner' || accountAuthorRole === 'moderator';
 
-    const isAccountCommentAuthor = !!postCid && accountAuthorAddress === commentAuthorAddress;
+    const isAccountCommentAuthor = accountAuthorAddress === commentAuthorAddress;
 
     return { isCommentAuthorMod, isAccountMod, isAccountCommentAuthor, commentAuthorRole, accountAuthorRole };
-  }, [roles, commentAuthorAddress, accountAuthorAddress, postCid]);
+  }, [roles, commentAuthorAddress, accountAuthorAddress]);
 
   return { isCommentAuthorMod, isAccountMod, isAccountCommentAuthor, commentAuthorRole, accountAuthorRole };
 };
