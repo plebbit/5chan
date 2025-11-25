@@ -58,7 +58,7 @@ jobs:
 
   test-mac-intel:
     name: Test Mac (Intel)
-    runs-on: macOS-13
+    runs-on: macos-15-intel
     steps:
       - uses: actions/checkout@v4
         with:
