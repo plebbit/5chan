@@ -93,17 +93,18 @@ jobs:
         run: |
           if [ -d "dist/mac/5chan.app" ]; then
             echo "Testing dist/mac/5chan.app..."
-            # Run the app with a timeout - it will start IPFS which takes time
+            # Run the app in background - it will start IPFS which takes time
             # We just verify it launches without crashing
-            timeout 15s ./dist/mac/5chan.app/Contents/MacOS/5chan &
+            ./dist/mac/5chan.app/Contents/MacOS/5chan &
             APP_PID=$!
-            sleep 8
+            sleep 10
             # Check if process is still running (means it started successfully)
             if kill -0 $APP_PID 2>/dev/null; then
               echo "✓ App started successfully"
               kill $APP_PID 2>/dev/null || true
               # Also kill any child processes (IPFS)
               pkill -P $APP_PID 2>/dev/null || true
+              pkill -f ipfs 2>/dev/null || true
               exit 0
             else
               echo "✗ App failed to start or crashed"
@@ -162,17 +163,18 @@ jobs:
           fi
           
           echo "Testing $APP_PATH..."
-          # Run the app with a timeout - it will start IPFS which takes time
+          # Run the app in background - it will start IPFS which takes time
           # We just verify it launches without crashing
-          timeout 15s "./$APP_PATH/Contents/MacOS/5chan" &
+          "./$APP_PATH/Contents/MacOS/5chan" &
           APP_PID=$!
-          sleep 8
+          sleep 10
           # Check if process is still running (means it started successfully)
           if kill -0 $APP_PID 2>/dev/null; then
             echo "✓ App started successfully"
             kill $APP_PID 2>/dev/null || true
             # Also kill any child processes (IPFS)
             pkill -P $APP_PID 2>/dev/null || true
+            pkill -f ipfs 2>/dev/null || true
             exit 0
           else
             echo "✗ App failed to start or crashed"
