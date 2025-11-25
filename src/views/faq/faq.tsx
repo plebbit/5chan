@@ -117,8 +117,8 @@ const FAQ = () => {
                   address with it.
                   <br />
                   <br />
-                  By default, Anon Mode is enabled in the settings, which automatically generates and enables a new username per thread you visit. These anon mode
-                  usernames stem from the currently active account file, which you can backup.
+                  You can also edit the display name associated with your account at any time in the settings or directly in the post form. The name you choose will be
+                  reused across threads until you change it again.
                 </dd>
                 <dt id='howimage'>How do I post an image?</dt>
                 <dd>

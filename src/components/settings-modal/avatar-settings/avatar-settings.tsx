@@ -4,7 +4,6 @@ import { setAccount, useAccount, useAuthorAvatar } from '@plebbit/plebbit-react-
 import styles from './avatar-settings.module.css';
 import { Trans, useTranslation } from 'react-i18next';
 import LoadingEllipsis from '../../loading-ellipsis';
-import useAnonMode from '../../../hooks/use-anon-mode';
 
 const AvatarPreview = ({ avatar }: any) => {
   const { t } = useTranslation();
@@ -115,11 +114,8 @@ const AvatarSettings = () => {
     alert(`saved`);
   };
 
-  const { anonMode } = useAnonMode();
-
   return (
     <div className={styles.avatarSettings}>
-      {anonMode && <span className={styles.warning}>{t('avatar_warning')}</span>}
       <AvatarPreview avatar={avatar} />
       <div className={styles.avatarSettingsForm}>
         <div className={styles.avatarSettingInput}>

@@ -14,9 +14,7 @@ import { alertChallengeVerificationFailed } from '../../lib/utils/challenge-util
 import useChallengesStore from '../../stores/use-challenges-store';
 import _ from 'lodash';
 import useIsMobile from '../../hooks/use-is-mobile';
-import useAnonMode from '../../hooks/use-anon-mode';
 import useAuthorPrivileges from '../../hooks/use-author-privileges';
-import useAnonModeStore from '../../stores/use-anon-mode-store';
 
 const { addChallenge } = useChallengesStore.getState();
 
@@ -39,9 +37,6 @@ const EditMenu = ({ post }: { post: Comment }) => {
   const [isContentEditorOpen, setIsContentEditorOpen] = useState(false);
 
   const account = useAccount();
-  const { getNewSigner, getExistingSigner } = useAnonMode(post?.postCid);
-  const { getThreadSigner } = useAnonModeStore();
-
   const [signer, setSigner] = useState<any>(account?.signer);
 
   const { isCommentAuthorMod, isAccountMod, isAccountCommentAuthor } = useAuthorPrivileges({
@@ -50,35 +45,13 @@ const EditMenu = ({ post }: { post: Comment }) => {
     postCid,
   });
 
-  const checkSigner = useCallback(async () => {
+  const checkSigner = useCallback(() => {
     if (isAccountCommentAuthor) {
-      if (author?.address !== account?.author?.address) {
-        // Check for existing thread signer first
-        const threadSigner = getThreadSigner(postCid);
-        if (threadSigner && threadSigner?.address === author?.address) {
-          setSigner(threadSigner);
-          return;
-        }
-
-        // If no thread signer, check for existing address signer
-        const existingSigner = getExistingSigner(author?.address);
-        if (existingSigner) {
-          setSigner(existingSigner);
-          return;
-        }
-
-        // If no existing signer, create a new one
-        const newSigner = await getNewSigner();
-        if (newSigner) {
-          setSigner(newSigner);
-        }
-      } else {
-        setSigner(account?.signer);
-      }
+      setSigner(account?.signer);
     } else {
       setSigner(null);
     }
-  }, [isAccountCommentAuthor, author?.address, postCid, account?.author?.address, account?.signer, getThreadSigner, getExistingSigner, getNewSigner]);
+  }, [isAccountCommentAuthor, account?.signer]);
 
   useEffect(() => {
     checkSigner();

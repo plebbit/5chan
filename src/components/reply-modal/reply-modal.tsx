@@ -1,9 +1,8 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
 import { setAccount, useAccount } from '@plebbit/plebbit-react-hooks';
 import useSubplebbitsStore from '@plebbit/plebbit-react-hooks/dist/stores/subplebbits';
-import useSubplebbitsPagesStore from '@plebbit/plebbit-react-hooks/dist/stores/subplebbits-pages';
 import Plebbit from '@plebbit/plebbit-js';
 import { formatMarkdown } from '../../lib/utils/post-utils';
 import { getFormattedTimeAgo } from '../../lib/utils/time-utils';
@@ -15,7 +14,6 @@ import useIsMobile from '../../hooks/use-is-mobile';
 import styles from './reply-modal.module.css';
 import { LinkTypePreviewer } from '../post-form';
 import _ from 'lodash';
-import useAnonMode from '../../hooks/use-anon-mode';
 import FileUploader from '../../plugins/file-uploader';
 import { Capacitor } from '@capacitor/core';
 import { useSpring, animated } from '@react-spring/web';
@@ -45,34 +43,6 @@ const ReplyModal = ({ closeModal, showReplyModal, parentCid, postCid, scrollY, s
   const textRef = useRef<HTMLTextAreaElement | null>(null);
   const urlRef = useRef<HTMLInputElement>(null);
   const { selectedText } = useSelectedTextStore();
-
-  const { anonMode, getNewSigner, getExistingSigner } = useAnonMode(postCid);
-  const comment = useSubplebbitsPagesStore((state) => state.comments[postCid]);
-  const address = comment?.author?.address;
-
-  const getAnonAddressForReply = useCallback(async () => {
-    const existingSigner = await getExistingSigner(address);
-    if (existingSigner) {
-      setPublishReplyOptions({
-        signer: existingSigner,
-        author: {
-          address: existingSigner.address,
-          displayName: displayName || undefined,
-        },
-      });
-    } else {
-      const newSigner = await getNewSigner();
-      if (newSigner) {
-        setPublishReplyOptions({
-          signer: newSigner,
-          author: {
-            address: newSigner.address,
-            displayName: displayName || undefined,
-          },
-        });
-      }
-    }
-  }, [address, getExistingSigner, getNewSigner, setPublishReplyOptions, displayName]);
 
   const [error, setError] = useState<string | null>(null);
   const [lengthError, setLengthError] = useState<string | null>(null);
@@ -114,28 +84,6 @@ const ReplyModal = ({ closeModal, showReplyModal, parentCid, postCid, scrollY, s
     setError(null);
     publishReply();
   };
-
-  useEffect(() => {
-    if (anonMode) {
-      setPublishReplyOptions({
-        signer: undefined,
-        author: {
-          address: undefined,
-          displayName: displayName || undefined,
-        },
-      });
-      getAnonAddressForReply();
-    } else {
-      setPublishReplyOptions({
-        signer: undefined,
-        author: {
-          ...account?.author,
-          displayName: displayName || account?.author?.displayName,
-        },
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [anonMode]);
 
   useEffect(() => {
     if (typeof replyIndex === 'number') {

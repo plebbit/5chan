@@ -6,7 +6,6 @@ import useChallengesStore from './use-challenges-store';
 type SubmitState = {
   author?: any | undefined;
   displayName?: string | undefined;
-  signer?: any | undefined;
   subplebbitAddress: string | undefined;
   title: string | undefined;
   content: string | undefined;
@@ -22,7 +21,6 @@ const { addChallenge } = useChallengesStore.getState();
 const usePublishPostStore = create<SubmitState>((set) => ({
   author: undefined,
   displayName: undefined,
-  signer: undefined,
   subplebbitAddress: undefined,
   title: undefined,
   content: undefined,
@@ -31,7 +29,7 @@ const usePublishPostStore = create<SubmitState>((set) => ({
   publishCommentOptions: {},
   setPublishPostStore: (comment: Comment) =>
     set(() => {
-      const { subplebbitAddress, author, content, link, signer, spoiler, title } = comment;
+      const { subplebbitAddress, author, content, link, spoiler, title } = comment;
 
       const displayName = 'displayName' in comment ? comment.displayName || undefined : author?.displayName;
 
@@ -60,14 +58,9 @@ const usePublishPostStore = create<SubmitState>((set) => ({
         publishCommentOptions.author = updatedAuthor;
       }
 
-      if (signer) {
-        publishCommentOptions.signer = signer;
-      }
-
       return {
         author: updatedAuthor,
         displayName,
-        signer,
         subplebbitAddress,
         title,
         content,
@@ -80,7 +73,6 @@ const usePublishPostStore = create<SubmitState>((set) => ({
     set({
       author: undefined,
       displayName: undefined,
-      signer: undefined,
       subplebbitAddress: undefined,
       title: undefined,
       content: undefined,

@@ -54,15 +54,3 @@
   margin: 2px 0 10px 0;
   padding-left: 19px;
 }
-
-.anonMode {
-  padding: 10px 0;
-}
-
-.anonMode label {
-  text-transform: capitalize;
-}
-
-.anonMode input[type="checkbox"] {
-  margin-right: 3px;
-}
