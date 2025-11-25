@@ -229,7 +229,7 @@
   "order": "Ordre",
   "text": "Texte",
   "filtered_threads": "Threads filtrés",
-  "missing_link_confirm": "Votre publication est manquante d'un lien avec une image, elle sera filtrée par défaut sur 5chan. Vous pouvez désactiver ce filtre dans les paramètres, ou voir votre publication sur un autre client Plebbit, comme Seedit. Publier quand même ?",
+  "missing_link_confirm": "Votre publication ne sera pas visible par défaut sur 5chan, car il manque un lien vers une image ou un autre média. Vous pouvez désactiver ce filtre dans les paramètres.",
   "no_board_selected_warning": "Veuillez sélectionner un tableau avant de publier.",
   "invalid_url_alert": "Le lien fourni n'est pas une URL valide.",
   "empty_comment_alert": "Impossible de publier un commentaire vide.",

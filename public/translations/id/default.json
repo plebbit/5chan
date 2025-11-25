@@ -229,7 +229,7 @@
   "order": "Urutan",
   "text": "Teks",
   "filtered_threads": "Thread yang difilter",
-  "missing_link_confirm": "Postingan Anda tidak memiliki tautan dengan gambar, itu akan difilter secara default di 5chan. Anda dapat menonaktifkan filter ini di pengaturan, atau melihat postingan Anda di klien Plebbit lain, seperti Seedit. Posting saja?",
+  "missing_link_confirm": "Postingan Anda tidak akan terlihat secara default di 5chan, karena tidak ada tautan ke gambar atau media lain. Anda dapat menonaktifkan filter ini di pengaturan.",
   "no_board_selected_warning": "Silakan pilih papan sebelum memposting.",
   "invalid_url_alert": "Tautan yang diberikan bukan URL yang valid.",
   "empty_comment_alert": "Tidak dapat memposting komentar kosong.",

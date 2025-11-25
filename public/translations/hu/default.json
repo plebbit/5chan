@@ -229,7 +229,7 @@
   "order": "Rendelés",
   "text": "Szöveg",
   "filtered_threads": "Szűrt szálak",
-  "missing_link_confirm": "A bejegyzésedből hiányzik egy képet tartalmazó hivatkozás, alapértelmezés szerint kiszűrésre kerül a 5chan-on. Ezt a szűrőt letilthatod a beállításokban, vagy megnézheted a bejegyzésedet egy másik Plebbit kliensben, például a Seedit-en. Mégis posztolj?",
+  "missing_link_confirm": "A bejegyzésed alapértelmezés szerint nem lesz látható a 5chan-on, mert hiányzik belőle egy kép vagy más média hivatkozása. Ezt a szűrőt a beállításokban tudod kikapcsolni.",
   "no_board_selected_warning": "Kérlek, válassz egy táblát a közzététel előtt.",
   "invalid_url_alert": "A megadott hivatkozás nem érvényes URL.",
   "empty_comment_alert": "Üres hozzászólást nem lehet közzétenni.",

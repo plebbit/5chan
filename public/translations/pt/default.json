@@ -229,7 +229,7 @@
   "order": "Ordem",
   "text": "Texto",
   "filtered_threads": "Threads filtrados",
-  "missing_link_confirm": "Sua postagem está faltando um link com uma imagem, ela será filtrada por padrão no 5chan. Você pode desativar esse filtro nas configurações ou visualizar sua postagem em outro cliente Plebbit, como o Seedit. Postar mesmo assim?",
+  "missing_link_confirm": "Sua postagem não será visível por padrão no 5chan, porque está faltando um link para uma imagem ou outra mídia. Você pode desativar este filtro nas configurações.",
   "no_board_selected_warning": "Por favor, selecione um quadro antes de postar.",
   "invalid_url_alert": "O link fornecido não é uma URL válida.",
   "empty_comment_alert": "Não é possível postar um comentário vazio.",

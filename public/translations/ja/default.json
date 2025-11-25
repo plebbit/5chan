@@ -229,7 +229,7 @@
   "order": "順序",
   "text": "テキスト",
   "filtered_threads": "フィルタリングされたスレッド",
-  "missing_link_confirm": "あなたの投稿には画像付きのリンクがありません。それは5chanでデフォルトでフィルタリングされます。このフィルタを設定で無効にするか、Seeditのような別のPlebbitクライアントで投稿を表示できます。それでも投稿しますか？",
+  "missing_link_confirm": "画像やその他のメディアへのリンクがないため、あなたの投稿は5chanでデフォルトでは表示されません。設定でこのフィルターを無効にできます。",
   "no_board_selected_warning": "投稿する前にボードを選択してください。",
   "invalid_url_alert": "提供されたリンクは有効なURLではありません。",
   "empty_comment_alert": "空のコメントは投稿できません。",

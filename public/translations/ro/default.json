@@ -229,7 +229,7 @@
   "order": "Ordine",
   "text": "Text",
   "filtered_threads": "Fire filtrate",
-  "missing_link_confirm": "Postarea ta nu are un link cu o imagine, va fi filtrată în mod implicit pe 5chan. Poți dezactiva acest filtru în setări sau vizualiza postarea ta pe un alt client Plebbit, cum ar fi Seedit. Postează oricum?",
+  "missing_link_confirm": "Postarea ta nu va fi vizibilă implicit pe 5chan, deoarece îi lipsește un link către o imagine sau alt media. Poți dezactiva acest filtru în setări.",
   "no_board_selected_warning": "Vă rugăm să selectați un tablou înainte de a publica.",
   "invalid_url_alert": "Linkul furnizat nu este un URL valid.",
   "empty_comment_alert": "Nu se poate publica un comentariu gol.",

@@ -229,7 +229,7 @@
   "order": "Kaayusan",
   "text": "Teksto",
   "filtered_threads": "Na-filter na mga thread",
-  "missing_link_confirm": "Ang iyong post ay walang link na may larawan, ito ay awtomatikong magiging filter sa 5chan. Maaari mong huwag paganahin ang filter na ito sa mga setting, o tingnan ang iyong post sa ibang Plebbit client, tulad ng Seedit. Mag-post pa rin?",
+  "missing_link_confirm": "Ang iyong post ay hindi makikita bilang default sa 5chan, dahil kulang ito ng link sa isang larawan o ibang media. Maaari mong i-disable ang filter na ito sa settings.",
   "no_board_selected_warning": "Mangyaring pumili ng board bago mag-post.",
   "invalid_url_alert": "Ang ibinigay na link ay hindi isang wastong URL.",
   "empty_comment_alert": "Hindi makapag-post ng walang laman na komento.",

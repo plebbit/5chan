@@ -229,7 +229,7 @@
   "order": "Thứ tự",
   "text": "Văn bản",
   "filtered_threads": "Các chủ đề đã lọc",
-  "missing_link_confirm": "Bài đăng của bạn thiếu một liên kết với hình ảnh, nó sẽ bị lọc theo mặc định trên 5chan. Bạn có thể tắt bộ lọc này trong cài đặt hoặc xem bài đăng của bạn trên một khách hàng Plebbit khác, như Seedit. Vẫn muốn đăng?",
+  "missing_link_confirm": "Bài đăng của bạn sẽ không hiển thị theo mặc định trên 5chan, vì thiếu liên kết đến hình ảnh hoặc phương tiện khác. Bạn có thể tắt bộ lọc này trong cài đặt.",
   "no_board_selected_warning": "Vui lòng chọn một bảng trước khi đăng.",
   "invalid_url_alert": "Liên kết được cung cấp không phải là một URL hợp lệ.",
   "empty_comment_alert": "Không thể đăng bình luận trống.",

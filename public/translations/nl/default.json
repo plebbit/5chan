@@ -229,7 +229,7 @@
   "order": "Volgorde",
   "text": "Tekst",
   "filtered_threads": "Gefilterde threads",
-  "missing_link_confirm": "Je bericht mist een link met een afbeelding, deze zal standaard op 5chan worden gefilterd. Je kunt deze filter in de instellingen uitschakelen of je bericht bekijken op een andere Plebbit-client, zoals Seedit. Toch posten?",
+  "missing_link_confirm": "Je bericht zal standaard niet zichtbaar zijn op 5chan, omdat er een link naar een afbeelding of ander media ontbreekt. Je kunt dit filter uitschakelen in de instellingen.",
   "no_board_selected_warning": "Selecteer een bord voordat je plaatst.",
   "invalid_url_alert": "De opgegeven link is geen geldige URL.",
   "empty_comment_alert": "Kan geen lege opmerking plaatsen.",

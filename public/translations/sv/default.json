@@ -229,7 +229,7 @@
   "order": "Ordning",
   "text": "Text",
   "filtered_threads": "Filtrerade trådar",
-  "missing_link_confirm": "Ditt inlägg saknar en länk med en bild, det kommer att filtreras som standard på 5chan. Du kan inaktivera detta filter i inställningarna, eller visa ditt inlägg på en annan Plebbit-klient, som Seedit. Vill du ändå posta?",
+  "missing_link_confirm": "Ditt inlägg kommer inte att vara synligt som standard på 5chan, eftersom det saknas en länk till en bild eller annat media. Du kan inaktivera detta filter i inställningarna.",
   "no_board_selected_warning": "Vänligen välj en tavla innan du postar.",
   "invalid_url_alert": "Den angivna länken är inte en giltig URL.",
   "empty_comment_alert": "Kan inte posta tom kommentar.",
