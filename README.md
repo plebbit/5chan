@@ -100,6 +100,10 @@ To have your board appear in a directory on the 5chan homepage:
 - **Web client and electron client**: `yarn electron:start`
 - **Web client and electron client** (don't delete data): `yarn electron:start:no-delete-data`
 
+### Challenge Types
+
+Subplebbits can require challengers to solve one or more prompts before a publication is accepted. 5chan already supported text and image prompts, and now also handles `url/iframe` challenges so Mintpass communities can run their iframe flow directly inside the modal. The modal first shows a hostname confirmation (showing only the host for mintpass.org, full URL otherwise), then opens the HTTPS iframe with the current theme, replaces `{userAddress}` tokens with the signed-in address, and submits automatically when the user finishes.
+
 ### Build
 
 The Linux/Windows/macOS/Android build scripts are in [.github/workflows/release.yml](https://github.com/plebbit/5chan/blob/master/.github/workflows/release.yml)
