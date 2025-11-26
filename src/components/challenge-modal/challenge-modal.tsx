@@ -216,8 +216,10 @@ const Challenge = ({ challenge, closeModal }: ChallengeProps) => {
     return null;
   }
 
+  const isIframeVisible = isIframeChallenge && !showIframeConfirmation;
+
   const containerClasses = [styles.container];
-  if (isIframeChallenge) {
+  if (isIframeVisible) {
     containerClasses.push(styles.iframeContainer);
   }
 
@@ -246,13 +248,16 @@ const Challenge = ({ challenge, closeModal }: ChallengeProps) => {
     }
   })();
 
+  const mobileX = isIframeVisible ? 5 : window.innerWidth / 2 - 150;
+  const mobileY = isIframeVisible ? Math.max(10, (window.innerHeight - 600) / 2) : window.innerHeight / 2 - 200;
+
   return (
     <animated.div
       className={containerClasses.join(' ')}
       ref={nodeRef}
       style={{
-        x: isMobile ? window.innerWidth / 2 - 150 : x,
-        y: isMobile ? window.innerHeight / 2 - 200 : y,
+        x: isMobile ? mobileX : x,
+        y: isMobile ? mobileY : y,
         touchAction: 'none',
       }}
     >

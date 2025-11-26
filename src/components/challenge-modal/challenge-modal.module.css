@@ -145,8 +145,19 @@
     cursor: default;
   }
 
+  .iframeContainer {
+    width: calc(100% - 10px);
+    max-width: calc(100% - 15px);
+  }
+
   .iframeWrapper {
-    width: 100vw;
-    height: 70vh;
+    width: 100%;
+    height: 500px;
+    margin: 5px 0;
+  }
+
+  .iframe {
+    border-left: none;
+    border-right: none;
   }
 }
