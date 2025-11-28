@@ -132,11 +132,6 @@
     "vite-plugin-pwa": "0.21.1",
     "wait-on": "7.0.1"
   },
-  "resolutions": {
-    "@bonfida/spl-name-service": "3.0.0",
-    "@libp2p/utils": "7.0.7",
-    "@noble/hashes": "1.8.0"
-  },
   "main": "electron/main.js",
   "build": {
     "appId": "5chan.desktop",
