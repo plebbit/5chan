@@ -293,5 +293,7 @@
   "filter_and_highlights_help": "Ndihma për Filtro & Thekso",
   "filter_and_highlights": "Filtra dhe thekson",
   "boards_you_moderate": "boards që i moderoni",
-  "more_threads_last_year": "{{count}} tema nga {{currentTimeFilterName}} — [<1>Shfaq më shumë tema nga viti i kaluar</1>]"
+  "more_threads_last_year": "{{count}} tema nga {{currentTimeFilterName}} — [<1>Shfaq më shumë tema nga viti i kaluar</1>]",
+  "moderator_of_this_board": "Ky përdorues është moderator i këtij bordi",
+  "administrator_of_this_board": "Ky përdorues është administrator i këtij bordi"
 }

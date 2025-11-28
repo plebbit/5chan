@@ -293,5 +293,7 @@
   "filter_and_highlights_help": "Допомога з фільтрами та підсвічуваннями",
   "filter_and_highlights": "Фільтри та виділення",
   "boards_you_moderate": "boards, які ви модеруватимете",
-  "more_threads_last_year": "{{count}} тем з {{currentTimeFilterName}} — [<1>Показати більше тем з минулого року</1>]"
+  "more_threads_last_year": "{{count}} тем з {{currentTimeFilterName}} — [<1>Показати більше тем з минулого року</1>]",
+  "moderator_of_this_board": "Цей користувач є модератором цього форуму",
+  "administrator_of_this_board": "Цей користувач є адміністратором цього форуму"
 }

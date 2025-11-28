@@ -293,5 +293,7 @@
   "filter_and_highlights_help": "Filter- und Markierungs-Hilfe",
   "filter_and_highlights": "Filter und Hervorhebungen",
   "boards_you_moderate": "Boards, die Sie moderieren",
-  "more_threads_last_year": "{{count}} Threads seit {{currentTimeFilterName}} — [<1>Mehr Threads vom letzten Jahr anzeigen</1>]"
+  "more_threads_last_year": "{{count}} Threads seit {{currentTimeFilterName}} — [<1>Mehr Threads vom letzten Jahr anzeigen</1>]",
+  "moderator_of_this_board": "Dieser Benutzer ist Moderator dieses Boards",
+  "administrator_of_this_board": "Dieser Benutzer ist Administrator dieses Boards"
 }

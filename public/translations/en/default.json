@@ -294,5 +294,7 @@
   "filter_and_highlights_help": "Filters & Highlights Help",
   "filter_and_highlights": "Filters & Highlights",
   "boards_you_moderate": "boards you moderate",
-  "more_threads_last_year": "{{count}} threads since {{currentTimeFilterName}} — [<1>Show More Threads from Last Year</1>]"
+  "more_threads_last_year": "{{count}} threads since {{currentTimeFilterName}} — [<1>Show More Threads from Last Year</1>]",
+  "moderator_of_this_board": "This user is a moderator of this board",
+  "administrator_of_this_board": "This user is an administrator of this board"
 }

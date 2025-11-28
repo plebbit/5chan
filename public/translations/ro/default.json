@@ -293,5 +293,7 @@
   "filter_and_highlights_help": "Ajutor pentru filtre și evidențieri",
   "filter_and_highlights": "Filtre și evidențieri",
   "boards_you_moderate": "boards pe care le moderezi",
-  "more_threads_last_year": "{{count}} subiecte din {{currentTimeFilterName}} — [<1>Afișați mai multe subiecte de anul trecut</1>]"
+  "more_threads_last_year": "{{count}} subiecte din {{currentTimeFilterName}} — [<1>Afișați mai multe subiecte de anul trecut</1>]",
+  "moderator_of_this_board": "Acest utilizator este moderator al acestui forum",
+  "administrator_of_this_board": "Acest utilizator este administrator al acestui forum"
 }

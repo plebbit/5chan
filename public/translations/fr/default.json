@@ -293,5 +293,7 @@
   "filter_and_highlights_help": "Aide sur les filtres et surlignages",
   "filter_and_highlights": "Filtres et surlignages",
   "boards_you_moderate": "boards que vous modérez",
-  "more_threads_last_year": "{{count}} fils depuis {{currentTimeFilterName}} — [<1>Afficher plus de fils de l'année dernière</1>]"
+  "more_threads_last_year": "{{count}} fils depuis {{currentTimeFilterName}} — [<1>Afficher plus de fils de l'année dernière</1>]",
+  "moderator_of_this_board": "Cet utilisateur est modérateur de ce tableau",
+  "administrator_of_this_board": "Cet utilisateur est administrateur de ce tableau"
 }

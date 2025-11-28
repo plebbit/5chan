@@ -293,5 +293,7 @@
   "filter_and_highlights_help": "フィルターとハイライトのヘルプ",
   "filter_and_highlights": "フィルターとハイライト",
   "boards_you_moderate": "あなたが管理するボード",
-  "more_threads_last_year": "{{count}} スレッド {{currentTimeFilterName}} から — [<1>去年のスレッドをさらに表示</1>]"
+  "more_threads_last_year": "{{count}} スレッド {{currentTimeFilterName}} から — [<1>去年のスレッドをさらに表示</1>]",
+  "moderator_of_this_board": "このユーザーはこのボードのモデレーターです",
+  "administrator_of_this_board": "このユーザーはこのボードの管理者です"
 }

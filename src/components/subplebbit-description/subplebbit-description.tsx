@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { isAllView } from '../../lib/utils/view-utils';
 import { useMultisubMetadata } from '../../hooks/use-default-subplebbits';
 import { useLocation } from 'react-router-dom';
+import _ from 'lodash';
 
 interface DescriptionPostProps {
   avatarUrl?: string;
@@ -24,7 +25,7 @@ const SubplebbitDescription = ({ avatarUrl, createdAt, description, replyCount, 
     isDescription: true,
     subplebbitAddress,
     timestamp: isInAllView ? multisubMetadata?.createdAt : createdAt,
-    author: { displayName: `## ${t('board_mods')}` },
+    author: { displayName: _.capitalize(t('anonymous')) },
     content: isInAllView ? multisubMetadata?.description : description,
     link: avatarUrl,
     replyCount,

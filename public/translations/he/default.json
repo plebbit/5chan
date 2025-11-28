@@ -293,5 +293,7 @@
   "filter_and_highlights_help": "עזרה במסננים והדגשות",
   "filter_and_highlights": "מסננים והדגשות",
   "boards_you_moderate": "לוחות שאתה מפקח עליהם",
-  "more_threads_last_year": "{{count}} חוטים מאז {{currentTimeFilterName}} — [<1>הצג עוד חוטים מהשנה שעברה</1>]"
+  "more_threads_last_year": "{{count}} חוטים מאז {{currentTimeFilterName}} — [<1>הצג עוד חוטים מהשנה שעברה</1>]",
+  "moderator_of_this_board": "משתמש זה הוא מנהל של הלוח הזה",
+  "administrator_of_this_board": "משתמש זה הוא מנהל מערכת של הלוח הזה"
 }

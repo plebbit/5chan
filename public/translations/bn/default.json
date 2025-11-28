@@ -293,5 +293,7 @@
   "filter_and_highlights_help": "ফিল্টার এবং হাইলাইট সাহায্য",
   "filter_and_highlights": "ফিল্টার এবং হাইলাইট",
   "boards_you_moderate": "আপনি যে বোর্ডগুলি পরিচালনা করেন",
-  "more_threads_last_year": "{{count}} থ্রেড {{currentTimeFilterName}} থেকে — [<1>গত বছরের আরও থ্রেড দেখান</1>]"
+  "more_threads_last_year": "{{count}} থ্রেড {{currentTimeFilterName}} থেকে — [<1>গত বছরের আরও থ্রেড দেখান</1>]",
+  "moderator_of_this_board": "এই ব্যবহারকারী এই বোর্ডের একজন মডারেটর",
+  "administrator_of_this_board": "এই ব্যবহারকারী এই বোর্ডের একজন প্রশাসক"
 }

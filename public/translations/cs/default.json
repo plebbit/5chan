@@ -293,5 +293,7 @@
   "filter_and_highlights_help": "Pomoc s filtry a zvýrazněním",
   "filter_and_highlights": "Filtry a zvýraznění",
   "boards_you_moderate": "Fóra, která moderujete",
-  "more_threads_last_year": "{{count}} příspěvků od {{currentTimeFilterName}} — [<1>Zobrazit více příspěvků z minulého roku</1>]"
+  "more_threads_last_year": "{{count}} příspěvků od {{currentTimeFilterName}} — [<1>Zobrazit více příspěvků z minulého roku</1>]",
+  "moderator_of_this_board": "Tento uživatel je moderátorem tohoto fóra",
+  "administrator_of_this_board": "Tento uživatel je administrátorem tohoto fóra"
 }

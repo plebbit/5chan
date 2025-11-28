@@ -293,5 +293,7 @@
   "filter_and_highlights_help": "Filtre og fremhevinger Hjelp",
   "filter_and_highlights": "Filtre og uthevinger",
   "boards_you_moderate": "boards du modererer",
-  "more_threads_last_year": "{{count}} tråder siden {{currentTimeFilterName}} — [<1>Vis flere tråder fra forrige år</1>]"
+  "more_threads_last_year": "{{count}} tråder siden {{currentTimeFilterName}} — [<1>Vis flere tråder fra forrige år</1>]",
+  "moderator_of_this_board": "Denne brukeren er moderator for dette tavlet",
+  "administrator_of_this_board": "Denne brukeren er administrator for dette tavlet"
 }
