@@ -8,7 +8,6 @@ type ReplyState = {
   displayName: { [parentCid: string]: string | undefined };
   content: { [parentCid: string]: string | undefined };
   link: { [parentCid: string]: string | undefined };
-  signer: { [parentCid: string]: any | undefined };
   spoiler: { [parentCid: string]: boolean | undefined };
   publishCommentOptions: { [parentCid: string]: PublishCommentOptions | undefined };
   setPublishReplyStore: (comment: Comment) => void;
@@ -22,13 +21,12 @@ const usePublishReplyStore = create<ReplyState>((set) => ({
   displayName: {},
   content: {},
   link: {},
-  signer: {},
   spoiler: {},
   publishCommentOptions: {},
 
   setPublishReplyStore: (comment: Comment) =>
     set((state) => {
-      const { subplebbitAddress, parentCid, author, content, link, signer, spoiler } = comment;
+      const { subplebbitAddress, parentCid, author, content, link, spoiler } = comment;
 
       const displayName = 'displayName' in comment ? comment.displayName || undefined : author?.displayName;
 
@@ -58,16 +56,11 @@ const usePublishReplyStore = create<ReplyState>((set) => ({
         publishCommentOptions.author = updatedAuthor;
       }
 
-      if (signer) {
-        publishCommentOptions.signer = signer;
-      }
-
       return {
         author: { ...state.author, [parentCid]: updatedAuthor },
         displayName: { ...state.displayName, [parentCid]: displayName },
         content: { ...state.content, [parentCid]: content },
         link: { ...state.link, [parentCid]: link },
-        signer: { ...state.signer, [parentCid]: signer },
         spoiler: { ...state.spoiler, [parentCid]: spoiler },
         publishCommentOptions: { ...state.publishCommentOptions, [parentCid]: publishCommentOptions },
       };
@@ -79,7 +72,6 @@ const usePublishReplyStore = create<ReplyState>((set) => ({
       displayName: { ...state.displayName, [parentCid]: undefined },
       content: { ...state.content, [parentCid]: undefined },
       link: { ...state.link, [parentCid]: undefined },
-      signer: { ...state.signer, [parentCid]: undefined },
       spoiler: { ...state.spoiler, [parentCid]: undefined },
       publishCommentOptions: { ...state.publishCommentOptions, [parentCid]: undefined },
     })),

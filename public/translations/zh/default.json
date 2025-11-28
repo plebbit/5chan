@@ -221,8 +221,6 @@
   "static_gif": "静态GIF",
   "animated_gif": "动画GIF",
   "hide_avatars": "隐藏头像",
-  "anon_mode": "匿名模式",
-  "anon_mode_description": "为您发布的每个线程使用唯一的用户 ID。这些 ID 无法追溯到您的原始帐户。",
   "pending": "待处理",
   "failed": "失败",
   "add": "添加",
@@ -231,7 +229,7 @@
   "order": "顺序",
   "text": "文本",
   "filtered_threads": "已过滤的帖子",
-  "missing_link_confirm": "您的帖子缺少带图像的链接，默认情况下将在 5chan 中被过滤。您可以在设置中禁用此过滤器，或者在另一个 Plebbit 客户端（如 Seedit）中查看您的帖子。还是发布吗？",
+  "missing_link_confirm": "您的帖子默认不会在5chan上显示，因为它缺少指向图像或其他媒体的链接。您可以在设置中禁用此过滤器。",
   "no_board_selected_warning": "请在发布之前选择一个板块。",
   "invalid_url_alert": "提供的链接不是有效的 URL。",
   "empty_comment_alert": "无法发布空评论。",
@@ -247,7 +245,6 @@
   "crypto_address_yours": "加密地址属于此帐户。",
   "delete_wallet": "删除钱包",
   "loading_board": "正在加载板块",
-  "avatar_warning": "在匿名模式开启时，您无法使用头像进行发布。您可以在 Plebbit 账户设置中将其关闭。",
   "last_bumped": "最后提升",
   "threads_without_images_tip": "仅显示链接到可嵌入媒体的帖子",
   "hide_gore_boards_tip": "不显示来自带有“gore”标签的板块的帖子",
@@ -296,5 +293,7 @@
   "filter_and_highlights_help": "过滤器和高亮帮助",
   "filter_and_highlights": "筛选器与高亮",
   "boards_you_moderate": "您管理的板块",
-  "more_threads_last_year": "{{count}} 主题自 {{currentTimeFilterName}} — [<1>显示更多去年的主题</1>]"
+  "more_threads_last_year": "{{count}} 主题自 {{currentTimeFilterName}} — [<1>显示更多去年的主题</1>]",
+  "moderator_of_this_board": "此用户是此版块的版主",
+  "administrator_of_this_board": "此用户是此版块的管理员"
 }

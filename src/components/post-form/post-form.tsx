@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { Comment, setAccount, useAccount, useAccountComment, useAccountSubplebbits, useEditedComment } from '@plebbit/plebbit-react-hooks';
@@ -9,7 +9,6 @@ import { getHasThumbnail, getLinkMediaInfo } from '../../lib/utils/media-utils';
 import { formatMarkdown } from '../../lib/utils/post-utils';
 import { isValidURL } from '../../lib/utils/url-utils';
 import { isAllView, isDescriptionView, isModView, isPostPageView, isRulesView, isSubscriptionsView } from '../../lib/utils/view-utils';
-import useAnonMode from '../../hooks/use-anon-mode';
 import { useDefaultSubplebbits } from '../../hooks/use-default-subplebbits';
 import { useResolvedSubplebbitAddress } from '../../hooks/use-resolved-subplebbit-address';
 import useFetchGifFirstFrame from '../../hooks/use-fetch-gif-first-frame';
@@ -64,10 +63,6 @@ const PostFormTable = ({ closeForm, postCid }: { closeForm: () => void; postCid:
   const { accountSubplebbits } = useAccountSubplebbits();
   const accountSubplebbitAddresses = Object.keys(accountSubplebbits);
 
-  const { anonMode, getNewSigner, getExistingSigner } = useAnonMode(postCid);
-  const comment = useSubplebbitsPagesStore((state) => state.comments[postCid]);
-  const address = comment?.author?.address;
-
   const [lengthError, setLengthError] = useState<string | null>(null);
 
   const checkContentLength = useRef(
@@ -92,27 +87,6 @@ const PostFormTable = ({ closeForm, postCid }: { closeForm: () => void; postCid:
       subjectRef.current.value = '';
     }
   };
-
-  const getAnonAddressForPost = useCallback(async () => {
-    if (anonMode) {
-      const newSigner = (await getNewSigner()) || {};
-      setPublishPostOptions({
-        signer: newSigner,
-        author: {
-          address: newSigner.address,
-          displayName: displayName || undefined,
-        },
-      });
-    } else {
-      setPublishPostOptions({
-        signer: undefined,
-        author: {
-          address: account?.author?.address,
-          displayName: displayName || undefined,
-        },
-      });
-    }
-  }, [anonMode, getNewSigner, account, setPublishPostOptions, displayName]);
 
   const onPublishPost = () => {
     const currentTitle = subjectRef.current?.value.trim() || '';
@@ -166,56 +140,10 @@ const PostFormTable = ({ closeForm, postCid }: { closeForm: () => void; postCid:
     }
   }, [postIndex, resetPublishPostOptions, navigate]);
 
-  useEffect(() => {
-    if (anonMode) {
-      setPublishPostOptions({
-        signer: undefined,
-        author: {
-          address: undefined,
-          displayName: displayName || undefined,
-        },
-      });
-      getAnonAddressForPost();
-    } else {
-      setPublishPostOptions({
-        signer: undefined,
-        author: {
-          ...account?.author,
-          displayName: displayName || account?.author?.displayName,
-        },
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [anonMode]);
-
   // in post page, publish a reply to the post
   const isInPostView = isPostPageView(location.pathname, params);
   const cid = params?.commentCid as string;
   const { setPublishReplyOptions, resetPublishReplyOptions, replyIndex, publishReply } = usePublishReply({ cid, subplebbitAddress });
-
-  const getAnonAddressForReply = useCallback(async () => {
-    const existingSigner = await getExistingSigner(address);
-    if (existingSigner) {
-      setPublishReplyOptions({
-        signer: existingSigner,
-        author: {
-          address: existingSigner.address,
-          displayName: displayName || undefined,
-        },
-      });
-    } else {
-      const newSigner = await getNewSigner();
-      if (newSigner) {
-        setPublishReplyOptions({
-          signer: newSigner,
-          author: {
-            address: newSigner.address,
-            displayName: displayName || undefined,
-          },
-        });
-      }
-    }
-  }, [address, getExistingSigner, getNewSigner, setPublishReplyOptions, displayName]);
 
   const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const formattedContent = formatMarkdown(e.target.value);
@@ -255,17 +183,6 @@ const PostFormTable = ({ closeForm, postCid }: { closeForm: () => void; postCid:
       closeForm();
     }
   }, [replyIndex, resetPublishReplyOptions, closeForm]);
-
-  useEffect(() => {
-    if (anonMode) {
-      if (isInPostView) {
-        getAnonAddressForReply();
-      } else {
-        getAnonAddressForPost();
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [anonMode, isInPostView]);
 
   // on android, auto upload file to image hosting sites with open api
   const [isUploading, setIsUploading] = useState(false);

@@ -221,8 +221,6 @@
   "static_gif": "GIF Statica",
   "animated_gif": "GIF Animata",
   "hide_avatars": "Nascondi avatar",
-  "anon_mode": "Modalità anonima",
-  "anon_mode_description": "Usa un ID utente unico per ogni thread in cui pubblichi. Questi ID non possono essere tracciati fino al tuo account originale.",
   "pending": "In attesa",
   "failed": "Fallito",
   "add": "Aggiungi",
@@ -231,7 +229,7 @@
   "order": "Ordine",
   "text": "Testo",
   "filtered_threads": "Thread filtrati",
-  "missing_link_confirm": "Il tuo post è privo di un link con un'immagine, verrà filtrato per impostazione predefinita su 5chan. Puoi disabilitare questo filtro nelle impostazioni o visualizzare il tuo post su un altro client Plebbit, come Seedit. Pubblica comunque?",
+  "missing_link_confirm": "Il tuo post non sarà visibile per impostazione predefinita su 5chan, perché manca un link a un'immagine o ad altri media. Puoi disabilitare questo filtro nelle impostazioni.",
   "no_board_selected_warning": "Per favore, seleziona una board prima di pubblicare.",
   "invalid_url_alert": "Il link fornito non è un URL valido.",
   "empty_comment_alert": "Impossibile pubblicare un commento vuoto.",
@@ -247,7 +245,6 @@
   "crypto_address_yours": "L'indirizzo cripto appartiene a questo account.",
   "delete_wallet": "Elimina Wallet",
   "loading_board": "Caricamento board",
-  "avatar_warning": "Non puoi postare con un avatar mentre la modalità anonima è attiva. Puoi disattivarla nelle impostazioni del tuo account Plebbit.",
   "last_bumped": "Ultimo Bump",
   "threads_without_images_tip": "Mostra solo i thread che linkano a media incorporabili",
   "hide_gore_boards_tip": "Non mostrare i thread dei board con il tag \"gore\"",
@@ -296,5 +293,7 @@
   "filter_and_highlights_help": "Aiuto su Filtri e Evidenziazioni",
   "filter_and_highlights": "Filtri e Evidenziazioni",
   "boards_you_moderate": "board che moderi",
-  "more_threads_last_year": "{{count}} thread da {{currentTimeFilterName}} — [<1>Mostra altri thread dell'anno scorso</1>]"
+  "more_threads_last_year": "{{count}} thread da {{currentTimeFilterName}} — [<1>Mostra altri thread dell'anno scorso</1>]",
+  "moderator_of_this_board": "Questo utente è moderatore di questa bacheca",
+  "administrator_of_this_board": "Questo utente è amministratore di questa bacheca"
 }

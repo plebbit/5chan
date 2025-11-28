@@ -221,8 +221,6 @@
   "static_gif": "Statik GIF",
   "animated_gif": "Animasyonlu GIF",
   "hide_avatars": "Avatarları gizle",
-  "anon_mode": "Gizli mod",
-  "anon_mode_description": "Yayınladığınız her başlık için benzersiz bir kullanıcı ID'si kullanın. Bu ID'ler orijinal hesabınıza geri izlenemez.",
   "pending": "Beklemede",
   "failed": "Başarısız",
   "add": "Ekle",
@@ -231,7 +229,7 @@
   "order": "Sıra",
   "text": "Metin",
   "filtered_threads": "Filtrelenmiş başlıklar",
-  "missing_link_confirm": "Gönderinizin bir resmi içeren bağlantısı yok, varsayılan olarak 5chan'da filtrelenecek. Bu filtreyi ayarlardan devre dışı bırakabilir veya gönderinizi Seedit gibi başka bir Plebbit istemcisinde görüntüleyebilirsiniz. Yine de gönderi paylaşmak ister misiniz?",
+  "missing_link_confirm": "Gönderiniz varsayılan olarak 5chan'de görünmeyecek, çünkü bir resim veya başka bir medyaya bağlantı eksik. Bu filtreyi ayarlardan devre dışı bırakabilirsiniz.",
   "no_board_selected_warning": "Lütfen gönderimden önce bir pano seçin.",
   "invalid_url_alert": "Verilen bağlantı geçerli bir URL değildir.",
   "empty_comment_alert": "Boş yorum gönderilemez.",
@@ -247,7 +245,6 @@
   "crypto_address_yours": "Kripto adres bu hesaba aittir.",
   "delete_wallet": "Cüzdanı Sil",
   "loading_board": "Tahta yükleniyor",
-  "avatar_warning": "Anonim mod açıken avatar ile paylaşım yapamazsınız. Bunu Plebbit Hesap ayarlarınızdan kapatabilirsiniz.",
   "last_bumped": "Son bump",
   "threads_without_images_tip": "Sadece gömme medya bağlantısı olan gönderileri görüntüle",
   "hide_gore_boards_tip": "\"gore\" etiketi olan boardlardan gönderileri göstermeyin",
@@ -296,5 +293,7 @@
   "filter_and_highlights_help": "Filtreler ve Vurgular Yardımı",
   "filter_and_highlights": "Filtreler ve Vurgular",
   "boards_you_moderate": "modere ettiğiniz panolar",
-  "more_threads_last_year": "{{count}} konu {{currentTimeFilterName}} itibariyle — [<1>Geçen yıldan daha fazla konu göster</1>]"
+  "more_threads_last_year": "{{count}} konu {{currentTimeFilterName}} itibariyle — [<1>Geçen yıldan daha fazla konu göster</1>]",
+  "moderator_of_this_board": "Bu kullanıcı bu panonun moderatörüdür",
+  "administrator_of_this_board": "Bu kullanıcı bu panonun yöneticisidir"
 }

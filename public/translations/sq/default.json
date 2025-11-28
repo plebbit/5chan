@@ -221,8 +221,6 @@
   "static_gif": "GIF Statik",
   "animated_gif": "GIF i Animuar",
   "hide_avatars": "Fsheh avatarët",
-  "anon_mode": "Mënyra anonime",
-  "anon_mode_description": "Përdorni një ID përdoruesi unike për çdo temë në të cilën postoni. Këto ID nuk mund të gjurmohen mbrapsht në llogarinë tuaj origjinale.",
   "pending": "Në pritje",
   "failed": "Dështuar",
   "add": "Shto",
@@ -231,7 +229,7 @@
   "order": "Rendit",
   "text": "Tekst",
   "filtered_threads": "Tema të filtruar",
-  "missing_link_confirm": "Postimi juaj i mungon një lidhje me një imazh, ai do të filtrohet automatikisht në 5chan. Mund ta çaktivizoni këtë filtër në cilësimet, ose të shihni postimin tuaj në një klient tjetër Plebbit, si Seedit. A dëshironi të postoni gjithsesi?",
+  "missing_link_confirm": "Postimi juaj nuk do të jetë i dukshëm si parazgjedhje në 5chan, sepse mungon një lidhje me një imazh ose media tjetër. Mund ta çaktivizoni këtë filtër në cilësimet.",
   "no_board_selected_warning": "Ju lutemi zgjidhni një bord para se të postoni.",
   "invalid_url_alert": "Lidhja e ofruar nuk është një URL e vlefshme.",
   "empty_comment_alert": "Nuk mund të postoni një koment bosh.",
@@ -247,7 +245,6 @@
   "crypto_address_yours": "Adresa e kriptovalutës i përket këtij llogarie.",
   "delete_wallet": "Fshi portofolin",
   "loading_board": "Po ngarkohet tabela",
-  "avatar_warning": "Nuk mund të postoni me një avatar ndërsa është aktivizuar moda anonime. Mund ta çaktivizoni në cilësimet e llogarisë tuaj Plebbit.",
   "last_bumped": "Bumping i fundit",
   "threads_without_images_tip": "Shfaqni vetëm temat që lidhin me media të integrueshme",
   "hide_gore_boards_tip": "Mos shfaqni temat nga forumet me etiketën \"gore\"",
@@ -296,5 +293,7 @@
   "filter_and_highlights_help": "Ndihma për Filtro & Thekso",
   "filter_and_highlights": "Filtra dhe thekson",
   "boards_you_moderate": "boards që i moderoni",
-  "more_threads_last_year": "{{count}} tema nga {{currentTimeFilterName}} — [<1>Shfaq më shumë tema nga viti i kaluar</1>]"
+  "more_threads_last_year": "{{count}} tema nga {{currentTimeFilterName}} — [<1>Shfaq më shumë tema nga viti i kaluar</1>]",
+  "moderator_of_this_board": "Ky përdorues është moderator i këtij bordi",
+  "administrator_of_this_board": "Ky përdorues është administrator i këtij bordi"
 }

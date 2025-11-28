@@ -221,8 +221,6 @@
   "static_gif": "Statisk GIF",
   "animated_gif": "Animasjons GIF",
   "hide_avatars": "Skjul avatarer",
-  "anon_mode": "Anonim modus",
-  "anon_mode_description": "Bruk et unikt bruker-ID for hvert innlegg du legger ut. Disse ID-ene kan ikke spores tilbake til din opprinnelige konto.",
   "pending": "Venter",
   "failed": "Feilet",
   "add": "Legg til",
@@ -231,7 +229,7 @@
   "order": "Rekkefølge",
   "text": "Tekst",
   "filtered_threads": "Filtrerte tråder",
-  "missing_link_confirm": "Innlegget ditt mangler en lenke med et bilde, og vil bli filtrert som standard på 5chan. Du kan deaktivere dette filteret i innstillingene, eller se innlegget ditt på en annen Plebbit-klient, som Seedit. Vil du legge ut uansett?",
+  "missing_link_confirm": "Innlegget ditt vil ikke være synlig som standard på 5chan, fordi det mangler en lenke til et bilde eller annet media. Du kan deaktivere dette filteret i innstillingene.",
   "no_board_selected_warning": "Vennligst velg et brett før du poster.",
   "invalid_url_alert": "Den angitte lenken er ikke en gyldig URL.",
   "empty_comment_alert": "Kan ikke poste tom kommentar.",
@@ -247,7 +245,6 @@
   "crypto_address_yours": "Crypto-adressen tilhører denne kontoen.",
   "delete_wallet": "Slett lommebok",
   "loading_board": "Laster tavle",
-  "avatar_warning": "Du kan ikke poste med en avatar mens anonym modus er aktivert. Du kan slå den av i innstillingene for Plebbit-kontoen din.",
   "last_bumped": "Siste bumpet",
   "threads_without_images_tip": "Vis kun tråder som lenker til innebyggbare medier",
   "hide_gore_boards_tip": "Vis ikke tråder fra brett med \"gore\"-taggen",
@@ -296,5 +293,7 @@
   "filter_and_highlights_help": "Filtre og fremhevinger Hjelp",
   "filter_and_highlights": "Filtre og uthevinger",
   "boards_you_moderate": "boards du modererer",
-  "more_threads_last_year": "{{count}} tråder siden {{currentTimeFilterName}} — [<1>Vis flere tråder fra forrige år</1>]"
+  "more_threads_last_year": "{{count}} tråder siden {{currentTimeFilterName}} — [<1>Vis flere tråder fra forrige år</1>]",
+  "moderator_of_this_board": "Denne brukeren er moderator for dette tavlet",
+  "administrator_of_this_board": "Denne brukeren er administrator for dette tavlet"
 }

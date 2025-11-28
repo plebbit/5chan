@@ -221,8 +221,6 @@
   "static_gif": "Staattinen GIF",
   "animated_gif": "Animoitu GIF",
   "hide_avatars": "Piilota avatarit",
-  "anon_mode": "Anonyymi tila",
-  "anon_mode_description": "Käytä ainutlaatuista käyttäjä-ID:tä jokaisessa ketjussa, johon julkaiset. Näitä ID:itä ei voida jäljittää takaisin alkuperäiseen tiliisi.",
   "pending": "Odottaa",
   "failed": "Epäonnistui",
   "add": "Lisää",
@@ -231,7 +229,7 @@
   "order": "Järjestys",
   "text": "Teksti",
   "filtered_threads": "Suodatetut ketjut",
-  "missing_link_confirm": "Viestistäsi puuttuu kuvaan liittyvä linkki, se suodatetaan oletusarvoisesti 5chanissa. Voit poistaa tämän suodattimen käytöstä asetuksissa tai katsoa viestiäsi toisella Plebbit-asiakkaalla, kuten Seedit. Haluaako silti julkaista?",
+  "missing_link_confirm": "Viestisi ei ole oletusarvoisesti näkyvissä 5chanissa, koska siitä puuttuu linkki kuvaan tai muuhun mediaan. Voit poistaa tämän suodattimen käytöstä asetuksista.",
   "no_board_selected_warning": "Valitse taulu ennen julkaisemista.",
   "invalid_url_alert": "Annettu linkki ei ole voimassa oleva URL.",
   "empty_comment_alert": "Ei voi julkaista tyhjää kommenttia.",
@@ -247,7 +245,6 @@
   "crypto_address_yours": "Krypto-osoite kuuluu tähän tiliin.",
   "delete_wallet": "Poista lompakko",
   "loading_board": "Ladataan taulua",
-  "avatar_warning": "Et voi julkaista avatarilla, kun anonyymi tila on päällä. Voit poistaa sen käytöstä Plebbit-tilisi asetuksissa.",
   "last_bumped": "Viimeisin bump",
   "threads_without_images_tip": "Näytä vain ketjut, jotka linkittävät upotettaviin medioihin",
   "hide_gore_boards_tip": "Älä näytä ketjuja taulukoista, joissa on \"gore\"-tunniste",
@@ -296,5 +293,7 @@
   "filter_and_highlights_help": "Suodattimet ja korostukset -apu",
   "filter_and_highlights": "Suodattimet ja korostukset",
   "boards_you_moderate": "lautakunnat, joita valvot",
-  "more_threads_last_year": "{{count}} ketjua sitten {{currentTimeFilterName}} — [<1>Näytä lisää viime vuoden ketjuja</1>]"
+  "more_threads_last_year": "{{count}} ketjua sitten {{currentTimeFilterName}} — [<1>Näytä lisää viime vuoden ketjuja</1>]",
+  "moderator_of_this_board": "Tämä käyttäjä on tämän taulun moderaattori",
+  "administrator_of_this_board": "Tämä käyttäjä on tämän taulun järjestelmänvalvoja"
 }

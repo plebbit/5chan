@@ -11,12 +11,6 @@
   display: inline-block;
 }
 
-.warning {
-  font-size: 0.8em;
-  padding: 0 10px 10px 10px;
-  display: block;
-}
-
 .avatar img {
   width: 64px;
   height: 64px;

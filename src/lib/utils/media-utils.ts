@@ -76,6 +76,23 @@ const KNOWN_IMAGE_EXTENSIONS = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg', 'bmp
 const KNOWN_VIDEO_EXTENSIONS = ['mp4', 'webm', 'mov', 'avi', 'mkv', 'flv', 'wmv', 'm4v'];
 const KNOWN_AUDIO_EXTENSIONS = ['mp3', 'wav', 'ogg', 'flac', 'aac', 'm4a', 'wma'];
 
+// some sites don't show thumbnails, so the backend-side thumbnail fetching needs to be  disabled, or it might fetch non-thumbnails such as emojis
+const THUMBNAIL_BLACKLISTED_DOMAINS = ['twitter.com', 'x.com'];
+
+const isThumbnailDomainBlacklisted = (link: string | undefined): boolean => {
+  if (!link) {
+    return false;
+  }
+
+  try {
+    const hostname = new URL(link).hostname.toLowerCase();
+    return THUMBNAIL_BLACKLISTED_DOMAINS.some((domain) => hostname === domain || hostname.endsWith(`.${domain}`));
+  } catch (error) {
+    console.error('Error parsing link while checking thumbnail blacklist:', error);
+    return false;
+  }
+};
+
 export const getLinkMediaInfo = memoize(
   (link: string): CommentMediaInfo | undefined => {
     if (!isValidURL(link)) {
@@ -195,6 +212,16 @@ export const getCommentMediaInfo = (link: string, thumbnailUrl: string, linkWidt
   }
   const linkInfo = link ? getLinkMediaInfo(link) : undefined;
   if (linkInfo) {
+    // Don't show thumbnails for blacklisted domains (e.g., Twitter/X) as they return non-thumbnail images like emojis
+    if (isThumbnailDomainBlacklisted(link)) {
+      return {
+        ...linkInfo,
+        thumbnail: undefined,
+        patternThumbnailUrl: undefined,
+        linkWidth,
+        linkHeight,
+      };
+    }
     return {
       ...linkInfo,
       thumbnail: thumbnailUrl || linkInfo.thumbnail,

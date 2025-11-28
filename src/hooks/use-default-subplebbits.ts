@@ -79,8 +79,10 @@ const fetchMultisubData = async (): Promise<MultisubData> => {
 };
 
 export const useDefaultSubplebbits = () => {
+  // Use vendored data as initial state to prevent theme flash on first load
+  // This ensures NSFW status is known synchronously before first render
   const [state, setState] = useState<DefaultSubplebbitsState>({
-    subplebbits: [],
+    subplebbits: (defaultSubplebbitsData as MultisubData).subplebbits,
     loading: true,
     error: null,
   });
@@ -165,8 +167,9 @@ export const useDefaultSubplebbits = () => {
 };
 
 export const useDefaultSubplebbitsState = () => {
+  // Use vendored data as fallback to prevent theme flash on first load
   const [state, setState] = useState<DefaultSubplebbitsState>({
-    subplebbits: cacheSubplebbits || [],
+    subplebbits: cacheSubplebbits || (defaultSubplebbitsData as MultisubData).subplebbits,
     loading: !cacheSubplebbits,
     error: null,
   });

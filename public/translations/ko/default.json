@@ -221,8 +221,6 @@
   "static_gif": "정적 GIF",
   "animated_gif": "애니메이션 GIF",
   "hide_avatars": "아바타 숨기기",
-  "anon_mode": "익명 모드",
-  "anon_mode_description": "게시하는 각 스레드에 대해 고유한 사용자 ID를 사용하세요. 이러한 ID는 원래 계정으로 추적할 수 없습니다.",
   "pending": "대기 중",
   "failed": "실패",
   "add": "추가",
@@ -231,7 +229,7 @@
   "order": "순서",
   "text": "텍스트",
   "filtered_threads": "필터링된 스레드",
-  "missing_link_confirm": "당신의 게시물에는 이미지가 포함된 링크가 없습니다. 기본적으로 5chan에서 필터링됩니다. 설정에서 이 필터를 비활성화하거나 Seedit와 같은 다른 Plebbit 클라이언트에서 게시물을 볼 수 있습니다. 그래도 게시하시겠습니까?",
+  "missing_link_confirm": "이미지나 다른 미디어에 대한 링크가 없기 때문에 귀하의 게시물은 기본적으로 5chan에서 보이지 않습니다. 설정에서 이 필터를 비활성화할 수 있습니다.",
   "no_board_selected_warning": "게시하기 전에 보드를 선택하십시오.",
   "invalid_url_alert": "제공된 링크는 유효한 URL이 아닙니다.",
   "empty_comment_alert": "빈 댓글을 게시할 수 없습니다.",
@@ -247,7 +245,6 @@
   "crypto_address_yours": "암호 주소는이 계정에 속합니다.",
   "delete_wallet": "지갑 삭제",
   "loading_board": "보드 로딩 중",
-  "avatar_warning": "익명 모드가 켜져 있는 동안 아바타로 게시할 수 없습니다. Plebbit 계정 설정에서 끌 수 있습니다.",
   "last_bumped": "마지막 bump",
   "threads_without_images_tip": "임베드 가능한 미디어로 링크된 스레드만 표시",
   "hide_gore_boards_tip": "\"gore\" 태그가 있는 게시판에서 스레드를 표시하지 않음",
@@ -296,5 +293,7 @@
   "filter_and_highlights_help": "필터 및 하이라이트 도움말",
   "filter_and_highlights": "필터 및 하이라이트",
   "boards_you_moderate": "당신이 관리하는 게시판",
-  "more_threads_last_year": "{{count}} 스레드 {{currentTimeFilterName}} 이후 — [<1>작년의 스레드 더 보기</1>]"
+  "more_threads_last_year": "{{count}} 스레드 {{currentTimeFilterName}} 이후 — [<1>작년의 스레드 더 보기</1>]",
+  "moderator_of_this_board": "이 사용자는 이 게시판의 관리자입니다",
+  "administrator_of_this_board": "이 사용자는 이 게시판의 관리자입니다"
 }

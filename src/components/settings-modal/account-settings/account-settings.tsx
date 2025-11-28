@@ -3,26 +3,10 @@ import { useTranslation } from 'react-i18next';
 import { createAccount, deleteAccount, exportAccount, importAccount, setAccount, setActiveAccount, useAccount, useAccounts } from '@plebbit/plebbit-react-hooks';
 import stringify from 'json-stringify-pretty-compact';
 import styles from './account-settings.module.css';
-import useAnonModeStore from '../../../stores/use-anon-mode-store';
 import { Capacitor } from '@capacitor/core';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const isAndroid = Capacitor.getPlatform() === 'android';
-
-const AnonMode = () => {
-  const { t } = useTranslation();
-  const anonMode = useAnonModeStore((state) => state.anonMode);
-  const setAnonMode = useAnonModeStore((state) => state.setAnonMode);
-
-  return (
-    <div className={styles.anonMode}>
-      <label>
-        <input type='checkbox' checked={anonMode} onChange={(e) => setAnonMode(e.target.checked)} /> {t('anon_mode')}
-      </label>
-      <span className={styles.settingTip}>{t('anon_mode_description')}</span>
-    </div>
-  );
-};
 
 const AccountSettings = () => {
   const { t } = useTranslation();
@@ -236,7 +220,7 @@ const AccountSettings = () => {
       <div></div>
       <textarea value={text} onChange={(e) => setText(e.target.value)} autoCorrect='off' autoComplete='off' spellCheck='false' />
       <div>
-        <button onClick={saveAccount}>{t('save_changes')}</button> <button onClick={() => setText(accountJson)}>{t('reset_changes')}</button> <AnonMode />
+        <button onClick={saveAccount}>{t('save_changes')}</button> <button onClick={() => setText(accountJson)}>{t('reset_changes')}</button>
         <button className={styles.deleteAccount} onClick={() => _deleteAccount(account?.name)}>
           {t('delete_account')}
         </button>

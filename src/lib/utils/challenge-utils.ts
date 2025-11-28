@@ -11,10 +11,8 @@ export const alertChallengeVerificationFailed = (challengeVerification: Challeng
         challengeVerification.challengeErrors !== null &&
         !Array.isArray(challengeVerification.challengeErrors)
       ) {
-        // Handle challengeErrors as object (extract values and filter for strings)
         errorMessages = Object.values(challengeVerification.challengeErrors).filter((val): val is string => typeof val === 'string');
       } else if (Array.isArray(challengeVerification.challengeErrors)) {
-        // Handle challengeErrors as array
         errorMessages = [...challengeVerification.challengeErrors];
       } else {
         console.warn('challengeVerification.challengeErrors is not an object or array:', challengeVerification.challengeErrors);
@@ -26,9 +24,10 @@ export const alertChallengeVerificationFailed = (challengeVerification: Challeng
     }
 
     const finalMessage = errorMessages.filter(Boolean).join(' ');
-    alert(`p/${publication?.subplebbitAddress} challenge error: ${finalMessage || 'unknown error'}`);
+
+    alert(`p/${publication?.subplebbitAddress} error: ${finalMessage || 'unknown error'}`);
   } else {
-    console.log(challengeVerification, publication);
+    console.warn('Challenge verification succeeded but no action taken:', challengeVerification);
   }
 };
 

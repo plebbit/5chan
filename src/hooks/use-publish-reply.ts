@@ -1,16 +1,13 @@
 import { useCallback } from 'react';
 import { Comment, useAccount, usePublishComment } from '@plebbit/plebbit-react-hooks';
-import useAnonMode from './use-anon-mode';
 import usePublishReplyStore from '../stores/use-publish-reply-store';
 
 const usePublishReply = ({ cid, subplebbitAddress, postCid }: { cid: string; subplebbitAddress: string; postCid?: string }) => {
   const parentCid = cid;
   const account = useAccount();
-  const { anonMode } = useAnonMode(postCid);
 
-  const { author, signer, content, link, spoiler, publishCommentOptions } = usePublishReplyStore((state) => ({
+  const { author, content, link, spoiler, publishCommentOptions } = usePublishReplyStore((state) => ({
     author: state.author[parentCid],
-    signer: state.signer[parentCid] || undefined,
     content: state.content[parentCid] || undefined,
     link: state.link[parentCid] || undefined,
     spoiler: state.spoiler[parentCid] || false,
@@ -30,21 +27,13 @@ const usePublishReply = ({ cid, subplebbitAddress, postCid }: { cid: string; sub
       spoiler,
     };
 
-    if (anonMode) {
-      baseOptions.author = {
-        address: signer?.address,
-        displayName: author?.displayName,
-      };
-      baseOptions.signer = signer;
-    } else {
-      baseOptions.author = {
-        ...account?.author,
-        displayName: author?.displayName || account?.author?.displayName,
-      };
-    }
+    baseOptions.author = {
+      ...account?.author,
+      displayName: author?.displayName || account?.author?.displayName,
+    };
 
     return baseOptions;
-  }, [anonMode, author, content, link, parentCid, postCid, signer, spoiler, subplebbitAddress, account]);
+  }, [author, content, link, parentCid, postCid, spoiler, subplebbitAddress, account]);
 
   const setPublishReplyOptions = useCallback(
     (options: Partial<Comment>) => {

@@ -221,8 +221,6 @@
   "static_gif": "GIF סטטי",
   "animated_gif": "GIF מונפש",
   "hide_avatars": "הסתר את התמונות האישיות",
-  "anon_mode": "מצב אנונימי",
-  "anon_mode_description": "השתמש במזהה משתמש ייחודי לכל שרשור שאתה מפרסם בו. מזהים אלה לא יכולים להתחקות חזרה לחשבון המקורי שלך.",
   "pending": "ממתין",
   "failed": "נכשל",
   "add": "הוסף",
@@ -231,7 +229,7 @@
   "order": "סדר",
   "text": "טקסט",
   "filtered_threads": "אשכולות ממוינים",
-  "missing_link_confirm": "הפוסט שלך חסר קישור עם תמונה, הוא ית过滤 ברירת מחדל ב-5chan. אתה יכול לבטל את הפילטר הזה בהגדרות, או לצפות בפוסט שלך בלקוח Plebbit אחר, כמו Seedit. לפרסם בכל מקרה?",
+  "missing_link_confirm": "הפוסט שלך לא יהיה גלוי כברירת מחדל ב-5chan, כי חסר קישור לתמונה או מדיה אחרת. אתה יכול להשבית את המסנן הזה בהגדרות.",
   "no_board_selected_warning": "אנא בחר לוח לפני פרסום.",
   "invalid_url_alert": "הלינק שסופק אינו כתובת URL חוקית.",
   "empty_comment_alert": "לא ניתן לפרסם תגובה ריקה.",
@@ -247,7 +245,6 @@
   "crypto_address_yours": "כתובת המטבע הקריפטוגרפי שייכת לחשבון זה.",
   "delete_wallet": "מחק ארנק",
   "loading_board": "טוען את הלוח",
-  "avatar_warning": "אין באפשרותך לפרסם עם תמונת פרופיל בזמן שמצב אנונימי מופעל. תוכל לבטל זאת בהגדרות חשבון Plebbit שלך.",
   "last_bumped": "הבום האחרון",
   "threads_without_images_tip": "הצג רק נושאים שמקשרים למדיה שניתן להטמיע",
   "hide_gore_boards_tip": "אל תציג נושאים מלוחות עם תג \"גורה\"",
@@ -296,5 +293,7 @@
   "filter_and_highlights_help": "עזרה במסננים והדגשות",
   "filter_and_highlights": "מסננים והדגשות",
   "boards_you_moderate": "לוחות שאתה מפקח עליהם",
-  "more_threads_last_year": "{{count}} חוטים מאז {{currentTimeFilterName}} — [<1>הצג עוד חוטים מהשנה שעברה</1>]"
+  "more_threads_last_year": "{{count}} חוטים מאז {{currentTimeFilterName}} — [<1>הצג עוד חוטים מהשנה שעברה</1>]",
+  "moderator_of_this_board": "משתמש זה הוא מנהל של הלוח הזה",
+  "administrator_of_this_board": "משתמש זה הוא מנהל מערכת של הלוח הזה"
 }

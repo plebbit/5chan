@@ -221,8 +221,6 @@
   "static_gif": "GIF Statis",
   "animated_gif": "GIF Animasi",
   "hide_avatars": "Sembunyikan avatar",
-  "anon_mode": "Mode anonim",
-  "anon_mode_description": "Gunakan ID pengguna unik untuk setiap utas yang Anda posting. ID ini tidak dapat dilacak kembali ke akun asli Anda.",
   "pending": "Tertunda",
   "failed": "Gagal",
   "add": "Tambahkan",
@@ -231,7 +229,7 @@
   "order": "Urutan",
   "text": "Teks",
   "filtered_threads": "Thread yang difilter",
-  "missing_link_confirm": "Postingan Anda tidak memiliki tautan dengan gambar, itu akan difilter secara default di 5chan. Anda dapat menonaktifkan filter ini di pengaturan, atau melihat postingan Anda di klien Plebbit lain, seperti Seedit. Posting saja?",
+  "missing_link_confirm": "Postingan Anda tidak akan terlihat secara default di 5chan, karena tidak ada tautan ke gambar atau media lain. Anda dapat menonaktifkan filter ini di pengaturan.",
   "no_board_selected_warning": "Silakan pilih papan sebelum memposting.",
   "invalid_url_alert": "Tautan yang diberikan bukan URL yang valid.",
   "empty_comment_alert": "Tidak dapat memposting komentar kosong.",
@@ -247,7 +245,6 @@
   "crypto_address_yours": "Alamat kripto milik akun ini.",
   "delete_wallet": "Hapus Dompet",
   "loading_board": "Memuat papan",
-  "avatar_warning": "Anda tidak bisa memposting dengan avatar saat mode anonim diaktifkan. Anda bisa mematikan ini di pengaturan Akun Plebbit Anda.",
   "last_bumped": "Terakhir bump",
   "threads_without_images_tip": "Hanya tampilkan thread yang menautkan ke media yang dapat disematkan",
   "hide_gore_boards_tip": "Jangan tampilkan thread dari board dengan tag \"gore\"",
@@ -296,5 +293,7 @@
   "filter_and_highlights_help": "Bantuan Filter dan Sorotan",
   "filter_and_highlights": "Filter dan Sorotan",
   "boards_you_moderate": "board yang Anda moderasi",
-  "more_threads_last_year": "{{count}} thread sejak {{currentTimeFilterName}} — [<1>Tampilkan lebih banyak thread dari tahun lalu</1>]"
+  "more_threads_last_year": "{{count}} thread sejak {{currentTimeFilterName}} — [<1>Tampilkan lebih banyak thread dari tahun lalu</1>]",
+  "moderator_of_this_board": "Pengguna ini adalah moderator papan ini",
+  "administrator_of_this_board": "Pengguna ini adalah administrator papan ini"
 }

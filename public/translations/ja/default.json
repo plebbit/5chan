@@ -221,8 +221,6 @@
   "static_gif": "静的GIF",
   "animated_gif": "アニメーションGIF",
   "hide_avatars": "アバターを隠す",
-  "anon_mode": "匿名モード",
-  "anon_mode_description": "投稿する各スレッドに一意のユーザーIDを使用してください。これらのIDは、元のアカウントに戻すことはできません。",
   "pending": "保留中",
   "failed": "失敗",
   "add": "追加",
@@ -231,7 +229,7 @@
   "order": "順序",
   "text": "テキスト",
   "filtered_threads": "フィルタリングされたスレッド",
-  "missing_link_confirm": "あなたの投稿には画像付きのリンクがありません。それは5chanでデフォルトでフィルタリングされます。このフィルタを設定で無効にするか、Seeditのような別のPlebbitクライアントで投稿を表示できます。それでも投稿しますか？",
+  "missing_link_confirm": "画像やその他のメディアへのリンクがないため、あなたの投稿は5chanでデフォルトでは表示されません。設定でこのフィルターを無効にできます。",
   "no_board_selected_warning": "投稿する前にボードを選択してください。",
   "invalid_url_alert": "提供されたリンクは有効なURLではありません。",
   "empty_comment_alert": "空のコメントは投稿できません。",
@@ -247,7 +245,6 @@
   "crypto_address_yours": "暗号通貨アドレスはこのアカウントに属しています。",
   "delete_wallet": "ウォレットを削除",
   "loading_board": "ボードを読み込んでいます",
-  "avatar_warning": "アバターを使用して投稿することはできません。匿名モードがオンになっている間は、Plebbitアカウントの設定でオフにできます。",
   "last_bumped": "最後のバンプ",
   "threads_without_images_tip": "埋め込むことができるメディアへのリンクを持つスレッドのみを表示",
   "hide_gore_boards_tip": "\"gore\"タグのあるボードからスレッドを表示しない",
@@ -296,5 +293,7 @@
   "filter_and_highlights_help": "フィルターとハイライトのヘルプ",
   "filter_and_highlights": "フィルターとハイライト",
   "boards_you_moderate": "あなたが管理するボード",
-  "more_threads_last_year": "{{count}} スレッド {{currentTimeFilterName}} から — [<1>去年のスレッドをさらに表示</1>]"
+  "more_threads_last_year": "{{count}} スレッド {{currentTimeFilterName}} から — [<1>去年のスレッドをさらに表示</1>]",
+  "moderator_of_this_board": "このユーザーはこのボードのモデレーターです",
+  "administrator_of_this_board": "このユーザーはこのボードの管理者です"
 }

@@ -222,8 +222,6 @@
   "static_gif": "Static GIF",
   "animated_gif": "Animated GIF",
   "hide_avatars": "Hide avatars",
-  "anon_mode": "Anon mode",
-  "anon_mode_description": "Use a unique user ID for each thread you post in. These IDs cannot be traced back to your original account.",
   "pending": "Pending",
   "failed": "Failed",
   "add": "Add",
@@ -232,7 +230,7 @@
   "order": "Order",
   "text": "Text",
   "filtered_threads": "Filtered threads",
-  "missing_link_confirm": "Your post is missing a link with an image, it will be filtered out by default on 5chan. You can disable this filter in the settings, or view your post on another Plebbit client, like Seedit. Post anyway?",
+  "missing_link_confirm": "Your post won't be visible by default on 5chan, because it's missing a link to an image or other media. You can disable this filter in the settings.",
   "no_board_selected_warning": "Please select a board before posting.",
   "invalid_url_alert": "The provided link is not a valid URL.",
   "empty_comment_alert": "Cannot post empty comment.",
@@ -248,7 +246,6 @@
   "crypto_address_yours": "Crypto address belongs to this account.",
   "delete_wallet": "Delete Wallet",
   "loading_board": "Loading board",
-  "avatar_warning": "You can't post with an avatar while anon mode is turned on. You can turn it off in your Plebbit Account settings.",
   "last_bumped": "Last Bumped",
   "threads_without_images_tip": "Only display threads that link to embeddable media",
   "hide_gore_boards_tip": "Don't display threads from boards with the \"gore\" tag",
@@ -297,5 +294,7 @@
   "filter_and_highlights_help": "Filters & Highlights Help",
   "filter_and_highlights": "Filters & Highlights",
   "boards_you_moderate": "boards you moderate",
-  "more_threads_last_year": "{{count}} threads since {{currentTimeFilterName}} — [<1>Show More Threads from Last Year</1>]"
+  "more_threads_last_year": "{{count}} threads since {{currentTimeFilterName}} — [<1>Show More Threads from Last Year</1>]",
+  "moderator_of_this_board": "This user is a moderator of this board",
+  "administrator_of_this_board": "This user is an administrator of this board"
 }

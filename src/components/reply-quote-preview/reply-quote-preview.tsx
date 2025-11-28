@@ -5,7 +5,6 @@ import { Comment, useAccount } from '@plebbit/plebbit-react-hooks';
 import { useFloating, offset, shift, size, autoUpdate, Placement } from '@floating-ui/react';
 import { useDefaultSubplebbits } from '../../hooks/use-default-subplebbits';
 import { getBoardPath } from '../../lib/utils/route-utils';
-import useAnonModeStore from '../../stores/use-anon-mode-store';
 import useIsMobile from '../../hooks/use-is-mobile';
 import styles from '../../views/post/post.module.css';
 import { Post } from '../../views/post';
@@ -159,8 +158,6 @@ const DesktopQuotePreview = ({ backlinkReply, quotelinkReply, isBacklinkReply, i
   );
 
   const account = useAccount();
-  const { getThreadSigner } = useAnonModeStore();
-  const threadSigner = quotelinkReply?.postCid ? getThreadSigner(quotelinkReply?.postCid) : null;
 
   const quotelinkBoardPath = quotelinkReply?.subplebbitAddress ? getBoardPath(quotelinkReply.subplebbitAddress, defaultSubplebbits) : undefined;
   const quotelinkRoute = quotelinkReply?.cid ? (quotelinkBoardPath ? `/${quotelinkBoardPath}/thread/${quotelinkReply.cid}` : `/thread/${quotelinkReply.cid}`) : '#';
@@ -176,7 +173,7 @@ const DesktopQuotePreview = ({ backlinkReply, quotelinkReply, isBacklinkReply, i
         onClick={(e) => handleClick(e, quotelinkReply?.cid, quotelinkReply?.subplebbitAddress)}
       >
         {quotelinkReply?.shortCid && `>>${quotelinkReply?.shortCid}`}
-        {(quotelinkReply?.author?.address === account?.author?.address || quotelinkReply?.author?.address === threadSigner?.address) && ' (You)'}
+        {quotelinkReply?.author?.address === account?.author?.address && ' (You)'}
       </Link>
       <br />
       {hoveredCid === quotelinkReply?.cid &&
@@ -279,8 +276,6 @@ const MobileQuotePreview = ({ backlinkReply, quotelinkReply, isBacklinkReply, is
   );
 
   const account = useAccount();
-  const { getThreadSigner } = useAnonModeStore();
-  const threadSigner = quotelinkReply?.postCid ? getThreadSigner(quotelinkReply?.postCid) : null;
 
   const replyQuotelink = (
     <>
@@ -291,7 +286,7 @@ const MobileQuotePreview = ({ backlinkReply, quotelinkReply, isBacklinkReply, is
         onMouseLeave={() => handleMouseLeave(quotelinkReply?.cid)}
       >
         {quotelinkReply?.shortCid && `>>${quotelinkReply?.shortCid}`}
-        {(quotelinkReply?.author?.address === account?.author?.address || quotelinkReply?.author?.address === threadSigner?.address) && ' (You)'}
+        {quotelinkReply?.author?.address === account?.author?.address && ' (You)'}
       </span>
       {quotelinkReply?.shortCid &&
         (() => {

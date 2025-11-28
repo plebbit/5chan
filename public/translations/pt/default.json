@@ -221,8 +221,6 @@
   "static_gif": "GIF Estático",
   "animated_gif": "GIF Animado",
   "hide_avatars": "Ocultar avatares",
-  "anon_mode": "Modo anônimo",
-  "anon_mode_description": "Use um ID de usuário exclusivo para cada thread em que você postar. Esses IDs não podem ser rastreados de volta para sua conta original.",
   "pending": "Pendente",
   "failed": "Falhou",
   "add": "Adicionar",
@@ -231,7 +229,7 @@
   "order": "Ordem",
   "text": "Texto",
   "filtered_threads": "Threads filtrados",
-  "missing_link_confirm": "Sua postagem está faltando um link com uma imagem, ela será filtrada por padrão no 5chan. Você pode desativar esse filtro nas configurações ou visualizar sua postagem em outro cliente Plebbit, como o Seedit. Postar mesmo assim?",
+  "missing_link_confirm": "Sua postagem não será visível por padrão no 5chan, porque está faltando um link para uma imagem ou outra mídia. Você pode desativar este filtro nas configurações.",
   "no_board_selected_warning": "Por favor, selecione um quadro antes de postar.",
   "invalid_url_alert": "O link fornecido não é uma URL válida.",
   "empty_comment_alert": "Não é possível postar um comentário vazio.",
@@ -247,7 +245,6 @@
   "crypto_address_yours": "O endereço de criptomoeda pertence a esta conta.",
   "delete_wallet": "Excluir carteira",
   "loading_board": "Carregando quadro",
-  "avatar_warning": "Você não pode postar com um avatar enquanto o modo anônimo estiver ativado. Você pode desativá-lo nas configurações da sua Conta Plebbit.",
   "last_bumped": "Último bump",
   "threads_without_images_tip": "Exibir apenas threads que linkam para mídias embutíveis",
   "hide_gore_boards_tip": "Não exibir threads de boards com a tag \"gore\"",
@@ -296,5 +293,7 @@
   "filter_and_highlights_help": "Ajuda de Filtros e Realces",
   "filter_and_highlights": "Filtros e Destaques",
   "boards_you_moderate": "boards que você modera",
-  "more_threads_last_year": "{{count}} tópicos desde {{currentTimeFilterName}} — [<1>Mostrar mais tópicos do ano passado</1>]"
+  "more_threads_last_year": "{{count}} tópicos desde {{currentTimeFilterName}} — [<1>Mostrar mais tópicos do ano passado</1>]",
+  "moderator_of_this_board": "Este usuário é moderador deste quadro",
+  "administrator_of_this_board": "Este usuário é administrador deste quadro"
 }

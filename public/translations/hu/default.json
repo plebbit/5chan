@@ -221,8 +221,6 @@
   "static_gif": "Statikus GIF",
   "animated_gif": "Animált GIF",
   "hide_avatars": "Avatarok elrejtése",
-  "anon_mode": "Anonim mód",
-  "anon_mode_description": "Használjon egyedi felhasználói azonosítót minden szálhoz, amelyre hozzászól. Ezek az azonosítók nem követhetők vissza az eredeti fiókjához.",
   "pending": "Függőben",
   "failed": "Sikertelen",
   "add": "Hozzáad",
@@ -231,7 +229,7 @@
   "order": "Rendelés",
   "text": "Szöveg",
   "filtered_threads": "Szűrt szálak",
-  "missing_link_confirm": "A bejegyzésedből hiányzik egy képet tartalmazó hivatkozás, alapértelmezés szerint kiszűrésre kerül a 5chan-on. Ezt a szűrőt letilthatod a beállításokban, vagy megnézheted a bejegyzésedet egy másik Plebbit kliensben, például a Seedit-en. Mégis posztolj?",
+  "missing_link_confirm": "A bejegyzésed alapértelmezés szerint nem lesz látható a 5chan-on, mert hiányzik belőle egy kép vagy más média hivatkozása. Ezt a szűrőt a beállításokban tudod kikapcsolni.",
   "no_board_selected_warning": "Kérlek, válassz egy táblát a közzététel előtt.",
   "invalid_url_alert": "A megadott hivatkozás nem érvényes URL.",
   "empty_comment_alert": "Üres hozzászólást nem lehet közzétenni.",
@@ -247,7 +245,6 @@
   "crypto_address_yours": "A kripto-cím ehhez a fiókhoz tartozik.",
   "delete_wallet": "Tárca törlése",
   "loading_board": "Tábla betöltése",
-  "avatar_warning": "Nem posztolhatsz avatarral, míg az anon mód be van kapcsolva. Kikapcsolhatod a Plebbit-fiókod beállításaiban.",
   "last_bumped": "Utolsó bump",
   "threads_without_images_tip": "Csak azokat a szálakat jelenítse meg, amelyek beágyazható médiára mutatnak",
   "hide_gore_boards_tip": "Ne jelenítsd meg a \"gore\" címkével rendelkező fórumok szálait",
@@ -296,5 +293,7 @@
   "filter_and_highlights_help": "Szűrők és kiemelések súgó",
   "filter_and_highlights": "Szűrők és kiemelések",
   "boards_you_moderate": "boardok, amelyeket moderálsz",
-  "more_threads_last_year": "{{count}} szál {{currentTimeFilterName}} óta — [<1>Több szál megjelenítése a múlt évből</1>]"
+  "more_threads_last_year": "{{count}} szál {{currentTimeFilterName}} óta — [<1>Több szál megjelenítése a múlt évből</1>]",
+  "moderator_of_this_board": "Ez a felhasználó ennek a táblának a moderátora",
+  "administrator_of_this_board": "Ez a felhasználó ennek a táblának a rendszergazdája"
 }

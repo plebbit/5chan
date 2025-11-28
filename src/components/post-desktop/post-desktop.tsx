@@ -57,8 +57,8 @@ const PostInfo = ({ post, postReplyCount = 0, roles, isHidden }: PostProps) => {
   const replies = useReplies(post);
   const { address, shortAddress } = author || {};
   const displayName = author?.displayName?.trim();
-  const authorRole = roles?.[address]?.role;
   const { isDescription, isRules } = post || {}; // custom properties, not from api
+  const authorRole = roles?.[address]?.role.replace('moderator', 'mod') || (isDescription || isRules ? 'mod' : undefined);
   const stateString = useStateString(post);
   const isReply = parentCid;
   const { showOmittedReplies } = useShowOmittedReplies();
@@ -109,7 +109,7 @@ const PostInfo = ({ post, postReplyCount = 0, roles, isHidden }: PostProps) => {
             />
           ))}
         <span className={styles.nameBlock}>
-          <span className={`${styles.name} ${(isDescription || isRules || authorRole) && !(deleted || removed) && styles.capcodeMod}`}>
+          <span className={`${styles.name} ${authorRole && !(deleted || removed) && (authorRole === 'mod' ? styles.capcodeMod : styles.capcodeAdmin)}`}>
             {deleted ? (
               _.capitalize(t('deleted'))
             ) : removed ? (
@@ -126,7 +126,16 @@ const PostInfo = ({ post, postReplyCount = 0, roles, isHidden }: PostProps) => {
             ) : (
               _.capitalize(t('anonymous'))
             )}
-            {!(deleted || removed) && <span className='capitalize'>{authorRole && ` ## Board ${authorRole}`} </span>}
+            {!(deleted || removed) && authorRole && (
+              <span className='capitalize'>
+                {' '}
+                ## Board {authorRole}{' '}
+                <span
+                  className={`${styles.capcodeIcon} ${authorRole === 'mod' ? styles.capcodeModIcon : styles.capcodeAdminIcon}`}
+                  title={authorRole === 'mod' ? t('moderator_of_this_board') : t('administrator_of_this_board')}
+                />{' '}
+              </span>
+            )}
           </span>
           {!(isDescription || isRules) && (
             <>
@@ -422,7 +431,7 @@ const PostDesktop = ({ post, roles, showAllReplies, showReplies = true }: PostPr
     isRules: true,
     subplebbitAddress,
     timestamp: subplebbit?.createdAt,
-    author: { displayName: `## ${t('board_mods')}` },
+    author: { displayName: _.capitalize(t('anonymous')) },
     content: `${subplebbit?.rules?.map((rule: string, index: number) => `${index + 1}. ${rule}`).join('\n')}`,
     replyCount: 0,
   };

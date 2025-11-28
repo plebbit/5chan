@@ -1,0 +1,285 @@
+name: Test Builds
+
+on:
+  push:
+    branches: [ development, master ]
+  pull_request:
+    branches: [ development, master ]
+
+jobs:
+  test-linux:
+    name: Test Linux (Ubuntu)
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js v22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile --ignore-engines
+
+      - name: Download IPFS
+        run: node electron/download-ipfs && chmod +x bin/linux/ipfs
+
+      - name: Build React App
+        run: yarn build
+        env:
+          CI: ''
+
+      - name: Build Electron App (Linux)
+        run: yarn electron:build:linux
+
+      - name: Smoke Test
+        run: |
+          echo "Testing AppImage startup..."
+          APPIMAGE=$(find dist -name "*.AppImage" | head -n 1)
+          echo "Found AppImage: $APPIMAGE"
+          chmod +x "$APPIMAGE"
+          # Use --appimage-extract-and-run to avoid FUSE requirement in CI
+          # Run with timeout and expect it to start (will be killed after timeout)
+          timeout 10s "$APPIMAGE" --appimage-extract-and-run --no-sandbox &
+          APP_PID=$!
+          sleep 5
+          # Check if process is still running (means it started successfully)
+          if kill -0 $APP_PID 2>/dev/null; then
+            echo "✓ App started successfully"
+            kill $APP_PID 2>/dev/null || true
+            exit 0
+          else
+            echo "✗ App failed to start"
+            exit 1
+          fi
+
+  test-mac-intel:
+    name: Test Mac (Intel)
+    runs-on: macos-15-intel
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Setup Node.js v22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'yarn'
+      
+      - name: Install setuptools for native modules
+        run: |
+          # Use pip with --break-system-packages for CI environment
+          pip3 install --break-system-packages setuptools || pip3 install --user setuptools || true
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile --ignore-engines
+
+      - name: Download IPFS
+        run: node electron/download-ipfs && chmod +x bin/mac/ipfs
+
+      - name: Build React App
+        run: yarn build
+        env:
+          CI: ''
+
+      - name: Build Electron App
+        run: yarn electron:build:mac
+
+      - name: Smoke Test
+        run: |
+          if [ -d "dist/mac/5chan.app" ]; then
+            echo "Testing dist/mac/5chan.app..."
+            # Run the app in background - it will start IPFS which takes time
+            # We just verify it launches without crashing
+            ./dist/mac/5chan.app/Contents/MacOS/5chan &
+            APP_PID=$!
+            sleep 10
+            # Check if process is still running (means it started successfully)
+            if kill -0 $APP_PID 2>/dev/null; then
+              echo "✓ App started successfully"
+              kill $APP_PID 2>/dev/null || true
+              # Also kill any child processes (IPFS)
+              pkill -P $APP_PID 2>/dev/null || true
+              pkill -f ipfs 2>/dev/null || true
+              exit 0
+            else
+              echo "✗ App failed to start or crashed"
+              exit 1
+            fi
+          else
+            echo "Could not find dist/mac/5chan.app to test"
+            ls -R dist
+            exit 1
+          fi
+
+  test-mac-arm:
+    name: Test Mac (Apple Silicon)
+    runs-on: macOS-14
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Setup Node.js v22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'yarn'
+
+      - name: Install setuptools for native modules
+        run: |
+          # Use pip with --break-system-packages for CI environment
+          pip3 install --break-system-packages setuptools || pip3 install --user setuptools || true
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile --ignore-engines
+
+      - name: Download IPFS
+        run: node electron/download-ipfs && chmod +x bin/mac/ipfs
+
+      - name: Build React App
+        run: yarn build
+        env:
+          CI: ''
+
+      - name: Build Electron App
+        # On M1 runner, this should produce arm64 build
+        run: yarn electron:build:mac
+
+      - name: Smoke Test
+        run: |
+          if [ -d "dist/mac-arm64/5chan.app" ]; then
+            APP_PATH="dist/mac-arm64/5chan.app"
+          elif [ -d "dist/mac/5chan.app" ]; then
+            APP_PATH="dist/mac/5chan.app"
+          else
+            echo "Could not find 5chan.app to test"
+            ls -R dist
+            exit 1
+          fi
+          
+          echo "Testing $APP_PATH..."
+          # Run the app in background - it will start IPFS which takes time
+          # We just verify it launches without crashing
+          "./$APP_PATH/Contents/MacOS/5chan" &
+          APP_PID=$!
+          sleep 10
+          # Check if process is still running (means it started successfully)
+          if kill -0 $APP_PID 2>/dev/null; then
+            echo "✓ App started successfully"
+            kill $APP_PID 2>/dev/null || true
+            # Also kill any child processes (IPFS)
+            pkill -P $APP_PID 2>/dev/null || true
+            pkill -f ipfs 2>/dev/null || true
+            exit 0
+          else
+            echo "✗ App failed to start or crashed"
+            exit 1
+          fi
+
+  test-windows:
+    name: Test Windows
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Setup Node.js v22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile --ignore-engines --network-timeout 100000 --network-concurrency 1
+
+      - name: Download IPFS
+        run: node electron/download-ipfs
+
+      - name: Build React App
+        run: yarn build
+        env:
+          CI: ''
+
+      - name: Build Electron App
+        run: yarn electron:build:windows
+
+      - name: Smoke Test
+        shell: bash
+        run: |
+          # Try to find the unpacked executable first as it's easiest to run
+          if [ -d "dist/win-unpacked" ]; then
+             echo "Testing unpacked exe..."
+             # Run with timeout - app starts IPFS so won't exit on its own
+             timeout 15s ./dist/win-unpacked/5chan.exe &
+             APP_PID=$!
+             sleep 8
+             # Check if process started successfully
+             if kill -0 $APP_PID 2>/dev/null; then
+               echo "✓ App started successfully"
+               taskkill //F //PID $APP_PID 2>/dev/null || true
+               # Kill any IPFS processes
+               taskkill //F //IM ipfs.exe 2>/dev/null || true
+               exit 0
+             else
+               echo "✗ App failed to start"
+               exit 1
+             fi
+          else
+             echo "No unpacked directory found"
+             ls -R dist
+             exit 1
+          fi
+
+  test-android:
+    name: Test Android
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js v22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'yarn'
+
+      - name: Setup Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile --ignore-engines
+
+      - name: Build React App
+        run: yarn build
+        env:
+          CI: ''
+
+      - name: Sync Capacitor
+        run: npx cap sync android
+
+      - name: Build Android APK
+        run: |
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleDebug
+
+      - name: Verify APK exists
+        run: |
+          APK=$(find android/app/build/outputs/apk -name "*.apk" | head -n 1)
+          if [ -n "$APK" ]; then
+            echo "✓ APK built successfully: $APK"
+            ls -lh "$APK"
+          else
+            echo "✗ No APK found"
+            exit 1
+          fi

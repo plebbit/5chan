@@ -221,8 +221,6 @@
   "static_gif": "Statisk GIF",
   "animated_gif": "Animeret GIF",
   "hide_avatars": "Skjul avatarer",
-  "anon_mode": "Anonim tilstand",
-  "anon_mode_description": "Brug et unikt bruger-ID til hvert indlæg, du poster i. Disse ID'er kan ikke spores tilbage til din oprindelige konto.",
   "pending": "Afventer",
   "failed": "Mislykkedes",
   "add": "Tilføj",
@@ -231,7 +229,7 @@
   "order": "Rækkefølge",
   "text": "Tekst",
   "filtered_threads": "Filtrerede tråde",
-  "missing_link_confirm": "Dit indlæg mangler et link med et billede, det vil som standard blive filtreret på 5chan. Du kan deaktivere dette filter i indstillingerne eller se dit indlæg på en anden Plebbit-klient, som Seedit. Vil du alligevel poste?",
+  "missing_link_confirm": "Dit indlæg vil ikke være synligt som standard på 5chan, fordi der mangler et link til et billede eller andet medie. Du kan deaktivere dette filter i indstillingerne.",
   "no_board_selected_warning": "Vælg en tavle, før du poster.",
   "invalid_url_alert": "Det angivne link er ikke en gyldig URL.",
   "empty_comment_alert": "Kan ikke poste en tom kommentar.",
@@ -247,7 +245,6 @@
   "crypto_address_yours": "Crypto-adresse tilhører denne konto.",
   "delete_wallet": "Slet tegnebog",
   "loading_board": "Indlæser tavlen",
-  "avatar_warning": "Du kan ikke poste med et avatar, mens anonym tilstand er tændt. Du kan slukke det i dine Plebbit-kontoindstillinger.",
   "last_bumped": "Sidste bumpet",
   "threads_without_images_tip": "Vis kun tråde, der linker til indlejrbare medier",
   "hide_gore_boards_tip": "Vis ikke tråde fra boards med \"gore\" tagget",
@@ -296,5 +293,7 @@
   "filter_and_highlights_help": "Filtre og fremhævelser Hjælp",
   "filter_and_highlights": "Filtre og fremhævninger",
   "boards_you_moderate": "Boards du modererer",
-  "more_threads_last_year": "{{count}} tråde siden {{currentTimeFilterName}} — [<1>Vis flere tråde fra sidste år</1>]"
+  "more_threads_last_year": "{{count}} tråde siden {{currentTimeFilterName}} — [<1>Vis flere tråde fra sidste år</1>]",
+  "moderator_of_this_board": "Denne bruger er moderator for dette board",
+  "administrator_of_this_board": "Denne bruger er administrator for dette board"
 }

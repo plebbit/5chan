@@ -470,6 +470,38 @@
   color: var(--post-capcode-mod-text-color) !important;
 }
 
+.capcodeAdmin {
+  color: #F00 !important;
+}
+
+.capcodeIcon {
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  image-rendering: pixelated;
+  transform: translateY(2px);
+}
+
+.capcodeIconMobileWrapper {
+  padding-right: 15px;
+}
+
+.capcodeIconMobile {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  image-rendering: pixelated;
+  transform: translateY(-1px);
+}
+
+.capcodeModIcon {
+  background-image: url('assets/icons/board-mod.png');
+}
+
+.capcodeAdminIcon {
+  background-image: url('assets/icons/board-admin.png');
+}
+
 .pendingCid {
   color: red !important;
   font-weight: 700 !important;

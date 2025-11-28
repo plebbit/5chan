@@ -221,8 +221,6 @@
   "static_gif": "GIF Tĩnh",
   "animated_gif": "GIF Hoạt Hình",
   "hide_avatars": "Ẩn avatar",
-  "anon_mode": "Chế độ ẩn danh",
-  "anon_mode_description": "Sử dụng ID người dùng duy nhất cho mỗi chủ đề bạn đăng. Những ID này không thể được theo dõi lại tài khoản gốc của bạn.",
   "pending": "Đang chờ",
   "failed": "Thất bại",
   "add": "Thêm",
@@ -231,7 +229,7 @@
   "order": "Thứ tự",
   "text": "Văn bản",
   "filtered_threads": "Các chủ đề đã lọc",
-  "missing_link_confirm": "Bài đăng của bạn thiếu một liên kết với hình ảnh, nó sẽ bị lọc theo mặc định trên 5chan. Bạn có thể tắt bộ lọc này trong cài đặt hoặc xem bài đăng của bạn trên một khách hàng Plebbit khác, như Seedit. Vẫn muốn đăng?",
+  "missing_link_confirm": "Bài đăng của bạn sẽ không hiển thị theo mặc định trên 5chan, vì thiếu liên kết đến hình ảnh hoặc phương tiện khác. Bạn có thể tắt bộ lọc này trong cài đặt.",
   "no_board_selected_warning": "Vui lòng chọn một bảng trước khi đăng.",
   "invalid_url_alert": "Liên kết được cung cấp không phải là một URL hợp lệ.",
   "empty_comment_alert": "Không thể đăng bình luận trống.",
@@ -247,7 +245,6 @@
   "crypto_address_yours": "Địa chỉ tiền điện tử thuộc về tài khoản này.",
   "delete_wallet": "Xóa ví",
   "loading_board": "Đang tải bảng",
-  "avatar_warning": "Bạn không thể đăng với hình đại diện khi chế độ ẩn danh đang bật. Bạn có thể tắt nó trong cài đặt Tài khoản Plebbit của mình.",
   "last_bumped": "Bump gần đây nhất",
   "threads_without_images_tip": "Chỉ hiển thị các chủ đề liên kết đến phương tiện có thể nhúng",
   "hide_gore_boards_tip": "Không hiển thị chủ đề từ các diễn đàn có thẻ \"gore\"",
@@ -296,5 +293,7 @@
   "filter_and_highlights_help": "Trợ giúp bộ lọc và đánh dấu",
   "filter_and_highlights": "Bộ lọc và Nổi bật",
   "boards_you_moderate": "boards bạn điều hành",
-  "more_threads_last_year": "{{count}} chủ đề từ {{currentTimeFilterName}} — [<1>Hiển thị thêm các chủ đề từ năm ngoái</1>]"
+  "more_threads_last_year": "{{count}} chủ đề từ {{currentTimeFilterName}} — [<1>Hiển thị thêm các chủ đề từ năm ngoái</1>]",
+  "moderator_of_this_board": "Người dùng này là người điều hành của bảng này",
+  "administrator_of_this_board": "Người dùng này là quản trị viên của bảng này"
 }
