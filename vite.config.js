@@ -34,6 +34,7 @@ export default defineConfig({
       failOnError: false,
       failOnWarning: false,
       cache: true,
+      include: ['src/**/*.ts', 'src/**/*.tsx', 'src/**/*.js', 'src/**/*.jsx'],
     }),
     nodePolyfills({
       globals: {
