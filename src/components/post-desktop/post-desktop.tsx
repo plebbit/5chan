@@ -133,9 +133,9 @@ const PostInfo = ({ post, postReplyCount = 0, roles, isHidden }: PostProps) => {
                 <span
                   className={`${styles.capcodeIcon} ${authorRole === 'mod' ? styles.capcodeModIcon : styles.capcodeAdminIcon}`}
                   title={authorRole === 'mod' ? t('moderator_of_this_board') : t('administrator_of_this_board')}
-                />{' '}
+                />
               </span>
-            )}
+            )}{' '}
           </span>
           {!(isDescription || isRules) && (
             <>
