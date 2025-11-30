@@ -17,8 +17,12 @@ export const isValidURL = (url: string) => {
   }
 };
 
-export const copyShareLinkToClipboard = async (subplebbitAddress: string, cid: string) => {
-  const shareLink = `https://pleb.bz/p/${subplebbitAddress}/c/${cid}?redirect=5chan.app`;
+export type ShareLinkType = 'thread' | 'description' | 'rules';
+
+// Copies a share link to clipboard for a board, thread, description, or rules page
+export const copyShareLinkToClipboard = async (boardIdentifier: string, linkType: ShareLinkType, cid?: string) => {
+  const suffix = linkType === 'thread' ? `/thread/${cid}` : `/${linkType}`;
+  const shareLink = `https://5chan.app/${boardIdentifier}${suffix}`;
   await copyToClipboard(shareLink);
 };
 
