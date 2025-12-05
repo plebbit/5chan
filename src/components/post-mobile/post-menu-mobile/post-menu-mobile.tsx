@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import { Comment, useBlock } from '@plebbit/plebbit-react-hooks';
@@ -13,16 +13,14 @@ import useHide from '../../../hooks/use-hide';
 import EditMenu from '../../edit-menu/edit-menu';
 import { isBoardView, isPostPageView } from '../../../lib/utils/view-utils';
 import { useLocation, useParams } from 'react-router-dom';
+import { PostMenuProps } from '../../../lib/utils/post-menu-props';
 
-interface PostMenuMobileProps {
-  cid: string;
-  isDescription?: boolean;
+type HideButtonProps = {
+  cid?: string;
   isReply?: boolean;
-  isRules?: boolean;
   postCid?: string;
-  subplebbitAddress?: string;
   onClose?: () => void;
-}
+};
 
 const CopyLinkButton = ({ cid, subplebbitAddress, linkType, onClose }: { cid?: string; subplebbitAddress: string; linkType: ShareLinkType; onClose: () => void }) => {
   const { t } = useTranslation();
@@ -57,7 +55,7 @@ const ImageSearchButtons = ({ url, onClose }: { url: string; onClose: () => void
   );
 };
 
-const HidePostButton = ({ cid, isReply, onClose, postCid }: PostMenuMobileProps) => {
+const HidePostButton = ({ cid, isReply, onClose, postCid }: HideButtonProps) => {
   const { t } = useTranslation();
   const { hide, hidden, unhide } = useHide({ cid });
   const isInPostView = isPostPageView(useLocation().pathname, useParams());
@@ -98,9 +96,15 @@ const BlockBoardButton = ({ address }: { address: string }) => {
   );
 };
 
-const PostMenuMobile = ({ post }: { post: Comment }) => {
-  const { author, cid, deleted, isDescription, isRules, link, linkHeight, linkWidth, parentCid, postCid, removed, subplebbitAddress, thumbnailUrl } = post || {};
-  const { isAccountMod, isAccountCommentAuthor } = useEditCommentPrivileges({ commentAuthorAddress: author?.address, subplebbitAddress });
+type PostMenuMobileProps = {
+  postMenu: PostMenuProps;
+  editMenuPost: Comment;
+};
+
+const PostMenuMobile = ({ postMenu, editMenuPost }: PostMenuMobileProps) => {
+  const { authorAddress, cid, deleted, isDescription, isRules, link, linkHeight, linkWidth, parentCid, postCid, removed, subplebbitAddress, thumbnailUrl } =
+    postMenu || {};
+  const { isAccountMod, isAccountCommentAuthor } = useEditCommentPrivileges({ commentAuthorAddress: authorAddress, subplebbitAddress });
   const commentMediaInfo = getCommentMediaInfo(link, thumbnailUrl, linkWidth, linkHeight);
   const { thumbnail, type, url } = commentMediaInfo || {};
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -142,8 +146,8 @@ const PostMenuMobile = ({ post }: { post: Comment }) => {
                   {cid && subplebbitAddress && <CopyLinkButton cid={cid} subplebbitAddress={subplebbitAddress} linkType='thread' onClose={handleClose} />}
                   {!cid && isDescription && subplebbitAddress && <CopyLinkButton subplebbitAddress={subplebbitAddress} linkType='description' onClose={handleClose} />}
                   {!cid && isRules && subplebbitAddress && <CopyLinkButton subplebbitAddress={subplebbitAddress} linkType='rules' onClose={handleClose} />}
-                  {cid && subplebbitAddress && <HidePostButton cid={cid} isReply={parentCid} postCid={postCid} onClose={handleClose} />}
-                  {cid && subplebbitAddress && !isDescription && !isRules && <BlockUserButton address={author?.address} />}
+                  {cid && subplebbitAddress && <HidePostButton cid={cid} isReply={!!parentCid} postCid={postCid} onClose={handleClose} />}
+                  {cid && subplebbitAddress && !isDescription && !isRules && authorAddress && <BlockUserButton address={authorAddress} />}
                   {cid && subplebbitAddress && !isInBoardView && !isDescription && !isRules && <BlockBoardButton address={subplebbitAddress} />}
                   {link && isValidURL(link) && (type === 'image' || type === 'gif' || thumbnail) && url && <ImageSearchButtons url={url} onClose={handleClose} />}
                 </div>
@@ -154,11 +158,11 @@ const PostMenuMobile = ({ post }: { post: Comment }) => {
       )}
       {(isAccountMod || isAccountCommentAuthor) && cid && (
         <span className={styles.checkbox}>
-          <EditMenu post={post} />
+          <EditMenu post={editMenuPost} />
         </span>
       )}
     </>
   );
 };
 
-export default PostMenuMobile;
+export default memo(PostMenuMobile);

@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useLocation, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { autoUpdate, flip, FloatingFocusManager, offset, shift, useClick, useDismiss, useFloating, useId, useInteractions, useRole } from '@floating-ui/react';
-import { Comment, useBlock } from '@plebbit/plebbit-react-hooks';
+import { useBlock } from '@plebbit/plebbit-react-hooks';
 import styles from './post-menu-desktop.module.css';
 import { getCommentMediaInfo } from '../../../lib/utils/media-utils';
 import { copyShareLinkToClipboard, isValidURL, type ShareLinkType } from '../../../lib/utils/url-utils';
@@ -12,14 +12,7 @@ import { useDefaultSubplebbits } from '../../../hooks/use-default-subplebbits';
 import { isAllView, isCatalogView, isPostPageView, isSubscriptionsView } from '../../../lib/utils/view-utils';
 import useHide from '../../../hooks/use-hide';
 import _ from 'lodash';
-
-interface PostMenuDesktopProps {
-  cid: string;
-  isDescription?: boolean;
-  isRules?: boolean;
-  subplebbitAddress: string;
-  onClose: () => void;
-}
+import { PostMenuProps } from '../../../lib/utils/post-menu-props';
 
 const CopyLinkButton = ({ cid, subplebbitAddress, linkType, onClose }: { cid?: string; subplebbitAddress: string; linkType: ShareLinkType; onClose: () => void }) => {
   const { t } = useTranslation();
@@ -92,14 +85,19 @@ const BlockBoardButton = ({ address }: { address: string }) => {
   );
 };
 
-const PostMenuDesktop = ({ post }: { post: Comment }) => {
+type PostMenuDesktopProps = {
+  postMenu: PostMenuProps;
+};
+
+const PostMenuDesktop = ({ postMenu }: PostMenuDesktopProps) => {
+  console.log('postMenu rerender', postMenu);
   const { t } = useTranslation();
-  const { author, cid, isDescription, isRules, link, thumbnailUrl, linkWidth, linkHeight, postCid, subplebbitAddress } = post || {};
-  const commentMediaInfo = getCommentMediaInfo(link, thumbnailUrl, linkWidth, linkHeight);
+  const { authorAddress, cid, isDescription, isRules, link, thumbnailUrl, linkWidth, linkHeight, postCid, subplebbitAddress } = postMenu || {};
+  const commentMediaInfo = getCommentMediaInfo(link || '', thumbnailUrl || '', linkWidth ?? 0, linkHeight ?? 0);
   const { thumbnail, type, url } = commentMediaInfo || {};
   const [menuBtnRotated, setMenuBtnRotated] = useState(false);
 
-  const { hidden, unhide, hide } = useHide({ cid });
+  const { hidden, unhide, hide } = useHide({ cid: cid || '' });
 
   const location = useLocation();
   const params = useParams();
@@ -161,8 +159,8 @@ const PostMenuDesktop = ({ post }: { post: Comment }) => {
                 </div>
               )}
               {link && isValidURL(link) && (type === 'image' || type === 'gif' || thumbnail) && url && <ImageSearchButton url={url} onClose={handleClose} />}
-              {!isDescription && !isRules && <BlockUserButton address={author?.address} />}
-              {(isInAllView || isInSubscriptionsView) && <BlockBoardButton address={subplebbitAddress} />}
+              {!isDescription && !isRules && authorAddress && <BlockUserButton address={authorAddress} />}
+              {(isInAllView || isInSubscriptionsView) && subplebbitAddress && <BlockBoardButton address={subplebbitAddress} />}
             </div>
           </FloatingFocusManager>,
           document.body,
@@ -171,4 +169,4 @@ const PostMenuDesktop = ({ post }: { post: Comment }) => {
   );
 };
 
-export default PostMenuDesktop;
+export default memo(PostMenuDesktop);

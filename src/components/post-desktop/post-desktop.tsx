@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import { Comment, useAuthorAvatar, useEditedComment } from '@plebbit/plebbit-react-hooks';
@@ -33,6 +33,7 @@ import { create } from 'zustand';
 import _ from 'lodash';
 import { shouldShowSnow } from '../../lib/snow';
 import useReplyModalStore from '../../stores/use-reply-modal-store';
+import { selectPostMenuProps } from '../../lib/utils/post-menu-props';
 
 interface ShowOmittedRepliesState {
   showOmittedReplies: Record<string, boolean>;
@@ -66,6 +67,7 @@ const PostInfo = ({ post, postReplyCount = 0, roles, isHidden }: PostProps) => {
   const { hideAvatars } = useAvatarVisibilityStore();
   const defaultSubplebbits = useDefaultSubplebbits();
   const boardPath = subplebbitAddress ? getBoardPath(subplebbitAddress, defaultSubplebbits) : undefined;
+  const postMenuProps = useMemo(() => selectPostMenuProps(post), [post]);
 
   const params = useParams();
   const location = useLocation();
@@ -226,7 +228,7 @@ const PostInfo = ({ post, postReplyCount = 0, roles, isHidden }: PostProps) => {
             </span>
           )}
         </span>
-        {!(removed || deleted) && <PostMenuDesktop post={post} />}
+        {!(removed || deleted) && <PostMenuDesktop postMenu={postMenuProps} />}
         {cid &&
           parentCid &&
           replies &&

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation, useParams } from 'react-router-dom';
@@ -24,6 +24,7 @@ import { ContentPreview } from '../../views/home/popular-threads-box';
 import PostMenuDesktop from '../post-desktop/post-menu-desktop';
 import styles from './catalog-row.module.css';
 import _ from 'lodash';
+import { selectPostMenuProps } from '../../lib/utils/post-menu-props';
 
 interface CatalogPostMediaProps {
   cid: string;
@@ -142,6 +143,7 @@ const CatalogPost = ({ post }: { post: Comment }) => {
   const isInSubscriptionsView = isSubscriptionsView(location.pathname, params);
   const defaultSubplebbits = useDefaultSubplebbits();
   const boardPath = subplebbitAddress ? getBoardPath(subplebbitAddress, defaultSubplebbits) : '';
+  const postMenuProps = useMemo(() => selectPostMenuProps(post), [post]);
 
   const postLink = isInAllView && isDescription ? '/all/description' : `/${boardPath}/${isDescription ? 'description' : isRules ? 'rules' : `thread/${cid}`}`;
 
@@ -287,7 +289,7 @@ const CatalogPost = ({ post }: { post: Comment }) => {
               </span>
             )}
             <span className={`${styles.postMenu} ${hoveredCid && styles.postMenuVisible}`}>
-              <PostMenuDesktop post={post} />
+              <PostMenuDesktop postMenu={postMenuProps} />
             </span>
           </div>
           <div className={styles.postContent}>{(showOPComment || isTextOnlyThread) && (hasThumbnail ? postContent : <Link to={postLink}>{postContent}</Link>)}</div>

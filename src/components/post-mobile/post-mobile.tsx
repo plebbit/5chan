@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import { Comment, useAuthorAvatar, useEditedComment } from '@plebbit/plebbit-react-hooks';
@@ -28,6 +28,7 @@ import Tooltip from '../tooltip';
 import { PostProps } from '../../views/post/post';
 import _ from 'lodash';
 import useReplyModalStore from '../../stores/use-reply-modal-store';
+import { selectPostMenuProps } from '../../lib/utils/post-menu-props';
 
 const PostInfoAndMedia = ({ post, postReplyCount = 0, roles }: PostProps) => {
   const { t } = useTranslation();
@@ -71,6 +72,7 @@ const PostInfoAndMedia = ({ post, postReplyCount = 0, roles }: PostProps) => {
   const hasThumbnail = getHasThumbnail(commentMediaInfo, link);
 
   const stateString = useStateString(post);
+  const postMenuProps = useMemo(() => selectPostMenuProps(post), [post]);
 
   const handleUserAddressClick = useAuthorAddressClick();
   const numberOfPostsByAuthor = document.querySelectorAll(`[data-author-address="${shortAddress}"][data-post-cid="${postCid}"]`).length;
@@ -98,7 +100,7 @@ const PostInfoAndMedia = ({ post, postReplyCount = 0, roles }: PostProps) => {
   return (
     <>
       <div className={styles.postInfo}>
-        <PostMenuMobile post={post} />
+        <PostMenuMobile postMenu={postMenuProps} editMenuPost={post} />
         <span className={(hidden || ((removed || deleted) && !reason)) && parentCid ? styles.postDesktopHidden : ''}>
           <span className={styles.nameBlock}>
             <span className={`${styles.name} ${authorRole && !(deleted || removed) && (authorRole === 'mod' ? styles.capcodeMod : styles.capcodeAdmin)}`}>
