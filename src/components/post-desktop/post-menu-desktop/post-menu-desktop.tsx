@@ -90,7 +90,6 @@ type PostMenuDesktopProps = {
 };
 
 const PostMenuDesktop = ({ postMenu }: PostMenuDesktopProps) => {
-  console.log('postMenu rerender', postMenu);
   const { t } = useTranslation();
   const { authorAddress, cid, isDescription, isRules, link, thumbnailUrl, linkWidth, linkHeight, postCid, subplebbitAddress } = postMenu || {};
   const commentMediaInfo = getCommentMediaInfo(link || '', thumbnailUrl || '', linkWidth ?? 0, linkHeight ?? 0);
