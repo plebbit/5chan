@@ -20,10 +20,11 @@ const SubplebbitDescription = ({ avatarUrl, createdAt, description, replyCount, 
   const location = useLocation();
   const isInAllView = isAllView(location.pathname);
   const multisubMetadata = useMultisubMetadata();
+  const descriptionSubplebbitAddress = isInAllView ? 'all' : subplebbitAddress;
 
   const post = {
     isDescription: true,
-    subplebbitAddress,
+    subplebbitAddress: descriptionSubplebbitAddress,
     timestamp: isInAllView ? multisubMetadata?.createdAt : createdAt,
     author: { displayName: _.capitalize(t('anonymous')) },
     content: isInAllView ? multisubMetadata?.description : description,

@@ -175,7 +175,7 @@ const PostMenuDesktop = ({ postMenu }: PostMenuDesktopProps) => {
               )}
               {link && isValidURL(link) && (type === 'image' || type === 'gif' || thumbnail) && url && <ImageSearchButton url={url} onClose={handleClose} />}
               {!isDescription && !isRules && authorAddress && <BlockUserButton address={authorAddress} />}
-              {(isInAllView || isInSubscriptionsView) && subplebbitAddress && <BlockBoardButton address={subplebbitAddress} />}
+              {!isDescription && !isRules && (isInAllView || isInSubscriptionsView) && subplebbitAddress && <BlockBoardButton address={subplebbitAddress} />}
             </div>
           </FloatingFocusManager>,
           document.body,
