@@ -29,9 +29,14 @@ const CopyLinkButton = ({ cid, subplebbitAddress, linkType, onClose }: { cid?: s
   const boardIdentifier = getBoardPath(subplebbitAddress, defaultSubplebbits);
   return (
     <div
-      onClick={() => {
-        copyShareLinkToClipboard(boardIdentifier, linkType, cid);
-        onClose();
+      onClick={async () => {
+        try {
+          await copyShareLinkToClipboard(boardIdentifier, linkType, cid);
+        } catch (error) {
+          console.error('Failed to copy share link', error);
+        } finally {
+          onClose();
+        }
       }}
     >
       <div className={styles.postMenuItem}>{t('copy_link')}</div>
@@ -43,9 +48,14 @@ const CopyContentIdButton = ({ cid, onClose }: { cid: string; onClose: () => voi
   const { t } = useTranslation();
   return (
     <div
-      onClick={() => {
-        copyToClipboard(cid);
-        onClose();
+      onClick={async () => {
+        try {
+          await copyToClipboard(cid);
+        } catch (error) {
+          console.error('Failed to copy content id', error);
+        } finally {
+          onClose();
+        }
       }}
     >
       <div className={styles.postMenuItem}>{t('copy_content_id')}</div>
