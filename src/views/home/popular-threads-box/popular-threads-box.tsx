@@ -78,6 +78,7 @@ const PopularThreadsBox = ({ multisub, subplebbits }: { multisub: MultisubSubple
 
   const filteredSubplebbits = useMemo(getFilteredSubplebbits, [subplebbits, showWorksafeContentOnly, showNsfwContentOnly, multisub]);
   const { popularPosts } = usePopularPosts(filteredSubplebbits);
+  const isLoading = popularPosts.length === 0;
 
   return (
     <div className={styles.box}>
@@ -85,12 +86,8 @@ const PopularThreadsBox = ({ multisub, subplebbits }: { multisub: MultisubSubple
         <h2 className='capitalize'>{t('popular_threads')}</h2>
         <BoxModal />
       </div>
-      <div className={`${styles.boxContent} ${popularPosts.length !== 0 ? styles.popularThreads : ''}`}>
-        {popularPosts.length === 0 ? (
-          <LoadingEllipsis string={t('loading')} />
-        ) : (
-          popularPosts.map((post: any) => <PopularThreadCard key={post.cid} post={post} multisub={multisub} />)
-        )}
+      <div className={`${styles.boxContent} ${styles.popularThreads} ${isLoading ? styles.popularThreadsLoading : ''}`}>
+        {isLoading ? <LoadingEllipsis string={t('loading')} /> : popularPosts.map((post: any) => <PopularThreadCard key={post.cid} post={post} multisub={multisub} />)}
       </div>
     </div>
   );
