@@ -137,6 +137,15 @@
   .postFormTable button {
     padding: 3px 6px;
   }
+
+  .postFormMobile {
+    margin-bottom: 6px;
+  }
+
+  .postFormTable {
+    padding-top: 20px;
+    padding-bottom: 3px;
+  }
 }
 
 @media (min-width: 640px) {
