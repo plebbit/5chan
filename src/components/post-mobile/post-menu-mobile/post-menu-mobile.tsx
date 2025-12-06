@@ -6,6 +6,7 @@ import { autoUpdate, flip, FloatingFocusManager, offset, shift, useClick, useDis
 import styles from './post-menu-mobile.module.css';
 import { getCommentMediaInfo } from '../../../lib/utils/media-utils';
 import { copyShareLinkToClipboard, isValidURL, type ShareLinkType } from '../../../lib/utils/url-utils';
+import { copyToClipboard } from '../../../lib/utils/clipboard-utils';
 import { getBoardPath } from '../../../lib/utils/route-utils';
 import { useDefaultSubplebbits } from '../../../hooks/use-default-subplebbits';
 import useEditCommentPrivileges from '../../../hooks/use-author-privileges';
@@ -34,6 +35,20 @@ const CopyLinkButton = ({ cid, subplebbitAddress, linkType, onClose }: { cid?: s
       }}
     >
       <div className={styles.postMenuItem}>{t('copy_link')}</div>
+    </div>
+  );
+};
+
+const CopyContentIdButton = ({ cid, onClose }: { cid: string; onClose: () => void }) => {
+  const { t } = useTranslation();
+  return (
+    <div
+      onClick={() => {
+        copyToClipboard(cid);
+        onClose();
+      }}
+    >
+      <div className={styles.postMenuItem}>{t('copy_content_id')}</div>
     </div>
   );
 };
@@ -144,6 +159,7 @@ const PostMenuMobile = ({ postMenu, editMenuPost }: PostMenuMobileProps) => {
               <FloatingFocusManager context={context} modal={false}>
                 <div className={styles.postMenu} ref={refs.setFloating} style={floatingStyles} aria-labelledby={headingId} {...getFloatingProps()}>
                   {cid && subplebbitAddress && <CopyLinkButton cid={cid} subplebbitAddress={subplebbitAddress} linkType='thread' onClose={handleClose} />}
+                  {cid && <CopyContentIdButton cid={cid} onClose={handleClose} />}
                   {!cid && isDescription && subplebbitAddress && <CopyLinkButton subplebbitAddress={subplebbitAddress} linkType='description' onClose={handleClose} />}
                   {!cid && isRules && subplebbitAddress && <CopyLinkButton subplebbitAddress={subplebbitAddress} linkType='rules' onClose={handleClose} />}
                   {cid && subplebbitAddress && <HidePostButton cid={cid} isReply={!!parentCid} postCid={postCid} onClose={handleClose} />}

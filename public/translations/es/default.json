@@ -295,5 +295,6 @@
   "boards_you_moderate": "tableros que moderas",
   "more_threads_last_year": "{{count}} hilos desde {{currentTimeFilterName}} — [<1>Ver más hilos del año pasado</1>]",
   "moderator_of_this_board": "Este usuario es moderador de este tablero",
-  "administrator_of_this_board": "Este usuario es administrador de este tablero"
+  "administrator_of_this_board": "Este usuario es administrador de este tablero",
+  "copy_content_id": "Copiar ID de contenido"
 }

@@ -295,5 +295,6 @@
   "boards_you_moderate": "बोर्ड जो आप मॉडरेट करते हैं",
   "more_threads_last_year": "{{count}} थ्रेड्स {{currentTimeFilterName}} से — [<1>पिछले साल के अधिक थ्रेड्स दिखाएं</1>]",
   "moderator_of_this_board": "यह उपयोगकर्ता इस बोर्ड का मॉडरेटर है",
-  "administrator_of_this_board": "यह उपयोगकर्ता इस बोर्ड का प्रशासक है"
+  "administrator_of_this_board": "यह उपयोगकर्ता इस बोर्ड का प्रशासक है",
+  "copy_content_id": "कंटेंट ID कॉपी करें"
 }

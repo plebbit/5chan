@@ -295,5 +295,6 @@
   "boards_you_moderate": "boards du modererar",
   "more_threads_last_year": "{{count}} trådar sedan {{currentTimeFilterName}} — [<1>Visa fler trådar från förra året</1>]",
   "moderator_of_this_board": "Denna användare är moderator för detta forum",
-  "administrator_of_this_board": "Denna användare är administratör för detta forum"
+  "administrator_of_this_board": "Denna användare är administratör för detta forum",
+  "copy_content_id": "kopiera innehålls-ID"
 }

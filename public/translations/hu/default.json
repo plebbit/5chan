@@ -295,5 +295,6 @@
   "boards_you_moderate": "boardok, amelyeket moderálsz",
   "more_threads_last_year": "{{count}} szál {{currentTimeFilterName}} óta — [<1>Több szál megjelenítése a múlt évből</1>]",
   "moderator_of_this_board": "Ez a felhasználó ennek a táblának a moderátora",
-  "administrator_of_this_board": "Ez a felhasználó ennek a táblának a rendszergazdája"
+  "administrator_of_this_board": "Ez a felhasználó ennek a táblának a rendszergazdája",
+  "copy_content_id": "tartalom ID másolása"
 }

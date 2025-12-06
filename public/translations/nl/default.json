@@ -295,5 +295,6 @@
   "boards_you_moderate": "boards die je beheert",
   "more_threads_last_year": "{{count}} threads sinds {{currentTimeFilterName}} — [<1>Meer threads van afgelopen jaar tonen</1>]",
   "moderator_of_this_board": "Deze gebruiker is moderator van dit bord",
-  "administrator_of_this_board": "Deze gebruiker is beheerder van dit bord"
+  "administrator_of_this_board": "Deze gebruiker is beheerder van dit bord",
+  "copy_content_id": "kopieer inhoud-ID"
 }
