@@ -197,7 +197,7 @@ const Board = ({ feedCacheKey, viewType, boardIdentifier: boardIdentifierProp, t
     return () => clearTimeout(timer);
   }, []);
 
-  const currentTimeFilterName = params?.timeFilterName || timeFilterName;
+  const currentTimeFilterName = timeFilterName || params?.timeFilterName;
 
   const Footer = () => {
     let footerContent;
