@@ -295,5 +295,6 @@
   "boards_you_moderate": "المنتديات التي تقوم بالإشراف عليها",
   "more_threads_last_year": "{{count}} مواضيع منذ {{currentTimeFilterName}} — [<1>عرض المزيد من المواضيع من السنة الماضية</1>]",
   "moderator_of_this_board": "هذا المستخدم هو مشرف على هذا المنتدى",
-  "administrator_of_this_board": "هذا المستخدم هو مسؤول عن هذا المنتدى"
+  "administrator_of_this_board": "هذا المستخدم هو مسؤول عن هذا المنتدى",
+  "copy_content_id": "نسخ معرف المحتوى"
 }

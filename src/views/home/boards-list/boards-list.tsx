@@ -2,7 +2,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useDefaultSubplebbitsState, useDefaultSubplebbits, MultisubSubplebbit } from '../../../hooks/use-default-subplebbits';
 import { getBoardPath } from '../../../lib/utils/route-utils';
-import LoadingEllipsis from '../../../components/loading-ellipsis';
 import useDisclaimerModalStore from '../../../stores/use-disclaimer-modal-store';
 import useDirectoryModalStore from '../../../stores/use-directory-modal-store';
 import useBoardsFilterStore from '../../../stores/use-boards-filter-store';
@@ -31,7 +30,7 @@ const NSFWBadge = () => {
 const BoardsList = ({ multisub }: { multisub: MultisubSubplebbit[] }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { loading, error } = useDefaultSubplebbitsState();
+  const { error } = useDefaultSubplebbitsState();
   const { showDisclaimerModal } = useDisclaimerModalStore();
   const { openDirectoryModal } = useDirectoryModalStore();
   const { useCatalogLinks, boardFilter } = useBoardsFilterStore();
@@ -56,37 +55,10 @@ const BoardsList = ({ multisub }: { multisub: MultisubSubplebbit[] }) => {
     openDirectoryModal();
   };
 
-  if (loading) {
-    return (
-      <div className={styles.box}>
-        <div className={`${styles.boxBar} ${styles.color2ColorBar}`}>
-          <h2 className='capitalize'>{t('boards')}</h2>
-          <BoardsFilterModal />
-        </div>
-        <div className={styles.boxContent}>
-          <LoadingEllipsis string={t('loading_default_boards')} />
-        </div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className={styles.box}>
-        <div className={`${styles.boxBar} ${styles.color2ColorBar}`}>
-          <h2 className='capitalize'>{t('boards')}</h2>
-          <BoardsFilterModal />
-        </div>
-        <div className={styles.boxContent}>
-          <div className='red'>{error.message}</div>
-        </div>
-      </div>
-    );
-  }
-
   // Find active boards
   const bizAddress = findBoardAddress(multisub, '/biz/ - Business & Finance');
   const polAddress = findBoardAddress(multisub, '/pol/ - Politically Incorrect');
+  const errorMessage = error?.message;
 
   // Filtering logic: determine which categories to show
   const showAll = boardFilter === 'all';
@@ -110,6 +82,7 @@ const BoardsList = ({ multisub }: { multisub: MultisubSubplebbit[] }) => {
         <BoardsFilterModal />
       </div>
       <div className={`${styles.boxContent} ${styles.boardsContent}`}>
+        {errorMessage && <div className='red'>{errorMessage}</div>}
         {/* Column 1: Japanese Culture + Video Games */}
         {(showJapaneseCulture || showVideoGames) && (
           <div className={styles.boardsColumn}>

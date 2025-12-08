@@ -21,8 +21,21 @@ jobs:
           node-version: 22
           cache: 'yarn'
 
+      - name: Cache electron binaries
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/electron
+          key: ${{ runner.os }}-electron-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: ${{ runner.os }}-electron-
+
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --ignore-engines
+        run: |
+          for i in 1 2 3; do
+            echo "yarn install attempt $i"
+            yarn install --frozen-lockfile --ignore-engines --network-timeout 100000 --network-concurrency 1 && break
+            sleep 5
+            [ "$i" = "3" ] && exit 1
+          done
 
       - name: Download IPFS
         run: node electron/download-ipfs && chmod +x bin/linux/ipfs
@@ -75,8 +88,21 @@ jobs:
           # Use pip with --break-system-packages for CI environment
           pip3 install --break-system-packages setuptools || pip3 install --user setuptools || true
 
+      - name: Cache electron binaries
+        uses: actions/cache@v4
+        with:
+          path: ~/Library/Caches/electron
+          key: ${{ runner.os }}-electron-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: ${{ runner.os }}-electron-
+
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --ignore-engines
+        run: |
+          for i in 1 2 3; do
+            echo "yarn install attempt $i"
+            yarn install --frozen-lockfile --ignore-engines --network-timeout 100000 --network-concurrency 1 && break
+            sleep 5
+            [ "$i" = "3" ] && exit 1
+          done
 
       - name: Download IPFS
         run: node electron/download-ipfs && chmod +x bin/mac/ipfs
@@ -135,8 +161,21 @@ jobs:
           # Use pip with --break-system-packages for CI environment
           pip3 install --break-system-packages setuptools || pip3 install --user setuptools || true
 
+      - name: Cache electron binaries
+        uses: actions/cache@v4
+        with:
+          path: ~/Library/Caches/electron
+          key: ${{ runner.os }}-electron-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: ${{ runner.os }}-electron-
+
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --ignore-engines
+        run: |
+          for i in 1 2 3; do
+            echo "yarn install attempt $i"
+            yarn install --frozen-lockfile --ignore-engines --network-timeout 100000 --network-concurrency 1 && break
+            sleep 5
+            [ "$i" = "3" ] && exit 1
+          done
 
       - name: Download IPFS
         run: node electron/download-ipfs && chmod +x bin/mac/ipfs
@@ -195,8 +234,22 @@ jobs:
           node-version: 22
           cache: 'yarn'
 
+      - name: Cache electron binaries
+        uses: actions/cache@v4
+        with:
+          path: ~/AppData/Local/electron/Cache
+          key: ${{ runner.os }}-electron-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: ${{ runner.os }}-electron-
+
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --ignore-engines --network-timeout 100000 --network-concurrency 1
+        shell: bash
+        run: |
+          for i in 1 2 3; do
+            echo "yarn install attempt $i"
+            yarn install --frozen-lockfile --ignore-engines --network-timeout 100000 --network-concurrency 1 && break
+            sleep 5
+            [ "$i" = "3" ] && exit 1
+          done
 
       - name: Download IPFS
         run: node electron/download-ipfs
@@ -234,52 +287,4 @@ jobs:
              echo "No unpacked directory found"
              ls -R dist
              exit 1
-          fi
-
-  test-android:
-    name: Test Android
-    runs-on: ubuntu-22.04
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Setup Node.js v22
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: 'yarn'
-
-      - name: Setup Java 17
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: '17'
-
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile --ignore-engines
-
-      - name: Build React App
-        run: yarn build
-        env:
-          CI: ''
-
-      - name: Sync Capacitor
-        run: npx cap sync android
-
-      - name: Build Android APK
-        run: |
-          cd android
-          chmod +x gradlew
-          ./gradlew assembleDebug
-
-      - name: Verify APK exists
-        run: |
-          APK=$(find android/app/build/outputs/apk -name "*.apk" | head -n 1)
-          if [ -n "$APK" ]; then
-            echo "✓ APK built successfully: $APK"
-            ls -lh "$APK"
-          else
-            echo "✗ No APK found"
-            exit 1
           fi

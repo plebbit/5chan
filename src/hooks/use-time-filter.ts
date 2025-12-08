@@ -53,6 +53,34 @@ if (secondsSinceLastVisit > 30 * day) {
 
 export const timeFilterNames = [lastVisitTimeFilterName, '1h', '12h', '24h', '48h', '1w', '1m', '1y', 'all'];
 
+export const timeFilterNameToSeconds = (timeFilterName: string | undefined): number | undefined => {
+  if (!timeFilterName || timeFilterName === 'all') return undefined;
+
+  if (timeFilterName in timeFilterNamesToSeconds) {
+    return timeFilterNamesToSeconds[timeFilterName as keyof typeof timeFilterNamesToSeconds];
+  }
+
+  const match = timeFilterName.match(/^(\d+)([hdwmy])$/);
+  if (match) {
+    const [, value, unit] = match;
+    const numValue = parseInt(value, 10);
+    switch (unit) {
+      case 'h':
+        return numValue * 60 * 60;
+      case 'd':
+        return numValue * 24 * 60 * 60;
+      case 'w':
+        return numValue * 7 * 24 * 60 * 60;
+      case 'm':
+        return numValue * 30 * 24 * 60 * 60;
+      case 'y':
+        return numValue * 365 * 24 * 60 * 60;
+    }
+  }
+
+  return undefined;
+};
+
 function convertTimeStringToSeconds(timeString: string): number {
   const match = timeString.match(/^(\d+)([hdwmy])$/);
   if (!match) {

@@ -1,39 +1,68 @@
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import { Comment, useBlock } from '@plebbit/plebbit-react-hooks';
 import { autoUpdate, flip, FloatingFocusManager, offset, shift, useClick, useDismiss, useFloating, useId, useInteractions, useRole } from '@floating-ui/react';
 import styles from './post-menu-mobile.module.css';
 import { getCommentMediaInfo } from '../../../lib/utils/media-utils';
-import { copyShareLinkToClipboard, isValidURL } from '../../../lib/utils/url-utils';
+import { copyShareLinkToClipboard, isValidURL, type ShareLinkType } from '../../../lib/utils/url-utils';
+import { copyToClipboard } from '../../../lib/utils/clipboard-utils';
+import { getBoardPath } from '../../../lib/utils/route-utils';
+import { useDefaultSubplebbits } from '../../../hooks/use-default-subplebbits';
 import useEditCommentPrivileges from '../../../hooks/use-author-privileges';
 import useHide from '../../../hooks/use-hide';
 import EditMenu from '../../edit-menu/edit-menu';
 import { isBoardView, isPostPageView } from '../../../lib/utils/view-utils';
 import { useLocation, useParams } from 'react-router-dom';
+import { PostMenuProps } from '../../../lib/utils/post-menu-props';
 
-interface PostMenuMobileProps {
-  cid: string;
-  isDescription?: boolean;
+type HideButtonProps = {
+  cid?: string;
   isReply?: boolean;
-  isRules?: boolean;
   postCid?: string;
-  subplebbitAddress?: string;
   onClose?: () => void;
-}
+};
 
-const CopyLinkButton = ({ cid, subplebbitAddress, onClose }: PostMenuMobileProps) => {
+type CopyLinkButtonProps =
+  | { cid: string; subplebbitAddress: string; linkType: 'thread'; onClose: () => void }
+  | { subplebbitAddress: string; linkType: Exclude<ShareLinkType, 'thread'>; onClose: () => void; cid?: undefined };
+
+const CopyLinkButton = ({ cid, subplebbitAddress, linkType, onClose }: CopyLinkButtonProps) => {
   const { t } = useTranslation();
+  const defaultSubplebbits = useDefaultSubplebbits();
+  const boardIdentifier = getBoardPath(subplebbitAddress, defaultSubplebbits);
   return (
     <div
-      onClick={() => {
-        if (subplebbitAddress) {
-          copyShareLinkToClipboard(subplebbitAddress, cid);
+      onClick={async () => {
+        try {
+          await copyShareLinkToClipboard(boardIdentifier, linkType, cid);
+        } catch (error) {
+          console.error('Failed to copy share link', error);
+        } finally {
+          onClose();
         }
-        onClose && onClose();
       }}
     >
       <div className={styles.postMenuItem}>{t('copy_link')}</div>
+    </div>
+  );
+};
+
+const CopyContentIdButton = ({ cid, onClose }: { cid: string; onClose: () => void }) => {
+  const { t } = useTranslation();
+  return (
+    <div
+      onClick={async () => {
+        try {
+          await copyToClipboard(cid);
+        } catch (error) {
+          console.error('Failed to copy content id', error);
+        } finally {
+          onClose();
+        }
+      }}
+    >
+      <div className={styles.postMenuItem}>{t('copy_content_id')}</div>
     </div>
   );
 };
@@ -55,7 +84,7 @@ const ImageSearchButtons = ({ url, onClose }: { url: string; onClose: () => void
   );
 };
 
-const HidePostButton = ({ cid, isReply, onClose, postCid }: PostMenuMobileProps) => {
+const HidePostButton = ({ cid, isReply, onClose, postCid }: HideButtonProps) => {
   const { t } = useTranslation();
   const { hide, hidden, unhide } = useHide({ cid });
   const isInPostView = isPostPageView(useLocation().pathname, useParams());
@@ -96,9 +125,15 @@ const BlockBoardButton = ({ address }: { address: string }) => {
   );
 };
 
-const PostMenuMobile = ({ post }: { post: Comment }) => {
-  const { author, cid, deleted, isDescription, isRules, link, linkHeight, linkWidth, parentCid, postCid, removed, subplebbitAddress, thumbnailUrl } = post || {};
-  const { isAccountMod, isAccountCommentAuthor } = useEditCommentPrivileges({ commentAuthorAddress: author?.address, subplebbitAddress });
+type PostMenuMobileProps = {
+  postMenu: PostMenuProps;
+  editMenuPost: Comment;
+};
+
+const PostMenuMobile = ({ postMenu, editMenuPost }: PostMenuMobileProps) => {
+  const { authorAddress, cid, deleted, isDescription, isRules, link, linkHeight, linkWidth, parentCid, postCid, removed, subplebbitAddress, thumbnailUrl } =
+    postMenu || {};
+  const { isAccountMod, isAccountCommentAuthor } = useEditCommentPrivileges({ commentAuthorAddress: authorAddress, subplebbitAddress });
   const commentMediaInfo = getCommentMediaInfo(link, thumbnailUrl, linkWidth, linkHeight);
   const { thumbnail, type, url } = commentMediaInfo || {};
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -116,7 +151,7 @@ const PostMenuMobile = ({ post }: { post: Comment }) => {
   const headingId = useId();
 
   const handleMenuClick = () => {
-    if (cid) {
+    if (cid || isDescription || isRules) {
       setIsMenuOpen((prev) => !prev);
     }
   };
@@ -137,9 +172,12 @@ const PostMenuMobile = ({ post }: { post: Comment }) => {
             createPortal(
               <FloatingFocusManager context={context} modal={false}>
                 <div className={styles.postMenu} ref={refs.setFloating} style={floatingStyles} aria-labelledby={headingId} {...getFloatingProps()}>
-                  {cid && subplebbitAddress && <CopyLinkButton cid={cid} subplebbitAddress={subplebbitAddress} onClose={handleClose} />}
-                  {cid && subplebbitAddress && <HidePostButton cid={cid} isReply={parentCid} postCid={postCid} onClose={handleClose} />}
-                  {cid && subplebbitAddress && !isDescription && !isRules && <BlockUserButton address={author?.address} />}
+                  {cid && subplebbitAddress && <CopyLinkButton cid={cid} subplebbitAddress={subplebbitAddress} linkType='thread' onClose={handleClose} />}
+                  {cid && <CopyContentIdButton cid={cid} onClose={handleClose} />}
+                  {!cid && isDescription && subplebbitAddress && <CopyLinkButton subplebbitAddress={subplebbitAddress} linkType='description' onClose={handleClose} />}
+                  {!cid && isRules && subplebbitAddress && <CopyLinkButton subplebbitAddress={subplebbitAddress} linkType='rules' onClose={handleClose} />}
+                  {cid && subplebbitAddress && <HidePostButton cid={cid} isReply={!!parentCid} postCid={postCid} onClose={handleClose} />}
+                  {cid && subplebbitAddress && !isDescription && !isRules && authorAddress && <BlockUserButton address={authorAddress} />}
                   {cid && subplebbitAddress && !isInBoardView && !isDescription && !isRules && <BlockBoardButton address={subplebbitAddress} />}
                   {link && isValidURL(link) && (type === 'image' || type === 'gif' || thumbnail) && url && <ImageSearchButtons url={url} onClose={handleClose} />}
                 </div>
@@ -150,11 +188,11 @@ const PostMenuMobile = ({ post }: { post: Comment }) => {
       )}
       {(isAccountMod || isAccountCommentAuthor) && cid && (
         <span className={styles.checkbox}>
-          <EditMenu post={post} />
+          <EditMenu post={editMenuPost} />
         </span>
       )}
     </>
   );
 };
 
-export default PostMenuMobile;
+export default memo(PostMenuMobile);

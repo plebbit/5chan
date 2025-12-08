@@ -293,7 +293,9 @@ const Challenge = ({ challenge, closeModal }: ChallengeProps) => {
             {showIframeConfirmation ? (
               <>
                 <div className={styles.challengeMediaWrapper}>
-                  <div className={`${styles.challengeMedia} ${styles.iframeChallengeWarning}`}>board wants to open {readableUrl || 'an external site'}</div>
+                  <div className={`${styles.challengeMedia} ${styles.iframeChallengeWarning}`}>
+                    {shortSubplebbitAddress || subplebbitAddress || 'unknown board'} wants to open {readableUrl || 'an external site'}
+                  </div>
                 </div>
                 <div className={`${styles.challengeFooter} ${styles.iframeFooter}`}>
                   <span className={styles.buttons}>

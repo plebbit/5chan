@@ -190,6 +190,12 @@
   text-align: center;
 }
 
+.popularThreadsLoading {
+  text-align: left;
+  /* Reserve space only while loading: max 8 posts, ~2 rows of 4 cards on desktop */
+  min-height: 500px;
+}
+
 .popularThread {
   vertical-align: top;
   display: inline-block;
@@ -350,6 +356,11 @@
 
   .boardsColumn a {
     font-size: 1.2em;
+  }
+
+  /* Mobile: popular threads cards stack more, so taller min-height needed */
+  .popularThreadsLoading {
+    min-height: 1200px;
   }
 }
 

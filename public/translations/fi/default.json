@@ -295,5 +295,6 @@
   "boards_you_moderate": "lautakunnat, joita valvot",
   "more_threads_last_year": "{{count}} ketjua sitten {{currentTimeFilterName}} — [<1>Näytä lisää viime vuoden ketjuja</1>]",
   "moderator_of_this_board": "Tämä käyttäjä on tämän taulun moderaattori",
-  "administrator_of_this_board": "Tämä käyttäjä on tämän taulun järjestelmänvalvoja"
+  "administrator_of_this_board": "Tämä käyttäjä on tämän taulun järjestelmänvalvoja",
+  "copy_content_id": "kopioi sisältö-ID"
 }

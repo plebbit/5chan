@@ -1,19 +1,19 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { Link, useLocation, useNavigationType, useParams } from 'react-router-dom';
 import { Comment, useAccount, useAccountComments, useAccountSubplebbits, useBlock, useFeed, useSubplebbit } from '@plebbit/plebbit-react-hooks';
 import { Virtuoso, VirtuosoHandle, StateSnapshot } from 'react-virtuoso';
 import { Trans, useTranslation } from 'react-i18next';
 import styles from './board.module.css';
 import { shouldShowSnow } from '../../lib/snow';
 import { getCommentMediaInfo, getHasThumbnail } from '../../lib/utils/media-utils';
-import { isAllView, isSubscriptionsView, isModView } from '../../lib/utils/view-utils';
-import { useDefaultSubplebbitAddresses } from '../../hooks/use-default-subplebbits';
+import { useDefaultSubplebbitAddresses, useDefaultSubplebbits } from '../../hooks/use-default-subplebbits';
 import { useResolvedSubplebbitAddress, useBoardPath } from '../../hooks/use-resolved-subplebbit-address';
 import { useFeedStateString } from '../../hooks/use-state-string';
-import useTimeFilter from '../../hooks/use-time-filter';
+import useTimeFilter, { timeFilterNameToSeconds } from '../../hooks/use-time-filter';
 import useInterfaceSettingsStore from '../../stores/use-interface-settings-store';
 import useFeedResetStore from '../../stores/use-feed-reset-store';
 import useSortingStore from '../../stores/use-sorting-store';
+import { getSubplebbitAddress } from '../../lib/utils/route-utils';
 import ErrorDisplay from '../../components/error-display/error-display';
 import LoadingEllipsis from '../../components/loading-ellipsis';
 import SubplebbitDescription from '../../components/subplebbit-description';
@@ -33,21 +33,39 @@ const createThreadsWithoutImagesFilter = () => ({
   key: 'threads-with-images-only',
 });
 
-const Board = () => {
+export interface BoardProps {
+  feedCacheKey?: string;
+  viewType?: 'all' | 'subs' | 'mod' | 'board';
+  boardIdentifier?: string;
+  timeFilterNameFromCache?: string;
+  isVisible?: boolean;
+}
+
+const Board = ({ feedCacheKey, viewType, boardIdentifier: boardIdentifierProp, timeFilterNameFromCache, isVisible = true }: BoardProps) => {
   const { t } = useTranslation();
   const location = useLocation();
-  const subplebbitAddress = useResolvedSubplebbitAddress();
-  const boardPath = useBoardPath(subplebbitAddress);
+  const params = useParams();
   const { hideThreadsWithoutImages } = useInterfaceSettingsStore();
 
-  const isInAllView = isAllView(location.pathname);
+  const isInAllView = viewType ? viewType === 'all' : false;
+  const isInSubscriptionsView = viewType ? viewType === 'subs' : false;
+  const isInModView = viewType ? viewType === 'mod' : false;
+
+  const defaultSubplebbits = useDefaultSubplebbits();
+  const resolvedAddressFromUrl = useResolvedSubplebbitAddress();
+  const subplebbitAddress = useMemo(() => {
+    if (boardIdentifierProp) {
+      return getSubplebbitAddress(boardIdentifierProp, defaultSubplebbits);
+    }
+    return resolvedAddressFromUrl;
+  }, [boardIdentifierProp, defaultSubplebbits, resolvedAddressFromUrl]);
+
+  const boardPath = useBoardPath(subplebbitAddress);
   const defaultSubplebbitAddresses = useDefaultSubplebbitAddresses();
 
   const account = useAccount();
   const subscriptions = account?.subscriptions;
-  const isInSubscriptionsView = isSubscriptionsView(location.pathname, useParams());
 
-  const isInModView = isModView(location.pathname);
   const { accountSubplebbits } = useAccountSubplebbits();
   const accountSubplebbitAddresses = Object.keys(accountSubplebbits);
 
@@ -65,7 +83,9 @@ const Board = () => {
   }, [isInAllView, isInSubscriptionsView, isInModView, subplebbitAddress, defaultSubplebbitAddresses, subscriptions, accountSubplebbitAddresses]);
 
   const { sortType } = useSortingStore();
-  const { timeFilterSeconds, timeFilterName } = useTimeFilter();
+  const { timeFilterSeconds: timeFilterSecondsFromHook, timeFilterName: timeFilterNameFromHook } = useTimeFilter();
+  const timeFilterName = timeFilterNameFromCache || timeFilterNameFromHook;
+  const timeFilterSeconds = timeFilterNameFromCache ? timeFilterNameToSeconds(timeFilterNameFromCache) : timeFilterSecondsFromHook;
 
   const feedOptions = {
     subplebbitAddresses,
@@ -82,8 +102,10 @@ const Board = () => {
 
   const setResetFunction = useFeedResetStore((state) => state.setResetFunction);
   useEffect(() => {
-    setResetFunction(reset);
-  }, [reset, setResetFunction, feed]);
+    if (isVisible) {
+      setResetFunction(reset);
+    }
+  }, [reset, setResetFunction, feed, isVisible]);
 
   // show account comments instantly in the feed once published (cid defined), instead of waiting for the feed to update
   const filteredComments = useMemo(
@@ -175,7 +197,6 @@ const Board = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  const params = useParams();
   const currentTimeFilterName = params?.timeFilterName || timeFilterName;
 
   const Footer = () => {
@@ -272,26 +293,42 @@ const Board = () => {
     );
   };
 
-  // save the last Virtuoso state to restore it when navigating back
   const virtuosoRef = useRef<VirtuosoHandle | null>(null);
+  const virtuosoStateKey = feedCacheKey ? `${feedCacheKey}-${sortType}-${timeFilterSeconds}` : `${location.pathname}-${sortType}-${timeFilterSeconds}`;
+  const navigationType = useNavigationType();
+
+  const hasBeenVisibleRef = useRef(false);
   useEffect(() => {
+    if (isVisible && !hasBeenVisibleRef.current) {
+      hasBeenVisibleRef.current = true;
+      if (navigationType !== 'POP') {
+        window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+      }
+    }
+  }, [isVisible, navigationType]);
+
+  useEffect(() => {
+    if (!isVisible) return;
+
+    const currentKey = virtuosoStateKey;
     const setLastVirtuosoState = () => {
       virtuosoRef.current?.getState((snapshot: StateSnapshot) => {
         if (snapshot?.ranges?.length) {
-          lastVirtuosoStates[sortType + timeFilterSeconds] = snapshot;
+          lastVirtuosoStates[currentKey] = snapshot;
         }
       });
     };
     window.addEventListener('scroll', setLastVirtuosoState);
     return () => window.removeEventListener('scroll', setLastVirtuosoState);
-  }, [sortType, timeFilterSeconds]);
+  }, [virtuosoStateKey, isVisible]);
 
-  const lastVirtuosoState = lastVirtuosoStates?.[sortType + timeFilterSeconds];
+  const lastVirtuosoState = navigationType === 'POP' ? lastVirtuosoStates?.[virtuosoStateKey] : undefined;
 
   useEffect(() => {
+    if (!isVisible) return;
     const boardTitle = title ? title : shortAddress || subplebbitAddress;
     document.title = boardTitle + ' - 5chan';
-  }, [title, shortAddress, subplebbitAddress]);
+  }, [title, shortAddress, subplebbitAddress, isVisible]);
 
   const shouldShowErrorToUser = error?.message && feed.length === 0;
 

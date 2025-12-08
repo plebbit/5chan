@@ -1,21 +1,21 @@
 import { useEffect, useMemo, useRef, useState, useCallback } from 'react';
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { Link, useLocation, useNavigationType, useParams } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
 import { Comment, useAccount, useFeed, useSubplebbit, useBlock, useAccountComments } from '@plebbit/plebbit-react-hooks';
 import { Virtuoso, VirtuosoHandle, StateSnapshot } from 'react-virtuoso';
 import { getCommentMediaInfo, getHasThumbnail } from '../../lib/utils/media-utils';
-import { isAllView, isSubscriptionsView } from '../../lib/utils/view-utils';
 import useCatalogFeedRows from '../../hooks/use-catalog-feed-rows';
 import { useDefaultSubplebbits } from '../../hooks/use-default-subplebbits';
 import { useResolvedSubplebbitAddress, useBoardPath } from '../../hooks/use-resolved-subplebbit-address';
 import { useFeedStateString } from '../../hooks/use-state-string';
-import useTimeFilter from '../../hooks/use-time-filter';
+import useTimeFilter, { timeFilterNameToSeconds } from '../../hooks/use-time-filter';
 import useWindowWidth from '../../hooks/use-window-width';
 import useCatalogStyleStore from '../../stores/use-catalog-style-store';
 import useFeedResetStore from '../../stores/use-feed-reset-store';
 import useInterfaceSettingsStore from '../../stores/use-interface-settings-store';
 import useSortingStore from '../../stores/use-sorting-store';
 import useCatalogFiltersStore from '../../stores/use-catalog-filters-store';
+import { getSubplebbitAddress } from '../../lib/utils/route-utils';
 import CatalogRow from '../../components/catalog-row';
 import LoadingEllipsis from '../../components/loading-ellipsis';
 import styles from './catalog.module.css';
@@ -123,20 +123,37 @@ const createCombinedFilter = (
   };
 };
 
-const Catalog = () => {
+export interface CatalogProps {
+  feedCacheKey?: string;
+  viewType?: 'all' | 'subs' | 'mod' | 'board';
+  boardIdentifier?: string;
+  timeFilterNameFromCache?: string;
+  isVisible?: boolean;
+}
+
+const Catalog = ({ feedCacheKey, viewType, boardIdentifier: boardIdentifierProp, timeFilterNameFromCache, isVisible = true }: CatalogProps) => {
   const { t } = useTranslation();
   const location = useLocation();
-  const subplebbitAddress = useResolvedSubplebbitAddress();
-  const boardPath = useBoardPath(subplebbitAddress);
+  const params = useParams();
 
-  const isInAllView = isAllView(location.pathname);
+  const isInAllView = viewType ? viewType === 'all' : false;
+  const isInSubscriptionsView = viewType ? viewType === 'subs' : false;
+
   const defaultSubplebbits = useDefaultSubplebbits();
+  const resolvedAddressFromUrl = useResolvedSubplebbitAddress();
+  const subplebbitAddress = useMemo(() => {
+    if (boardIdentifierProp) {
+      return getSubplebbitAddress(boardIdentifierProp, defaultSubplebbits);
+    }
+    return resolvedAddressFromUrl;
+  }, [boardIdentifierProp, defaultSubplebbits, resolvedAddressFromUrl]);
+
+  const boardPath = useBoardPath(subplebbitAddress);
   const { hideAdultBoards } = useInterfaceSettingsStore();
   const { showTextOnlyThreads, filterItems, searchText, clearMatchedFilters } = useCatalogFiltersStore();
 
   const account = useAccount();
   const subscriptions = account?.subscriptions;
-  const isInSubscriptionsView = isSubscriptionsView(location.pathname, useParams());
 
   const subplebbitAddresses = useMemo(() => {
     const filteredDefaultSubplebbits = defaultSubplebbits
@@ -166,8 +183,10 @@ const Catalog = () => {
   const columnCount = Math.floor(useWindowWidth() / columnWidth);
   const postsPerPage = columnCount <= 2 ? 10 : columnCount === 3 ? 15 : columnCount === 4 ? 20 : 25;
 
-  const { timeFilterSeconds, timeFilterName } = useTimeFilter();
+  const { timeFilterSeconds: timeFilterSecondsFromHook, timeFilterName: timeFilterNameFromHook } = useTimeFilter();
   const { sortType } = useSortingStore();
+  const timeFilterName = timeFilterNameFromCache || timeFilterNameFromHook;
+  const timeFilterSeconds = timeFilterNameFromCache ? timeFilterNameToSeconds(timeFilterNameFromCache) : timeFilterSecondsFromHook;
 
   // Create a stable callback for filter matching
   const handleFilterMatch = useCallback((filterIndex: number, cid: string, subplebbitAddress: string) => {
@@ -303,8 +322,10 @@ const Catalog = () => {
 
   const setResetFunction = useFeedResetStore((state) => state.setResetFunction);
   useEffect(() => {
-    setResetFunction(reset);
-  }, [reset, setResetFunction]);
+    if (isVisible) {
+      setResetFunction(reset);
+    }
+  }, [reset, setResetFunction, isVisible]);
 
   const subplebbit = useSubplebbit({ subplebbitAddress });
   const { error, shortAddress, state, title } = subplebbit || {};
@@ -344,7 +365,6 @@ const Catalog = () => {
     </div>
   );
 
-  const params = useParams<{ sortType?: string; timeFilterName?: string }>();
   const currentTimeFilterName = params?.timeFilterName || timeFilterName;
 
   const Footer = () => {
@@ -450,27 +470,43 @@ const Catalog = () => {
 
   const rows = useCatalogFeedRows(columnCount, processedFeed, isFeedLoaded, subplebbit);
 
-  // save the last Virtuoso state to restore it when navigating back
   const virtuosoRef = useRef<VirtuosoHandle | null>(null);
+  const virtuosoStateKey = feedCacheKey ? `${feedCacheKey}-${sortType}-${timeFilterSeconds}` : `${location.pathname}-${sortType}-${timeFilterSeconds}-catalog`;
+  const navigationType = useNavigationType();
+
+  const hasBeenVisibleRef = useRef(false);
   useEffect(() => {
+    if (isVisible && !hasBeenVisibleRef.current) {
+      hasBeenVisibleRef.current = true;
+      if (navigationType !== 'POP') {
+        window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+      }
+    }
+  }, [isVisible, navigationType]);
+
+  useEffect(() => {
+    if (!isVisible) return;
+
+    const currentKey = virtuosoStateKey;
     const setLastVirtuosoState = () =>
       virtuosoRef.current?.getState((snapshot: StateSnapshot) => {
         if (snapshot?.ranges?.length) {
-          lastVirtuosoStates[sortType + timeFilterSeconds + 'catalog'] = snapshot;
+          lastVirtuosoStates[currentKey] = snapshot;
         }
       });
     window.addEventListener('scroll', setLastVirtuosoState);
     return () => window.removeEventListener('scroll', setLastVirtuosoState);
-  }, [sortType, timeFilterSeconds]);
+  }, [virtuosoStateKey, isVisible]);
 
-  const lastVirtuosoState = lastVirtuosoStates?.[sortType + timeFilterSeconds + 'catalog'];
+  const lastVirtuosoState = navigationType === 'POP' ? lastVirtuosoStates?.[virtuosoStateKey] : undefined;
 
   useEffect(() => {
+    if (!isVisible) return;
     let documentTitle = title ? title : shortAddress;
     if (isInAllView) documentTitle = t('all');
     else if (isInSubscriptionsView) documentTitle = t('subscriptions');
     document.title = documentTitle + ` - ${t('catalog')} - 5chan`;
-  }, [title, shortAddress, isInAllView, isInSubscriptionsView, t]);
+  }, [title, shortAddress, isInAllView, isInSubscriptionsView, t, isVisible]);
 
   // Clear matched filters when component mounts or when subplebbit changes
   useEffect(() => {
