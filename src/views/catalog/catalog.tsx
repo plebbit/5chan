@@ -8,7 +8,7 @@ import useCatalogFeedRows from '../../hooks/use-catalog-feed-rows';
 import { useDefaultSubplebbits } from '../../hooks/use-default-subplebbits';
 import { useResolvedSubplebbitAddress, useBoardPath } from '../../hooks/use-resolved-subplebbit-address';
 import { useFeedStateString } from '../../hooks/use-state-string';
-import useTimeFilter from '../../hooks/use-time-filter';
+import useTimeFilter, { timeFilterNameToSeconds } from '../../hooks/use-time-filter';
 import useWindowWidth from '../../hooks/use-window-width';
 import useCatalogStyleStore from '../../stores/use-catalog-style-store';
 import useFeedResetStore from '../../stores/use-feed-reset-store';
@@ -124,7 +124,6 @@ const createCombinedFilter = (
 };
 
 export interface CatalogProps {
-  // Props from FeedCacheContainer for cached feeds
   feedCacheKey?: string;
   viewType?: 'all' | 'subs' | 'mod' | 'board';
   boardIdentifier?: string;
@@ -137,11 +136,9 @@ const Catalog = ({ feedCacheKey, viewType, boardIdentifier: boardIdentifierProp,
   const location = useLocation();
   const params = useParams();
 
-  // Use props from cache if provided, otherwise fall back to URL-derived values
   const isInAllView = viewType ? viewType === 'all' : false;
   const isInSubscriptionsView = viewType ? viewType === 'subs' : false;
 
-  // Resolve subplebbit address from cache props or URL
   const defaultSubplebbits = useDefaultSubplebbits();
   const resolvedAddressFromUrl = useResolvedSubplebbitAddress();
   const subplebbitAddress = useMemo(() => {
@@ -186,10 +183,10 @@ const Catalog = ({ feedCacheKey, viewType, boardIdentifier: boardIdentifierProp,
   const columnCount = Math.floor(useWindowWidth() / columnWidth);
   const postsPerPage = columnCount <= 2 ? 10 : columnCount === 3 ? 15 : columnCount === 4 ? 20 : 25;
 
-  const { timeFilterSeconds, timeFilterName: timeFilterNameFromHook } = useTimeFilter();
+  const { timeFilterSeconds: timeFilterSecondsFromHook, timeFilterName: timeFilterNameFromHook } = useTimeFilter();
   const { sortType } = useSortingStore();
-  // Use time filter from cache if provided
   const timeFilterName = timeFilterNameFromCache || timeFilterNameFromHook;
+  const timeFilterSeconds = timeFilterNameFromCache ? timeFilterNameToSeconds(timeFilterNameFromCache) : timeFilterSecondsFromHook;
 
   // Create a stable callback for filter matching
   const handleFilterMatch = useCallback((filterIndex: number, cid: string, subplebbitAddress: string) => {
@@ -325,7 +322,6 @@ const Catalog = ({ feedCacheKey, viewType, boardIdentifier: boardIdentifierProp,
 
   const setResetFunction = useFeedResetStore((state) => state.setResetFunction);
   useEffect(() => {
-    // Only set reset function when this feed is visible
     if (isVisible) {
       setResetFunction(reset);
     }

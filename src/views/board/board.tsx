@@ -9,7 +9,7 @@ import { getCommentMediaInfo, getHasThumbnail } from '../../lib/utils/media-util
 import { useDefaultSubplebbitAddresses, useDefaultSubplebbits } from '../../hooks/use-default-subplebbits';
 import { useResolvedSubplebbitAddress, useBoardPath } from '../../hooks/use-resolved-subplebbit-address';
 import { useFeedStateString } from '../../hooks/use-state-string';
-import useTimeFilter from '../../hooks/use-time-filter';
+import useTimeFilter, { timeFilterNameToSeconds } from '../../hooks/use-time-filter';
 import useInterfaceSettingsStore from '../../stores/use-interface-settings-store';
 import useFeedResetStore from '../../stores/use-feed-reset-store';
 import useSortingStore from '../../stores/use-sorting-store';
@@ -34,7 +34,6 @@ const createThreadsWithoutImagesFilter = () => ({
 });
 
 export interface BoardProps {
-  // Props from FeedCacheContainer for cached feeds
   feedCacheKey?: string;
   viewType?: 'all' | 'subs' | 'mod' | 'board';
   boardIdentifier?: string;
@@ -48,12 +47,10 @@ const Board = ({ feedCacheKey, viewType, boardIdentifier: boardIdentifierProp, t
   const params = useParams();
   const { hideThreadsWithoutImages } = useInterfaceSettingsStore();
 
-  // Use props from cache if provided, otherwise fall back to URL-derived values
   const isInAllView = viewType ? viewType === 'all' : false;
   const isInSubscriptionsView = viewType ? viewType === 'subs' : false;
   const isInModView = viewType ? viewType === 'mod' : false;
 
-  // Resolve subplebbit address from cache props or URL
   const defaultSubplebbits = useDefaultSubplebbits();
   const resolvedAddressFromUrl = useResolvedSubplebbitAddress();
   const subplebbitAddress = useMemo(() => {
@@ -86,9 +83,9 @@ const Board = ({ feedCacheKey, viewType, boardIdentifier: boardIdentifierProp, t
   }, [isInAllView, isInSubscriptionsView, isInModView, subplebbitAddress, defaultSubplebbitAddresses, subscriptions, accountSubplebbitAddresses]);
 
   const { sortType } = useSortingStore();
-  const { timeFilterSeconds, timeFilterName: timeFilterNameFromHook } = useTimeFilter();
-  // Use time filter from cache if provided
+  const { timeFilterSeconds: timeFilterSecondsFromHook, timeFilterName: timeFilterNameFromHook } = useTimeFilter();
   const timeFilterName = timeFilterNameFromCache || timeFilterNameFromHook;
+  const timeFilterSeconds = timeFilterNameFromCache ? timeFilterNameToSeconds(timeFilterNameFromCache) : timeFilterSecondsFromHook;
 
   const feedOptions = {
     subplebbitAddresses,
@@ -105,7 +102,6 @@ const Board = ({ feedCacheKey, viewType, boardIdentifier: boardIdentifierProp, t
 
   const setResetFunction = useFeedResetStore((state) => state.setResetFunction);
   useEffect(() => {
-    // Only set reset function when this feed is visible
     if (isVisible) {
       setResetFunction(reset);
     }
