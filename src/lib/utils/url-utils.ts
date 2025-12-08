@@ -20,11 +20,21 @@ export const isValidURL = (url: string) => {
 export type ShareLinkType = 'thread' | 'description' | 'rules';
 
 // Copies a share link to clipboard for a board, thread, description, or rules page
-export const copyShareLinkToClipboard = async (boardIdentifier: string, linkType: ShareLinkType, cid?: string) => {
-  const suffix = linkType === 'thread' ? `/thread/${cid}` : `/${linkType}`;
-  const shareLink = `https://5chan.app/${boardIdentifier}${suffix}`;
+export function copyShareLinkToClipboard(boardIdentifier: string, linkType: 'thread', cid: string): Promise<void>;
+export function copyShareLinkToClipboard(boardIdentifier: string, linkType: Exclude<ShareLinkType, 'thread'>, cid?: undefined): Promise<void>;
+export async function copyShareLinkToClipboard(boardIdentifier: string, linkType: ShareLinkType, cid?: string): Promise<void> {
+  if (linkType === 'thread') {
+    if (!cid) {
+      throw new Error('copyShareLinkToClipboard: thread links require a cid');
+    }
+    const shareLink = `https://5chan.app/${boardIdentifier}/thread/${cid}`;
+    await copyToClipboard(shareLink);
+    return;
+  }
+
+  const shareLink = `https://5chan.app/${boardIdentifier}/${linkType}`;
   await copyToClipboard(shareLink);
-};
+}
 
 const CHAN_5_HOSTNAMES = ['pleb.bz', '5chan.app', '5chan.eth.limo', '5chan.eth.link', '5chan.eth.sucks', '5chan.netlify.app'];
 

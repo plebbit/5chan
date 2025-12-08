@@ -15,7 +15,11 @@ import useHide from '../../../hooks/use-hide';
 import _ from 'lodash';
 import { PostMenuProps } from '../../../lib/utils/post-menu-props';
 
-const CopyLinkButton = ({ cid, subplebbitAddress, linkType, onClose }: { cid?: string; subplebbitAddress: string; linkType: ShareLinkType; onClose: () => void }) => {
+type CopyLinkButtonProps =
+  | { cid: string; subplebbitAddress: string; linkType: 'thread'; onClose: () => void }
+  | { subplebbitAddress: string; linkType: Exclude<ShareLinkType, 'thread'>; onClose: () => void; cid?: undefined };
+
+const CopyLinkButton = ({ cid, subplebbitAddress, linkType, onClose }: CopyLinkButtonProps) => {
   const { t } = useTranslation();
   const defaultSubplebbits = useDefaultSubplebbits();
   const boardIdentifier = getBoardPath(subplebbitAddress, defaultSubplebbits);
