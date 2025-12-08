@@ -4,7 +4,6 @@ import { Trans, useTranslation } from 'react-i18next';
 import { Comment, useAccount, useFeed, useSubplebbit, useBlock, useAccountComments } from '@plebbit/plebbit-react-hooks';
 import { Virtuoso, VirtuosoHandle, StateSnapshot } from 'react-virtuoso';
 import { getCommentMediaInfo, getHasThumbnail } from '../../lib/utils/media-utils';
-import { isAllView, isSubscriptionsView } from '../../lib/utils/view-utils';
 import useCatalogFeedRows from '../../hooks/use-catalog-feed-rows';
 import { useDefaultSubplebbits } from '../../hooks/use-default-subplebbits';
 import { useResolvedSubplebbitAddress, useBoardPath } from '../../hooks/use-resolved-subplebbit-address';
@@ -16,6 +15,7 @@ import useFeedResetStore from '../../stores/use-feed-reset-store';
 import useInterfaceSettingsStore from '../../stores/use-interface-settings-store';
 import useSortingStore from '../../stores/use-sorting-store';
 import useCatalogFiltersStore from '../../stores/use-catalog-filters-store';
+import { getSubplebbitAddress } from '../../lib/utils/route-utils';
 import CatalogRow from '../../components/catalog-row';
 import LoadingEllipsis from '../../components/loading-ellipsis';
 import styles from './catalog.module.css';
@@ -123,20 +123,40 @@ const createCombinedFilter = (
   };
 };
 
-const Catalog = () => {
+export interface CatalogProps {
+  // Props from FeedCacheContainer for cached feeds
+  feedCacheKey?: string;
+  viewType?: 'all' | 'subs' | 'mod' | 'board';
+  boardIdentifier?: string;
+  timeFilterNameFromCache?: string;
+  isVisible?: boolean;
+}
+
+const Catalog = ({ feedCacheKey, viewType, boardIdentifier: boardIdentifierProp, timeFilterNameFromCache, isVisible = true }: CatalogProps) => {
   const { t } = useTranslation();
   const location = useLocation();
-  const subplebbitAddress = useResolvedSubplebbitAddress();
-  const boardPath = useBoardPath(subplebbitAddress);
+  const params = useParams();
 
-  const isInAllView = isAllView(location.pathname);
+  // Use props from cache if provided, otherwise fall back to URL-derived values
+  const isInAllView = viewType ? viewType === 'all' : false;
+  const isInSubscriptionsView = viewType ? viewType === 'subs' : false;
+
+  // Resolve subplebbit address from cache props or URL
   const defaultSubplebbits = useDefaultSubplebbits();
+  const resolvedAddressFromUrl = useResolvedSubplebbitAddress();
+  const subplebbitAddress = useMemo(() => {
+    if (boardIdentifierProp) {
+      return getSubplebbitAddress(boardIdentifierProp, defaultSubplebbits);
+    }
+    return resolvedAddressFromUrl;
+  }, [boardIdentifierProp, defaultSubplebbits, resolvedAddressFromUrl]);
+
+  const boardPath = useBoardPath(subplebbitAddress);
   const { hideAdultBoards } = useInterfaceSettingsStore();
   const { showTextOnlyThreads, filterItems, searchText, clearMatchedFilters } = useCatalogFiltersStore();
 
   const account = useAccount();
   const subscriptions = account?.subscriptions;
-  const isInSubscriptionsView = isSubscriptionsView(location.pathname, useParams());
 
   const subplebbitAddresses = useMemo(() => {
     const filteredDefaultSubplebbits = defaultSubplebbits
@@ -166,8 +186,10 @@ const Catalog = () => {
   const columnCount = Math.floor(useWindowWidth() / columnWidth);
   const postsPerPage = columnCount <= 2 ? 10 : columnCount === 3 ? 15 : columnCount === 4 ? 20 : 25;
 
-  const { timeFilterSeconds, timeFilterName } = useTimeFilter();
+  const { timeFilterSeconds, timeFilterName: timeFilterNameFromHook } = useTimeFilter();
   const { sortType } = useSortingStore();
+  // Use time filter from cache if provided
+  const timeFilterName = timeFilterNameFromCache || timeFilterNameFromHook;
 
   // Create a stable callback for filter matching
   const handleFilterMatch = useCallback((filterIndex: number, cid: string, subplebbitAddress: string) => {
@@ -303,8 +325,11 @@ const Catalog = () => {
 
   const setResetFunction = useFeedResetStore((state) => state.setResetFunction);
   useEffect(() => {
-    setResetFunction(reset);
-  }, [reset, setResetFunction]);
+    // Only set reset function when this feed is visible
+    if (isVisible) {
+      setResetFunction(reset);
+    }
+  }, [reset, setResetFunction, isVisible]);
 
   const subplebbit = useSubplebbit({ subplebbitAddress });
   const { error, shortAddress, state, title } = subplebbit || {};
@@ -344,7 +369,6 @@ const Catalog = () => {
     </div>
   );
 
-  const params = useParams<{ sortType?: string; timeFilterName?: string }>();
   const currentTimeFilterName = params?.timeFilterName || timeFilterName;
 
   const Footer = () => {
@@ -450,21 +474,23 @@ const Catalog = () => {
 
   const rows = useCatalogFeedRows(columnCount, processedFeed, isFeedLoaded, subplebbit);
 
-  // save the last Virtuoso state to restore it when navigating back
   const virtuosoRef = useRef<VirtuosoHandle | null>(null);
-  // include pathname in key so each board has its own scroll state
-  const virtuosoStateKey = `${location.pathname}-${sortType}-${timeFilterSeconds}-catalog`;
+  const virtuosoStateKey = feedCacheKey ? `${feedCacheKey}-${sortType}-${timeFilterSeconds}` : `${location.pathname}-${sortType}-${timeFilterSeconds}-catalog`;
   const navigationType = useNavigationType();
 
-  // When entering a board via link (PUSH/REPLACE), force scroll to top to avoid inheriting prior view scroll.
+  const hasBeenVisibleRef = useRef(false);
   useEffect(() => {
-    if (navigationType !== 'POP') {
-      window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+    if (isVisible && !hasBeenVisibleRef.current) {
+      hasBeenVisibleRef.current = true;
+      if (navigationType !== 'POP') {
+        window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+      }
     }
-  }, [navigationType, location.pathname]);
+  }, [isVisible, navigationType]);
 
   useEffect(() => {
-    // capture the key at effect creation time to prevent race conditions during navigation
+    if (!isVisible) return;
+
     const currentKey = virtuosoStateKey;
     const setLastVirtuosoState = () =>
       virtuosoRef.current?.getState((snapshot: StateSnapshot) => {
@@ -474,17 +500,17 @@ const Catalog = () => {
       });
     window.addEventListener('scroll', setLastVirtuosoState);
     return () => window.removeEventListener('scroll', setLastVirtuosoState);
-  }, [virtuosoStateKey]);
+  }, [virtuosoStateKey, isVisible]);
 
-  // only restore scroll state on back/forward navigation (POP), not when clicking links (PUSH)
   const lastVirtuosoState = navigationType === 'POP' ? lastVirtuosoStates?.[virtuosoStateKey] : undefined;
 
   useEffect(() => {
+    if (!isVisible) return;
     let documentTitle = title ? title : shortAddress;
     if (isInAllView) documentTitle = t('all');
     else if (isInSubscriptionsView) documentTitle = t('subscriptions');
     document.title = documentTitle + ` - ${t('catalog')} - 5chan`;
-  }, [title, shortAddress, isInAllView, isInSubscriptionsView, t]);
+  }, [title, shortAddress, isInAllView, isInSubscriptionsView, t, isVisible]);
 
   // Clear matched filters when component mounts or when subplebbit changes
   useEffect(() => {

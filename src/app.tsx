@@ -9,10 +9,8 @@ import useSpecialThemeStore from './stores/use-special-theme-store';
 import useIsMobile from './hooks/use-is-mobile';
 import useTheme from './hooks/use-theme';
 import { useDefaultSubplebbits } from './hooks/use-default-subplebbits';
-import { getSubplebbitAddress } from './lib/utils/route-utils';
+import { getSubplebbitAddress, isPostRoute, isPendingPostRoute } from './lib/utils/route-utils';
 import styles from './app.module.css';
-import Board from './views/board';
-import Catalog from './views/catalog';
 import FAQ from './views/faq';
 import Home from './views/home';
 import NotFound from './views/not-found';
@@ -22,6 +20,7 @@ import { DesktopBoardButtons, MobileBoardButtons } from './components/board-butt
 import BoardHeader from './components/board-header';
 import ChallengeModal from './components/challenge-modal';
 import CreateBoardModal from './components/create-board-modal';
+import FeedCacheContainer from './components/feed-cache-container';
 import ReplyModal from './components/reply-modal';
 import PostForm from './components/post-form';
 import SubplebbitStats from './components/subplebbit-stats';
@@ -42,6 +41,9 @@ const BoardLayout = () => {
   const subplebbitAddress = boardIdentifier ? getSubplebbitAddress(boardIdentifier, defaultSubplebbits) : undefined;
   const pendingPost = useAccountComment({ commentIndex: accountCommentIndex ? parseInt(accountCommentIndex) : undefined });
   const { closeCreateBoardModal } = useCreateBoardModalStore();
+
+  const isOnPostRoute = isPostRoute(location.pathname);
+  const isOnPendingPostRoute = isPendingPostRoute(location.pathname);
 
   // Christmas theme
   const { isEnabled: isSpecialEnabled } = useSpecialThemeStore();
@@ -86,7 +88,8 @@ const BoardLayout = () => {
               <DesktopBoardButtons />
             </>
           )}
-      <Outlet />
+      <FeedCacheContainer />
+      {(isOnPostRoute || isOnPendingPostRoute) && <Outlet />}
     </div>
   );
 };
@@ -141,36 +144,36 @@ const App = () => (
         <Route path='/' element={<Home />} />
         <Route path='/faq' element={<FAQ />} />
         <Route element={<BoardLayout />}>
-          <Route path='/all/:timeFilterName?' element={<Board />} />
-          <Route path='/all/:timeFilterName?/settings' element={<Board />} />
+          <Route path='/all/:timeFilterName?' element={null} />
+          <Route path='/all/:timeFilterName?/settings' element={null} />
+          <Route path='/all/catalog/:timeFilterName?' element={null} />
+          <Route path='/all/catalog/:timeFilterName?/settings' element={null} />
+
+          <Route path='/subs/:timeFilterName?' element={null} />
+          <Route path='/subs/:timeFilterName?/settings' element={null} />
+          <Route path='/subs/catalog/:timeFilterName?' element={null} />
+          <Route path='/subs/catalog/:timeFilterName?/settings' element={null} />
+
+          <Route path='/mod/:timeFilterName?' element={null} />
+          <Route path='/mod/:timeFilterName?/settings' element={null} />
+          <Route path='/mod/catalog/:timeFilterName?' element={null} />
+          <Route path='/mod/catalog/:timeFilterName?/settings' element={null} />
+
+          <Route path='/:boardIdentifier' element={null} />
+          <Route path='/:boardIdentifier/settings' element={null} />
+          <Route path='/:boardIdentifier/catalog' element={null} />
+          <Route path='/:boardIdentifier/catalog/settings' element={null} />
+
           <Route path='/all/description' element={<Post />} />
-          <Route path='/all/catalog/:timeFilterName?' element={<Catalog />} />
-          <Route path='/all/catalog/:timeFilterName?/settings' element={<Catalog />} />
-
-          <Route path='/subs/:timeFilterName?' element={<Board />} />
-          <Route path='/subs/:timeFilterName?/settings' element={<Board />} />
-          <Route path='/subs/catalog/:timeFilterName?' element={<Catalog />} />
-          <Route path='/subs/catalog/:timeFilterName?/settings' element={<Catalog />} />
-
-          <Route path='/mod/:timeFilterName?' element={<Board />} />
-          <Route path='/mod/:timeFilterName?/settings' element={<Board />} />
-          <Route path='/mod/catalog/:timeFilterName?' element={<Catalog />} />
-          <Route path='/mod/catalog/:timeFilterName?/settings' element={<Catalog />} />
-
-          <Route path='/pending/:accountCommentIndex' element={<PendingPost />} />
-          <Route path='/pending/:accountCommentIndex/settings' element={<PendingPost />} />
-
-          <Route path='/:boardIdentifier' element={<Board />} />
-          <Route path='/:boardIdentifier/settings' element={<Board />} />
-          <Route path='/:boardIdentifier/catalog' element={<Catalog />} />
-          <Route path='/:boardIdentifier/catalog/settings' element={<Catalog />} />
-
           <Route path='/:boardIdentifier/thread/:commentCid' element={<Post />} />
           <Route path='/:boardIdentifier/thread/:commentCid/settings' element={<Post />} />
           <Route path='/:boardIdentifier/description' element={<Post />} />
           <Route path='/:boardIdentifier/description/settings' element={<Post />} />
           <Route path='/:boardIdentifier/rules' element={<Post />} />
           <Route path='/:boardIdentifier/rules/settings' element={<Post />} />
+
+          <Route path='/pending/:accountCommentIndex' element={<PendingPost />} />
+          <Route path='/pending/:accountCommentIndex/settings' element={<PendingPost />} />
         </Route>
         <Route path='/not-found' element={<NotFound />} />
         <Route path='*' element={<NotFound />} />

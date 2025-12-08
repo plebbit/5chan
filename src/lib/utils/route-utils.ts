@@ -100,3 +100,85 @@ export const isDirectoryBoard = (identifier: string, subplebbits: MultisubSubple
   const directoryToAddress = getDirectoryToAddressMap(subplebbits);
   return directoryToAddress.has(identifier);
 };
+
+export const isFeedRoute = (pathname: string): boolean => {
+  const normalizedPath = pathname.endsWith('/') ? pathname.slice(0, -1) : pathname;
+
+  if (normalizedPath.includes('/thread/')) return false;
+  if (normalizedPath.endsWith('/description')) return false;
+  if (normalizedPath.endsWith('/rules')) return false;
+  if (normalizedPath.startsWith('/pending/')) return false;
+
+  const pathWithoutSettings = normalizedPath.replace(/\/settings$/, '');
+
+  if (pathWithoutSettings.startsWith('/all')) return true;
+  if (pathWithoutSettings.startsWith('/subs')) return true;
+  if (pathWithoutSettings.startsWith('/mod')) return true;
+
+  const segments = pathWithoutSettings.split('/').filter(Boolean);
+  if (segments.length >= 1) {
+    if (segments.length === 1) return true;
+    if (segments.length === 2 && segments[1] === 'catalog') return true;
+    if (segments.length === 2 && /^(1h|24h|1w|1m|1y|all)$/.test(segments[1])) return true;
+    if (segments.length === 3 && segments[1] === 'catalog' && /^(1h|24h|1w|1m|1y|all)$/.test(segments[2])) return true;
+  }
+
+  return false;
+};
+
+export const isPostRoute = (pathname: string): boolean => {
+  const normalizedPath = pathname.replace(/\/settings$/, '');
+
+  if (normalizedPath.includes('/thread/')) return true;
+  if (normalizedPath.endsWith('/description')) return true;
+  if (normalizedPath.endsWith('/rules')) return true;
+
+  return false;
+};
+
+export const isPendingPostRoute = (pathname: string): boolean => {
+  const normalizedPath = pathname.replace(/\/settings$/, '');
+  return normalizedPath.startsWith('/pending/');
+};
+
+export const getFeedCacheKey = (pathname: string): string | null => {
+  let normalizedPath = pathname.endsWith('/') ? pathname.slice(0, -1) : pathname;
+  normalizedPath = normalizedPath.replace(/\/settings$/, '');
+
+  if (normalizedPath.includes('/thread/')) {
+    const parts = normalizedPath.split('/thread/');
+    return parts[0] || null;
+  }
+
+  if (normalizedPath.endsWith('/description') || normalizedPath.endsWith('/rules')) {
+    return normalizedPath.replace(/\/(description|rules)$/, '');
+  }
+
+  if (normalizedPath.startsWith('/pending/')) {
+    return null;
+  }
+
+  if (isFeedRoute(pathname)) {
+    return normalizedPath;
+  }
+
+  return null;
+};
+
+export const getFeedType = (pathname: string): 'board' | 'catalog' | null => {
+  const normalizedPath = pathname.replace(/\/settings$/, '');
+
+  if (normalizedPath.includes('/catalog')) {
+    return 'catalog';
+  }
+
+  if (isFeedRoute(pathname)) {
+    return 'board';
+  }
+
+  if (isPostRoute(pathname)) {
+    return 'board';
+  }
+
+  return null;
+};
