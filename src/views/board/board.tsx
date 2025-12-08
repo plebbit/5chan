@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { Link, useLocation, useNavigationType, useParams } from 'react-router-dom';
 import { Comment, useAccount, useAccountComments, useAccountSubplebbits, useBlock, useFeed, useSubplebbit } from '@plebbit/plebbit-react-hooks';
 import { Virtuoso, VirtuosoHandle, StateSnapshot } from 'react-virtuoso';
 import { Trans, useTranslation } from 'react-i18next';
@@ -274,19 +274,33 @@ const Board = () => {
 
   // save the last Virtuoso state to restore it when navigating back
   const virtuosoRef = useRef<VirtuosoHandle | null>(null);
+  // include pathname in key so each board has its own scroll state
+  const virtuosoStateKey = `${location.pathname}-${sortType}-${timeFilterSeconds}`;
+  const navigationType = useNavigationType();
+
+  // When entering a board via link (PUSH/REPLACE), force scroll to top to avoid inheriting prior view scroll.
   useEffect(() => {
+    if (navigationType !== 'POP') {
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+    }
+  }, [navigationType, location.pathname]);
+
+  useEffect(() => {
+    // capture the key at effect creation time to prevent race conditions during navigation
+    const currentKey = virtuosoStateKey;
     const setLastVirtuosoState = () => {
       virtuosoRef.current?.getState((snapshot: StateSnapshot) => {
         if (snapshot?.ranges?.length) {
-          lastVirtuosoStates[sortType + timeFilterSeconds] = snapshot;
+          lastVirtuosoStates[currentKey] = snapshot;
         }
       });
     };
     window.addEventListener('scroll', setLastVirtuosoState);
     return () => window.removeEventListener('scroll', setLastVirtuosoState);
-  }, [sortType, timeFilterSeconds]);
+  }, [virtuosoStateKey]);
 
-  const lastVirtuosoState = lastVirtuosoStates?.[sortType + timeFilterSeconds];
+  // only restore scroll state on back/forward navigation (POP), not when clicking links (PUSH)
+  const lastVirtuosoState = navigationType === 'POP' ? lastVirtuosoStates?.[virtuosoStateKey] : undefined;
 
   useEffect(() => {
     const boardTitle = title ? title : shortAddress || subplebbitAddress;
