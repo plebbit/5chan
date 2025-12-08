@@ -119,8 +119,8 @@ export const isFeedRoute = (pathname: string): boolean => {
   if (segments.length >= 1) {
     if (segments.length === 1) return true;
     if (segments.length === 2 && segments[1] === 'catalog') return true;
-    if (segments.length === 2 && /^(1h|24h|1w|1m|1y|all)$/.test(segments[1])) return true;
-    if (segments.length === 3 && segments[1] === 'catalog' && /^(1h|24h|1w|1m|1y|all)$/.test(segments[2])) return true;
+    if (segments.length === 2 && /^(?:\d+(?:h|d|w|m|y)|all)$/.test(segments[1])) return true;
+    if (segments.length === 3 && segments[1] === 'catalog' && /^(?:\d+(?:h|d|w|m|y)|all)$/.test(segments[2])) return true;
   }
 
   return false;
