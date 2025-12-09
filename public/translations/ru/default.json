@@ -296,5 +296,6 @@
   "more_threads_last_year": "{{count}} темы с {{currentTimeFilterName}} — [<1>Показать больше тем с прошлого года</1>]",
   "moderator_of_this_board": "Этот пользователь является модератором этого форума",
   "administrator_of_this_board": "Этот пользователь является администратором этого форума",
-  "copy_content_id": "копировать ID контента"
+  "copy_content_id": "копировать ID контента",
+  "delete_avatar": "Удалить аватар"
 }

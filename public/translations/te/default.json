@@ -296,5 +296,6 @@
   "more_threads_last_year": "{{count}} థ్రెడ్‌లు {{currentTimeFilterName}} నుండి — [<1>గత సంవత్సరం నుండి మరిన్ని థ్రెడ్‌లను చూపించండి</1>]",
   "moderator_of_this_board": "ఈ వినియోగదారు ఈ బోర్డ్ యొక్క మోడరేటర్",
   "administrator_of_this_board": "ఈ వినియోగదారు ఈ బోర్డ్ యొక్క నిర్వాహకుడు",
-  "copy_content_id": "కంటెంట్ ID కాపీ చేయండి"
+  "copy_content_id": "కంటెంట్ ID కాపీ చేయండి",
+  "delete_avatar": "అవతార్ను తొలగించు"
 }

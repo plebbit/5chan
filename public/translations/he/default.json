@@ -296,5 +296,6 @@
   "more_threads_last_year": "{{count}} חוטים מאז {{currentTimeFilterName}} — [<1>הצג עוד חוטים מהשנה שעברה</1>]",
   "moderator_of_this_board": "משתמש זה הוא מנהל של הלוח הזה",
   "administrator_of_this_board": "משתמש זה הוא מנהל מערכת של הלוח הזה",
-  "copy_content_id": "העתק מזהה תוכן"
+  "copy_content_id": "העתק מזהה תוכן",
+  "delete_avatar": "מחק אווטר"
 }

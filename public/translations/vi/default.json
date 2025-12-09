@@ -296,5 +296,6 @@
   "more_threads_last_year": "{{count}} chủ đề từ {{currentTimeFilterName}} — [<1>Hiển thị thêm các chủ đề từ năm ngoái</1>]",
   "moderator_of_this_board": "Người dùng này là người điều hành của bảng này",
   "administrator_of_this_board": "Người dùng này là quản trị viên của bảng này",
-  "copy_content_id": "sao chép ID nội dung"
+  "copy_content_id": "sao chép ID nội dung",
+  "delete_avatar": "Xóa avatar"
 }

@@ -296,5 +296,6 @@
   "more_threads_last_year": "{{count}} ध糀ं {{currentTimeFilterName}} पासून — [<1>गेल्या वर्षातील आणखी थ्रेड्स दाखवा</1>]",
   "moderator_of_this_board": "हा वापरकर्ता या बोर्डचा मॉडरेटर आहे",
   "administrator_of_this_board": "हा वापरकर्ता या बोर्डचा प्रशासक आहे",
-  "copy_content_id": "कंटेंट ID कॉपी करा"
+  "copy_content_id": "कंटेंट ID कॉपी करा",
+  "delete_avatar": "अवतार हटवा"
 }

@@ -296,5 +296,6 @@
   "more_threads_last_year": "{{count}} příspěvků od {{currentTimeFilterName}} — [<1>Zobrazit více příspěvků z minulého roku</1>]",
   "moderator_of_this_board": "Tento uživatel je moderátorem tohoto fóra",
   "administrator_of_this_board": "Tento uživatel je administrátorem tohoto fóra",
-  "copy_content_id": "kopírovat ID obsahu"
+  "copy_content_id": "kopírovat ID obsahu",
+  "delete_avatar": "Smazat avatar"
 }

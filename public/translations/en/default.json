@@ -245,6 +245,7 @@
   "reset_changes": "Reset Changes",
   "crypto_address_yours": "Crypto address belongs to this account.",
   "delete_wallet": "Delete Wallet",
+  "delete_avatar": "Delete Avatar",
   "loading_board": "Loading board",
   "last_bumped": "Last Bumped",
   "threads_without_images_tip": "Only display threads that link to embeddable media",

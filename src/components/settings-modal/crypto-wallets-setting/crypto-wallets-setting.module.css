@@ -52,9 +52,16 @@
   content: '5. ';
 }
 
-.walletField input {
-  width: 200px;
+.walletField {
+  position: relative;
+}
+
+.settingField input {
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: 100%;
   padding: 2px;
+  margin-left: 5px;
   box-shadow: var(--box-shadow-input);
 }
 

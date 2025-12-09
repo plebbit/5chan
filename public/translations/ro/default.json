@@ -296,5 +296,6 @@
   "more_threads_last_year": "{{count}} subiecte din {{currentTimeFilterName}} — [<1>Afișați mai multe subiecte de anul trecut</1>]",
   "moderator_of_this_board": "Acest utilizator este moderator al acestui forum",
   "administrator_of_this_board": "Acest utilizator este administrator al acestui forum",
-  "copy_content_id": "copiați ID-ul conținutului"
+  "copy_content_id": "copiați ID-ul conținutului",
+  "delete_avatar": "Șterge avatar"
 }

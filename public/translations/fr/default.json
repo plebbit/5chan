@@ -296,5 +296,6 @@
   "more_threads_last_year": "{{count}} fils depuis {{currentTimeFilterName}} — [<1>Afficher plus de fils de l'année dernière</1>]",
   "moderator_of_this_board": "Cet utilisateur est modérateur de ce tableau",
   "administrator_of_this_board": "Cet utilisateur est administrateur de ce tableau",
-  "copy_content_id": "Copier l'ID du contenu"
+  "copy_content_id": "Copier l'ID du contenu",
+  "delete_avatar": "Supprimer l'avatar"
 }
