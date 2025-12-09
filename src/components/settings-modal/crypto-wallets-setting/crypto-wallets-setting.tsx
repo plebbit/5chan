@@ -133,6 +133,15 @@ const CryptoWalletsForm = ({ account }: { account: Account | undefined }) => {
           <button onClick={() => copyMessageToSign(walletsArray[selectedWallet], selectedWallet)}>{hasCopied ? t('copied') : t('copy')}</button>
         </div>
         <div className={styles.walletField}>
+          <span className={styles.walletFieldTitle}>{_.capitalize(t('timestamp'))}: </span>
+          <input
+            type='text'
+            onChange={(e) => setWalletsArrayProperty(selectedWallet, 'timestamp', Number(e.target.value))}
+            value={walletsArray[selectedWallet].timestamp || ''}
+            placeholder='Timestamp'
+          />
+        </div>
+        <div className={styles.walletField}>
           <span className={styles.walletFieldTitle}>{_.capitalize(t('paste_signature'))}: </span>
           <input
             type='text'
