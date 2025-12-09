@@ -54,6 +54,9 @@ web_modules/
 # TypeScript cache
 *.tsbuildinfo
 
+# Generated files
+src/generated/asset-manifest.ts
+
 # Optional npm cache directory
 .npm
 
