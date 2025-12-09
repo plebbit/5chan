@@ -21,6 +21,35 @@
 .walletField {
   margin-top: 5px;
   margin-left: 5px;
+  position: relative;
+}
+
+.timestampfield {
+  margin-left: 10px;
+}
+
+.walletField[class*='step']::before {
+  margin-left: -5px;
+}
+
+.walletField.step1::before {
+  content: '1. ';
+}
+
+.walletField.step2::before {
+  content: '2. ';
+}
+
+.walletField.step3::before {
+  content: '3. ';
+}
+
+.walletField.step4::before {
+  content: '4. ';
+}
+
+.save.step5::before {
+  content: '5. ';
 }
 
 .walletField input {
@@ -61,4 +90,13 @@
 
 .toggleWallet {
   margin-right: 7px;
+}
+
+.deleteWalletContainer {
+  margin-top: 20px;
+  margin-left: 5px;
+}
+
+.removeWallet {
+  color: red;
 }
