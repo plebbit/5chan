@@ -125,12 +125,12 @@ const CryptoWalletsForm = ({ account }: { account: Account | undefined }) => {
               i18nKey='copy_message_etherscan'
               components={{
                 // eslint-disable-next-line
-                1: <a href='https://etherscan.io/verifiedSignatures' target='_blank' rel='noopener noreferrer' />,
+                1: <button key='copy-message-button' onClick={() => copyMessageToSign(walletsArray[selectedWallet], selectedWallet)} />,
+                2: <a key='etherscan-link' href='https://etherscan.io/verifiedSignatures' target='_blank' rel='noopener noreferrer' />,
               }}
+              values={{ copy: hasCopied ? t('copied') : t('copy') }}
             />
-            :{' '}
           </span>
-          <button onClick={() => copyMessageToSign(walletsArray[selectedWallet], selectedWallet)}>{hasCopied ? t('copied') : t('copy')}</button>
         </div>
         <div className={styles.walletField}>
           <span className={styles.walletFieldTitle}>{_.capitalize(t('timestamp'))}: </span>
