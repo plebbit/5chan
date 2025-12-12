@@ -124,8 +124,8 @@ const CryptoWalletsForm = ({ account }: { account: Account | undefined }) => {
             <Trans
               i18nKey='copy_message_etherscan'
               components={{
-                // eslint-disable-next-line
                 1: <button key='copy-message-button' onClick={() => copyMessageToSign(walletsArray[selectedWallet], selectedWallet)} />,
+                // eslint-disable-next-line
                 2: <a key='etherscan-link' href='https://etherscan.io/verifiedSignatures' target='_blank' rel='noopener noreferrer' />,
               }}
               values={{ copy: hasCopied ? t('copied') : t('copy') }}
