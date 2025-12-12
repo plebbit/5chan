@@ -121,6 +121,7 @@
     "eslint-plugin-react-hooks": "5.2.0",
     "husky": "4.3.8",
     "isomorphic-fetch": "3.0.0",
+    "jsdom": "27.3.0",
     "lint-staged": "12.3.8",
     "progress": "2.0.3",
     "react-grab": "0.0.18",
@@ -130,6 +131,7 @@
     "vite-plugin-eslint": "1.8.1",
     "vite-plugin-node-polyfills": "0.23.0",
     "vite-plugin-pwa": "0.21.1",
+    "vitest": "4.0.15",
     "wait-on": "9.0.3"
   },
   "resolutions": {
