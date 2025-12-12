@@ -172,6 +172,18 @@ const AvatarSettings = () => {
           />
         </div>
         <div className={`${styles.settingField} ${styles.step3}`}>
+          <span className={styles.settingTitle}>Token ID: </span>
+          <input
+            type='text'
+            placeholder='123'
+            autoCorrect='off'
+            autoComplete='off'
+            spellCheck='false'
+            defaultValue={account?.author?.avatar?.id}
+            onChange={(e) => setTokenId(e.target.value)}
+          />
+        </div>
+        <div className={`${styles.settingField} ${styles.step4}`}>
           <span className={styles.settingTitle}>
             <Trans
               i18nKey='copy_message_etherscan'
@@ -196,7 +208,7 @@ const AvatarSettings = () => {
             onChange={(e) => setTimestamp(Number(e.target.value))}
           />
         </div>
-        <div className={`${styles.settingField} ${styles.step4}`}>
+        <div className={`${styles.settingField} ${styles.step5}`}>
           <span className={styles.settingTitle}>{_.capitalize(t('paste_signature'))}: </span>
           <input
             type='text'

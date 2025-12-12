@@ -67,6 +67,10 @@
   content: '4.\00a0';
 }
 
+.settingField.step5::before {
+  content: '5.\00a0';
+}
+
 .settingField a {
   color: var(--post-link-text-color);
   text-decoration: var(--post-content-link-text-decoration);
