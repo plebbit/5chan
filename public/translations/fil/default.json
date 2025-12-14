@@ -2,7 +2,7 @@
   "what_is_5chan": "Ano ang 5chan?",
   "go": "pumunta",
   "or": "o",
-  "5chan_description": "Ang 5chan ay isang serverless, adminless, decentralized at open-source na alternatibo sa 4chan kung saan maaaring lumikha at kriptograpikong magmamay-ari ang sinuman ng walang limitasyong boards. Lahat ng boards ay self-hosted ng kanilang mga may-ari, na nagpapatakbo ng <1>plebbit</1> nodes na kinokonekta ng mga user peer-to-peer. Lahat ng data ay text-only, kabilang ang mga link para sa pag-load ng media/embeds. Huwag mag-atubiling mag-click sa isang board sa ibaba na nais mong salihan at sumali na agad!",
+  "5chan_description": "Ang 5chan ay isang serverless, adminless, decentralized at open-source na alternatibo sa 4chan, kung saan sinuman ay maaaring lumikha at cryptographically magmamay-ari ng walang limitasyong boards. Lahat ng boards ay hosted at moderated ng kanilang mga may-ari, na nagpapatakbo ng nodes na ikinokonekta at siniseed ng mga user, peer-to-peer. Lahat ng data ay text-only, kasama ang mga link para i-embed ang mga imahe. Huwag mag-atubiling mag-click sa isang board sa ibaba na interesado ka at magsimula kaagad!",
   "no_global_rules_info": "Maaari mong palaging kumonekta sa anumang board, ganap na P2P, walang makakapigil sa iyo. Ilagay lamang ang address nito sa search field sa itaas.",
   "boards": "mga board",
   "popular_threads": "Mga popular na thread",

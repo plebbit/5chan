@@ -2,7 +2,7 @@
   "what_is_5chan": "Vad är 5chan?",
   "go": "gå",
   "or": "eller",
-  "5chan_description": "5chan är ett serverlöst, adminlöst, decentraliserat och öppen källkod alternativ till 4chan där vem som helst kan skapa och kryptografiskt äga obegränsade forum. Alla forum är själv-hostade av sina ägare, som kör <1>plebbit</1> noder som användare ansluter till peer-to-peer. Alla data är endast text, inklusive länkar för att ladda media/embeds. Tveka inte att klicka på ett forum nedan som intresserar dig och gå med direkt!",
+  "5chan_description": "5chan är ett serverlöst, adminlöst, decentraliserat och öppen källkodsalternativ till 4chan, där vem som helst kan skapa och kryptografiskt äga obegränsade tavlor. Alla tavlor hostas och modereras av sina ägare, som kör noder som användare ansluter till och seedar, peer-to-peer. All data är endast text, inklusive länkar för att bädda in bilder. Känn dig fri att klicka på en tavla nedan som intresserar dig och börja direkt!",
   "no_global_rules_info": "Du kan alltid ansluta till vilket forum som helst, helt P2P, ingen kan stoppa dig. Klistra bara in adressen i sökfältet ovan.",
   "boards": "forum",
   "popular_threads": "Populära trådar",

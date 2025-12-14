@@ -2,7 +2,7 @@
   "what_is_5chan": "Mi az a 5chan?",
   "go": "menni",
   "or": "vagy",
-  "5chan_description": "A 5chan egy szerver nélküli, admin nélküli, decentralizált és nyílt forráskódú 4chan alternatíva, ahol bárki létrehozhat és kriptográfiai módon birtokolhat korlátlan fórumokat. Minden fórum a tulajdonosok által önállóan üzemeltetett, akik <1>plebbit</1> csomópontokat futtatnak, amelyekhez a felhasználók peer-to-peer kapcsolódnak. Minden adat csak szöveg, beleértve a médiák/beágyazások betöltéséhez szükséges hivatkozásokat. Kattints bármelyik lent lévő fórumra, amely érdekel, és csatlakozz azonnal!",
+  "5chan_description": "A 5chan egy szerver nélküli, adminisztrátor nélküli, decentralizált és nyílt forráskódú alternatíva a 4chan számára, ahol bárki létrehozhat és kriptográfiailag birtokolhat korlátlan táblákat. Minden táblát a tulajdonosaik üzemeltetnek és moderálnak, akik olyan csomópontokat futtatnak, amelyekhez a felhasználók peer-to-peer módon csatlakoznak és seedelnek. Minden adat csak szöveg, beleértve a képek beágyazásához szükséges linkeket. Nyugodtan kattintson egy alábbi táblára, amely érdekli, és azonnal kezdjen bele!",
   "no_global_rules_info": "Bármikor csatlakozhatsz bármely fórumhoz, teljesen P2P, senki sem tud megállítani. Egyszerűen illeszd be a címét a fenti keresőmezőbe.",
   "boards": "fórumok",
   "popular_threads": "Népszerű szálak",
