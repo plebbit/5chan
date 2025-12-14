@@ -298,5 +298,6 @@
   "administrator_of_this_board": "Этот пользователь является администратором этого форума",
   "copy_content_id": "копировать ID контента",
   "delete_avatar": "Удалить аватар",
-  "updates": "Обновления"
+  "updates": "Обновления",
+  "downloading_board": "загрузка форума"
 }

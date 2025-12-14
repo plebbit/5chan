@@ -298,5 +298,6 @@
   "administrator_of_this_board": "משתמש זה הוא מנהל מערכת של הלוח הזה",
   "copy_content_id": "העתק מזהה תוכן",
   "delete_avatar": "מחק אווטר",
-  "updates": "עדכונים"
+  "updates": "עדכונים",
+  "downloading_board": "מוריד פורום"
 }

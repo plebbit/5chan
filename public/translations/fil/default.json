@@ -298,5 +298,6 @@
   "administrator_of_this_board": "Ang user na ito ay administrator ng board na ito",
   "copy_content_id": "kopyahin ang content ID",
   "delete_avatar": "Tanggalin ang avatar",
-  "updates": "Mga Update"
+  "updates": "Mga Update",
+  "downloading_board": "nagda-download ng board"
 }

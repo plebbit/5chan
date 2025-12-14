@@ -298,5 +298,6 @@
   "administrator_of_this_board": "Người dùng này là quản trị viên của bảng này",
   "copy_content_id": "sao chép ID nội dung",
   "delete_avatar": "Xóa avatar",
-  "updates": "Cập nhật"
+  "updates": "Cập nhật",
+  "downloading_board": "đang tải diễn đàn"
 }

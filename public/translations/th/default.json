@@ -298,5 +298,6 @@
   "administrator_of_this_board": "ผู้ใช้รายนี้เป็นผู้ดูแลระบบของบอร์ดนี้",
   "copy_content_id": "คัดลอก ID เนื้อหา",
   "delete_avatar": "ลบอวตาร",
-  "updates": "อัปเดต"
+  "updates": "อัปเดต",
+  "downloading_board": "กำลังดาวน์โหลดกระดาน"
 }

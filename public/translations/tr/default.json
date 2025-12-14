@@ -298,5 +298,6 @@
   "administrator_of_this_board": "Bu kullanıcı bu panonun yöneticisidir",
   "copy_content_id": "içerik ID'sini kopyala",
   "delete_avatar": "Avatarı sil",
-  "updates": "Güncellemeler"
+  "updates": "Güncellemeler",
+  "downloading_board": "forum indiriliyor"
 }

@@ -298,5 +298,6 @@
   "administrator_of_this_board": "هذا المستخدم هو مسؤول عن هذا المنتدى",
   "copy_content_id": "نسخ معرف المحتوى",
   "delete_avatar": "حذف الصورة الرمزية",
-  "updates": "التحديثات"
+  "updates": "التحديثات",
+  "downloading_board": "جارٍ تنزيل المنتدى"
 }

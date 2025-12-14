@@ -425,7 +425,7 @@ const PostDesktop = ({ post, roles, showAllReplies, showReplies = true }: PostPr
   const linksCount = pinned ? totalLinksCount : totalLinksCount - visiblelinksCount;
   const { showOmittedReplies, setShowOmittedReplies } = useShowOmittedReplies();
 
-  const stateString = useStateString(post) || t('loading_board');
+  const stateString = useStateString(post) || t('downloading_board');
 
   const subplebbit = useSubplebbitsStore((state) => state.subplebbits[subplebbitAddress]);
 

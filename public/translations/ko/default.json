@@ -298,5 +298,6 @@
   "administrator_of_this_board": "이 사용자는 이 게시판의 관리자입니다",
   "copy_content_id": "콘텐츠 ID 복사",
   "delete_avatar": "아바타 삭제",
-  "updates": "업데이트"
+  "updates": "업데이트",
+  "downloading_board": "게시판 다운로드 중"
 }

@@ -298,5 +298,6 @@
   "administrator_of_this_board": "Tämä käyttäjä on tämän taulun järjestelmänvalvoja",
   "copy_content_id": "kopioi sisältö-ID",
   "delete_avatar": "Poista avatar",
-  "updates": "Päivitykset"
+  "updates": "Päivitykset",
+  "downloading_board": "ladataan foorumia"
 }

@@ -298,5 +298,6 @@
   "administrator_of_this_board": "Acest utilizator este administrator al acestui forum",
   "copy_content_id": "copiați ID-ul conținutului",
   "delete_avatar": "Șterge avatar",
-  "updates": "Actualizări"
+  "updates": "Actualizări",
+  "downloading_board": "se descarcă forumul"
 }

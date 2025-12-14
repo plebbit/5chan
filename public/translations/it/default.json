@@ -298,5 +298,6 @@
   "administrator_of_this_board": "Questo utente è amministratore di questa bacheca",
   "copy_content_id": "Copia ID contenuto",
   "delete_avatar": "Elimina avatar",
-  "updates": "Aggiornamenti"
+  "updates": "Aggiornamenti",
+  "downloading_board": "scaricando board"
 }

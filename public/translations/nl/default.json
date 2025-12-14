@@ -298,5 +298,6 @@
   "administrator_of_this_board": "Deze gebruiker is beheerder van dit bord",
   "copy_content_id": "kopieer inhoud-ID",
   "delete_avatar": "Avatar verwijderen",
-  "updates": "Updates"
+  "updates": "Updates",
+  "downloading_board": "board downloaden"
 }

@@ -298,5 +298,6 @@
   "administrator_of_this_board": "Tento uživatel je administrátorem tohoto fóra",
   "copy_content_id": "kopírovat ID obsahu",
   "delete_avatar": "Smazat avatar",
-  "updates": "Aktualizace"
+  "updates": "Aktualizace",
+  "downloading_board": "stahování fóra"
 }

@@ -298,5 +298,6 @@
   "administrator_of_this_board": "Denne brukeren er administrator for dette tavlet",
   "copy_content_id": "kopier innhold-ID",
   "delete_avatar": "Slett avatar",
-  "updates": "Oppdateringer"
+  "updates": "Oppdateringer",
+  "downloading_board": "laster ned forum"
 }

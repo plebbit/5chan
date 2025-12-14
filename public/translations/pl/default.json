@@ -298,5 +298,6 @@
   "administrator_of_this_board": "Ten użytkownik jest administratorem tego forum",
   "copy_content_id": "skopiuj ID treści",
   "delete_avatar": "Usuń avatar",
-  "updates": "Aktualizacje"
+  "updates": "Aktualizacje",
+  "downloading_board": "pobieranie forum"
 }

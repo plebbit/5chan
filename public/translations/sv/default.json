@@ -298,5 +298,6 @@
   "administrator_of_this_board": "Denna användare är administratör för detta forum",
   "copy_content_id": "kopiera innehålls-ID",
   "delete_avatar": "Ta bort avatar",
-  "updates": "Uppdateringar"
+  "updates": "Uppdateringar",
+  "downloading_board": "laddar ner forum"
 }

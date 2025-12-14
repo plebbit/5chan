@@ -298,5 +298,6 @@
   "administrator_of_this_board": "Pengguna ini adalah administrator papan ini",
   "copy_content_id": "salin ID konten",
   "delete_avatar": "Hapus avatar",
-  "updates": "Pembaruan"
+  "updates": "Pembaruan",
+  "downloading_board": "mengunduh forum"
 }

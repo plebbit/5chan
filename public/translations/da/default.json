@@ -298,5 +298,6 @@
   "administrator_of_this_board": "Denne bruger er administrator for dette board",
   "copy_content_id": "kopier indhold-ID",
   "delete_avatar": "Slet avatar",
-  "updates": "Opdateringer"
+  "updates": "Opdateringer",
+  "downloading_board": "downloader forum"
 }

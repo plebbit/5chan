@@ -298,5 +298,6 @@
   "administrator_of_this_board": "Este usuário é administrador deste quadro",
   "copy_content_id": "Copiar ID do conteúdo",
   "delete_avatar": "Excluir avatar",
-  "updates": "Atualizações"
+  "updates": "Atualizações",
+  "downloading_board": "baixando fórum"
 }
