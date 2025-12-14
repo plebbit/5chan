@@ -154,12 +154,21 @@ export const Footer = () => {
           </a>
         </li>
       </ul>
-      <div className={styles.version}>
-        <Version />
-        <span>
-          {' '}
-          - <span className={styles.gplLicensed}>GPLv2 Licensed</span>
-        </span>
+      <div className={styles.footerInfo}>
+        <br />
+        <Version /> •{' '}
+        <a href='https://github.com/plebbit/5chan/issues/new' target='_blank' rel='noopener noreferrer'>
+          Feedback
+        </a>{' '}
+        •{' '}
+        <a href='https://github.com/plebbit/5chan/graphs/contributors' target='_blank' rel='noopener noreferrer'>
+          Contact
+        </a>
+        <span></span>
+        <br />
+        <br />
+        <br />
+        <span>5chan is free and open source software under GPLv2 license.</span>
       </div>
     </>
   );

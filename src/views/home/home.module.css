@@ -164,20 +164,16 @@
   text-transform: capitalize;
 }
 
-.version {
+.footerInfo {
   text-align: center;
-  padding-top: 2em;
-  padding-bottom: 1em;
+  margin-top: 1em;
+  margin-bottom: 1em;
   font-size: 11px;
 }
 
-.version a {
-  text-decoration: none;
-  color: unset;
-}
 
-.version a:hover {
-  text-decoration: underline;
+.footerInfo a:visited {
+  color: blue;
 }
 
 .popularThreads {
