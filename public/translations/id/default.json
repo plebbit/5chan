@@ -297,5 +297,6 @@
   "moderator_of_this_board": "Pengguna ini adalah moderator papan ini",
   "administrator_of_this_board": "Pengguna ini adalah administrator papan ini",
   "copy_content_id": "salin ID konten",
-  "delete_avatar": "Hapus avatar"
+  "delete_avatar": "Hapus avatar",
+  "updates": "Pembaruan"
 }

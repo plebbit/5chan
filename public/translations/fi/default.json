@@ -297,5 +297,6 @@
   "moderator_of_this_board": "Tämä käyttäjä on tämän taulun moderaattori",
   "administrator_of_this_board": "Tämä käyttäjä on tämän taulun järjestelmänvalvoja",
   "copy_content_id": "kopioi sisältö-ID",
-  "delete_avatar": "Poista avatar"
+  "delete_avatar": "Poista avatar",
+  "updates": "Päivitykset"
 }

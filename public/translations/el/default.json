@@ -297,5 +297,6 @@
   "moderator_of_this_board": "Αυτός ο χρήστης είναι συντονιστής αυτού του πίνακα",
   "administrator_of_this_board": "Αυτός ο χρήστης είναι διαχειριστής αυτού του πίνακα",
   "copy_content_id": "αντιγραφή ID περιεχομένου",
-  "delete_avatar": "Διαγραφή avatar"
+  "delete_avatar": "Διαγραφή avatar",
+  "updates": "Ενημερώσεις"
 }

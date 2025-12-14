@@ -297,5 +297,6 @@
   "moderator_of_this_board": "此用户是此版块的版主",
   "administrator_of_this_board": "此用户是此版块的管理员",
   "copy_content_id": "复制内容ID",
-  "delete_avatar": "删除头像"
+  "delete_avatar": "删除头像",
+  "updates": "更新"
 }

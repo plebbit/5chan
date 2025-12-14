@@ -121,13 +121,13 @@ export const Footer = () => {
     <>
       <ul className={styles.footer}>
         <li>
-          <a href='https://plebbit.com' target='_blank' rel='noopener noreferrer'>
+          <a href='https://github.com/plebbit/5chan/blob/master/README.md' target='_blank' rel='noopener noreferrer'>
             {t('about')}
           </a>
         </li>
         <li>
-          <a href='https://blog.plebbit.eth.limo' target='_blank' rel='noopener noreferrer'>
-            Blog
+          <a href='https://t.me/fivechandev' target='_blank' rel='noopener noreferrer'>
+            {t('updates')}
           </a>
         </li>
         <li>
@@ -136,11 +136,6 @@ export const Footer = () => {
         <li>
           <a href='https://t.me/plebbit' target='_blank' rel='noopener noreferrer'>
             Telegram
-          </a>
-        </li>
-        <li>
-          <a href='https://discord.gg/E7ejphwzGW' target='_blank' rel='noopener noreferrer'>
-            Discord
           </a>
         </li>
         <li>
@@ -161,6 +156,10 @@ export const Footer = () => {
       </ul>
       <div className={styles.version}>
         <Version />
+        <span>
+          {' '}
+          - <span className={styles.gplLicensed}>GPLv2 Licensed</span>
+        </span>
       </div>
     </>
   );

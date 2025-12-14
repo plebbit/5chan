@@ -297,5 +297,6 @@
   "moderator_of_this_board": "このユーザーはこのボードのモデレーターです",
   "administrator_of_this_board": "このユーザーはこのボードの管理者です",
   "copy_content_id": "コンテンツIDをコピー",
-  "delete_avatar": "アバターを削除"
+  "delete_avatar": "アバターを削除",
+  "updates": "更新"
 }

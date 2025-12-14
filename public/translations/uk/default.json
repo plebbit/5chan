@@ -297,5 +297,6 @@
   "moderator_of_this_board": "Цей користувач є модератором цього форуму",
   "administrator_of_this_board": "Цей користувач є адміністратором цього форуму",
   "copy_content_id": "копіювати ID контенту",
-  "delete_avatar": "Видалити аватар"
+  "delete_avatar": "Видалити аватар",
+  "updates": "Оновлення"
 }

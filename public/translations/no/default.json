@@ -297,5 +297,6 @@
   "moderator_of_this_board": "Denne brukeren er moderator for dette tavlet",
   "administrator_of_this_board": "Denne brukeren er administrator for dette tavlet",
   "copy_content_id": "kopier innhold-ID",
-  "delete_avatar": "Slett avatar"
+  "delete_avatar": "Slett avatar",
+  "updates": "Oppdateringer"
 }

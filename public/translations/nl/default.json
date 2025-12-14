@@ -297,5 +297,6 @@
   "moderator_of_this_board": "Deze gebruiker is moderator van dit bord",
   "administrator_of_this_board": "Deze gebruiker is beheerder van dit bord",
   "copy_content_id": "kopieer inhoud-ID",
-  "delete_avatar": "Avatar verwijderen"
+  "delete_avatar": "Avatar verwijderen",
+  "updates": "Updates"
 }

@@ -297,5 +297,6 @@
   "moderator_of_this_board": "Este usuario es moderador de este tablero",
   "administrator_of_this_board": "Este usuario es administrador de este tablero",
   "copy_content_id": "Copiar ID de contenido",
-  "delete_avatar": "Eliminar avatar"
+  "delete_avatar": "Eliminar avatar",
+  "updates": "Actualizaciones"
 }

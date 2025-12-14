@@ -297,5 +297,6 @@
   "moderator_of_this_board": "এই ব্যবহারকারী এই বোর্ডের একজন মডারেটর",
   "administrator_of_this_board": "এই ব্যবহারকারী এই বোর্ডের একজন প্রশাসক",
   "copy_content_id": "কনটেন্ট আইডি কপি করুন",
-  "delete_avatar": "অবতার মুছুন"
+  "delete_avatar": "অবতার মুছুন",
+  "updates": "আপডেট"
 }

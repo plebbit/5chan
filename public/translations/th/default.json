@@ -297,5 +297,6 @@
   "moderator_of_this_board": "ผู้ใช้รายนี้เป็นผู้ดูแลของบอร์ดนี้",
   "administrator_of_this_board": "ผู้ใช้รายนี้เป็นผู้ดูแลระบบของบอร์ดนี้",
   "copy_content_id": "คัดลอก ID เนื้อหา",
-  "delete_avatar": "ลบอวตาร"
+  "delete_avatar": "ลบอวตาร",
+  "updates": "อัปเดต"
 }

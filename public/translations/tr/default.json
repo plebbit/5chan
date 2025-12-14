@@ -297,5 +297,6 @@
   "moderator_of_this_board": "Bu kullanıcı bu panonun moderatörüdür",
   "administrator_of_this_board": "Bu kullanıcı bu panonun yöneticisidir",
   "copy_content_id": "içerik ID'sini kopyala",
-  "delete_avatar": "Avatarı sil"
+  "delete_avatar": "Avatarı sil",
+  "updates": "Güncellemeler"
 }

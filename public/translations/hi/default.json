@@ -297,5 +297,6 @@
   "moderator_of_this_board": "यह उपयोगकर्ता इस बोर्ड का मॉडरेटर है",
   "administrator_of_this_board": "यह उपयोगकर्ता इस बोर्ड का प्रशासक है",
   "copy_content_id": "कंटेंट ID कॉपी करें",
-  "delete_avatar": "अवतार हटाएं"
+  "delete_avatar": "अवतार हटाएं",
+  "updates": "अपडेट"
 }

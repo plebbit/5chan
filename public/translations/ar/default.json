@@ -297,5 +297,6 @@
   "moderator_of_this_board": "هذا المستخدم هو مشرف على هذا المنتدى",
   "administrator_of_this_board": "هذا المستخدم هو مسؤول عن هذا المنتدى",
   "copy_content_id": "نسخ معرف المحتوى",
-  "delete_avatar": "حذف الصورة الرمزية"
+  "delete_avatar": "حذف الصورة الرمزية",
+  "updates": "التحديثات"
 }

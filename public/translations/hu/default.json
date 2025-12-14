@@ -297,5 +297,6 @@
   "moderator_of_this_board": "Ez a felhasználó ennek a táblának a moderátora",
   "administrator_of_this_board": "Ez a felhasználó ennek a táblának a rendszergazdája",
   "copy_content_id": "tartalom ID másolása",
-  "delete_avatar": "Avatar törlése"
+  "delete_avatar": "Avatar törlése",
+  "updates": "Frissítések"
 }
