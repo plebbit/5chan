@@ -2,7 +2,7 @@
   "what_is_5chan": "Ce este 5chan?",
   "go": "du-te",
   "or": "sau",
-  "5chan_description": "5chan este o alternativă descentralizată, fără server, fără administratori și open-source la 4chan, unde oricine poate crea și deține criptografic forumuri nelimitate. Toate forumurile sunt auto-găzduite de proprietarii lor, care rulează noduri <1>plebbit</1> la care utilizatorii se conectează peer-to-peer. Toate datele sunt doar text, inclusiv linkuri pentru încărcarea mediilor/embeds. Nu ezitați să faceți clic pe un forum de mai jos care vă interesează și să vă alăturați imediat!",
+  "5chan_description": "5chan este o alternativă descentralizată, fără server, fără administrator și open-source la 4chan, unde oricine poate crea și deține criptografic panouri nelimitate. Toate panourile sunt găzduite și moderate de proprietarii lor, care rulează noduri la care utilizatorii se conectează și distribuie, peer-to-peer. Toate datele sunt doar text, inclusiv link-uri pentru a încorpora imagini. Simțiți-vă liber să faceți clic pe un panou de mai jos care vă interesează și începeți imediat!",
   "no_global_rules_info": "Poți să te conectezi întotdeauna la orice forum, complet P2P, nimeni nu te poate opri. Pur și simplu lipește adresa în câmpul de căutare de mai sus.",
   "boards": "forumuri",
   "popular_threads": "Threaduri populare",
@@ -296,5 +296,8 @@
   "more_threads_last_year": "{{count}} subiecte din {{currentTimeFilterName}} — [<1>Afișați mai multe subiecte de anul trecut</1>]",
   "moderator_of_this_board": "Acest utilizator este moderator al acestui forum",
   "administrator_of_this_board": "Acest utilizator este administrator al acestui forum",
-  "copy_content_id": "copiați ID-ul conținutului"
+  "copy_content_id": "copiați ID-ul conținutului",
+  "delete_avatar": "Șterge avatar",
+  "updates": "Actualizări",
+  "downloading_board": "se descarcă forumul"
 }

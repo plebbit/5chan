@@ -101,16 +101,16 @@ const CryptoWalletsForm = ({ account }: { account: Account | undefined }) => {
   const walletsInputs =
     walletsArray.length > 0 ? (
       <div key={selectedWallet} className={styles.walletBox}>
-        <div className={styles.walletField}>
+        <div className={`${styles.walletField} ${styles.step1}`}>
           <span className={styles.walletFieldTitle}>{_.capitalize(t('chain_ticker'))}: </span>
           <input
             type='text'
             onChange={(e) => setWalletsArrayProperty(selectedWallet, 'chainTicker', e.target.value)}
             value={walletsArray[selectedWallet].chainTicker}
-            placeholder='eth/sol/avax'
+            placeholder='eth/sol/matic'
           />
         </div>
-        <div className={styles.walletField}>
+        <div className={`${styles.walletField} ${styles.step2}`}>
           <span className={styles.walletFieldTitle}>{_.capitalize(t('wallet_address'))}: </span>
           <input
             type='text'
@@ -119,20 +119,29 @@ const CryptoWalletsForm = ({ account }: { account: Account | undefined }) => {
             placeholder='0x...'
           />
         </div>
-        <div className={styles.walletField}>
+        <div className={`${styles.walletField} ${styles.step3}`}>
           <span className={styles.walletFieldTitle}>
             <Trans
               i18nKey='copy_message_etherscan'
               components={{
+                1: <button key='copy-message-button' onClick={() => copyMessageToSign(walletsArray[selectedWallet], selectedWallet)} />,
                 // eslint-disable-next-line
-                1: <a href='https://etherscan.io/verifiedSignatures' target='_blank' rel='noopener noreferrer' />,
+                2: <a key='etherscan-link' href='https://etherscan.io/verifiedSignatures' target='_blank' rel='noopener noreferrer' />,
               }}
+              values={{ copy: hasCopied ? t('copied') : t('copy') }}
             />
-            :{' '}
           </span>
-          <button onClick={() => copyMessageToSign(walletsArray[selectedWallet], selectedWallet)}>{hasCopied ? t('copied') : t('copy')}</button>
         </div>
         <div className={styles.walletField}>
+          <span className={`${styles.walletFieldTitle} ${styles.timestampfield}`}>{_.capitalize(t('timestamp'))}: </span>
+          <input
+            type='text'
+            onChange={(e) => setWalletsArrayProperty(selectedWallet, 'timestamp', Number(e.target.value))}
+            value={walletsArray[selectedWallet].timestamp || ''}
+            placeholder='1234567890'
+          />
+        </div>
+        <div className={`${styles.walletField} ${styles.step4}`}>
           <span className={styles.walletFieldTitle}>{_.capitalize(t('paste_signature'))}: </span>
           <input
             type='text'
@@ -144,10 +153,12 @@ const CryptoWalletsForm = ({ account }: { account: Account | undefined }) => {
             <button className={styles.save} onClick={save}>
               {t('save_changes')}
             </button>
-            <button className={styles.removeWallet} onClick={() => _removeWallet(selectedWallet)}>
-              {t('delete_wallet')}
-            </button>
           </div>
+        </div>
+        <div className={styles.deleteWalletContainer}>
+          <button className={styles.removeWallet} onClick={() => _removeWallet(selectedWallet)}>
+            {t('delete_wallet')}
+          </button>
         </div>
       </div>
     ) : null;

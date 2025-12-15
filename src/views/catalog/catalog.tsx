@@ -365,7 +365,7 @@ const Catalog = ({ feedCacheKey, viewType, boardIdentifier: boardIdentifierProp,
     </div>
   );
 
-  const currentTimeFilterName = params?.timeFilterName || timeFilterName;
+  const currentTimeFilterName = timeFilterName || params?.timeFilterName;
 
   const Footer = () => {
     let footerContent;

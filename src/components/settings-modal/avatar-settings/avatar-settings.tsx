@@ -4,6 +4,8 @@ import { setAccount, useAccount, useAuthorAvatar } from '@plebbit/plebbit-react-
 import styles from './avatar-settings.module.css';
 import { Trans, useTranslation } from 'react-i18next';
 import LoadingEllipsis from '../../loading-ellipsis';
+import ErrorDisplay from '../../error-display/error-display';
+import _ from 'lodash';
 
 const AvatarPreview = ({ avatar }: any) => {
   const { t } = useTranslation();
@@ -31,7 +33,7 @@ const AvatarPreview = ({ avatar }: any) => {
       </div>
       {state !== 'succeeded' && account?.author?.avatar && (
         <div className={styles.state}>
-          {!error && stateText} {error && error?.message}
+          {!error && stateText} {error && <ErrorDisplay error={error} />}
         </div>
       )}
     </>
@@ -111,18 +113,29 @@ const AvatarSettings = () => {
       return alert(t('missing_signature'));
     }
     setAccount({ ...account, author: { ...account?.author, avatar } });
-    alert(`saved`);
+    alert(t('saved'));
+  };
+
+  const _removeAvatar = () => {
+    if (window.confirm(t('delete_confirm', { value: 'avatar', interpolation: { escapeValue: false } }))) {
+      setAccount({ ...account, author: { ...account?.author, avatar: undefined } });
+      setChainTicker(undefined);
+      setTokenAddress(undefined);
+      setTokenId(undefined);
+      setTimestamp(undefined);
+      setSignature(undefined);
+    }
   };
 
   return (
     <div className={styles.avatarSettings}>
       <AvatarPreview avatar={avatar} />
       <div className={styles.avatarSettingsForm}>
-        <div className={styles.avatarSettingInput}>
-          <span className={styles.settingTitle}>{t('chain_ticker')}</span>
+        <div className={`${styles.settingField} ${styles.step1}`}>
+          <span className={styles.settingTitle}>{_.capitalize(t('chain_ticker'))}: </span>
           <input
             type='text'
-            placeholder='eth/sol/avax'
+            placeholder='eth/sol/matic'
             autoCorrect='off'
             autoComplete='off'
             spellCheck='false'
@@ -130,7 +143,7 @@ const AvatarSettings = () => {
             onChange={(e) => setChainTicker(e.target.value)}
           />
         </div>
-        <div className={styles.avatarSettingInput}>
+        <div className={`${styles.settingField} ${styles.step2}`}>
           <span className={styles.settingTitle}>
             <Trans
               i18nKey='token_address_whitelist'
@@ -146,6 +159,7 @@ const AvatarSettings = () => {
                 ),
               }}
             />
+            :{' '}
           </span>
           <input
             type='text'
@@ -157,11 +171,11 @@ const AvatarSettings = () => {
             onChange={(e) => setTokenAddress(e.target.value)}
           />
         </div>
-        <div className={styles.avatarSettingInput}>
-          <span className={styles.settingTitle}>{t('token_id')}</span>
+        <div className={`${styles.settingField} ${styles.step3}`}>
+          <span className={styles.settingTitle}>Token ID: </span>
           <input
             type='text'
-            placeholder='Token ID'
+            placeholder='123'
             autoCorrect='off'
             autoComplete='off'
             spellCheck='false'
@@ -169,31 +183,33 @@ const AvatarSettings = () => {
             onChange={(e) => setTokenId(e.target.value)}
           />
         </div>
-        <div className={styles.copyMessage}>
-          <Trans
-            i18nKey='copy_message_etherscan'
-            values={{ copy: hasCopied ? t('copied') : t('copy') }}
-            components={{
-              1: <button key='copy-message-button' onClick={copyMessageToSign} />,
-              // eslint-disable-next-line
-              2: <a key='etherscan-link' href='https://etherscan.io/verifiedSignatures' target='_blank' rel='noopener noreferrer' />,
-            }}
-          />
+        <div className={`${styles.settingField} ${styles.step4}`}>
+          <span className={styles.settingTitle}>
+            <Trans
+              i18nKey='copy_message_etherscan'
+              values={{ copy: hasCopied ? t('copied') : t('copy') }}
+              components={{
+                1: <button key='copy-message-button' onClick={copyMessageToSign} />,
+                // eslint-disable-next-line
+                2: <a key='etherscan-link' href='https://etherscan.io/verifiedSignatures' target='_blank' rel='noopener noreferrer' />,
+              }}
+            />
+          </span>
         </div>
-        <div className={styles.avatarSettingInput}>
-          <span className={styles.settingTitle}>{t('timestamp')}</span>
+        <div className={styles.settingField}>
+          <span className={`${styles.settingTitle} ${styles.timestampfield}`}>{_.capitalize(t('timestamp'))}: </span>
           <input
             type='text'
-            placeholder='Timestamp'
+            placeholder='1234567890'
             autoCorrect='off'
             autoComplete='off'
             spellCheck='false'
-            value={timestamp}
+            value={timestamp || ''}
             onChange={(e) => setTimestamp(Number(e.target.value))}
           />
         </div>
-        <div className={styles.pasteSignature}>
-          <span className={styles.settingTitle}>{t('paste_signature')}</span>
+        <div className={`${styles.settingField} ${styles.step5}`}>
+          <span className={styles.settingTitle}>{_.capitalize(t('paste_signature'))}: </span>
           <input
             type='text'
             placeholder='0x...'
@@ -203,7 +219,16 @@ const AvatarSettings = () => {
             defaultValue={account?.author?.avatar?.signature?.signature}
             onChange={(e) => setSignature(e.target.value)}
           />
-          <button onClick={save}>{t('save')}</button>
+        </div>
+        <div className={styles.buttons}>
+          <button className={styles.save} onClick={save}>
+            {t('save_changes')}
+          </button>
+        </div>
+        <div className={styles.deleteAvatarContainer}>
+          <button className={styles.removeAvatar} onClick={_removeAvatar}>
+            {t('delete_avatar')}
+          </button>
         </div>
       </div>
     </div>

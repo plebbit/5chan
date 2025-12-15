@@ -2,7 +2,7 @@
   "what_is_5chan": "Vad är 5chan?",
   "go": "gå",
   "or": "eller",
-  "5chan_description": "5chan är ett serverlöst, adminlöst, decentraliserat och öppen källkod alternativ till 4chan där vem som helst kan skapa och kryptografiskt äga obegränsade forum. Alla forum är själv-hostade av sina ägare, som kör <1>plebbit</1> noder som användare ansluter till peer-to-peer. Alla data är endast text, inklusive länkar för att ladda media/embeds. Tveka inte att klicka på ett forum nedan som intresserar dig och gå med direkt!",
+  "5chan_description": "5chan är ett serverlöst, adminlöst, decentraliserat och öppen källkodsalternativ till 4chan, där vem som helst kan skapa och kryptografiskt äga obegränsade tavlor. Alla tavlor hostas och modereras av sina ägare, som kör noder som användare ansluter till och seedar, peer-to-peer. All data är endast text, inklusive länkar för att bädda in bilder. Känn dig fri att klicka på en tavla nedan som intresserar dig och börja direkt!",
   "no_global_rules_info": "Du kan alltid ansluta till vilket forum som helst, helt P2P, ingen kan stoppa dig. Klistra bara in adressen i sökfältet ovan.",
   "boards": "forum",
   "popular_threads": "Populära trådar",
@@ -296,5 +296,8 @@
   "more_threads_last_year": "{{count}} trådar sedan {{currentTimeFilterName}} — [<1>Visa fler trådar från förra året</1>]",
   "moderator_of_this_board": "Denna användare är moderator för detta forum",
   "administrator_of_this_board": "Denna användare är administratör för detta forum",
-  "copy_content_id": "kopiera innehålls-ID"
+  "copy_content_id": "kopiera innehålls-ID",
+  "delete_avatar": "Ta bort avatar",
+  "updates": "Uppdateringar",
+  "downloading_board": "laddar ner forum"
 }

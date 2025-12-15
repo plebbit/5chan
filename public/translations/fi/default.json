@@ -2,7 +2,7 @@
   "what_is_5chan": "Mikä on 5chan?",
   "go": "mennä",
   "or": "tai",
-  "5chan_description": "5chan on palvelin- ja ylläpitovapaa hajautettu avoimen lähdekoodin vaihtoehto 4chanille, jossa kuka tahansa voi luoda ja kryptografisesti omistaa rajoittamattomasti foorumeita. Kaikki foorumit ovat omistajiensa itsehostaamia, jotka ajavat <1>plebbit</1>-solmuja, joihin käyttäjät yhdistyvät vertaisverkossa. Kaikki tiedot ovat vain tekstiä, mukaan lukien linkit mediasisältöjen/upotusten lataamiseen. Voit vapaasti klikata alla olevaa foorumia, joka kiinnostaa sinua, ja liittyä heti mukaan!",
+  "5chan_description": "5chan on palvelimeton, hallintaton, hajautettu ja avoimen lähdekoodin vaihtoehto 4chanille, jossa kuka tahansa voi luoda ja kryptografisesti omistaa rajattomia tauluja. Kaikki taulut isännöidään ja moderoivat niiden omistajat, jotka ajavat solmuja, joihin käyttäjät yhdistävät ja jakavat, peer-to-peer. Kaikki tiedot ovat vain tekstiä, mukaan lukien linkit upotettaviin kuviin. Voit vapaasti klikata alla olevaa taulua, joka kiinnostaa sinua, ja aloittaa heti!",
   "no_global_rules_info": "Voit aina yhdistää mihin tahansa foorumiin, täysin P2P, kukaan ei voi pysäyttää sinua. Liitä vain sen osoite yllä olevaan hakukenttään.",
   "boards": "foorumit",
   "popular_threads": "Suositut langat",
@@ -296,5 +296,8 @@
   "more_threads_last_year": "{{count}} ketjua sitten {{currentTimeFilterName}} — [<1>Näytä lisää viime vuoden ketjuja</1>]",
   "moderator_of_this_board": "Tämä käyttäjä on tämän taulun moderaattori",
   "administrator_of_this_board": "Tämä käyttäjä on tämän taulun järjestelmänvalvoja",
-  "copy_content_id": "kopioi sisältö-ID"
+  "copy_content_id": "kopioi sisältö-ID",
+  "delete_avatar": "Poista avatar",
+  "updates": "Päivitykset",
+  "downloading_board": "ladataan foorumia"
 }

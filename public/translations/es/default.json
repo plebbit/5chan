@@ -2,7 +2,7 @@
   "what_is_5chan": "¿Qué es 5chan?",
   "go": "ir",
   "or": "o",
-  "5chan_description": "5chan es una alternativa descentralizada, sin servidor, sin administrador y de código abierto de 4chan donde cualquiera puede crear y poseer criptográficamente foros ilimitados. Todos los foros son auto-hospedados por sus propietarios, quienes ejecutan nodos <1>plebbit</1> a los que los usuarios se conectan peer-to-peer. Todos los datos son solo texto, incluyendo enlaces para cargar medios/embeds. ¡Siéntete libre de hacer clic en un foro a continuación que te interese y únete de inmediato!",
+  "5chan_description": "5chan es una alternativa descentralizada, sin servidor, sin administrador y de código abierto a 4chan, donde cualquiera puede crear y poseer criptográficamente foros ilimitados. Todos los foros son alojados y moderados por sus propietarios, quienes ejecutan nodos a los que los usuarios se conectan y comparten, peer-to-peer. Todos los datos son solo texto, incluyendo enlaces para incrustar imágenes. ¡Siéntete libre de hacer clic en un foro a continuación que te interese y únete de inmediato!",
   "no_global_rules_info": "Siempre puedes conectarte a cualquier foro, completamente P2P, nadie puede detenerte. Simplemente pega su dirección en el campo de búsqueda de arriba.",
   "boards": "foros",
   "popular_threads": "Hilos populares",
@@ -296,5 +296,8 @@
   "more_threads_last_year": "{{count}} hilos desde {{currentTimeFilterName}} — [<1>Ver más hilos del año pasado</1>]",
   "moderator_of_this_board": "Este usuario es moderador de este tablero",
   "administrator_of_this_board": "Este usuario es administrador de este tablero",
-  "copy_content_id": "Copiar ID de contenido"
+  "copy_content_id": "Copiar ID de contenido",
+  "delete_avatar": "Eliminar avatar",
+  "updates": "Actualizaciones",
+  "downloading_board": "descargando foro"
 }

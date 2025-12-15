@@ -2,7 +2,7 @@
   "what_is_5chan": "Co je 5chan?",
   "go": "jít",
   "or": "nebo",
-  "5chan_description": "5chan je decentralizovaná alternativa 4chan bez serveru, bez administrátorů, open-source, kde si každý může vytvořit a kryptograficky vlastnit neomezené nástěnky. Všechny nástěnky jsou hostovány jejich vlastníky, kteří provozují <1>plebbit</1> uzly, ke kterým se uživatelé připojují peer-to-peer. Všechna data jsou pouze textová, včetně odkazů pro načítání médií/embedů. Neváhejte kliknout na nástěnku níže, která vás zajímá, a okamžitě se připojit!",
+  "5chan_description": "5chan je bezserverová, bez administrátora, decentralizovaná a open-source alternativa k 4chan, kde kdokoli může vytvářet a kryptograficky vlastnit neomezené desky. Všechny desky jsou hostovány a moderovány jejich majiteli, kteří provozují uzly, ke kterým se uživatelé připojují a sdílejí, peer-to-peer. Všechna data jsou pouze textová, včetně odkazů na vložené obrázky. Neváhejte kliknout na desku níže, která vás zajímá, a začněte hned!",
   "no_global_rules_info": "Můžete se vždy připojit k jakékoli nástěnce, plně P2P, nikdo vás nemůže zastavit. Jednoduše vložte její adresu do vyhledávacího pole výše.",
   "boards": "nástěnky",
   "popular_threads": "Oblíbená vlákna",
@@ -296,5 +296,8 @@
   "more_threads_last_year": "{{count}} příspěvků od {{currentTimeFilterName}} — [<1>Zobrazit více příspěvků z minulého roku</1>]",
   "moderator_of_this_board": "Tento uživatel je moderátorem tohoto fóra",
   "administrator_of_this_board": "Tento uživatel je administrátorem tohoto fóra",
-  "copy_content_id": "kopírovat ID obsahu"
+  "copy_content_id": "kopírovat ID obsahu",
+  "delete_avatar": "Smazat avatar",
+  "updates": "Aktualizace",
+  "downloading_board": "stahování fóra"
 }

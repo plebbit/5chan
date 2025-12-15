@@ -2,7 +2,7 @@
   "what_is_5chan": "5chan nedir?",
   "go": "git",
   "or": "veya",
-  "5chan_description": "5chan, herkesin sınırsız forum oluşturabileceği ve kriptografik olarak sahip olabileceği sunucusuz, yöneticisiz, merkezi olmayan ve açık kaynaklı bir 4chan alternatifidir. Tüm forumlar sahipleri tarafından kendi kendine barındırılır ve kullanıcıların peer-to-peer bağlandığı <1>plebbit</1> düğümlerini çalıştırırlar. Tüm veriler yalnızca metindir, medya/embeds yüklemek için bağlantılar dahil. İlgilendiğiniz aşağıdaki foruma tıklamaktan çekinmeyin ve hemen katılın!",
+  "5chan_description": "5chan, herkesin sınırsız panolar oluşturabileceği ve kriptografik olarak sahip olabileceği sunucusuz, yöneticisiz, merkezi olmayan ve açık kaynaklı bir 4chan alternatifidir. Tüm panolar, kullanıcıların bağlandığı ve paylaştığı düğümleri çalıştıran sahipleri tarafından barındırılır ve yönetilir, peer-to-peer. Tüm veriler yalnızca metindir, görüntüleri gömme bağlantıları dahil. İlginizi çeken aşağıdaki bir panoya tıklamaktan çekinmeyin ve hemen başlayın!",
   "no_global_rules_info": "Her zaman herhangi bir foruma bağlanabilirsiniz, tamamen P2P, kimse sizi durduramaz. Adresini yukarıdaki arama alanına yapıştırmanız yeterli.",
   "boards": "forumlar",
   "popular_threads": "Popüler konular",
@@ -296,5 +296,8 @@
   "more_threads_last_year": "{{count}} konu {{currentTimeFilterName}} itibariyle — [<1>Geçen yıldan daha fazla konu göster</1>]",
   "moderator_of_this_board": "Bu kullanıcı bu panonun moderatörüdür",
   "administrator_of_this_board": "Bu kullanıcı bu panonun yöneticisidir",
-  "copy_content_id": "içerik ID'sini kopyala"
+  "copy_content_id": "içerik ID'sini kopyala",
+  "delete_avatar": "Avatarı sil",
+  "updates": "Güncellemeler",
+  "downloading_board": "forum indiriliyor"
 }

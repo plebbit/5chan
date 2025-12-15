@@ -2,7 +2,7 @@
   "what_is_5chan": "Çfarë është 5chan?",
   "go": "shko",
   "or": "ose",
-  "5chan_description": "5chan është një alternativë e 4chan decentralizuar, pa server, pa administratorë dhe me kod të hapur, ku kushdo mund të krijojë dhe të posedojë kriptografikisht forume të pakufizuara. Të gjitha forumet janë vetë-hostuar nga pronarët e tyre, të cilët drejtojnë nyje <1>plebbit</1> me të cilat përdoruesit lidhen peer-to-peer. Të gjitha të dhënat janë vetëm tekst, duke përfshirë lidhjet për ngarkimin e media/embeds. Mos ngurroni të klikoni në një forum më poshtë që ju intereson dhe të bashkoheni menjëherë!",
+  "5chan_description": "5chan është një alternativë pa server, pa administrator, e decentralizuar dhe me kod të hapur për 4chan, ku kushdo mund të krijojë dhe të zotërojë kriptografikisht borda të pakufizuara. Të gjitha bordat hostohen dhe moderohen nga pronarët e tyre, të cilët ekzekutojnë nyje me të cilat përdoruesit lidhen dhe shpërndajnë, peer-to-peer. Të gjitha të dhënat janë vetëm tekst, duke përfshirë lidhjet për të integruar imazhe. Mos ngurroni të klikoni në një bord më poshtë që ju intereson dhe filloni menjëherë!",
   "no_global_rules_info": "Mund të lidheni gjithmonë me çdo forum, plotësisht P2P, askush nuk mund t'ju ndalojë. Thjesht ngjisni adresën në fushën e kërkimit më sipër.",
   "boards": "forume",
   "popular_threads": "Threadet e njohur",
@@ -296,5 +296,8 @@
   "more_threads_last_year": "{{count}} tema nga {{currentTimeFilterName}} — [<1>Shfaq më shumë tema nga viti i kaluar</1>]",
   "moderator_of_this_board": "Ky përdorues është moderator i këtij bordi",
   "administrator_of_this_board": "Ky përdorues është administrator i këtij bordi",
-  "copy_content_id": "kopjo ID e përmbajtjes"
+  "copy_content_id": "kopjo ID e përmbajtjes",
+  "delete_avatar": "Fshi avatarin",
+  "updates": "Përditësime",
+  "downloading_board": "duke shkarkuar forum"
 }
