@@ -299,5 +299,7 @@
   "copy_content_id": "复制内容ID",
   "delete_avatar": "删除头像",
   "updates": "更新",
-  "downloading_board": "正在下载论坛"
+  "downloading_board": "正在下载论坛",
+  "subscriptions_subtitle": "您已订阅 {{count}} 个 board",
+  "subscriptions_subtitle_one": "您已订阅 {{count}} 个 board"
 }

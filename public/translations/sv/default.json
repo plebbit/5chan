@@ -299,5 +299,7 @@
   "copy_content_id": "kopiera innehålls-ID",
   "delete_avatar": "Ta bort avatar",
   "updates": "Uppdateringar",
-  "downloading_board": "laddar ner forum"
+  "downloading_board": "laddar ner forum",
+  "subscriptions_subtitle": "Du har prenumererat på {{count}} board",
+  "subscriptions_subtitle_one": "Du har prenumererat på {{count}} board"
 }

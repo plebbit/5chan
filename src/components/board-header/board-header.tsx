@@ -45,7 +45,7 @@ const BoardHeader = () => {
 
   const account = useAccount() || {};
   const subscriptions = account?.subscriptions || [];
-  const subscriptionsSubtitle = subscriptions?.length === 1 ? `${subscriptions?.length} subscription` : `${subscriptions?.length} subscriptions`;
+  const subscriptionsSubtitle = t('subscriptions_subtitle', { count: subscriptions?.length || 0 });
 
   const title = isInAllView
     ? multisubMetadata?.title || '/all/ - 5chan Directories'

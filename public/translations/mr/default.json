@@ -299,5 +299,7 @@
   "copy_content_id": "कंटेंट ID कॉपी करा",
   "delete_avatar": "अवतार हटवा",
   "updates": "अपडेट्स",
-  "downloading_board": "फोरम डाउनलोड करत आहे"
+  "downloading_board": "फोरम डाउनलोड करत आहे",
+  "subscriptions_subtitle": "तुम्ही {{count}} board ला सदस्यता घेतली आहे",
+  "subscriptions_subtitle_one": "तुम्ही {{count}} board ला सदस्यता घेतली आहे"
 }

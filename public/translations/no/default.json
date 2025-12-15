@@ -299,5 +299,7 @@
   "copy_content_id": "kopier innhold-ID",
   "delete_avatar": "Slett avatar",
   "updates": "Oppdateringer",
-  "downloading_board": "laster ned forum"
+  "downloading_board": "laster ned forum",
+  "subscriptions_subtitle": "Du har abonnert på {{count}} board",
+  "subscriptions_subtitle_one": "Du har abonnert på {{count}} board"
 }

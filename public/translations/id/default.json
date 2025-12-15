@@ -299,5 +299,7 @@
   "copy_content_id": "salin ID konten",
   "delete_avatar": "Hapus avatar",
   "updates": "Pembaruan",
-  "downloading_board": "mengunduh forum"
+  "downloading_board": "mengunduh forum",
+  "subscriptions_subtitle": "Anda telah berlangganan {{count}} board",
+  "subscriptions_subtitle_one": "Anda telah berlangganan {{count}} board"
 }

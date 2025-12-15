@@ -299,5 +299,7 @@
   "copy_content_id": "콘텐츠 ID 복사",
   "delete_avatar": "아바타 삭제",
   "updates": "업데이트",
-  "downloading_board": "게시판 다운로드 중"
+  "downloading_board": "게시판 다운로드 중",
+  "subscriptions_subtitle": "{{count}}개의 board를 구독했습니다",
+  "subscriptions_subtitle_one": "{{count}}개의 board를 구독했습니다"
 }

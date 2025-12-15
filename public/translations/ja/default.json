@@ -299,5 +299,7 @@
   "copy_content_id": "コンテンツIDをコピー",
   "delete_avatar": "アバターを削除",
   "updates": "更新",
-  "downloading_board": "掲示板をダウンロード中"
+  "downloading_board": "掲示板をダウンロード中",
+  "subscriptions_subtitle": "{{count}}個のboardを購読しています",
+  "subscriptions_subtitle_one": "{{count}}個のboardを購読しています"
 }

@@ -299,5 +299,7 @@
   "copy_content_id": "kopioi sisältö-ID",
   "delete_avatar": "Poista avatar",
   "updates": "Päivitykset",
-  "downloading_board": "ladataan foorumia"
+  "downloading_board": "ladataan foorumia",
+  "subscriptions_subtitle": "Olet tilannut {{count}} boardia",
+  "subscriptions_subtitle_one": "Olet tilannut {{count}} boardin"
 }

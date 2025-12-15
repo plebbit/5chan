@@ -299,5 +299,7 @@
   "copy_content_id": "copiați ID-ul conținutului",
   "delete_avatar": "Șterge avatar",
   "updates": "Actualizări",
-  "downloading_board": "se descarcă forumul"
+  "downloading_board": "se descarcă forumul",
+  "subscriptions_subtitle": "Te-ai abonat la {{count}} board",
+  "subscriptions_subtitle_one": "Te-ai abonat la {{count}} board"
 }

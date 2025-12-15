@@ -299,5 +299,7 @@
   "copy_content_id": "کپی شناسه محتوا",
   "delete_avatar": "حذف آواتار",
   "updates": "به‌روزرسانی‌ها",
-  "downloading_board": "در حال دانلود تالار"
+  "downloading_board": "در حال دانلود تالار",
+  "subscriptions_subtitle": "شما به {{count}} board مشترک شده‌اید",
+  "subscriptions_subtitle_one": "شما به {{count}} board مشترک شده‌اید"
 }

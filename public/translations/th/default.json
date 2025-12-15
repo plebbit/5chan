@@ -299,5 +299,7 @@
   "copy_content_id": "คัดลอก ID เนื้อหา",
   "delete_avatar": "ลบอวตาร",
   "updates": "อัปเดต",
-  "downloading_board": "กำลังดาวน์โหลดกระดาน"
+  "downloading_board": "กำลังดาวน์โหลดกระดาน",
+  "subscriptions_subtitle": "คุณได้สมัครสมาชิก {{count}} board แล้ว",
+  "subscriptions_subtitle_one": "คุณได้สมัครสมาชิก {{count}} board แล้ว"
 }
