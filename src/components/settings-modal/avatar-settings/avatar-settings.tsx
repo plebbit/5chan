@@ -135,7 +135,7 @@ const AvatarSettings = () => {
           <span className={styles.settingTitle}>{_.capitalize(t('chain_ticker'))}: </span>
           <input
             type='text'
-            placeholder='eth/sol/avax'
+            placeholder='eth/sol/matic'
             autoCorrect='off'
             autoComplete='off'
             spellCheck='false'
@@ -200,7 +200,7 @@ const AvatarSettings = () => {
           <span className={`${styles.settingTitle} ${styles.timestampfield}`}>{_.capitalize(t('timestamp'))}: </span>
           <input
             type='text'
-            placeholder='Timestamp'
+            placeholder='1234567890'
             autoCorrect='off'
             autoComplete='off'
             spellCheck='false'

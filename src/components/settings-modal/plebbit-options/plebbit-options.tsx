@@ -10,7 +10,6 @@ interface SettingsProps {
   ethRpcRef?: RefObject<HTMLTextAreaElement>;
   solRpcRef?: RefObject<HTMLTextAreaElement>;
   maticRpcRef?: RefObject<HTMLTextAreaElement>;
-  avaxRpcRef?: RefObject<HTMLTextAreaElement>;
   plebbitRpcRef?: RefObject<HTMLInputElement>;
   plebbitDataPathRef?: RefObject<HTMLInputElement>;
 }
@@ -74,32 +73,27 @@ const PubsubProvidersSettings = ({ pubsubProvidersRef }: SettingsProps) => {
   );
 };
 
-const BlockchainProvidersSettings = ({ ethRpcRef, solRpcRef, maticRpcRef, avaxRpcRef }: SettingsProps) => {
+const BlockchainProvidersSettings = ({ ethRpcRef, solRpcRef, maticRpcRef }: SettingsProps) => {
   const account = useAccount();
   const { plebbitOptions } = account || {};
   const { chainProviders } = plebbitOptions || {};
   const ethRpcDefaultValue = chainProviders?.['eth']?.urls.join('\n');
   const solRpcDefaultValue = chainProviders?.['sol']?.urls.join('\n');
   const maticRpcDefaultValue = chainProviders?.['matic']?.urls.join('\n');
-  const avaxRpcDefaultValue = chainProviders?.['avax']?.urls.join('\n');
 
   return (
     <div className={styles.blockchainProvidersSettings}>
-      <span className={styles.settingTip}>Ethereum RPC, for .eth addresses</span>
+      <span className={styles.settingTip}>Ethereum RPC, for .eth domains</span>
       <div>
         <textarea defaultValue={ethRpcDefaultValue} ref={ethRpcRef} autoCorrect='off' autoComplete='off' spellCheck='false' />
       </div>
-      <span className={styles.settingTip}>Solana RPC, for .sol addresses</span>
+      <span className={styles.settingTip}>Solana RPC, for .sol domains</span>
       <div>
         <textarea defaultValue={solRpcDefaultValue} ref={solRpcRef} autoCorrect='off' autoComplete='off' spellCheck='false' />
       </div>
-      <span className={styles.settingTip}>Polygon RPC, for nft profile pics</span>
+      <span className={styles.settingTip}>Polygon RPC, for avatar NFTs</span>
       <div>
         <textarea defaultValue={maticRpcDefaultValue} ref={maticRpcRef} autoCorrect='off' autoComplete='off' spellCheck='false' />
-      </div>
-      <span className={styles.settingTip}>Avalanche RPC</span>
-      <div>
-        <textarea defaultValue={avaxRpcDefaultValue} ref={avaxRpcRef} autoCorrect='off' autoComplete='off' spellCheck='false' />
       </div>
     </div>
   );
@@ -163,7 +157,6 @@ const PlebbitOptions = () => {
   const ethRpcRef = useRef<HTMLTextAreaElement>(null);
   const solRpcRef = useRef<HTMLTextAreaElement>(null);
   const maticRpcRef = useRef<HTMLTextAreaElement>(null);
-  const avaxRpcRef = useRef<HTMLTextAreaElement>(null);
   const httpRoutersRef = useRef<HTMLTextAreaElement>(null);
   const plebbitRpcRef = useRef<HTMLInputElement>(null);
   const plebbitDataPathRef = useRef<HTMLInputElement>(null);
@@ -196,11 +189,6 @@ const PlebbitOptions = () => {
       .map((url) => url.trim())
       .filter((url) => url !== '');
 
-    const avaxRpcUrls = avaxRpcRef.current?.value
-      .split('\n')
-      .map((url) => url.trim())
-      .filter((url) => url !== '');
-
     const httpRoutersOptions = httpRoutersRef.current?.value
       .split('\n')
       .map((url) => url.trim())
@@ -221,10 +209,6 @@ const PlebbitOptions = () => {
       matic: {
         urls: maticRpcUrls,
         chainId: 137,
-      },
-      avax: {
-        urls: avaxRpcUrls,
-        chainId: 43114,
       },
     };
 
@@ -276,7 +260,7 @@ const PlebbitOptions = () => {
           blockchain providers:
         </span>
         <span className={styles.categorySettings}>
-          <BlockchainProvidersSettings ethRpcRef={ethRpcRef} solRpcRef={solRpcRef} maticRpcRef={maticRpcRef} avaxRpcRef={avaxRpcRef} />
+          <BlockchainProvidersSettings ethRpcRef={ethRpcRef} solRpcRef={solRpcRef} maticRpcRef={maticRpcRef} />
         </span>
       </div>
       <div className={styles.category}>

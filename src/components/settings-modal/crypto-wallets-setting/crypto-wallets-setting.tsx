@@ -107,7 +107,7 @@ const CryptoWalletsForm = ({ account }: { account: Account | undefined }) => {
             type='text'
             onChange={(e) => setWalletsArrayProperty(selectedWallet, 'chainTicker', e.target.value)}
             value={walletsArray[selectedWallet].chainTicker}
-            placeholder='eth/sol/avax'
+            placeholder='eth/sol/matic'
           />
         </div>
         <div className={`${styles.walletField} ${styles.step2}`}>
@@ -138,7 +138,7 @@ const CryptoWalletsForm = ({ account }: { account: Account | undefined }) => {
             type='text'
             onChange={(e) => setWalletsArrayProperty(selectedWallet, 'timestamp', Number(e.target.value))}
             value={walletsArray[selectedWallet].timestamp || ''}
-            placeholder='Timestamp'
+            placeholder='1234567890'
           />
         </div>
         <div className={`${styles.walletField} ${styles.step4}`}>
