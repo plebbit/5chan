@@ -127,7 +127,7 @@ const InterfaceLanguage = () => {
 const InterfaceSettings = () => {
   const { t } = useTranslation();
   const { hideAvatars, setHideAvatars } = useAvatarVisibilityStore();
-  const { hideGoreBoards, setHideGoreBoards, hideAdultBoards, setHideAdultBoards, hideThreadsWithoutImages, setHideThreadsWithoutImages } = useInterfaceSettingsStore();
+  const { hideThreadsWithoutImages, setHideThreadsWithoutImages } = useInterfaceSettingsStore();
   const { setShowTextOnlyThreads } = useCatalogFiltersStore();
   const { fitExpandedImagesToScreen, setFitExpandedImagesToScreen } = useExpandedMediaStore();
 
@@ -162,18 +162,6 @@ const InterfaceSettings = () => {
           {_.capitalize(t('hide_threads_without_images'))}
         </label>
         <div className={styles.settingTip}>{_.capitalize(t('threads_without_images_tip'))}</div>
-      </div>
-      <div className={styles.setting}>
-        <label>
-          <input type='checkbox' checked={hideGoreBoards} onChange={(e) => setHideGoreBoards(e.target.checked)} /> {_.capitalize(t('hide_gore_boards'))}
-        </label>
-        <div className={styles.settingTip}>{_.capitalize(t('hide_gore_boards_tip'))}</div>
-      </div>
-      <div className={styles.setting}>
-        <label>
-          <input type='checkbox' checked={hideAdultBoards} onChange={(e) => setHideAdultBoards(e.target.checked)} /> {_.capitalize(t('hide_adult_boards'))}
-        </label>
-        <div className={styles.settingTip}>{_.capitalize(t('hide_adult_boards_tip'))}</div>
       </div>
       <div className={styles.setting}>
         <label>

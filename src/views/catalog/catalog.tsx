@@ -12,7 +12,6 @@ import useTimeFilter, { timeFilterNameToSeconds } from '../../hooks/use-time-fil
 import useWindowWidth from '../../hooks/use-window-width';
 import useCatalogStyleStore from '../../stores/use-catalog-style-store';
 import useFeedResetStore from '../../stores/use-feed-reset-store';
-import useInterfaceSettingsStore from '../../stores/use-interface-settings-store';
 import useSortingStore from '../../stores/use-sorting-store';
 import useCatalogFiltersStore from '../../stores/use-catalog-filters-store';
 import { getSubplebbitAddress } from '../../lib/utils/route-utils';
@@ -149,23 +148,13 @@ const Catalog = ({ feedCacheKey, viewType, boardIdentifier: boardIdentifierProp,
   }, [boardIdentifierProp, defaultSubplebbits, resolvedAddressFromUrl]);
 
   const boardPath = useBoardPath(subplebbitAddress);
-  const { hideAdultBoards } = useInterfaceSettingsStore();
   const { showTextOnlyThreads, filterItems, searchText, clearMatchedFilters } = useCatalogFiltersStore();
 
   const account = useAccount();
   const subscriptions = account?.subscriptions;
 
   const subplebbitAddresses = useMemo(() => {
-    const filteredDefaultSubplebbits = defaultSubplebbits
-      .filter((subplebbit) => {
-        // Hide NSFW boards if hideAdultBoards is enabled (treating NSFW as adult content)
-        if (subplebbit.nsfw && hideAdultBoards) {
-          return false;
-        }
-        return true;
-      })
-      .map((subplebbit) => subplebbit.address)
-      .filter(Boolean); // Filter out any undefined/null values
+    const filteredDefaultSubplebbits = defaultSubplebbits.map((subplebbit) => subplebbit.address).filter(Boolean); // Filter out any undefined/null values
 
     if (isInAllView) {
       return filteredDefaultSubplebbits;
@@ -175,7 +164,7 @@ const Catalog = ({ feedCacheKey, viewType, boardIdentifier: boardIdentifierProp,
     }
     // Only include subplebbitAddress if it's defined
     return subplebbitAddress ? [subplebbitAddress] : [];
-  }, [isInAllView, isInSubscriptionsView, subplebbitAddress, defaultSubplebbits, subscriptions, hideAdultBoards]);
+  }, [isInAllView, isInSubscriptionsView, subplebbitAddress, defaultSubplebbits, subscriptions]);
 
   const { imageSize } = useCatalogStyleStore();
   const columnWidth = imageSize === 'Large' ? 270 : 180;
