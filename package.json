@@ -135,7 +135,8 @@
     "wait-on": "9.0.3"
   },
   "resolutions": {
-    "js-yaml": "4.1.1"
+    "js-yaml": "4.1.1",
+    "baseline-browser-mapping": "^2.9.8"
   },
   "main": "electron/main.js",
   "build": {
