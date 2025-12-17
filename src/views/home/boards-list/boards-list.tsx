@@ -494,7 +494,7 @@ const BoardsList = ({ multisub }: { multisub: MultisubSubplebbit[] }) => {
                   </li>
                   <li>
                     <Link to='#' onClick={handlePlaceholderClick} className={styles.placeholder}>
-                      Shit 4chan Says
+                      Shit 5chan Says
                     </Link>
                   </li>
                 </ul>
