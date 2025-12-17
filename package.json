@@ -1,7 +1,7 @@
 {
   "name": "5chan",
   "version": "0.5.3",
-  "description": "A GUI for plebbit similar to 4chan",
+  "description": "A serverless, adminless, decentralized 4chan alternative",
   "type": "module",
   "author": "Plebbit Labs",
   "license": "GPL-2.0-only",
