@@ -27,7 +27,11 @@ const CopyLinkButton = ({ cid, subplebbitAddress, linkType, onClose }: CopyLinkB
     <div
       onClick={async () => {
         try {
-          await copyShareLinkToClipboard(boardIdentifier, linkType, cid);
+          if (linkType === 'thread') {
+            await copyShareLinkToClipboard(boardIdentifier, linkType, cid);
+          } else {
+            await copyShareLinkToClipboard(boardIdentifier, linkType);
+          }
         } catch (error) {
           console.error('Failed to copy share link', error);
         } finally {
