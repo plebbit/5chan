@@ -11,7 +11,7 @@ const useCatalogFeedRows = (columnCount: number, feed: any, isFeedLoaded: boolea
 
   const feedWithFakePostsOnTop = useMemo(() => {
     if (!isFeedLoaded) {
-      return []; // prevent rules and description from appearing while feed is loading
+      return []; // prevent temporary/mock posts from appearing while the actual feed is loading
     }
 
     const _feed = [...feed];
