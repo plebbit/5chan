@@ -136,7 +136,7 @@
   },
   "resolutions": {
     "js-yaml": "4.1.1",
-    "baseline-browser-mapping": "^2.9.8"
+    "baseline-browser-mapping": "^2.9.11"
   },
   "main": "electron/main.js",
   "build": {
