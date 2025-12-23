@@ -56,7 +56,7 @@ const PostInfoAndMedia = ({ post, postReplyCount = 0, roles }: PostProps) => {
   const title = post?.title?.trim();
   const { address, shortAddress } = author || {};
   const displayName = author?.displayName?.trim();
-  const authorRole = roles?.[address]?.role.replace('moderator', 'mod');
+  const authorRole = roles?.[address]?.role?.replace('moderator', 'mod');
   const { imageUrl: avatarImageUrl } = useAuthorAvatar({ author });
   const { hideAvatars } = useAvatarVisibilityStore();
 

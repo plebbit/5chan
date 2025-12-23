@@ -57,7 +57,7 @@ const PostInfo = ({ post, postReplyCount = 0, roles, isHidden }: PostProps) => {
   const replies = useReplies(post);
   const { address, shortAddress } = author || {};
   const displayName = author?.displayName?.trim();
-  const authorRole = roles?.[address]?.role.replace('moderator', 'mod');
+  const authorRole = roles?.[address]?.role?.replace('moderator', 'mod');
   const stateString = useStateString(post);
   const isReply = parentCid;
   const { showOmittedReplies } = useShowOmittedReplies();
