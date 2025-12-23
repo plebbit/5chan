@@ -3,14 +3,12 @@ import { useTranslation } from 'react-i18next';
 import { Comment, Role, useComment, useEditedComment, useSubplebbit } from '@plebbit/plebbit-react-hooks';
 import useSubplebbitsStore from '@plebbit/plebbit-react-hooks/dist/stores/subplebbits';
 import { useLocation, useParams } from 'react-router-dom';
-import { isAllView, isDescriptionView, isRulesView } from '../../lib/utils/view-utils';
+import { isAllView } from '../../lib/utils/view-utils';
 import { useResolvedSubplebbitAddress } from '../../hooks/use-resolved-subplebbit-address';
 import useIsMobile from '../../hooks/use-is-mobile';
 import ErrorDisplay from '../../components/error-display/error-display';
 import PostDesktop from '../../components/post-desktop';
 import PostMobile from '../../components/post-mobile';
-import SubplebbitDescription from '../../components/subplebbit-description';
-import SubplebbitRules from '../../components/subplebbit-rules';
 import styles from './post.module.css';
 
 export interface PostProps {
@@ -57,8 +55,6 @@ const PostPage = () => {
   const { commentCid } = params;
   const subplebbitAddress = useResolvedSubplebbitAddress();
   const isInAllView = isAllView(location.pathname);
-  const isInDescriptionView = isDescriptionView(location.pathname, params);
-  const isInRulesView = isRulesView(location.pathname, params);
 
   const comment = useComment({ commentCid });
   const subplebbit = useSubplebbit({ subplebbitAddress });
@@ -98,21 +94,7 @@ const PostPage = () => {
           <ErrorDisplay error={error} />
         </div>
       )}
-      {isInDescriptionView ? (
-        <SubplebbitDescription
-          avatarUrl={suggested?.avatarUrl}
-          createdAt={createdAt}
-          description={description}
-          replyCount={location.pathname.startsWith('/all/') ? 0 : rules?.length > 0 ? 1 : 0}
-          subplebbitAddress={subplebbitAddress}
-          shortAddress={shortAddress}
-          title={title}
-        />
-      ) : isInRulesView ? (
-        <SubplebbitRules createdAt={createdAt} rules={rules} subplebbitAddress={subplebbitAddress} />
-      ) : (
-        <Post post={post} showAllReplies={true} />
-      )}
+      <Post post={post} showAllReplies={true} />
     </div>
   );
 };

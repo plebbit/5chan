@@ -164,13 +164,8 @@ const App = () => (
           <Route path='/:boardIdentifier/catalog' element={null} />
           <Route path='/:boardIdentifier/catalog/settings' element={null} />
 
-          <Route path='/all/description' element={<Post />} />
           <Route path='/:boardIdentifier/thread/:commentCid' element={<Post />} />
           <Route path='/:boardIdentifier/thread/:commentCid/settings' element={<Post />} />
-          <Route path='/:boardIdentifier/description' element={<Post />} />
-          <Route path='/:boardIdentifier/description/settings' element={<Post />} />
-          <Route path='/:boardIdentifier/rules' element={<Post />} />
-          <Route path='/:boardIdentifier/rules/settings' element={<Post />} />
 
           <Route path='/pending/:accountCommentIndex' element={<PendingPost />} />
           <Route path='/pending/:accountCommentIndex/settings' element={<PendingPost />} />

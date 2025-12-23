@@ -16,8 +16,6 @@ import useSortingStore from '../../stores/use-sorting-store';
 import { getSubplebbitAddress } from '../../lib/utils/route-utils';
 import ErrorDisplay from '../../components/error-display/error-display';
 import LoadingEllipsis from '../../components/loading-ellipsis';
-import SubplebbitDescription from '../../components/subplebbit-description';
-import SubplebbitRules from '../../components/subplebbit-rules';
 import { Post } from '../post';
 
 const lastVirtuosoStates: { [key: string]: StateSnapshot } = {};
@@ -336,23 +334,11 @@ const Board = ({ feedCacheKey, viewType, boardIdentifier: boardIdentifierProp, t
     <>
       {shouldShowSnow() && <hr />}
       <div className={`${styles.content} ${shouldShowSnow() ? styles.garland : ''}`}>
-        {((description && description.length > 0) || isInAllView) && (
-          <SubplebbitDescription
-            avatarUrl={suggested?.avatarUrl}
-            subplebbitAddress={subplebbitAddress}
-            createdAt={createdAt}
-            description={description}
-            replyCount={isInAllView ? 0 : rules?.length > 0 ? 1 : 0}
-            shortAddress={shortAddress}
-            title={title}
-          />
-        )}
         {shouldShowErrorToUser && (
           <div className={styles.error}>
             <ErrorDisplay error={error} />
           </div>
         )}
-        {rules && !description && rules.length > 0 && <SubplebbitRules subplebbitAddress={subplebbitAddress} createdAt={createdAt} rules={rules} />}
         <Virtuoso
           increaseViewportBy={{ bottom: 1200, top: 1200 }}
           totalCount={combinedFeed.length}

@@ -8,7 +8,7 @@ import useSubplebbitsPagesStore from '@plebbit/plebbit-react-hooks/dist/stores/s
 import { getHasThumbnail, getLinkMediaInfo } from '../../lib/utils/media-utils';
 import { formatMarkdown } from '../../lib/utils/post-utils';
 import { isValidURL } from '../../lib/utils/url-utils';
-import { isAllView, isDescriptionView, isModView, isPostPageView, isRulesView, isSubscriptionsView } from '../../lib/utils/view-utils';
+import { isAllView, isModView, isPostPageView, isSubscriptionsView } from '../../lib/utils/view-utils';
 import { useDefaultSubplebbits } from '../../hooks/use-default-subplebbits';
 import { useResolvedSubplebbitAddress } from '../../hooks/use-resolved-subplebbit-address';
 import useFetchGifFirstFrame from '../../hooks/use-fetch-gif-first-frame';
@@ -357,9 +357,7 @@ const PostForm = () => {
   const { t } = useTranslation();
   const location = useLocation();
   const params = useParams();
-  const isInDescriptionView = isDescriptionView(location.pathname, params);
   const isInPostView = isPostPageView(location.pathname, params);
-  const isInRulesView = isRulesView(location.pathname, params);
   const isInAllView = isAllView(location.pathname);
   const isInModView = isModView(location.pathname);
   const isInSubscriptionsView = isSubscriptionsView(location.pathname, params);
@@ -374,7 +372,7 @@ const PostForm = () => {
   }
 
   const { deleted, locked, removed, postCid } = comment || {};
-  const isThreadClosed = deleted || locked || removed || isInDescriptionView || isInRulesView;
+  const isThreadClosed = deleted || locked || removed;
 
   const [showForm, setShowForm] = useState(false);
 

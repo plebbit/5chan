@@ -58,8 +58,7 @@ const PostInfo = ({ post, postReplyCount = 0, roles, isHidden }: PostProps) => {
   const replies = useReplies(post);
   const { address, shortAddress } = author || {};
   const displayName = author?.displayName?.trim();
-  const { isDescription, isRules } = post || {}; // custom properties, not from api
-  const authorRole = roles?.[address]?.role.replace('moderator', 'mod') || (isDescription || isRules ? 'mod' : undefined);
+  const authorRole = roles?.[address]?.role.replace('moderator', 'mod');
   const stateString = useStateString(post);
   const isReply = parentCid;
   const { showOmittedReplies } = useShowOmittedReplies();
@@ -139,66 +138,60 @@ const PostInfo = ({ post, postReplyCount = 0, roles, isHidden }: PostProps) => {
               </span>
             )}{' '}
           </span>
-          {!(isDescription || isRules) && (
-            <>
-              {author?.avatar && !(deleted || removed) && !hideAvatars && avatarImageUrl ? (
-                <span className={styles.authorAvatar}>
-                  <img src={avatarImageUrl} alt='' />
+          {author?.avatar && !(deleted || removed) && !hideAvatars && avatarImageUrl ? (
+            <span className={styles.authorAvatar}>
+              <img src={avatarImageUrl} alt='' />
+            </span>
+          ) : null}
+          (ID:{' '}
+          {deleted ? (
+            t('deleted')
+          ) : removed ? (
+            t('removed')
+          ) : (
+            <Tooltip
+              children={
+                <span
+                  title={t('highlight_posts')}
+                  className={styles.userAddress}
+                  onClick={() => handleUserAddressClick(userID, postCid)}
+                  style={{ backgroundColor: userIDBackgroundColor, color: userIDTextColor }}
+                >
+                  {userID}
                 </span>
-              ) : null}
-              (ID:{' '}
-              {deleted ? (
-                t('deleted')
-              ) : removed ? (
-                t('removed')
-              ) : (
-                <Tooltip
-                  children={
-                    <span
-                      title={t('highlight_posts')}
-                      className={styles.userAddress}
-                      onClick={() => handleUserAddressClick(userID, postCid)}
-                      style={{ backgroundColor: userIDBackgroundColor, color: userIDTextColor }}
-                    >
-                      {userID}
-                    </span>
-                  }
-                  content={`${numberOfPostsByAuthor === 1 ? t('1_post_by_this_id') : t('x_posts_by_this_id', { number: numberOfPostsByAuthor })}`}
-                  showTooltip={isInPostPageView || showOmittedReplies[postCid] || (postReplyCount < 6 && !pinned)}
-                />
-              )}
-              ){' '}
-            </>
+              }
+              content={`${numberOfPostsByAuthor === 1 ? t('1_post_by_this_id') : t('x_posts_by_this_id', { number: numberOfPostsByAuthor })}`}
+              showTooltip={isInPostPageView || showOmittedReplies[postCid] || (postReplyCount < 6 && !pinned)}
+            />
           )}
+          ){' '}
         </span>
         <span className={styles.dateTime}>
-          <Tooltip children={<span>{getFormattedDate(timestamp)}</span>} content={getFormattedTimeAgo(timestamp)} />
-          {isDescription || isRules ? '' : ' '}
+          <Tooltip children={<span>{getFormattedDate(timestamp)}</span>} content={getFormattedTimeAgo(timestamp)} />{' '}
         </span>
         <span className={styles.postNum}>
-          {!(isDescription || isRules) &&
-            (cid ? (
-              <span className={styles.postNumLink}>
-                <Link
-                  to={boardPath ? `/${boardPath}/thread/${cid}` : `/thread/${cid}`}
-                  className={styles.linkToPost}
-                  title={t('link_to_post')}
-                  onClick={(e) => !cid && e.preventDefault()}
-                >
-                  CID:
-                </Link>
-                <span className={styles.replyToPost} title={t('reply_to_post')} onMouseDown={onReplyModalClick}>
-                  {shortCid}
-                </span>
+          {cid ? (
+            <span className={styles.postNumLink}>
+              <Link
+                to={boardPath ? `/${boardPath}/thread/${cid}` : `/thread/${cid}`}
+                className={styles.linkToPost}
+                title={t('link_to_post')}
+                onClick={(e) => !cid && e.preventDefault()}
+              >
+                CID:
+              </Link>
+              <span className={styles.replyToPost} title={t('reply_to_post')} onMouseDown={onReplyModalClick}>
+                {shortCid}
               </span>
-            ) : (
-              <>
-                <span>CID:</span>
-                <span className={styles.pendingCid}>
-                  {state === 'failed' || stateString === 'Failed' ? _.capitalize(t('failed')) : state === 'pending' ? _.capitalize(t('pending')) : ''}
-                </span>
-              </>
-            ))}
+            </span>
+          ) : (
+            <>
+              <span>CID:</span>
+              <span className={styles.pendingCid}>
+                {state === 'failed' || stateString === 'Failed' ? _.capitalize(t('failed')) : state === 'pending' ? _.capitalize(t('pending')) : ''}
+              </span>
+            </>
+          )}
           {pinned && (
             <span className={`${styles.stickyIconWrapper} ${!locked && styles.addPaddingBeforeReply}`}>
               <img src='assets/icons/sticky.gif' alt='' className={styles.stickyIcon} title={t('sticky')} />
@@ -212,16 +205,7 @@ const PostInfo = ({ post, postReplyCount = 0, roles, isHidden }: PostProps) => {
           {!isInPostPageView && !isReply && !isHidden && (
             <span className={styles.replyButton}>
               [
-              <Link
-                to={
-                  isInAllView && isDescription
-                    ? '/all/description'
-                    : boardPath
-                    ? `/${boardPath}/${isDescription ? 'description' : isRules ? 'rules' : `thread/${postCid}`}`
-                    : `/${isDescription ? 'description' : isRules ? 'rules' : `thread/${postCid}`}`
-                }
-                onClick={(e) => !cid && !isDescription && !isRules && e.preventDefault()}
-              >
+              <Link to={boardPath ? `/${boardPath}/thread/${postCid}` : `/thread/${postCid}`} onClick={(e) => !cid && e.preventDefault()}>
                 {_.capitalize(t('reply'))}
               </Link>
               ]
@@ -246,8 +230,6 @@ const PostInfo = ({ post, postReplyCount = 0, roles, isHidden }: PostProps) => {
 interface PostMediaProps {
   commentMediaInfo: CommentMediaInfo | undefined;
   hasThumbnail: boolean;
-  isDescription: boolean;
-  isRules: boolean;
   spoiler: boolean;
   deleted: boolean;
   removed: boolean;
@@ -262,8 +244,6 @@ interface PostMediaProps {
 const PostMedia = ({
   commentMediaInfo,
   hasThumbnail,
-  isDescription,
-  isRules,
   spoiler,
   deleted,
   removed,
@@ -330,14 +310,11 @@ const PostMedia = ({
           <CommentMedia
             commentMediaInfo={commentMediaInfo}
             deleted={deleted}
-            isDescription={isDescription}
-            isRules={isRules}
             removed={removed}
             linkHeight={linkHeight}
             linkWidth={linkWidth}
             showThumbnail={showThumbnail}
             setShowThumbnail={setShowThumbnail}
-            isOutOfFeed={isDescription || isRules}
             parentCid={parentCid}
             spoiler={spoiler}
           />
@@ -356,7 +333,6 @@ const Reply = ({ postReplyCount, reply, roles }: PostProps) => {
   }
 
   const { author, cid, deleted, link, linkHeight, linkWidth, postCid, reason, removed, spoiler, subplebbitAddress, thumbnailUrl, parentCid } = post || {};
-  const { isDescription, isRules } = post || {}; // custom properties, not from api
   const defaultSubplebbits = useDefaultSubplebbits();
   const boardPath = subplebbitAddress ? getBoardPath(subplebbitAddress, defaultSubplebbits) : undefined;
 
@@ -381,8 +357,6 @@ const Reply = ({ postReplyCount, reply, roles }: PostProps) => {
           <PostMedia
             commentMediaInfo={commentMediaInfo}
             hasThumbnail={hasThumbnail}
-            isDescription={isDescription}
-            isRules={isRules}
             spoiler={spoiler}
             deleted={deleted}
             removed={removed}
@@ -403,7 +377,6 @@ const Reply = ({ postReplyCount, reply, roles }: PostProps) => {
 const PostDesktop = ({ post, roles, showAllReplies, showReplies = true }: PostProps) => {
   const { t } = useTranslation();
   const { author, cid, content, deleted, link, linkHeight, linkWidth, pinned, postCid, removed, spoiler, state, subplebbitAddress, thumbnailUrl, parentCid } = post || {};
-  const { isDescription, isRules } = post || {}; // custom properties, not from api
   const params = useParams();
   const location = useLocation();
   const isInPendingPostView = isPendingPostView(location.pathname, params);
@@ -427,17 +400,6 @@ const PostDesktop = ({ post, roles, showAllReplies, showReplies = true }: PostPr
 
   const stateString = useStateString(post) || t('downloading_board');
 
-  const subplebbit = useSubplebbitsStore((state) => state.subplebbits[subplebbitAddress]);
-
-  const subplebbitRulesReply = {
-    isRules: true,
-    subplebbitAddress,
-    timestamp: subplebbit?.createdAt,
-    author: { displayName: _.capitalize(t('anonymous')) },
-    content: `${subplebbit?.rules?.map((rule: string, index: number) => `${index + 1}. ${rule}`).join('\n')}`,
-    replyCount: 0,
-  };
-
   const commentMediaInfo = useCommentMediaInfo(link, thumbnailUrl, linkWidth, linkHeight);
   const hasThumbnail = getHasThumbnail(commentMediaInfo, link);
 
@@ -451,7 +413,7 @@ const PostDesktop = ({ post, roles, showAllReplies, showReplies = true }: PostPr
         <div className={styles.replyQuotePreviewSpacer} />
       )}
       <div className={isHidden ? styles.postDesktopHidden : ''}>
-        {!isInPostPageView && !isDescription && !isRules && showReplies && (
+        {!isInPostPageView && showReplies && (
           <span className={`${styles.hideButtonWrapper} ${!hasThumbnail ? styles.hideButtonWrapperNoImage : ''}`}>
             <span className={`${styles.hideButton} ${hidden ? styles.unhideThread : styles.hideThread}`} onClick={hidden ? unhide : hide} />
           </span>
@@ -462,8 +424,6 @@ const PostDesktop = ({ post, roles, showAllReplies, showReplies = true }: PostPr
             <PostMedia
               commentMediaInfo={commentMediaInfo}
               hasThumbnail={hasThumbnail}
-              isDescription={isDescription}
-              isRules={isRules}
               spoiler={spoiler}
               deleted={deleted}
               removed={removed}
@@ -479,7 +439,7 @@ const PostDesktop = ({ post, roles, showAllReplies, showReplies = true }: PostPr
           {!isHidden && !content && !(deleted || removed) && <div className={styles.spacer} />}
           {!isHidden && <CommentContent comment={post} />}
         </div>
-        {!isHidden && !isDescription && !isRules && !isInPendingPostView && (replyCount > 5 || (pinned && repliesCount > 0)) && !isInPostPageView && (
+        {!isHidden && !isInPendingPostView && (replyCount > 5 || (pinned && repliesCount > 0)) && !isInPostPageView && (
           <span className={styles.summary}>
             <span
               className={`${showOmittedReplies[cid] ? styles.hideOmittedReplies : styles.showOmittedReplies} ${styles.omittedRepliesButtonWrapper}`}
@@ -517,20 +477,8 @@ const PostDesktop = ({ post, roles, showAllReplies, showReplies = true }: PostPr
                 <Reply reply={reply} roles={roles} postReplyCount={replyCount} />
               </div>
             ))}
-        {isDescription && subplebbit?.rules && subplebbit?.rules.length > 0 && (
-          <div className={styles.replyContainer}>
-            <Reply reply={subplebbitRulesReply} />
-          </div>
-        )}
       </div>
-      {!isInPendingPostView &&
-      (!isDescription || (isDescription && !subplebbit?.updatedAt)) &&
-      !isRules &&
-      stateString &&
-      stateString !== 'Failed' &&
-      state !== 'succeeded' &&
-      isInPostPageView &&
-      !(!showReplies && !showAllReplies) ? (
+      {!isInPendingPostView && stateString && stateString !== 'Failed' && state !== 'succeeded' && isInPostPageView && !(!showReplies && !showAllReplies) ? (
         <div className={styles.stateString}>
           <br />
           <LoadingEllipsis string={stateString} />

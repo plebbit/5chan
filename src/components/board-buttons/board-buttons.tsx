@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useAccountComment, useSubscribe } from '@plebbit/plebbit-react-hooks';
 import useSubplebbitsStore from '@plebbit/plebbit-react-hooks/dist/stores/subplebbits';
 import useSubplebbitsPagesStore from '@plebbit/plebbit-react-hooks/dist/stores/subplebbits-pages';
-import { isAllView, isCatalogView, isDescriptionView, isModView, isPendingPostView, isPostPageView, isSubscriptionsView } from '../../lib/utils/view-utils';
+import { isAllView, isCatalogView, isModView, isPendingPostView, isPostPageView, isSubscriptionsView } from '../../lib/utils/view-utils';
 import { useDefaultSubplebbits } from '../../hooks/use-default-subplebbits';
 import { getBoardPath, isDirectoryBoard } from '../../lib/utils/route-utils';
 import { useResolvedSubplebbitAddress } from '../../hooks/use-resolved-subplebbit-address';
@@ -365,23 +365,21 @@ const PostPageStats = () => {
   const { t } = useTranslation();
   const params = useParams();
   const location = useLocation();
-  const isInDescriptionView = isDescriptionView(location.pathname, params);
   const resolvedAddress = useResolvedSubplebbitAddress();
 
   const comment = useSubplebbitsPagesStore((state) => state.comments[params?.commentCid as string]);
   const subplebbit = useSubplebbitsStore((state) => state.subplebbits[resolvedAddress as string]);
 
-  const descriptionReplyCount = location?.pathname.startsWith('/all/') ? 0 : subplebbit?.rules?.length > 0 ? 1 : 0;
   const { closed, pinned, replyCount } = comment || {};
   const linkCount = useCountLinksInReplies(comment);
 
-  const displayReplyCount = replyCount !== undefined ? replyCount.toString() : isInDescriptionView ? descriptionReplyCount : '?';
-  const replyCountTooltip = replyCount !== undefined || isInDescriptionView ? _.capitalize(t('replies')) : t('loading');
+  const displayReplyCount = replyCount !== undefined ? replyCount.toString() : '?';
+  const replyCountTooltip = replyCount !== undefined ? _.capitalize(t('replies')) : t('loading');
 
   return (
     <span>
-      {(pinned || isInDescriptionView) && `${_.capitalize(t('sticky'))} / `}
-      {(closed || isInDescriptionView) && `${_.capitalize(t('closed'))} / `}
+      {pinned && `${_.capitalize(t('sticky'))} / `}
+      {closed && `${_.capitalize(t('closed'))} / `}
       <Tooltip children={displayReplyCount} content={replyCountTooltip} /> / <Tooltip children={linkCount?.toString()} content={_.capitalize(t('links'))} />
     </span>
   );

@@ -34,7 +34,7 @@ interface CatalogPostMediaProps {
   linkHeight?: number;
 }
 
-export const CatalogPostMedia = ({ cid, commentMediaInfo, isOutOfFeed, linkWidth, linkHeight }: CatalogPostMediaProps) => {
+export const CatalogPostMedia = ({ cid, commentMediaInfo, linkWidth, linkHeight }: CatalogPostMediaProps) => {
   const { patternThumbnailUrl, thumbnail, type, url } = commentMediaInfo || {};
   const iframeThumbnail = patternThumbnailUrl || thumbnail;
   const gifFrameUrl = useFetchGifFirstFrame(type === 'gif' ? url : undefined);
@@ -58,7 +58,7 @@ export const CatalogPostMedia = ({ cid, commentMediaInfo, isOutOfFeed, linkWidth
     displayHeight = `${maxThumbnailSize}px`;
   }
 
-  if (type === 'audio' || isOutOfFeed) {
+  if (type === 'audio') {
     displayWidth = 'unset';
     displayHeight = 'unset';
   }
@@ -112,24 +112,7 @@ export const CatalogPostMedia = ({ cid, commentMediaInfo, isOutOfFeed, linkWidth
 
 const CatalogPost = ({ post }: { post: Comment }) => {
   const { t } = useTranslation();
-  const {
-    author,
-    cid,
-    content,
-    isDescription,
-    isRules,
-    link,
-    linkHeight,
-    linkWidth,
-    locked,
-    pinned,
-    replyCount,
-    spoiler,
-    subplebbitAddress,
-    timestamp,
-    title,
-    thumbnailUrl,
-  } = post || {};
+  const { author, cid, content, link, linkHeight, linkWidth, locked, pinned, replyCount, spoiler, subplebbitAddress, timestamp, title, thumbnailUrl } = post || {};
   const linkCount = useCountLinksInReplies(post);
 
   const commentMediaInfo = useCommentMediaInfo(link, thumbnailUrl, linkWidth, linkHeight);
@@ -145,7 +128,7 @@ const CatalogPost = ({ post }: { post: Comment }) => {
   const boardPath = subplebbitAddress ? getBoardPath(subplebbitAddress, defaultSubplebbits) : '';
   const postMenuProps = useMemo(() => selectPostMenuProps(post), [post]);
 
-  const postLink = isInAllView && isDescription ? '/all/description' : `/${boardPath}/${isDescription ? 'description' : isRules ? 'rules' : `thread/${cid}`}`;
+  const postLink = boardPath ? `/${boardPath}/thread/${cid}` : `/thread/${cid}`;
 
   const threadIcons = (
     <div className={styles.threadIcons}>
@@ -236,12 +219,12 @@ const CatalogPost = ({ post }: { post: Comment }) => {
     '--maxHeight': maxHeight,
   } as React.CSSProperties;
 
-  const isTextOnlyThread = !hasThumbnail || isRules;
+  const isTextOnlyThread = !hasThumbnail;
 
   return (
     <>
       <div className={`${styles.post} ${imageSize === 'Large' ? styles.large : ''}`} style={CSSProperties}>
-        <div onMouseOver={() => setHoveredCid(isDescription ? 'd' : isRules ? 'r' : cid)} onMouseLeave={() => setHoveredCid(null)}>
+        <div onMouseOver={() => setHoveredCid(cid)} onMouseLeave={() => setHoveredCid(null)}>
           {hidden ? (
             <Link to={postLink}>
               <span className={styles.hiddenThumbnail} />
@@ -266,13 +249,7 @@ const CatalogPost = ({ post }: { post: Comment }) => {
                   {spoiler ? (
                     <img src='assets/spoiler.png' alt='' />
                   ) : (
-                    <CatalogPostMedia
-                      cid={cid}
-                      commentMediaInfo={commentMediaInfo}
-                      isOutOfFeed={isDescription || isRules}
-                      linkWidth={linkWidth}
-                      linkHeight={linkHeight}
-                    />
+                    <CatalogPostMedia cid={cid} commentMediaInfo={commentMediaInfo} linkWidth={linkWidth} linkHeight={linkHeight} />
                   )}
                 </div>
               </Link>
@@ -295,7 +272,7 @@ const CatalogPost = ({ post }: { post: Comment }) => {
           <div className={styles.postContent}>{(showOPComment || isTextOnlyThread) && (hasThumbnail ? postContent : <Link to={postLink}>{postContent}</Link>)}</div>
         </div>
       </div>
-      {(hoveredCid === cid || isDescription) &&
+      {hoveredCid === cid &&
         showPortal &&
         createPortal(
           <div className={styles.postPreview} ref={refs.setFloating} style={floatingStyles}>
@@ -307,7 +284,7 @@ const CatalogPost = ({ post }: { post: Comment }) => {
             ) : (
               t('posted_by')
             )}{' '}
-            <span className={`${styles.postAuthor} ${(isCatalogPostAuthorMod || isRules || isDescription) && styles.capcode}`}>
+            <span className={`${styles.postAuthor} ${isCatalogPostAuthorMod && styles.capcode}`}>
               {author?.displayName || _.capitalize(t('anonymous'))}
               {isCatalogPostAuthorMod && <span className='capitalize'>{` ## Board ${catalogPostAuthorRole}`}</span>}
             </span>

@@ -51,12 +51,6 @@ export const isCatalogView = (pathname: string, params: ParamsType): boolean => 
   );
 };
 
-export const isDescriptionView = (pathname: string, params: ParamsType): boolean => {
-  const decodedPathname = decodeURIComponent(pathname);
-  const identifier = params.boardIdentifier || params.subplebbitAddress;
-  return pathname === '/all/description' ? true : identifier ? decodedPathname.startsWith(`/${identifier}/description`) : false;
-};
-
 export const isHomeView = (pathname: string): boolean => {
   return pathname === '/';
 };
@@ -70,18 +64,9 @@ export const isPendingPostView = (pathname: string, params: ParamsType): boolean
 };
 
 export const isPostPageView = (pathname: string, params: ParamsType): boolean => {
-  if (isDescriptionView(pathname, params) || isRulesView(pathname, params)) {
-    return true;
-  }
   const decodedPathname = decodeURIComponent(pathname);
   const identifier = params.boardIdentifier || params.subplebbitAddress;
   return identifier && params.commentCid ? decodedPathname.startsWith(`/${identifier}/thread/${params.commentCid}`) : false;
-};
-
-export const isRulesView = (pathname: string, params: ParamsType): boolean => {
-  const decodedPathname = decodeURIComponent(pathname);
-  const identifier = params.boardIdentifier || params.subplebbitAddress;
-  return identifier ? decodedPathname.startsWith(`/${identifier}/rules`) : false;
 };
 
 export const isSettingsView = (pathname: string, params: ParamsType): boolean => {
@@ -89,10 +74,7 @@ export const isSettingsView = (pathname: string, params: ParamsType): boolean =>
   const identifier = boardIdentifier || subplebbitAddress;
   const decodedPathname = decodeURIComponent(pathname);
   return (
-    (identifier && commentCid && decodedPathname === `/${identifier}/thread/${commentCid}/settings`) ||
-    (identifier && decodedPathname === `/${identifier}/description/settings`) ||
-    (identifier && decodedPathname === `/${identifier}/rules/settings`) ||
-    decodedPathname === `/pending/${accountCommentIndex}/settings`
+    (identifier && commentCid && decodedPathname === `/${identifier}/thread/${commentCid}/settings`) || decodedPathname === `/pending/${accountCommentIndex}/settings`
   );
 };
 
@@ -115,11 +97,9 @@ export const isNotFoundView = (pathname: string, params: ParamsType): boolean =>
     !isAllView(pathname) &&
     !isBoardView(pathname, params) &&
     !isCatalogView(pathname, params) &&
-    !isDescriptionView(pathname, params) &&
     !isHomeView(pathname) &&
     !isPendingPostView(pathname, params) &&
     !isPostPageView(pathname, params) &&
-    !isRulesView(pathname, params) &&
     !isSettingsView(pathname, params) &&
     !isSubscriptionsView(pathname, params)
   );

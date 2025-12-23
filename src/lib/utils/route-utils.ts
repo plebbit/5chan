@@ -105,8 +105,6 @@ export const isFeedRoute = (pathname: string): boolean => {
   const normalizedPath = pathname.endsWith('/') ? pathname.slice(0, -1) : pathname;
 
   if (normalizedPath.includes('/thread/')) return false;
-  if (normalizedPath.endsWith('/description')) return false;
-  if (normalizedPath.endsWith('/rules')) return false;
   if (normalizedPath.startsWith('/pending/')) return false;
 
   const pathWithoutSettings = normalizedPath.replace(/\/settings$/, '');
@@ -130,8 +128,6 @@ export const isPostRoute = (pathname: string): boolean => {
   const normalizedPath = pathname.replace(/\/settings$/, '');
 
   if (normalizedPath.includes('/thread/')) return true;
-  if (normalizedPath.endsWith('/description')) return true;
-  if (normalizedPath.endsWith('/rules')) return true;
 
   return false;
 };
@@ -148,10 +144,6 @@ export const getFeedCacheKey = (pathname: string): string | null => {
   if (normalizedPath.includes('/thread/')) {
     const parts = normalizedPath.split('/thread/');
     return parts[0] || null;
-  }
-
-  if (normalizedPath.endsWith('/description') || normalizedPath.endsWith('/rules')) {
-    return normalizedPath.replace(/\/(description|rules)$/, '');
   }
 
   if (normalizedPath.startsWith('/pending/')) {

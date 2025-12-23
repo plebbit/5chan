@@ -55,10 +55,9 @@ const PostInfoAndMedia = ({ post, postReplyCount = 0, roles }: PostProps) => {
   const boardPath = subplebbitAddress ? getBoardPath(subplebbitAddress, defaultSubplebbits) : undefined;
   const isReply = parentCid;
   const title = post?.title?.trim();
-  const { isDescription, isRules } = post || {}; // custom properties, not from api
   const { address, shortAddress } = author || {};
   const displayName = author?.displayName?.trim();
-  const authorRole = roles?.[address]?.role.replace('moderator', 'mod') || (isDescription || isRules ? 'mod' : undefined);
+  const authorRole = roles?.[address]?.role.replace('moderator', 'mod');
   const { imageUrl: avatarImageUrl } = useAuthorAvatar({ author });
   const { hideAvatars } = useAvatarVisibilityStore();
 
@@ -134,37 +133,33 @@ const PostInfoAndMedia = ({ post, postReplyCount = 0, roles }: PostProps) => {
                 </span>
               )}
             </span>
-            {!(isDescription || isRules) && (
-              <>
-                {author?.avatar && !(deleted || removed) && !hideAvatars && avatarImageUrl ? (
-                  <span className={styles.authorAvatar}>
-                    <img src={avatarImageUrl} alt='' />
+            {author?.avatar && !(deleted || removed) && !hideAvatars && avatarImageUrl ? (
+              <span className={styles.authorAvatar}>
+                <img src={avatarImageUrl} alt='' />
+              </span>
+            ) : null}
+            (ID: {''}
+            {removed ? (
+              _.lowerCase(t('removed'))
+            ) : deleted ? (
+              _.lowerCase(t('deleted'))
+            ) : (
+              <Tooltip
+                children={
+                  <span
+                    title={t('highlight_posts')}
+                    className={styles.userAddress}
+                    onClick={() => handleUserAddressClick(userID, postCid)}
+                    style={{ backgroundColor: userIDBackgroundColor, color: userIDTextColor }}
+                  >
+                    {userID}
                   </span>
-                ) : null}
-                (ID: {''}
-                {removed ? (
-                  _.lowerCase(t('removed'))
-                ) : deleted ? (
-                  _.lowerCase(t('deleted'))
-                ) : (
-                  <Tooltip
-                    children={
-                      <span
-                        title={t('highlight_posts')}
-                        className={styles.userAddress}
-                        onClick={() => handleUserAddressClick(userID, postCid)}
-                        style={{ backgroundColor: userIDBackgroundColor, color: userIDTextColor }}
-                      >
-                        {userID}
-                      </span>
-                    }
-                    content={`${numberOfPostsByAuthor === 1 ? t('1_post_by_this_id') : t('x_posts_by_this_id', { number: numberOfPostsByAuthor })}`}
-                    showTooltip={isInPostPageView || postReplyCount < 6}
-                  />
-                )}
-                ){' '}
-              </>
+                }
+                content={`${numberOfPostsByAuthor === 1 ? t('1_post_by_this_id') : t('x_posts_by_this_id', { number: numberOfPostsByAuthor })}`}
+                showTooltip={isInPostPageView || postReplyCount < 6}
+              />
             )}
+            ){' '}
             {pinned && (
               <span className={styles.stickyIconWrapper}>
                 <img src='assets/icons/sticky.gif' alt='' className={styles.stickyIcon} title={t('sticky')} />
@@ -196,29 +191,28 @@ const PostInfoAndMedia = ({ post, postReplyCount = 0, roles }: PostProps) => {
               </div>
             )}
             <Tooltip children={<span>{getFormattedDate(timestamp)}</span>} content={getFormattedTimeAgo(timestamp)} />{' '}
-            {!(isDescription || isRules) &&
-              (cid ? (
-                <span className={styles.postNumLink}>
-                  <Link
-                    to={boardPath ? `/${boardPath}/thread/${cid}` : `/thread/${cid}`}
-                    className={styles.linkToPost}
-                    title={t('link_to_post')}
-                    onClick={(e) => !cid && e.preventDefault()}
-                  >
-                    CID:
-                  </Link>
-                  <span className={styles.replyToPost} title={t('reply_to_post')} onMouseDown={onReplyModalClick}>
-                    {shortCid.slice(0, -4)}
-                  </span>
+            {cid ? (
+              <span className={styles.postNumLink}>
+                <Link
+                  to={boardPath ? `/${boardPath}/thread/${cid}` : `/thread/${cid}`}
+                  className={styles.linkToPost}
+                  title={t('link_to_post')}
+                  onClick={(e) => !cid && e.preventDefault()}
+                >
+                  CID:
+                </Link>
+                <span className={styles.replyToPost} title={t('reply_to_post')} onMouseDown={onReplyModalClick}>
+                  {shortCid.slice(0, -4)}
                 </span>
-              ) : (
-                <>
-                  <span>CID:</span>
-                  <span className={styles.pendingCid}>
-                    {state === 'failed' || stateString === 'Failed' ? _.capitalize(t('failed')) : state === 'pending' ? _.capitalize(t('pending')) : ''}
-                  </span>
-                </>
-              ))}
+              </span>
+            ) : (
+              <>
+                <span>CID:</span>
+                <span className={styles.pendingCid}>
+                  {state === 'failed' || stateString === 'Failed' ? _.capitalize(t('failed')) : state === 'pending' ? _.capitalize(t('pending')) : ''}
+                </span>
+              </>
+            )}
           </span>
         </span>
       </div>
@@ -229,7 +223,6 @@ const PostInfoAndMedia = ({ post, postReplyCount = 0, roles }: PostProps) => {
 
 const PostMediaContent = ({ post, link }: { post: any; link: string }) => {
   const [showThumbnail, setShowThumbnail] = useState(true);
-  const { isDescription, isRules } = post || {}; // custom properties, not from api
   const { thumbnailUrl, linkWidth, linkHeight, spoiler, deleted, removed, parentCid } = post || {};
   const commentMediaInfo = useCommentMediaInfo(link, thumbnailUrl, linkWidth, linkHeight);
   const hasThumbnail = getHasThumbnail(commentMediaInfo, link);
@@ -239,14 +232,11 @@ const PostMediaContent = ({ post, link }: { post: any; link: string }) => {
       <CommentMedia
         commentMediaInfo={commentMediaInfo}
         deleted={deleted}
-        isDescription={isDescription}
-        isRules={isRules}
         removed={removed}
         linkHeight={linkHeight}
         linkWidth={linkWidth}
         showThumbnail={showThumbnail}
         setShowThumbnail={setShowThumbnail}
-        isOutOfFeed={isDescription || isRules}
         parentCid={parentCid}
         spoiler={spoiler}
       />
@@ -310,7 +300,6 @@ const Reply = ({ postReplyCount, reply, roles }: PostProps) => {
 const PostMobile = ({ post, roles, showAllReplies, showReplies = true }: PostProps) => {
   const { t } = useTranslation();
   const { author, cid, pinned, postCid, replyCount, state, subplebbitAddress } = post || {};
-  const { isDescription, isRules } = post || {}; // custom properties, not from api
   const params = useParams();
   const location = useLocation();
   const isInAllView = isAllView(location.pathname);
@@ -325,17 +314,6 @@ const PostMobile = ({ post, roles, showAllReplies, showReplies = true }: PostPro
   const { hidden, unhide } = useHide({ cid });
 
   const stateString = useStateString(post) || t('loading_post');
-
-  const subplebbit = useSubplebbitsStore((state) => state.subplebbits[subplebbitAddress]);
-  const showRules = isDescription && subplebbit?.rules && subplebbit?.rules.length > 0;
-  const subplebbitRulesReply = {
-    isRules: true,
-    subplebbitAddress,
-    timestamp: subplebbit?.createdAt,
-    author: { displayName: _.capitalize(t('anonymous')) },
-    content: `${subplebbit?.rules?.map((rule: string, index: number) => `${index + 1}. ${rule}`).join('\n')}`,
-    replyCount: 0,
-  };
 
   return (
     <>
@@ -373,16 +351,7 @@ const PostMobile = ({ post, roles, showAllReplies, showReplies = true }: PostPro
                     {replyCount > 0 && `${replyCount} Replies`}
                     {linksCount > 0 && ` / ${linksCount} Links`}
                   </span>
-                  <Link
-                    to={
-                      isInAllView && isDescription
-                        ? '/all/description'
-                        : boardPath
-                        ? `/${boardPath}/${isDescription ? 'description' : isRules ? 'rules' : `thread/${cid}`}`
-                        : `/${isDescription ? 'description' : isRules ? 'rules' : `thread/${cid}`}`
-                    }
-                    className='button'
-                  >
+                  <Link to={boardPath ? `/${boardPath}/thread/${cid}` : `/thread/${cid}`} className='button'>
                     {t('view_thread')}
                   </Link>
                 </div>
@@ -400,20 +369,8 @@ const PostMobile = ({ post, roles, showAllReplies, showReplies = true }: PostPro
                     <Reply postReplyCount={replyCount} reply={reply} roles={roles} />
                   </div>
                 ))}
-            {showRules && (
-              <div className={styles.replyContainer}>
-                <Reply reply={subplebbitRulesReply} />
-              </div>
-            )}
           </div>
-          {!isInPendingPostView &&
-          (!isDescription || (isDescription && !subplebbit?.updatedAt)) &&
-          !isRules &&
-          stateString &&
-          stateString !== 'Failed' &&
-          state !== 'succeeded' &&
-          isInPostPageView &&
-          !(!showReplies && !showAllReplies) ? (
+          {!isInPendingPostView && stateString && stateString !== 'Failed' && state !== 'succeeded' && isInPostPageView && !(!showReplies && !showAllReplies) ? (
             <div className={styles.stateString}>
               <LoadingEllipsis string={stateString} />
             </div>
