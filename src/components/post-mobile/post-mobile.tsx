@@ -2,7 +2,6 @@ import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import { Comment, useAuthorAvatar, useEditedComment } from '@plebbit/plebbit-react-hooks';
-import useSubplebbitsStore from '@plebbit/plebbit-react-hooks/dist/stores/subplebbits';
 import Plebbit from '@plebbit/plebbit-js';
 import styles from '../../views/post/post.module.css';
 import { shouldShowSnow } from '../../lib/snow';
@@ -302,7 +301,6 @@ const PostMobile = ({ post, roles, showAllReplies, showReplies = true }: PostPro
   const { author, cid, pinned, postCid, replyCount, state, subplebbitAddress } = post || {};
   const params = useParams();
   const location = useLocation();
-  const isInAllView = isAllView(location.pathname);
   const isInPendingPostView = isPendingPostView(location.pathname, params);
   const isInPostView = isPostPageView(location.pathname, params);
   const defaultSubplebbits = useDefaultSubplebbits();

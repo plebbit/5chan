@@ -58,7 +58,7 @@ const PostPage = () => {
 
   const comment = useComment({ commentCid });
   const subplebbit = useSubplebbit({ subplebbitAddress });
-  const { createdAt, description, rules, shortAddress, suggested, title } = subplebbit || {};
+  const { shortAddress, title } = subplebbit || {};
 
   // if the comment is a reply, return the post comment instead, then the reply will be highlighted in the thread
   const postComment = useComment({ commentCid: comment?.postCid });

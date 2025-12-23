@@ -1,4 +1,4 @@
-import { useLocation, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
 import { useAccountComment, useSubplebbitStats } from '@plebbit/plebbit-react-hooks';
 import useSubplebbitsStore from '@plebbit/plebbit-react-hooks/dist/stores/subplebbits';
@@ -21,8 +21,6 @@ const SubplebbitStats = () => {
   let stats = useSubplebbitStats({ subplebbitAddress: address });
   const { hiddenStats, toggleVisibility } = useSubplebbitStatsVisibilityStore();
   const isHidden = hiddenStats[address];
-
-  const location = useLocation();
 
   const comment = useSubplebbitsPagesStore((state) => state.comments[params?.commentCid as string]);
   const { deleted, locked, removed } = comment || {};

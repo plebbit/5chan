@@ -143,7 +143,7 @@ const Board = ({ feedCacheKey, viewType, boardIdentifier: boardIdentifierProp, t
   }, [filteredComments, reset]);
 
   const subplebbit = useSubplebbit({ subplebbitAddress });
-  const { createdAt, description, error, rules, shortAddress, state, suggested } = subplebbit || {};
+  const { error, shortAddress, state } = subplebbit || {};
   const title = isInAllView ? t('all') : isInSubscriptionsView ? t('subscriptions') : isInModView ? t('mod') : subplebbit?.title;
 
   const { blocked, unblock } = useBlock({ address: subplebbitAddress });

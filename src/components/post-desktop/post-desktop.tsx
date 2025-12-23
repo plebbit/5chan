@@ -2,7 +2,6 @@ import { useMemo, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import { Comment, useAuthorAvatar, useEditedComment } from '@plebbit/plebbit-react-hooks';
-import useSubplebbitsStore from '@plebbit/plebbit-react-hooks/dist/stores/subplebbits';
 import Plebbit from '@plebbit/plebbit-js';
 import styles from '../../views/post/post.module.css';
 import { CommentMediaInfo, getDisplayMediaInfoType, getHasThumbnail, getMediaDimensions } from '../../lib/utils/media-utils';
@@ -70,7 +69,6 @@ const PostInfo = ({ post, postReplyCount = 0, roles, isHidden }: PostProps) => {
 
   const params = useParams();
   const location = useLocation();
-  const isInAllView = isAllView(location.pathname);
   const isInPostPageView = isPostPageView(location.pathname, params);
 
   const userID = address && Plebbit.getShortAddress(address);

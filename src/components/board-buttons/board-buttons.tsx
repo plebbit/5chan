@@ -1,7 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useAccountComment, useSubscribe } from '@plebbit/plebbit-react-hooks';
-import useSubplebbitsStore from '@plebbit/plebbit-react-hooks/dist/stores/subplebbits';
 import useSubplebbitsPagesStore from '@plebbit/plebbit-react-hooks/dist/stores/subplebbits-pages';
 import { isAllView, isCatalogView, isModView, isPendingPostView, isPostPageView, isSubscriptionsView } from '../../lib/utils/view-utils';
 import { useDefaultSubplebbits } from '../../hooks/use-default-subplebbits';
@@ -364,11 +363,8 @@ export const MobileBoardButtons = () => {
 const PostPageStats = () => {
   const { t } = useTranslation();
   const params = useParams();
-  const location = useLocation();
-  const resolvedAddress = useResolvedSubplebbitAddress();
 
   const comment = useSubplebbitsPagesStore((state) => state.comments[params?.commentCid as string]);
-  const subplebbit = useSubplebbitsStore((state) => state.subplebbits[resolvedAddress as string]);
 
   const { closed, pinned, replyCount } = comment || {};
   const linkCount = useCountLinksInReplies(comment);
