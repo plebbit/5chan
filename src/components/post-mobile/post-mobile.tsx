@@ -75,7 +75,7 @@ const PostInfoAndMedia = ({ post, postReplyCount = 0, roles }: PostProps) => {
   const handleUserAddressClick = useAuthorAddressClick();
   const numberOfPostsByAuthor = document.querySelectorAll(`[data-author-address="${shortAddress}"][data-post-cid="${postCid}"]`).length;
 
-  const userID = address && Plebbit.getShortAddress({ address });
+  const userID = address && Plebbit.getShortAddress({ address }); // should not be shortened to less than 12 characters, because users can create unlimited addresses/IDs before authenticating or passing challenges, so if the ID is short enough they can spoof it to troll users with the same ID
   const userIDBackgroundColor = hashStringToColor(userID);
   const userIDTextColor = getTextColorForBackground(userIDBackgroundColor);
 
