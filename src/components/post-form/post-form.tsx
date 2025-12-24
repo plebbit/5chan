@@ -335,7 +335,7 @@ const PostFormTable = ({ closeForm, postCid }: { closeForm: () => void; postCid:
                 {isInModView &&
                   accountSubplebbitAddresses.map((address: string) => (
                     <option key={address} value={address}>
-                      {address && Plebbit.getShortAddress(address)}
+                      {address && Plebbit.getShortAddress({ address })}
                     </option>
                   ))}
                 {isInSubscriptionsView &&

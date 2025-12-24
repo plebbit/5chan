@@ -116,7 +116,7 @@ const CommentContent = ({ comment: post }: { comment: Comment }) => {
           <Tooltip
             children={`(${t('user_banned')})`}
             content={`${t('ban_expires_at', {
-              address: subplebbitAddress && Plebbit.getShortAddress(subplebbitAddress),
+              address: subplebbitAddress && Plebbit.getShortAddress({ address: subplebbitAddress }),
               timestamp: getFormattedDate(commentAuthor?.banExpiresAt),
               interpolation: { escapeValue: false },
             })}${reason ? `. ${_.capitalize(t('reason'))}: "${reason}"` : ''}`}

@@ -71,7 +71,7 @@ const BoardHeader = () => {
             ? shortAddress.endsWith('.eth') || shortAddress.endsWith('.sol')
               ? shortAddress.slice(0, -4)
               : shortAddress
-            : subplebbitAddress && Plebbit.getShortAddress(subplebbitAddress))}
+            : subplebbitAddress && Plebbit.getShortAddress({ address: subplebbitAddress }))}
         {(isOffline || isOnlineStatusLoading) && !isInAllView && !isInSubscriptionsView && !isInModView && (
           <span className={styles.offlineIconWrapper}>
             <Tooltip content={offlineTitle}>

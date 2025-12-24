@@ -75,7 +75,7 @@ const PostInfoAndMedia = ({ post, postReplyCount = 0, roles }: PostProps) => {
   const handleUserAddressClick = useAuthorAddressClick();
   const numberOfPostsByAuthor = document.querySelectorAll(`[data-author-address="${shortAddress}"][data-post-cid="${postCid}"]`).length;
 
-  const userID = address && Plebbit.getShortAddress(address);
+  const userID = address && Plebbit.getShortAddress({ address });
   const userIDBackgroundColor = hashStringToColor(userID);
   const userIDTextColor = getTextColorForBackground(userIDBackgroundColor);
 

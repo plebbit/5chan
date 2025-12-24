@@ -288,7 +288,7 @@ const CatalogPost = ({ post }: { post: Comment }) => {
               {author?.displayName || _.capitalize(t('anonymous'))}
               {isCatalogPostAuthorMod && <span className='capitalize'>{` ## Board ${catalogPostAuthorRole}`}</span>}
             </span>
-            {(isInAllView || isInSubscriptionsView) && subplebbitAddress && ` to p/${Plebbit.getShortAddress(subplebbitAddress)}`}
+            {(isInAllView || isInSubscriptionsView) && subplebbitAddress && ` to p/${Plebbit.getShortAddress({ address: subplebbitAddress })}`}
             <span className={styles.postAgo}> {getFormattedTimeAgo(timestamp)}</span>
             {replyCount > 0 && (
               <div className={styles.postLast}>

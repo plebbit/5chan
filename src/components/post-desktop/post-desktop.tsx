@@ -71,7 +71,7 @@ const PostInfo = ({ post, postReplyCount = 0, roles, isHidden }: PostProps) => {
   const location = useLocation();
   const isInPostPageView = isPostPageView(location.pathname, params);
 
-  const userID = address && Plebbit.getShortAddress(address);
+  const userID = address && Plebbit.getShortAddress({ address });
   const userIDBackgroundColor = hashStringToColor(userID);
   const userIDTextColor = getTextColorForBackground(userIDBackgroundColor);
 
