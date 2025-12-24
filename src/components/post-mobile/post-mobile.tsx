@@ -32,25 +32,8 @@ import { selectPostMenuProps } from '../../lib/utils/post-menu-props';
 const PostInfoAndMedia = ({ post, postReplyCount = 0, roles }: PostProps) => {
   const { t } = useTranslation();
   const defaultSubplebbits = useDefaultSubplebbits();
-  const {
-    author,
-    cid,
-    deleted,
-    link,
-    linkHeight,
-    linkWidth,
-    locked,
-    parentCid,
-    pinned,
-    postCid,
-    reason,
-    removed,
-    shortCid,
-    state,
-    subplebbitAddress,
-    timestamp,
-    thumbnailUrl,
-  } = post || {};
+  const { author, cid, deleted, link, linkHeight, linkWidth, locked, parentCid, pinned, postCid, reason, removed, state, subplebbitAddress, timestamp, thumbnailUrl } =
+    post || {};
   const boardPath = subplebbitAddress ? getBoardPath(subplebbitAddress, defaultSubplebbits) : undefined;
   const isReply = parentCid;
   const title = post?.title?.trim();
@@ -117,7 +100,7 @@ const PostInfoAndMedia = ({ post, postReplyCount = 0, roles }: PostProps) => {
                 )
               ) : (
                 _.capitalize(t('anonymous'))
-              )}
+              )}{' '}
               {!(deleted || removed) && authorRole && (
                 <span className='capitalize'>
                   {' '}
@@ -198,10 +181,10 @@ const PostInfoAndMedia = ({ post, postReplyCount = 0, roles }: PostProps) => {
                   title={t('link_to_post')}
                   onClick={(e) => !cid && e.preventDefault()}
                 >
-                  CID:
+                  No.
                 </Link>
                 <span className={styles.replyToPost} title={t('reply_to_post')} onMouseDown={onReplyModalClick}>
-                  {shortCid.slice(0, -4)}
+                  {post?.number || '?'}
                 </span>
               </span>
             ) : (

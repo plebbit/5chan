@@ -52,7 +52,7 @@ const useShowOmittedReplies = create<ShowOmittedRepliesState>((set) => ({
 
 const PostInfo = ({ post, postReplyCount = 0, roles, isHidden }: PostProps) => {
   const { t } = useTranslation();
-  const { author, cid, deleted, locked, pinned, parentCid, postCid, reason, removed, shortCid, state, subplebbitAddress, timestamp } = post || {};
+  const { author, cid, deleted, locked, pinned, parentCid, postCid, reason, removed, state, subplebbitAddress, timestamp } = post || {};
   const title = post?.title?.trim();
   const replies = useReplies(post);
   const { address, shortAddress } = author || {};
@@ -176,10 +176,10 @@ const PostInfo = ({ post, postReplyCount = 0, roles, isHidden }: PostProps) => {
                 title={t('link_to_post')}
                 onClick={(e) => !cid && e.preventDefault()}
               >
-                CID:
+                No.
               </Link>
               <span className={styles.replyToPost} title={t('reply_to_post')} onMouseDown={onReplyModalClick}>
-                {shortCid}
+                {post?.number || '?'}
               </span>
             </span>
           ) : (
