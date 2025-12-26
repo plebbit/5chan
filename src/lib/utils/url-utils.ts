@@ -17,10 +17,11 @@ export const isValidURL = (url: string) => {
   }
 };
 
-export type ShareLinkType = 'thread';
+export type ShareLinkType = 'thread' | 'catalog';
 
 // Copies a share link to clipboard for a board, thread, description, or rules page
 export function copyShareLinkToClipboard(boardIdentifier: string, linkType: 'thread', cid: string): Promise<void>;
+export function copyShareLinkToClipboard(boardIdentifier: string, linkType: Exclude<ShareLinkType, 'thread'>): Promise<void>;
 export async function copyShareLinkToClipboard(boardIdentifier: string, linkType: ShareLinkType, cid?: string): Promise<void> {
   if (linkType === 'thread') {
     if (!cid) {

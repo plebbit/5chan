@@ -90,7 +90,7 @@ const ImageSearchButtons = ({ url, onClose }: { url: string; onClose: () => void
 
 const HidePostButton = ({ cid, isReply, onClose, postCid }: HideButtonProps) => {
   const { t } = useTranslation();
-  const { hide, hidden, unhide } = useHide({ cid });
+  const { hide, hidden, unhide } = useHide({ cid: cid || '' });
   const isInPostView = isPostPageView(useLocation().pathname, useParams());
 
   return (
@@ -136,8 +136,11 @@ type PostMenuMobileProps = {
 
 const PostMenuMobile = ({ postMenu, editMenuPost }: PostMenuMobileProps) => {
   const { authorAddress, cid, deleted, link, linkHeight, linkWidth, parentCid, postCid, removed, subplebbitAddress, thumbnailUrl } = postMenu || {};
-  const { isAccountMod, isAccountCommentAuthor } = useEditCommentPrivileges({ commentAuthorAddress: authorAddress, subplebbitAddress });
-  const commentMediaInfo = getCommentMediaInfo(link, thumbnailUrl, linkWidth, linkHeight);
+  const { isAccountMod, isAccountCommentAuthor } = useEditCommentPrivileges({
+    commentAuthorAddress: authorAddress || '',
+    subplebbitAddress: subplebbitAddress || '',
+  });
+  const commentMediaInfo = getCommentMediaInfo(link || '', thumbnailUrl || '', linkWidth || 0, linkHeight || 0);
   const { thumbnail, type, url } = commentMediaInfo || {};
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { refs, floatingStyles, context } = useFloating({
