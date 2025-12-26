@@ -71,7 +71,7 @@
     "electron:before:download-ipfs": "node electron/download-ipfs",
     "electron:before:delete-data": "rimraf .plebbit",
     "android:build:icons": "cordova-res android --skip-config --copy --resources /tmp/plebbit-react-android-icons --icon-source ./android/icons/icon.png --splash-source ./android/icons/splash.png --icon-foreground-source ./android/icons/icon-foreground.png --icon-background-source '#ffffee'",
-    "lint": "oxlint --react-plugin src/**/*.{js,ts,tsx}",
+    "lint": "oxlint src/**/*.{js,ts,tsx}",
     "prettier": "oxfmt src/**/*.{js,ts,tsx} electron/**/*.{js,mjs}",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0",
     "android:build": "yarn build && npx cap sync android && npx cap run android",
