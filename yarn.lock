@@ -12184,7 +12184,7 @@ ox@0.10.5:
     abitype "^1.2.3"
     eventemitter3 "5.0.1"
 
-oxfmt@^0.20.0:
+oxfmt@0.20.0:
   version "0.20.0"
   resolved "https://registry.yarnpkg.com/oxfmt/-/oxfmt-0.20.0.tgz#0b8d467b4cc1972fda5cd33e15540cc98943759e"
   integrity sha512-+7f8eV8iaK3tENN/FUVxZM1g78HjPehybN8/+/dvEA1O893Dcvk6O7/Q1wTQOHMD7wvdwWdujKl+Uo8QMiKDrQ==
@@ -12200,7 +12200,7 @@ oxfmt@^0.20.0:
     "@oxfmt/win32-arm64" "0.20.0"
     "@oxfmt/win32-x64" "0.20.0"
 
-oxlint@^1.35.0:
+oxlint@1.35.0:
   version "1.35.0"
   resolved "https://registry.yarnpkg.com/oxlint/-/oxlint-1.35.0.tgz#04a653b70394a4cdea4401a379354e8688f7d281"
   integrity sha512-QDX1aUgaiqznkGfTM2qHwva2wtKqhVoqPSVXrnPz+yLUhlNadikD3QRuRtppHl7WGuy3wG6nKAuR8lash3aWSg==

@@ -71,8 +71,8 @@
     "electron:before:download-ipfs": "node electron/download-ipfs",
     "electron:before:delete-data": "rimraf .plebbit",
     "android:build:icons": "cordova-res android --skip-config --copy --resources /tmp/plebbit-react-android-icons --icon-source ./android/icons/icon.png --splash-source ./android/icons/splash.png --icon-foreground-source ./android/icons/icon-foreground.png --icon-background-source '#ffffee'",
-    "lint": "oxlint --react-plugin {src,electron}/**/*.{js,ts,tsx}",
-    "prettier": "oxfmt {src,electron}/**/*.{js,ts,tsx}",
+    "lint": "oxlint --react-plugin src/**/*.{js,ts,tsx}",
+    "prettier": "oxfmt src/**/*.{js,ts,tsx} electron/**/*.{js,mjs}",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0",
     "android:build": "yarn build && npx cap sync android && npx cap run android",
     "i18n:update": "node scripts/update-translations.js",
@@ -116,8 +116,8 @@
     "isomorphic-fetch": "3.0.0",
     "jsdom": "27.3.0",
     "lint-staged": "12.3.8",
-    "oxfmt": "^0.20.0",
-    "oxlint": "^1.35.0",
+    "oxfmt": "0.20.0",
+    "oxlint": "1.35.0",
     "progress": "2.0.3",
     "react-scan": "0.4.3",
     "stream-browserify": "3.0.0",
@@ -170,7 +170,10 @@
     }
   },
   "lint-staged": {
-    "{src,electron}/**/*.{js,ts,tsx}": [
+    "src/**/*.{js,ts,tsx}": [
+      "oxfmt --write"
+    ],
+    "electron/**/*.{js,mjs}": [
       "oxfmt --write"
     ]
   },
