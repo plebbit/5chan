@@ -44,7 +44,7 @@ const BlockedAddressesSetting = () => {
           <ul className={styles.blockedAddresses}>
             {addressList.map((address: string) => (
               <li key={address} className={styles.blockedAddress}>
-                {address && Plebbit.getShortAddress(address)} <UnblockButton address={address} />
+                {address && Plebbit.getShortAddress({ address })} <UnblockButton address={address} />
               </li>
             ))}
           </ul>

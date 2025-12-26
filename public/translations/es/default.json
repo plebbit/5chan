@@ -299,5 +299,7 @@
   "copy_content_id": "Copiar ID de contenido",
   "delete_avatar": "Eliminar avatar",
   "updates": "Actualizaciones",
-  "downloading_board": "descargando foro"
+  "downloading_board": "descargando foro",
+  "subscriptions_subtitle": "Te has suscrito a {{count}} board",
+  "subscriptions_subtitle_one": "Te has suscrito a {{count}} board"
 }

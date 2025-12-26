@@ -299,5 +299,7 @@
   "copy_content_id": "sao chép ID nội dung",
   "delete_avatar": "Xóa avatar",
   "updates": "Cập nhật",
-  "downloading_board": "đang tải diễn đàn"
+  "downloading_board": "đang tải diễn đàn",
+  "subscriptions_subtitle": "Bạn đã đăng ký {{count}} board",
+  "subscriptions_subtitle_one": "Bạn đã đăng ký {{count}} board"
 }

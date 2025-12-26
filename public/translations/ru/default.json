@@ -299,5 +299,7 @@
   "copy_content_id": "копировать ID контента",
   "delete_avatar": "Удалить аватар",
   "updates": "Обновления",
-  "downloading_board": "загрузка форума"
+  "downloading_board": "загрузка форума",
+  "subscriptions_subtitle": "Вы подписались на {{count}} board",
+  "subscriptions_subtitle_one": "Вы подписались на {{count}} board"
 }

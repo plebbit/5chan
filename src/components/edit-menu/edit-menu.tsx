@@ -32,7 +32,7 @@ const timestampToDays = (timestamp: number) => {
 const EditMenu = ({ post }: { post: Comment }) => {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
-  const { author, cid, content, deleted, isRules, locked, parentCid, pinned, postCid, reason, removed, spoiler, subplebbitAddress } = post || {};
+  const { author, cid, content, deleted, locked, parentCid, pinned, postCid, reason, removed, spoiler, subplebbitAddress } = post || {};
   const [isEditMenuOpen, setIsEditMenuOpen] = useState(false);
   const [isContentEditorOpen, setIsContentEditorOpen] = useState(false);
 
@@ -216,7 +216,7 @@ const EditMenu = ({ post }: { post: Comment }) => {
               setIsEditMenuOpen(!isEditMenuOpen);
             } else {
               setIsEditMenuOpen(false);
-              alert(parentCid || isRules ? t('cannot_edit_reply') : t('cannot_edit_thread'));
+              alert(parentCid ? t('cannot_edit_reply') : t('cannot_edit_thread'));
             }
           }}
           checked={isEditMenuOpen}

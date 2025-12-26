@@ -166,7 +166,7 @@ const TopBarDesktop = () => {
   // Render a subscription link
   const renderSubscription = (address: string, index: number, total: number) => {
     const boardPath = getBoardPath(address, defaultSubplebbits);
-    const displayText = address.endsWith('.eth') || address.endsWith('.sol') ? address : Plebbit.getShortAddress(address);
+    const displayText = address.endsWith('.eth') || address.endsWith('.sol') ? address : Plebbit.getShortAddress({ address });
 
     return (
       <span key={address}>

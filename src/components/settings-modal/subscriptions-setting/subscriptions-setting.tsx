@@ -57,7 +57,7 @@ const SubscriptionsSetting = () => {
           <ul className={styles.subscriptions}>
             {subscriptions?.map((address: string) => (
               <li key={address} className={styles.subscription}>
-                {address && Plebbit.getShortAddress(address)} <SubscriptionButton address={address} />
+                {address && Plebbit.getShortAddress({ address })} <SubscriptionButton address={address} />
               </li>
             ))}
           </ul>

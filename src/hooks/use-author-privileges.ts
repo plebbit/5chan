@@ -8,7 +8,7 @@ interface AuthorPrivilegesProps {
   postCid?: string;
 }
 
-const useAuthorPrivileges = ({ commentAuthorAddress, subplebbitAddress, postCid }: AuthorPrivilegesProps) => {
+const useAuthorPrivileges = ({ commentAuthorAddress, subplebbitAddress }: AuthorPrivilegesProps) => {
   const account = useAccount();
   const accountAuthorAddress = account?.author?.address;
   const subplebbit = useSubplebbitsStore((state) => state.subplebbits[subplebbitAddress]);

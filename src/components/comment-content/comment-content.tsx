@@ -23,7 +23,7 @@ const CommentContent = ({ comment: post }: { comment: Comment }) => {
   const isMobile = useIsMobile();
 
   // TODO: commentAuthor is not yet available outside of editedComment, wait for API to be updated
-  const { cid, content, deleted, edit, isRules, original, parentCid, postCid, reason, removed, state } = post || {};
+  const { cid, content, deleted, edit, original, parentCid, postCid, reason, removed, state } = post || {};
   // const banned = !!post?.commentAuthor?.banExpiresAt;
 
   const [showFullComment, setShowFullComment] = useState(false);
@@ -45,7 +45,7 @@ const CommentContent = ({ comment: post }: { comment: Comment }) => {
   const loadingString = <div className={styles.stateString}>{stateString !== 'Failed' ? <LoadingEllipsis string={stateString || t('loading')} /> : stateString}</div>;
 
   return (
-    <blockquote className={`${styles.postMessage} ${!isReply && isMobile && styles.clampLines} ${isRules && styles.rulesMessage}`}>
+    <blockquote className={`${styles.postMessage} ${!isReply && isMobile && styles.clampLines}`}>
       {isReply && state !== 'failed' && isReplyingToReply && !(deleted || removed) && <ReplyQuotePreview isQuotelinkReply={true} quotelinkReply={quotelinkReply} />}
       {removed ? (
         reason ? (
@@ -116,7 +116,7 @@ const CommentContent = ({ comment: post }: { comment: Comment }) => {
           <Tooltip
             children={`(${t('user_banned')})`}
             content={`${t('ban_expires_at', {
-              address: subplebbitAddress && Plebbit.getShortAddress(subplebbitAddress),
+              address: subplebbitAddress && Plebbit.getShortAddress({ address: subplebbitAddress }),
               timestamp: getFormattedDate(commentAuthor?.banExpiresAt),
               interpolation: { escapeValue: false },
             })}${reason ? `. ${_.capitalize(t('reason'))}: "${reason}"` : ''}`}

@@ -2,10 +2,8 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { resolve } from 'path';
 import { nodePolyfills } from 'vite-plugin-node-polyfills';
-import eslint from 'vite-plugin-eslint';
 import { VitePWA } from 'vite-plugin-pwa';
 import reactScan from '@react-scan/vite-plugin-react-scan';
-import { reactGrab } from 'react-grab/plugins/vite';
 
 const isProduction = process.env.NODE_ENV === 'production';
 const isDevelopment = process.env.NODE_ENV === 'development';
@@ -25,16 +23,6 @@ export default defineConfig({
     (isDevelopment || (!isProduction && process.env.NODE_ENV !== 'production')) && reactScan({
       showToolbar: true,
       playSound: true,
-    }),
-    // Only include React Grab in development mode - never in production builds
-    (isDevelopment || (!isProduction && process.env.NODE_ENV !== 'production')) && reactGrab(),
-    !isProduction && eslint({
-      lintOnStart: true,
-      overrideConfigFile: './.eslintrc.cjs',
-      failOnError: false,
-      failOnWarning: false,
-      cache: true,
-      include: ['src/**/*.ts', 'src/**/*.tsx', 'src/**/*.js', 'src/**/*.jsx'],
     }),
     nodePolyfills({
       globals: {
@@ -61,7 +49,7 @@ export default defineConfig({
       manifest: {
         name: '5chan',
         short_name: '5chan',
-        description: 'A GUI for plebbit similar to 4chan',
+        description: 'A serverless, adminless, decentralized 4chan alternative',
         theme_color: '#ffffff',
         background_color: '#ffffee',
         display: 'standalone',
@@ -164,6 +152,8 @@ export default defineConfig({
       'stream': 'stream-browserify',
       'crypto': 'crypto-browserify',
       'buffer': 'buffer',
+      'util/': 'util',
+      'util': 'util',
     },
   },
   server: {
@@ -180,36 +170,30 @@ export default defineConfig({
     outDir: 'dist',
     emptyOutDir: true,
     sourcemap: process.env.GENERATE_SOURCEMAP === 'true',
-    target: process.env.ELECTRON ? 'electron-renderer' : 'modules',
+    target: process.env.ELECTRON ? 'electron-renderer' : 'esnext',
     rollupOptions: {
       output: {
-        manualChunks: {
-          vendor: ['react', 'react-dom', 'react-router-dom', 'react-i18next', 'i18next', 'i18next-browser-languagedetector', 'i18next-http-backend']
+        manualChunks(id) {
+          if (/[\\/]node_modules[\\/](react|react-dom|react-router-dom|react-i18next|i18next|i18next-browser-languagedetector|i18next-http-backend)[\\/]/.test(id)) {
+            return 'vendor';
+          }
         }
       }
     }
   },
   base: process.env.PUBLIC_URL || '/',
   optimizeDeps: {
-    esbuildOptions: {
-      target: 'es2020',
-      define: {
-        global: 'globalThis',
-      },
-    },
     include: [
       'ethers',
       'assert',
       'buffer',
       'process',
+      'util',
       'stream-browserify',
       'isomorphic-fetch',
       'workbox-core',
       'workbox-precaching'
     ],
-  },
-  esbuild: {
-    target: 'es2020'
   },
   define: {
     'process.env.VITE_COMMIT_REF': JSON.stringify(process.env.COMMIT_REF),

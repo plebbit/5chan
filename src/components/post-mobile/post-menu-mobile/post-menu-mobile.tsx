@@ -35,7 +35,11 @@ const CopyLinkButton = ({ cid, subplebbitAddress, linkType, onClose }: CopyLinkB
     <div
       onClick={async () => {
         try {
-          await copyShareLinkToClipboard(boardIdentifier, linkType, cid);
+          if (linkType === 'thread') {
+            await copyShareLinkToClipboard(boardIdentifier, linkType, cid);
+          } else {
+            await copyShareLinkToClipboard(boardIdentifier, linkType);
+          }
         } catch (error) {
           console.error('Failed to copy share link', error);
         } finally {
@@ -86,7 +90,7 @@ const ImageSearchButtons = ({ url, onClose }: { url: string; onClose: () => void
 
 const HidePostButton = ({ cid, isReply, onClose, postCid }: HideButtonProps) => {
   const { t } = useTranslation();
-  const { hide, hidden, unhide } = useHide({ cid });
+  const { hide, hidden, unhide } = useHide({ cid: cid || '' });
   const isInPostView = isPostPageView(useLocation().pathname, useParams());
 
   return (
@@ -131,10 +135,12 @@ type PostMenuMobileProps = {
 };
 
 const PostMenuMobile = ({ postMenu, editMenuPost }: PostMenuMobileProps) => {
-  const { authorAddress, cid, deleted, isDescription, isRules, link, linkHeight, linkWidth, parentCid, postCid, removed, subplebbitAddress, thumbnailUrl } =
-    postMenu || {};
-  const { isAccountMod, isAccountCommentAuthor } = useEditCommentPrivileges({ commentAuthorAddress: authorAddress, subplebbitAddress });
-  const commentMediaInfo = getCommentMediaInfo(link, thumbnailUrl, linkWidth, linkHeight);
+  const { authorAddress, cid, deleted, link, linkHeight, linkWidth, parentCid, postCid, removed, subplebbitAddress, thumbnailUrl } = postMenu || {};
+  const { isAccountMod, isAccountCommentAuthor } = useEditCommentPrivileges({
+    commentAuthorAddress: authorAddress || '',
+    subplebbitAddress: subplebbitAddress || '',
+  });
+  const commentMediaInfo = getCommentMediaInfo(link || '', thumbnailUrl || '', linkWidth || 0, linkHeight || 0);
   const { thumbnail, type, url } = commentMediaInfo || {};
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { refs, floatingStyles, context } = useFloating({
@@ -151,7 +157,7 @@ const PostMenuMobile = ({ postMenu, editMenuPost }: PostMenuMobileProps) => {
   const headingId = useId();
 
   const handleMenuClick = () => {
-    if (cid || isDescription || isRules) {
+    if (cid) {
       setIsMenuOpen((prev) => !prev);
     }
   };
@@ -168,17 +174,15 @@ const PostMenuMobile = ({ postMenu, editMenuPost }: PostMenuMobileProps) => {
             ...
           </span>
           {isMenuOpen &&
-            (cid || isDescription || isRules) &&
+            cid &&
             createPortal(
               <FloatingFocusManager context={context} modal={false}>
                 <div className={styles.postMenu} ref={refs.setFloating} style={floatingStyles} aria-labelledby={headingId} {...getFloatingProps()}>
                   {cid && subplebbitAddress && <CopyLinkButton cid={cid} subplebbitAddress={subplebbitAddress} linkType='thread' onClose={handleClose} />}
                   {cid && <CopyContentIdButton cid={cid} onClose={handleClose} />}
-                  {!cid && isDescription && subplebbitAddress && <CopyLinkButton subplebbitAddress={subplebbitAddress} linkType='description' onClose={handleClose} />}
-                  {!cid && isRules && subplebbitAddress && <CopyLinkButton subplebbitAddress={subplebbitAddress} linkType='rules' onClose={handleClose} />}
                   {cid && subplebbitAddress && <HidePostButton cid={cid} isReply={!!parentCid} postCid={postCid} onClose={handleClose} />}
-                  {cid && subplebbitAddress && !isDescription && !isRules && authorAddress && <BlockUserButton address={authorAddress} />}
-                  {cid && subplebbitAddress && !isInBoardView && !isDescription && !isRules && <BlockBoardButton address={subplebbitAddress} />}
+                  {cid && subplebbitAddress && authorAddress && <BlockUserButton address={authorAddress} />}
+                  {cid && subplebbitAddress && !isInBoardView && <BlockBoardButton address={subplebbitAddress} />}
                   {link && isValidURL(link) && (type === 'image' || type === 'gif' || thumbnail) && url && <ImageSearchButtons url={url} onClose={handleClose} />}
                 </div>
               </FloatingFocusManager>,

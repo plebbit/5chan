@@ -13,8 +13,6 @@ interface MediaProps {
   deleted?: boolean;
   displayHeight?: string;
   displayWidth?: string;
-  isDescription?: boolean;
-  isRules?: boolean;
   isFloatingEmbed?: boolean;
   isOutOfFeed?: boolean;
   isReply?: boolean;
@@ -204,9 +202,7 @@ const Image = ({ commentMediaInfo, displayHeight, displayWidth, isOutOfFeed, par
 const CommentMedia = ({
   commentMediaInfo,
   deleted,
-  isDescription,
   isFloatingEmbed,
-  isRules,
   linkHeight,
   linkWidth,
   parentCid,
@@ -251,7 +247,7 @@ const CommentMedia = ({
     displayWidth = '100%';
     displayHeight = '100%';
   }
-  const isOutOfFeed = isDescription || isRules || isFloatingEmbed || spoiler || false; // virtuoso wrapper unneeded
+  const isOutOfFeed = isFloatingEmbed || spoiler || false; // virtuoso wrapper unneeded
 
   return (
     <span className={styles.content}>

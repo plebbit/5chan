@@ -1,10 +1,9 @@
-import { useLocation, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
 import { useAccountComment, useSubplebbitStats } from '@plebbit/plebbit-react-hooks';
 import useSubplebbitsStore from '@plebbit/plebbit-react-hooks/dist/stores/subplebbits';
 import useSubplebbitsPagesStore from '@plebbit/plebbit-react-hooks/dist/stores/subplebbits-pages';
 import useSubplebbitStatsVisibilityStore from '../../stores/use-subplebbit-stats-visibility-store';
-import { isDescriptionView, isRulesView } from '../../lib/utils/view-utils';
 import { useResolvedSubplebbitAddress } from '../../hooks/use-resolved-subplebbit-address';
 import styles from './subplebbit-stats.module.css';
 
@@ -23,13 +22,9 @@ const SubplebbitStats = () => {
   const { hiddenStats, toggleVisibility } = useSubplebbitStatsVisibilityStore();
   const isHidden = hiddenStats[address];
 
-  const location = useLocation();
-  const isInDescriptionView = isDescriptionView(location.pathname, params);
-  const isInRulesView = isRulesView(location.pathname, params);
-
   const comment = useSubplebbitsPagesStore((state) => state.comments[params?.commentCid as string]);
   const { deleted, locked, removed } = comment || {};
-  const hideStats = deleted || locked || removed || isInDescriptionView || isInRulesView;
+  const hideStats = deleted || locked || removed;
 
   const unixToMMDDYYYY = (timestamp: number) => {
     const date = new Date(timestamp * 1000);

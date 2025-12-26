@@ -1,34 +1,17 @@
 import { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useLocation } from 'react-router-dom';
 import { useAccountComments, Subplebbit } from '@plebbit/plebbit-react-hooks';
 import useInterfaceSettingsStore from '../stores/use-interface-settings-store';
 import { getCommentMediaInfo, getHasThumbnail } from '../lib/utils/media-utils';
-import { isAllView } from '../lib/utils/view-utils';
-import { useMultisubMetadata } from './use-default-subplebbits';
-import _ from 'lodash';
-import useCatalogFiltersStore from '../stores/use-catalog-filters-store';
 
 const useCatalogFeedRows = (columnCount: number, feed: any, isFeedLoaded: boolean, subplebbit: Subplebbit) => {
-  const { t } = useTranslation();
-  const { address, createdAt, description, rules, shortAddress, suggested, title } = subplebbit || {};
-  const { avatarUrl } = suggested || {};
+  const { address } = subplebbit || {};
   const { hideThreadsWithoutImages } = useInterfaceSettingsStore();
 
-  const location = useLocation();
-  const isInAllView = isAllView(location.pathname);
-  const multisub = useMultisubMetadata();
-
   const { accountComments } = useAccountComments();
-  const { searchText } = useCatalogFiltersStore();
 
   const feedWithFakePostsOnTop = useMemo(() => {
     if (!isFeedLoaded) {
-      return []; // prevent rules and description from appearing while feed is loading
-    }
-
-    if (!description && !rules && !isInAllView) {
-      return feed;
+      return []; // prevent temporary/mock posts from appearing while the actual feed is loading
     }
 
     const _feed = [...feed];
@@ -65,53 +48,8 @@ const useCatalogFeedRows = (columnCount: number, feed: any, isFeedLoaded: boolea
       );
     }
 
-    // add subplebbit description and rules as fake posts at the top of the feed
-    if (description && description.length > 0 && !searchText) {
-      _feed.unshift({
-        isDescription: true,
-        subplebbitAddress: address,
-        timestamp: createdAt,
-        author: { displayName: `## ${t('board_mods')}` },
-        content: isInAllView ? multisub?.description : description,
-        link: avatarUrl,
-        title: t('welcome_to_board', { board: isInAllView ? multisub?.title : title || `p/${shortAddress}`, interpolation: { escapeValue: false } }),
-        pinned: true,
-        locked: true,
-      });
-    }
-
-    // rules are shown in description thread if both are set
-    if (rules && rules.length > 0 && !description && !searchText) {
-      _feed.unshift({
-        isRules: true,
-        subplebbitAddress: address,
-        timestamp: createdAt,
-        author: { displayName: `## ${t('board_mods')}` },
-        content: rules.map((rule: string, index: number) => `${index + 1}. ${rule}`).join('\n'),
-        title: _.capitalize(t('rules')),
-        pinned: true,
-        locked: true,
-      });
-    }
-
     return _feed;
-  }, [
-    accountComments,
-    feed,
-    description,
-    rules,
-    address,
-    isFeedLoaded,
-    createdAt,
-    title,
-    shortAddress,
-    avatarUrl,
-    t,
-    isInAllView,
-    multisub,
-    hideThreadsWithoutImages,
-    searchText,
-  ]);
+  }, [accountComments, feed, address, isFeedLoaded, hideThreadsWithoutImages]);
 
   const rows = useMemo(() => {
     const rows = [];

@@ -53,11 +53,6 @@ const useReplies = (comment: Comment) => {
     });
   }, [flattenedReplies, accountRepliesNotYetPublished]);
 
-  // if the comment is a fake comment for description or rules, return an empty array
-  if (comment?.isDescription || comment?.isRules) {
-    return [];
-  }
-
   return repliesAndNotYetPublishedReplies;
 };
 

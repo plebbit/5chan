@@ -299,5 +299,7 @@
   "copy_content_id": "kopyahin ang content ID",
   "delete_avatar": "Tanggalin ang avatar",
   "updates": "Mga Update",
-  "downloading_board": "nagda-download ng board"
+  "downloading_board": "nagda-download ng board",
+  "subscriptions_subtitle": "Nag-subscribe ka sa {{count}} na board",
+  "subscriptions_subtitle_one": "Nag-subscribe ka sa {{count}} na board"
 }

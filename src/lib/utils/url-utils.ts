@@ -17,11 +17,11 @@ export const isValidURL = (url: string) => {
   }
 };
 
-export type ShareLinkType = 'thread' | 'description' | 'rules';
+export type ShareLinkType = 'thread' | 'catalog';
 
 // Copies a share link to clipboard for a board, thread, description, or rules page
 export function copyShareLinkToClipboard(boardIdentifier: string, linkType: 'thread', cid: string): Promise<void>;
-export function copyShareLinkToClipboard(boardIdentifier: string, linkType: Exclude<ShareLinkType, 'thread'>, cid?: undefined): Promise<void>;
+export function copyShareLinkToClipboard(boardIdentifier: string, linkType: Exclude<ShareLinkType, 'thread'>): Promise<void>;
 export async function copyShareLinkToClipboard(boardIdentifier: string, linkType: ShareLinkType, cid?: string): Promise<void> {
   if (linkType === 'thread') {
     if (!cid) {
@@ -71,12 +71,10 @@ export const is5chanLink = (url: string): boolean => {
     // - /{boardIdentifier} (directory code or address)
     // - /{boardIdentifier}/thread/{commentCid}
     // - /{boardIdentifier}/catalog
-    // - /{boardIdentifier}/description
-    // - /{boardIdentifier}/rules
     // - /all, /subs, /mod, /pending/{index}
     return (
       /^\/p\/[^/]+(\/c\/[^/]+)?$/.test(routePath) ||
-      /^\/[^/]+(\/thread\/[^/]+|\/catalog|\/description|\/rules)?$/.test(routePath) ||
+      /^\/[^/]+(\/thread\/[^/]+|\/catalog)?$/.test(routePath) ||
       /^\/(all|subscriptions|mod)(\/catalog|\/thread\/[^/]+)?(\/[^/]+)?$/.test(routePath) ||
       /^\/pending\/[^/]+$/.test(routePath)
     );

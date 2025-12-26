@@ -45,7 +45,7 @@ const BoardHeader = () => {
 
   const account = useAccount() || {};
   const subscriptions = account?.subscriptions || [];
-  const subscriptionsSubtitle = subscriptions?.length === 1 ? `${subscriptions?.length} subscription` : `${subscriptions?.length} subscriptions`;
+  const subscriptionsSubtitle = t('subscriptions_subtitle', { count: subscriptions?.length || 0 });
 
   const title = isInAllView
     ? multisubMetadata?.title || '/all/ - 5chan Directories'
@@ -71,7 +71,7 @@ const BoardHeader = () => {
             ? shortAddress.endsWith('.eth') || shortAddress.endsWith('.sol')
               ? shortAddress.slice(0, -4)
               : shortAddress
-            : subplebbitAddress && Plebbit.getShortAddress(subplebbitAddress))}
+            : subplebbitAddress && Plebbit.getShortAddress({ address: subplebbitAddress }))}
         {(isOffline || isOnlineStatusLoading) && !isInAllView && !isInSubscriptionsView && !isInModView && (
           <span className={styles.offlineIconWrapper}>
             <Tooltip content={offlineTitle}>

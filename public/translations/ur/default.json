@@ -299,5 +299,7 @@
   "copy_content_id": "مواد کی شناخت کاپی کریں",
   "delete_avatar": "اوتار حذف کریں",
   "updates": "اپڈیٹس",
-  "downloading_board": "فورم ڈاؤن لوڈ ہو رہا ہے"
+  "downloading_board": "فورم ڈاؤن لوڈ ہو رہا ہے",
+  "subscriptions_subtitle": "آپ نے {{count}} board کی سبسکرپشن لی ہے",
+  "subscriptions_subtitle_one": "آپ نے {{count}} board کی سبسکرپشن لی ہے"
 }

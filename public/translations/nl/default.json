@@ -299,5 +299,7 @@
   "copy_content_id": "kopieer inhoud-ID",
   "delete_avatar": "Avatar verwijderen",
   "updates": "Updates",
-  "downloading_board": "board downloaden"
+  "downloading_board": "board downloaden",
+  "subscriptions_subtitle": "Je bent geabonneerd op {{count}} board",
+  "subscriptions_subtitle_one": "Je bent geabonneerd op {{count}} board"
 }

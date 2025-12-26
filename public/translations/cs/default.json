@@ -299,5 +299,7 @@
   "copy_content_id": "kopírovat ID obsahu",
   "delete_avatar": "Smazat avatar",
   "updates": "Aktualizace",
-  "downloading_board": "stahování fóra"
+  "downloading_board": "stahování fóra",
+  "subscriptions_subtitle": "Přihlásili jste se k {{count}} boardu",
+  "subscriptions_subtitle_one": "Přihlásili jste se k {{count}} boardu"
 }

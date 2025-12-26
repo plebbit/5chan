@@ -299,5 +299,7 @@
   "copy_content_id": "కంటెంట్ ID కాపీ చేయండి",
   "delete_avatar": "అవతార్ను తొలగించు",
   "updates": "నవీకరణలు",
-  "downloading_board": "ఫోరం డౌన్‌లోడ్ చేయడం"
+  "downloading_board": "ఫోరం డౌన్‌లోడ్ చేయడం",
+  "subscriptions_subtitle": "మీరు {{count}} boardకు సభ్యత్వం పొందారు",
+  "subscriptions_subtitle_one": "మీరు {{count}} boardకు సభ్యత్వం పొందారు"
 }

@@ -299,5 +299,7 @@
   "copy_content_id": "העתק מזהה תוכן",
   "delete_avatar": "מחק אווטר",
   "updates": "עדכונים",
-  "downloading_board": "מוריד פורום"
+  "downloading_board": "מוריד פורום",
+  "subscriptions_subtitle": "נרשמת ל-{{count}} board",
+  "subscriptions_subtitle_one": "נרשמת ל-board אחד"
 }

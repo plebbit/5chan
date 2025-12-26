@@ -27,7 +27,11 @@ const CopyLinkButton = ({ cid, subplebbitAddress, linkType, onClose }: CopyLinkB
     <div
       onClick={async () => {
         try {
-          await copyShareLinkToClipboard(boardIdentifier, linkType, cid);
+          if (linkType === 'thread') {
+            await copyShareLinkToClipboard(boardIdentifier, linkType, cid);
+          } else {
+            await copyShareLinkToClipboard(boardIdentifier, linkType);
+          }
         } catch (error) {
           console.error('Failed to copy share link', error);
         } finally {
@@ -120,7 +124,7 @@ type PostMenuDesktopProps = {
 
 const PostMenuDesktop = ({ postMenu }: PostMenuDesktopProps) => {
   const { t } = useTranslation();
-  const { authorAddress, cid, isDescription, isRules, link, thumbnailUrl, linkWidth, linkHeight, postCid, subplebbitAddress } = postMenu || {};
+  const { authorAddress, cid, link, thumbnailUrl, linkWidth, linkHeight, postCid, subplebbitAddress } = postMenu || {};
   const commentMediaInfo = getCommentMediaInfo(link || '', thumbnailUrl || '', linkWidth ?? 0, linkHeight ?? 0);
   const { thumbnail, type, url } = commentMediaInfo || {};
   const [menuBtnRotated, setMenuBtnRotated] = useState(false);
@@ -148,7 +152,7 @@ const PostMenuDesktop = ({ postMenu }: PostMenuDesktopProps) => {
   const headingId = useId();
 
   const handleMenuClick = () => {
-    if (cid || isDescription || isRules) {
+    if (cid) {
       setMenuBtnRotated((prev) => !prev);
     }
   };
@@ -162,21 +166,19 @@ const PostMenuDesktop = ({ postMenu }: PostMenuDesktopProps) => {
           className={isInCatalogView ? styles.postMenuBtnCatalog : styles.postMenuBtn}
           title='Post menu'
           onClick={handleMenuClick}
-          style={{ transform: menuBtnRotated && (cid || isDescription || isRules) ? 'rotate(90deg)' : 'rotate(0deg)' }}
+          style={{ transform: menuBtnRotated && cid ? 'rotate(90deg)' : 'rotate(0deg)' }}
         >
           ▶
         </span>
       </span>
       {menuBtnRotated &&
-        (cid || isDescription || isRules) &&
+        cid &&
         createPortal(
           <FloatingFocusManager context={context} modal={false}>
             <div className={styles.postMenu} ref={refs.setFloating} style={floatingStyles} aria-labelledby={headingId} {...getFloatingProps()}>
               {cid && subplebbitAddress && <CopyLinkButton cid={cid} subplebbitAddress={subplebbitAddress} linkType='thread' onClose={handleClose} />}
               {cid && <CopyContentIdButton cid={cid} onClose={handleClose} />}
-              {!cid && isDescription && subplebbitAddress && <CopyLinkButton subplebbitAddress={subplebbitAddress} linkType='description' onClose={handleClose} />}
-              {!cid && isRules && subplebbitAddress && <CopyLinkButton subplebbitAddress={subplebbitAddress} linkType='rules' onClose={handleClose} />}
-              {!(isInPostPageView && postCid === cid) && !isDescription && !isRules && (
+              {!(isInPostPageView && postCid === cid) && (
                 <div
                   className={styles.postMenuItem}
                   onClick={() => {
@@ -188,8 +190,8 @@ const PostMenuDesktop = ({ postMenu }: PostMenuDesktopProps) => {
                 </div>
               )}
               {link && isValidURL(link) && (type === 'image' || type === 'gif' || thumbnail) && url && <ImageSearchButton url={url} onClose={handleClose} />}
-              {!isDescription && !isRules && authorAddress && <BlockUserButton address={authorAddress} />}
-              {!isDescription && !isRules && (isInAllView || isInSubscriptionsView) && subplebbitAddress && <BlockBoardButton address={subplebbitAddress} />}
+              {authorAddress && <BlockUserButton address={authorAddress} />}
+              {(isInAllView || isInSubscriptionsView) && subplebbitAddress && <BlockBoardButton address={subplebbitAddress} />}
             </div>
           </FloatingFocusManager>,
           document.body,
