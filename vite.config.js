@@ -152,6 +152,8 @@ export default defineConfig({
       'stream': 'stream-browserify',
       'crypto': 'crypto-browserify',
       'buffer': 'buffer',
+      'util/': 'util',
+      'util': 'util',
     },
   },
   server: {
@@ -168,36 +170,30 @@ export default defineConfig({
     outDir: 'dist',
     emptyOutDir: true,
     sourcemap: process.env.GENERATE_SOURCEMAP === 'true',
-    target: process.env.ELECTRON ? 'electron-renderer' : 'modules',
+    target: process.env.ELECTRON ? 'electron-renderer' : 'esnext',
     rollupOptions: {
       output: {
-        manualChunks: {
-          vendor: ['react', 'react-dom', 'react-router-dom', 'react-i18next', 'i18next', 'i18next-browser-languagedetector', 'i18next-http-backend']
+        manualChunks(id) {
+          if (/[\\/]node_modules[\\/](react|react-dom|react-router-dom|react-i18next|i18next|i18next-browser-languagedetector|i18next-http-backend)[\\/]/.test(id)) {
+            return 'vendor';
+          }
         }
       }
     }
   },
   base: process.env.PUBLIC_URL || '/',
   optimizeDeps: {
-    esbuildOptions: {
-      target: 'es2020',
-      define: {
-        global: 'globalThis',
-      },
-    },
     include: [
       'ethers',
       'assert',
       'buffer',
       'process',
+      'util',
       'stream-browserify',
       'isomorphic-fetch',
       'workbox-core',
       'workbox-precaching'
     ],
-  },
-  esbuild: {
-    target: 'es2020'
   },
   define: {
     'process.env.VITE_COMMIT_REF': JSON.stringify(process.env.COMMIT_REF),
