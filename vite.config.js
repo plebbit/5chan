@@ -2,7 +2,6 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { resolve } from 'path';
 import { nodePolyfills } from 'vite-plugin-node-polyfills';
-import eslint from 'vite-plugin-eslint';
 import { VitePWA } from 'vite-plugin-pwa';
 import reactScan from '@react-scan/vite-plugin-react-scan';
 
@@ -24,14 +23,6 @@ export default defineConfig({
     (isDevelopment || (!isProduction && process.env.NODE_ENV !== 'production')) && reactScan({
       showToolbar: true,
       playSound: true,
-    }),
-    !isProduction && eslint({
-      lintOnStart: true,
-      overrideConfigFile: './.eslintrc.cjs',
-      failOnError: false,
-      failOnWarning: false,
-      cache: true,
-      include: ['src/**/*.ts', 'src/**/*.tsx', 'src/**/*.js', 'src/**/*.jsx'],
     }),
     nodePolyfills({
       globals: {
