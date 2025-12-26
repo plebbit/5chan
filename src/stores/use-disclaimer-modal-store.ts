@@ -15,7 +15,7 @@ interface DisclaimerModalState {
 const hasAcceptedDisclaimer = (): boolean => {
   try {
     return localStorage.getItem(DISCLAIMER_ACCEPTED_KEY) === 'true';
-  } catch (error) {
+  } catch {
     return false;
   }
 };

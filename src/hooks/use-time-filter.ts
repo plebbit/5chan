@@ -124,7 +124,7 @@ const useTimeFilter = () => {
   } else if (timeFilterName) {
     try {
       timeFilterSeconds = convertTimeStringToSeconds(timeFilterName);
-    } catch (e) {
+    } catch {
       console.error(`Invalid time filter format: ${timeFilterName}`);
       timeFilterSeconds = undefined;
     }

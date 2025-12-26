@@ -40,7 +40,7 @@ const saveToLocalStorage = (key: string, set: Set<string>) => {
   }
 };
 
-const useTopbarVisibilityStore = create<TopbarVisibilityState>((set, get) => {
+const useTopbarVisibilityStore = create<TopbarVisibilityState>((set, _get) => {
   // Initialize with all directories visible by default
   const allBoardCodes = getAllBoardCodes();
   const defaultVisibleDirectories = new Set(allBoardCodes);

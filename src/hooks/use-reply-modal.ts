@@ -21,7 +21,7 @@ const useReplyModal = () => {
 
   const getSelectedText = () => {
     let text = document.getSelection()?.toString();
-    text && setSelectedText(`>${text}\n`);
+    if (text) setSelectedText(`>${text}\n`);
   };
 
   const openReplyModal = (parentCid: string, postCid: string, subplebbitAddress: string) => {
