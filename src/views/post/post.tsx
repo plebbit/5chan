@@ -87,8 +87,6 @@ const PostPage = () => {
 
   return (
     <div className={styles.content}>
-      {/* TODO: remove this replyCount error once api supports scrolling replies pages */}
-      {replyCount > 60 && <span className={styles.error}>Error: this thread has too many replies, some of them cannot be displayed right now.</span>}
       {shouldShowErrorToUser && (
         <div className={styles.error}>
           <ErrorDisplay error={error} />

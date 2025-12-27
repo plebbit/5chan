@@ -1,6 +1,7 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { Link, useLocation, useNavigationType, useParams } from 'react-router-dom';
+import { Virtuoso, VirtuosoHandle, StateSnapshot } from 'react-virtuoso';
 import { Comment, useAuthorAvatar, useEditedComment, useReplies } from '@plebbit/plebbit-react-hooks';
 import Plebbit from '@plebbit/plebbit-js';
 import styles from '../../views/post/post.module.css';
@@ -27,6 +28,9 @@ import { PostProps } from '../../views/post/post';
 import _ from 'lodash';
 import useReplyModalStore from '../../stores/use-reply-modal-store';
 import { selectPostMenuProps } from '../../lib/utils/post-menu-props';
+
+// Store scroll position for replies virtuoso across navigations
+const lastVirtuosoStates: { [key: string]: StateSnapshot } = {};
 
 const PostInfoAndMedia = ({ post, postReplyCount = 0, roles }: PostProps) => {
   const { t } = useTranslation();
@@ -283,17 +287,50 @@ const PostMobile = ({ post, roles, showAllReplies, showReplies = true }: PostPro
   const { author, cid, pinned, postCid, replyCount, state, subplebbitAddress } = post || {};
   const params = useParams();
   const location = useLocation();
+  const navigationType = useNavigationType();
   const isInPendingPostView = isPendingPostView(location.pathname, params);
   const isInPostView = isPostPageView(location.pathname, params);
   const defaultSubplebbits = useDefaultSubplebbits();
   const boardPath = subplebbitAddress ? getBoardPath(subplebbitAddress, defaultSubplebbits) : undefined;
   const linksCount = useCountLinksInReplies(post);
-  const { replies } = useReplies({ comment: post });
+  const { replies, hasMore, loadMore } = useReplies({ comment: post });
 
   const isInPostPageView = isPostPageView(location.pathname, params);
   const { hidden, unhide } = useHide({ cid });
 
   const stateString = useStateString(post) || t('loading_post');
+
+  // Filter out deleted replies with no children for both virtuoso and non-virtuoso rendering
+  const filteredReplies = useMemo(() => (replies || []).filter((reply) => !(reply.deleted && (reply.replyCount === 0 || !reply.replyCount))), [replies]);
+
+  // Virtuoso scroll position management for infinite replies
+  const virtuosoRef = useRef<VirtuosoHandle | null>(null);
+  const virtuosoStateKey = `replies-mobile-${cid}`;
+
+  useEffect(() => {
+    if (!showAllReplies || !isInPostPageView) return;
+
+    const currentKey = virtuosoStateKey;
+    const setLastVirtuosoState = () => {
+      virtuosoRef.current?.getState((snapshot: StateSnapshot) => {
+        if (snapshot?.ranges?.length) {
+          lastVirtuosoStates[currentKey] = snapshot;
+        }
+      });
+    };
+    window.addEventListener('scroll', setLastVirtuosoState);
+    return () => window.removeEventListener('scroll', setLastVirtuosoState);
+  }, [virtuosoStateKey, showAllReplies, isInPostPageView]);
+
+  const lastVirtuosoState = navigationType === 'POP' ? lastVirtuosoStates?.[virtuosoStateKey] : undefined;
+
+  // Footer component for Virtuoso showing loading state
+  const RepliesFooter = () =>
+    hasMore ? (
+      <div className={styles.stateString}>
+        <LoadingEllipsis string={t('loading')} />
+      </div>
+    ) : null;
 
   return (
     <>
@@ -337,18 +374,36 @@ const PostMobile = ({ post, roles, showAllReplies, showReplies = true }: PostPro
                 </div>
               )}
             </div>
+            {/* Virtuoso infinite scroll for post page view with all replies */}
+            {!(pinned && !isInPostView) && showAllReplies && !isInPendingPostView && showReplies && filteredReplies.length > 0 && (
+              <Virtuoso
+                increaseViewportBy={{ bottom: 1200, top: 1200 }}
+                totalCount={filteredReplies.length}
+                data={filteredReplies}
+                itemContent={(index, reply) => (
+                  <div className={styles.replyContainer}>
+                    <Reply postReplyCount={replyCount} reply={reply} roles={roles} />
+                  </div>
+                )}
+                useWindowScroll={true}
+                components={{ Footer: RepliesFooter }}
+                endReached={loadMore}
+                ref={virtuosoRef}
+                restoreStateFrom={lastVirtuosoState}
+                initialScrollTop={lastVirtuosoState?.scrollTop}
+              />
+            )}
+            {/* Non-virtualized rendering for board view (last 5 replies) */}
             {!(pinned && !isInPostView) &&
+              !showAllReplies &&
               !isInPendingPostView &&
               replies &&
               showReplies &&
-              (showAllReplies ? replies : replies.slice(-5))
-                // Don't render deleted replies that have no children (replyCount = 0)
-                .filter((reply) => !(reply.deleted && (reply.replyCount === 0 || !reply.replyCount)))
-                .map((reply, index) => (
-                  <div key={index} className={styles.replyContainer}>
-                    <Reply postReplyCount={replyCount} reply={reply} roles={roles} />
-                  </div>
-                ))}
+              filteredReplies.slice(-5).map((reply, index) => (
+                <div key={index} className={styles.replyContainer}>
+                  <Reply postReplyCount={replyCount} reply={reply} roles={roles} />
+                </div>
+              ))}
           </div>
           {!isInPendingPostView && stateString && stateString !== 'Failed' && state !== 'succeeded' && isInPostPageView && !(!showReplies && !showAllReplies) ? (
             <div className={styles.stateString}>
