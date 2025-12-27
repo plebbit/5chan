@@ -37,10 +37,13 @@ const usePublishPost = ({ subplebbitAddress }: { subplebbitAddress?: string }) =
   const setPublishPostOptions = useCallback(
     (options: Partial<Comment>) => {
       const baseOptions = createBaseOptions();
-      const sanitizedOptions = Object.entries(options).reduce((acc, [key, value]) => {
-        acc[key] = value === '' ? undefined : value;
-        return acc;
-      }, {} as Partial<Comment>);
+      const sanitizedOptions = Object.entries(options).reduce(
+        (acc, [key, value]) => {
+          acc[key] = value === '' ? undefined : value;
+          return acc;
+        },
+        {} as Partial<Comment>,
+      );
 
       const newOptions = { ...baseOptions, ...sanitizedOptions };
       setPublishPostStore(newOptions);

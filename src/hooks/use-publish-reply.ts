@@ -38,10 +38,13 @@ const usePublishReply = ({ cid, subplebbitAddress, postCid }: { cid: string; sub
   const setPublishReplyOptions = useCallback(
     (options: Partial<Comment>) => {
       const baseOptions = createBaseOptions();
-      const sanitizedOptions = Object.entries(options).reduce((acc, [key, value]) => {
-        acc[key] = value === '' ? undefined : value;
-        return acc;
-      }, {} as Partial<Comment>);
+      const sanitizedOptions = Object.entries(options).reduce(
+        (acc, [key, value]) => {
+          acc[key] = value === '' ? undefined : value;
+          return acc;
+        },
+        {} as Partial<Comment>,
+      );
 
       const newOptions = { ...baseOptions, ...sanitizedOptions };
       setPublishReplyStore(newOptions);
