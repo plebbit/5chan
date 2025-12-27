@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation, useParams } from 'react-router-dom';
-import { Comment, useAuthorAvatar, useEditedComment } from '@plebbit/plebbit-react-hooks';
+import { Comment, useAuthorAvatar, useEditedComment, useReplies } from '@plebbit/plebbit-react-hooks';
 import Plebbit from '@plebbit/plebbit-js';
 import styles from '../../views/post/post.module.css';
 import { shouldShowSnow } from '../../lib/snow';
@@ -16,7 +16,6 @@ import useAuthorAddressClick from '../../hooks/use-author-address-click';
 import { useCommentMediaInfo } from '../../hooks/use-comment-media-info';
 import useCountLinksInReplies from '../../hooks/use-count-links-in-replies';
 import useHide from '../../hooks/use-hide';
-import useReplies from '../../hooks/use-replies';
 import useStateString from '../../hooks/use-state-string';
 import CommentContent from '../comment-content';
 import CommentMedia from '../comment-media';
@@ -72,10 +71,10 @@ const PostInfoAndMedia = ({ post, postReplyCount = 0, roles }: PostProps) => {
         ? alert(t('this_reply_was_deleted'))
         : alert(t('this_thread_was_deleted'))
       : removed
-      ? isReply
-        ? alert(t('this_reply_was_removed'))
-        : alert(t('this_thread_was_removed'))
-      : openReplyModal && openReplyModal(cid, postCid, subplebbitAddress);
+        ? isReply
+          ? alert(t('this_reply_was_removed'))
+          : alert(t('this_thread_was_removed'))
+        : openReplyModal && openReplyModal(cid, postCid, subplebbitAddress);
   };
 
   return (
@@ -228,7 +227,7 @@ const PostMediaContent = ({ post, link }: { post: any; link: string }) => {
 
 const ReplyBacklinks = ({ post }: PostProps) => {
   const { cid, parentCid } = post || {};
-  const replies = useReplies(post);
+  const { replies } = useReplies({ comment: post });
 
   return (
     cid &&
@@ -289,7 +288,7 @@ const PostMobile = ({ post, roles, showAllReplies, showReplies = true }: PostPro
   const defaultSubplebbits = useDefaultSubplebbits();
   const boardPath = subplebbitAddress ? getBoardPath(subplebbitAddress, defaultSubplebbits) : undefined;
   const linksCount = useCountLinksInReplies(post);
-  const replies = useReplies(post);
+  const { replies } = useReplies({ comment: post });
 
   const isInPostPageView = isPostPageView(location.pathname, params);
   const { hidden, unhide } = useHide({ cid });

@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { Link, useLocation, useParams } from 'react-router-dom';
-import { Comment, useAuthorAvatar, useEditedComment } from '@plebbit/plebbit-react-hooks';
+import { Comment, useAuthorAvatar, useEditedComment, useReplies } from '@plebbit/plebbit-react-hooks';
 import Plebbit from '@plebbit/plebbit-js';
 import styles from '../../views/post/post.module.css';
 import { CommentMediaInfo, getDisplayMediaInfoType, getHasThumbnail, getMediaDimensions } from '../../lib/utils/media-utils';
@@ -17,7 +17,6 @@ import { useCommentMediaInfo } from '../../hooks/use-comment-media-info';
 import useCountLinksInReplies from '../../hooks/use-count-links-in-replies';
 import useFetchGifFirstFrame from '../../hooks/use-fetch-gif-first-frame';
 import useHide from '../../hooks/use-hide';
-import useReplies from '../../hooks/use-replies';
 import useStateString from '../../hooks/use-state-string';
 import CommentContent from '../comment-content';
 import CommentMedia from '../comment-media';
@@ -54,7 +53,7 @@ const PostInfo = ({ post, postReplyCount = 0, roles, isHidden }: PostProps) => {
   const { t } = useTranslation();
   const { author, cid, deleted, locked, pinned, parentCid, postCid, reason, removed, state, subplebbitAddress, timestamp } = post || {};
   const title = post?.title?.trim();
-  const replies = useReplies(post);
+  const { replies } = useReplies({ comment: post });
   const { address, shortAddress } = author || {};
   const displayName = author?.displayName?.trim();
   const authorRole = roles?.[address]?.role?.replace('moderator', 'mod');
@@ -88,10 +87,10 @@ const PostInfo = ({ post, postReplyCount = 0, roles, isHidden }: PostProps) => {
         ? alert(t('this_reply_was_deleted'))
         : alert(t('this_thread_was_deleted'))
       : removed
-      ? isReply
-        ? alert(t('this_reply_was_removed'))
-        : alert(t('this_thread_was_removed'))
-      : openReplyModal && openReplyModal(cid, postCid, subplebbitAddress);
+        ? isReply
+          ? alert(t('this_reply_was_removed'))
+          : alert(t('this_thread_was_removed'))
+        : openReplyModal && openReplyModal(cid, postCid, subplebbitAddress);
   };
 
   return (
@@ -387,7 +386,7 @@ const PostDesktop = ({ post, roles, showAllReplies, showReplies = true }: PostPr
   const { hidden, unhide, hide } = useHide({ cid });
   const isHidden = hidden && !isInPostPageView;
 
-  const replies = useReplies(post);
+  const { replies } = useReplies({ comment: post });
   const visiblelinksCount = useCountLinksInReplies(post, 5);
   const totalLinksCount = useCountLinksInReplies(post);
   const replyCount = replies?.length;
