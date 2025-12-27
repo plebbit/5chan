@@ -374,8 +374,8 @@ const PostMobile = ({ post, roles, showAllReplies, showReplies = true }: PostPro
                 </div>
               )}
             </div>
-            {/* Virtuoso infinite scroll for post page view with all replies */}
-            {!(pinned && !isInPostView) && showAllReplies && !isInPendingPostView && showReplies && filteredReplies.length > 0 && (
+            {/* Virtuoso infinite scroll for post page view with more than 25 replies */}
+            {!(pinned && !isInPostView) && showAllReplies && !isInPendingPostView && showReplies && replyCount > 25 && (
               <Virtuoso
                 increaseViewportBy={{ bottom: 1200, top: 1200 }}
                 totalCount={filteredReplies.length}
@@ -393,6 +393,17 @@ const PostMobile = ({ post, roles, showAllReplies, showReplies = true }: PostPro
                 initialScrollTop={lastVirtuosoState?.scrollTop}
               />
             )}
+            {/* Non-virtualized rendering for post page view with 25 or fewer replies */}
+            {!(pinned && !isInPostView) &&
+              showAllReplies &&
+              !isInPendingPostView &&
+              showReplies &&
+              replyCount <= 25 &&
+              filteredReplies.map((reply, index) => (
+                <div key={index} className={styles.replyContainer}>
+                  <Reply postReplyCount={replyCount} reply={reply} roles={roles} />
+                </div>
+              ))}
             {/* Non-virtualized rendering for board view (last 5 replies) */}
             {!(pinned && !isInPostView) &&
               !showAllReplies &&
