@@ -14,7 +14,7 @@ import useCatalogStyleStore from '../../stores/use-catalog-style-store';
 import useFeedResetStore from '../../stores/use-feed-reset-store';
 import useSortingStore from '../../stores/use-sorting-store';
 import useCatalogFiltersStore from '../../stores/use-catalog-filters-store';
-import { getSubplebbitAddress } from '../../lib/utils/route-utils';
+import { getSubplebbitAddress, isDirectoryBoard } from '../../lib/utils/route-utils';
 import CatalogRow from '../../components/catalog-row';
 import LoadingEllipsis from '../../components/loading-ellipsis';
 import styles from './catalog.module.css';
@@ -491,11 +491,21 @@ const Catalog = ({ feedCacheKey, viewType, boardIdentifier: boardIdentifierProp,
 
   useEffect(() => {
     if (!isVisible) return;
-    let documentTitle = title ? title : shortAddress;
-    if (isInAllView) documentTitle = t('all');
-    else if (isInSubscriptionsView) documentTitle = t('subscriptions');
+    const boardIdentifier = params.boardIdentifier || boardIdentifierProp;
+    const isDirectory = boardIdentifier ? isDirectoryBoard(boardIdentifier, defaultSubplebbits) : false;
+
+    let documentTitle: string;
+    if (isInAllView) {
+      documentTitle = t('all');
+    } else if (isInSubscriptionsView) {
+      documentTitle = t('subscriptions');
+    } else if (isDirectory) {
+      documentTitle = `/${boardIdentifier}/`;
+    } else {
+      documentTitle = title ? title : shortAddress || subplebbitAddress || '';
+    }
     document.title = documentTitle + ` - ${t('catalog')} - 5chan`;
-  }, [title, shortAddress, isInAllView, isInSubscriptionsView, t, isVisible]);
+  }, [title, shortAddress, subplebbitAddress, isInAllView, isInSubscriptionsView, t, isVisible, params.boardIdentifier, boardIdentifierProp, defaultSubplebbits]);
 
   // Clear matched filters when component mounts or when subplebbit changes
   useEffect(() => {

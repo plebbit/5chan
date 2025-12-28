@@ -5,6 +5,8 @@ import useSubplebbitsStore from '@plebbit/plebbit-react-hooks/dist/stores/subple
 import { useLocation, useParams } from 'react-router-dom';
 import { isAllView } from '../../lib/utils/view-utils';
 import { useResolvedSubplebbitAddress } from '../../hooks/use-resolved-subplebbit-address';
+import { useDefaultSubplebbits } from '../../hooks/use-default-subplebbits';
+import { isDirectoryBoard } from '../../lib/utils/route-utils';
 import useIsMobile from '../../hooks/use-is-mobile';
 import ErrorDisplay from '../../components/error-display/error-display';
 import PostDesktop from '../../components/post-desktop';
@@ -60,6 +62,7 @@ const PostPage = () => {
   const comment = useComment({ commentCid });
   const subplebbit = useSubplebbit({ subplebbitAddress });
   const { shortAddress, title } = subplebbit || {};
+  const defaultSubplebbits = useDefaultSubplebbits();
 
   // if the comment is a reply, return the post comment instead, then the reply will be highlighted in the thread
   const postComment = useComment({ commentCid: comment?.postCid });
@@ -77,11 +80,22 @@ const PostPage = () => {
   }, []);
 
   useEffect(() => {
-    const boardTitle = title ? title : shortAddress || subplebbitAddress;
+    const boardIdentifier = params.boardIdentifier;
+    const isDirectory = boardIdentifier ? isDirectoryBoard(boardIdentifier, defaultSubplebbits) : false;
+
+    let boardTitle: string;
+    if (isInAllView) {
+      boardTitle = t('all');
+    } else if (isDirectory) {
+      boardTitle = `/${boardIdentifier}/`;
+    } else {
+      boardTitle = title ? title : shortAddress || subplebbitAddress || '';
+    }
+
     const postTitle = post?.title?.slice(0, 30) || post?.content?.slice(0, 30);
-    const postDucumentTitle = (postTitle ? postTitle.trim() + '... - ' : '') + boardTitle + ' - 5chan';
-    document.title = isInAllView ? `${t('all')} - 5chan` : postDucumentTitle;
-  }, [title, shortAddress, subplebbitAddress, post?.title, post?.content, isInAllView, t]);
+    const postTitlePart = postTitle ? ` - ${postTitle.trim()}...` : '';
+    document.title = `${boardTitle}${postTitlePart} - 5chan`;
+  }, [title, shortAddress, subplebbitAddress, post?.title, post?.content, isInAllView, t, params.boardIdentifier, defaultSubplebbits]);
 
   // probably not necessary to show the error to the user if the post loaded successfully
   const shouldShowErrorToUser = post?.error && ((post?.replyCount > 0 && post?.replies?.length === 0) || (post?.state === 'failed' && post?.error));

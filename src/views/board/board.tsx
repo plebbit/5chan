@@ -13,7 +13,7 @@ import useTimeFilter, { timeFilterNameToSeconds } from '../../hooks/use-time-fil
 import useInterfaceSettingsStore from '../../stores/use-interface-settings-store';
 import useFeedResetStore from '../../stores/use-feed-reset-store';
 import useSortingStore from '../../stores/use-sorting-store';
-import { getSubplebbitAddress } from '../../lib/utils/route-utils';
+import { getSubplebbitAddress, isDirectoryBoard } from '../../lib/utils/route-utils';
 import ErrorDisplay from '../../components/error-display/error-display';
 import LoadingEllipsis from '../../components/loading-ellipsis';
 import { Post } from '../post';
@@ -324,9 +324,35 @@ const Board = ({ feedCacheKey, viewType, boardIdentifier: boardIdentifierProp, t
 
   useEffect(() => {
     if (!isVisible) return;
-    const boardTitle = title ? title : shortAddress || subplebbitAddress;
+    const boardIdentifier = params.boardIdentifier || boardIdentifierProp;
+    const isDirectory = boardIdentifier ? isDirectoryBoard(boardIdentifier, defaultSubplebbits) : false;
+
+    let boardTitle: string;
+    if (isInAllView) {
+      boardTitle = t('all');
+    } else if (isInSubscriptionsView) {
+      boardTitle = t('subscriptions');
+    } else if (isInModView) {
+      boardTitle = t('mod');
+    } else if (isDirectory) {
+      boardTitle = `/${boardIdentifier}/`;
+    } else {
+      boardTitle = title ? title : shortAddress || subplebbitAddress || '';
+    }
     document.title = boardTitle + ' - 5chan';
-  }, [title, shortAddress, subplebbitAddress, isVisible]);
+  }, [
+    title,
+    shortAddress,
+    subplebbitAddress,
+    isVisible,
+    params.boardIdentifier,
+    boardIdentifierProp,
+    defaultSubplebbits,
+    isInAllView,
+    isInSubscriptionsView,
+    isInModView,
+    t,
+  ]);
 
   const shouldShowErrorToUser = error?.message && feed.length === 0;
 
