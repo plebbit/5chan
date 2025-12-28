@@ -94,7 +94,7 @@ const PostInfo = ({ post, postReplyCount = 0, roles, isHidden }: PostProps) => {
         ? isReply
           ? alert(t('this_reply_was_removed'))
           : alert(t('this_thread_was_removed'))
-        : openReplyModal && openReplyModal(cid, postCid, subplebbitAddress);
+        : openReplyModal && openReplyModal(cid, post?.number, postCid, subplebbitAddress);
   };
 
   return (

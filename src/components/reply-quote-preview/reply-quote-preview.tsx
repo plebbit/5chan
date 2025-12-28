@@ -144,7 +144,7 @@ const DesktopQuotePreview = ({ backlinkReply, quotelinkReply, isBacklinkReply, i
         onClick={(e) => handleClick(e, backlinkReply?.cid, backlinkReply?.subplebbitAddress)}
       >
         {'>>'}
-        {backlinkReply?.shortCid}
+        {backlinkReply?.number ?? '?'}
       </Link>
       {hoveredCid === backlinkReply?.cid &&
         outOfViewCid === backlinkReply?.cid &&
@@ -172,7 +172,7 @@ const DesktopQuotePreview = ({ backlinkReply, quotelinkReply, isBacklinkReply, i
         onMouseLeave={() => handleMouseLeave(quotelinkReply?.cid)}
         onClick={(e) => handleClick(e, quotelinkReply?.cid, quotelinkReply?.subplebbitAddress)}
       >
-        {quotelinkReply?.shortCid && `>>${quotelinkReply?.shortCid}`}
+        {`>>${quotelinkReply?.number ?? '?'}`}
         {quotelinkReply?.author?.address === account?.author?.address && ' (You)'}
       </Link>
       <br />
@@ -251,9 +251,9 @@ const MobileQuotePreview = ({ backlinkReply, quotelinkReply, isBacklinkReply, is
         onMouseOver={() => handleMouseOver(backlinkReply?.cid)}
         onMouseLeave={() => handleMouseLeave(backlinkReply?.cid)}
       >
-        {backlinkReply?.shortCid && `>>${backlinkReply?.shortCid}`}
+        {`>>${backlinkReply?.number ?? '?'}`}
       </span>
-      {backlinkReply?.shortCid &&
+      {backlinkReply?.number &&
         (() => {
           const backlinkBoardPath = backlinkReply?.subplebbitAddress ? getBoardPath(backlinkReply.subplebbitAddress, defaultSubplebbits) : undefined;
           const backlinkRoute = backlinkReply?.cid ? (backlinkBoardPath ? `/${backlinkBoardPath}/thread/${backlinkReply.cid}` : `/thread/${backlinkReply.cid}`) : '#';
@@ -285,10 +285,10 @@ const MobileQuotePreview = ({ backlinkReply, quotelinkReply, isBacklinkReply, is
         onMouseOver={() => handleMouseOver(quotelinkReply?.cid)}
         onMouseLeave={() => handleMouseLeave(quotelinkReply?.cid)}
       >
-        {quotelinkReply?.shortCid && `>>${quotelinkReply?.shortCid}`}
+        {`>>${quotelinkReply?.number ?? '?'}`}
         {quotelinkReply?.author?.address === account?.author?.address && ' (You)'}
       </span>
-      {quotelinkReply?.shortCid &&
+      {quotelinkReply?.number &&
         (() => {
           const quotelinkBoardPath = quotelinkReply?.subplebbitAddress ? getBoardPath(quotelinkReply.subplebbitAddress, defaultSubplebbits) : undefined;
           const quotelinkRoute = quotelinkReply?.cid

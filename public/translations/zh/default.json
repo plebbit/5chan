@@ -60,7 +60,7 @@
   "replies_omitted": "省略了{{repliesCount}}条回复。 <1>点击这里</1>查看。",
   "replies_and_links_omitted": "省略了{{repliesCount}}条回复和{{linksCount}}个链接。 <1>点击这里</1>查看。",
   "this_thread_is_closed": "该主题已关闭",
-  "reply_to_cid": "回复{{cid}}",
+  "reply_to_no": "回复帖子 No.{{no}}",
   "submit": "提交",
   "gif": "GIF",
   "moderating": "正在管理",

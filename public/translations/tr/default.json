@@ -60,7 +60,7 @@
   "replies_omitted": "{{repliesCount}} yanıt göz ardı edildi. <1>Buraya tıklayın</1> görüntülemek için.",
   "replies_and_links_omitted": "{{repliesCount}} yanıt ve {{linksCount}} bağlantı göz ardı edildi. <1>Buraya tıklayın</1> görüntülemek için.",
   "this_thread_is_closed": "Bu konu kapatılmıştır",
-  "reply_to_cid": "{{cid}}’ye yanıt ver",
+  "reply_to_no": "No.{{no}} gönderisine yanıt ver",
   "submit": "Gönder",
   "gif": "GIF",
   "moderating": "moderatörlük yapıyorsun",

@@ -60,7 +60,7 @@
   "replies_omitted": "{{repliesCount}} odpovědí vynecháno. <1>Klikněte zde</1> pro zobrazení.",
   "replies_and_links_omitted": "{{repliesCount}} odpovědí a {{linksCount}} odkazů vynecháno. <1>Klikněte zde</1> pro zobrazení.",
   "this_thread_is_closed": "Vlákno je uzavřeno",
-  "reply_to_cid": "Odpovědět na {{cid}}",
+  "reply_to_no": "Odpovědět na příspěvek č.{{no}}",
   "submit": "Odeslat",
   "gif": "GIF",
   "moderating": "moderování",

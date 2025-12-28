@@ -60,7 +60,7 @@
   "replies_omitted": "{{repliesCount}} balasan dihilangkan. <1>Klik di sini</1> untuk melihat.",
   "replies_and_links_omitted": "{{repliesCount}} balasan dan {{linksCount}} tautan dihilangkan. <1>Klik di sini</1> untuk melihat.",
   "this_thread_is_closed": "Thread ini ditutup",
-  "reply_to_cid": "Balas ke {{cid}}",
+  "reply_to_no": "Balas ke pos No.{{no}}",
   "submit": "Kirim",
   "gif": "GIF",
   "moderating": "memoderasi",

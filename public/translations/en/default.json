@@ -60,7 +60,7 @@
   "replies_omitted": "{{repliesCount}} replies omitted. <1>Click here</1> to view.",
   "replies_and_links_omitted": "{{repliesCount}} replies and {{linksCount}} links omitted. <1>Click here</1> to view.",
   "this_thread_is_closed": "This thread is closed",
-  "reply_to_cid": "Reply to {{cid}}",
+  "reply_to_no": "Reply to Thread No.{{no}}",
   "submit": "Submit",
   "gif": "GIF",
   "moderating": "moderating",

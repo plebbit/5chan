@@ -60,7 +60,7 @@
   "replies_omitted": "{{repliesCount}}টি উত্তর বাদ দেওয়া হয়েছে। <1>দেখতে এখানে ক্লিক করুন</1>।",
   "replies_and_links_omitted": "{{repliesCount}}টি উত্তর এবং {{linksCount}}টি লিঙ্ক বাদ দেওয়া হয়েছে। <1>দেখতে এখানে ক্লিক করুন</1>।",
   "this_thread_is_closed": "থ্রেডটি বন্ধ করা হয়েছে",
-  "reply_to_cid": "{{cid}}-এ উত্তর দিন",
+  "reply_to_no": "পোস্ট নং{{no}}-এ উত্তর দিন",
   "submit": "জমা দিন",
   "gif": "জিআইএফ",
   "moderating": "মডারেটিং",

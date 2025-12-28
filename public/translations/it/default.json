@@ -60,7 +60,7 @@
   "replies_omitted": "{{repliesCount}} risposte omesse. <1>Clicca qui</1> per visualizzare.",
   "replies_and_links_omitted": "{{repliesCount}} risposte e {{linksCount}} link omessi. <1>Clicca qui</1> per visualizzare.",
   "this_thread_is_closed": "Questo thread è chiuso",
-  "reply_to_cid": "Rispondi a {{cid}}",
+  "reply_to_no": "Rispondi al post No.{{no}}",
   "submit": "Invia",
   "gif": "GIF",
   "moderating": "stai moderando",

@@ -60,7 +60,7 @@
   "replies_omitted": "{{repliesCount}} válasz kihagyva. <1>Kattintson ide</1> a megtekintéshez.",
   "replies_and_links_omitted": "{{repliesCount}} válasz és {{linksCount}} link kihagyva. <1>Kattintson ide</1> a megtekintéshez.",
   "this_thread_is_closed": "A téma lezárva",
-  "reply_to_cid": "Válasz erre: {{cid}}",
+  "reply_to_no": "Válasz a No.{{no}} bejegyzésre",
   "submit": "Beküldés",
   "gif": "GIF",
   "moderating": "moderálás",

@@ -60,7 +60,7 @@
   "replies_omitted": "{{repliesCount}} απαντήσεις παραλείφθηκαν. <1>Κάντε κλικ εδώ</1> για να τις δείτε.",
   "replies_and_links_omitted": "{{repliesCount}} απαντήσεις και {{linksCount}} σύνδεσμοι παραλείφθηκαν. <1>Κάντε κλικ εδώ</1> για να τις δείτε.",
   "this_thread_is_closed": "Το νήμα έχει κλείσει",
-  "reply_to_cid": "Απάντηση σε {{cid}}",
+  "reply_to_no": "Απάντηση στην ανάρτηση No.{{no}}",
   "submit": "Υποβολή",
   "gif": "GIF",
   "moderating": "διαχειρίζεστε",

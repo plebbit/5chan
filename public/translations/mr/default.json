@@ -60,7 +60,7 @@
   "replies_omitted": "{{repliesCount}} प्रतिसाद वगळले गेले आहेत. <1>पाहण्यासाठी येथे क्लिक करा</1>.",
   "replies_and_links_omitted": "{{repliesCount}} प्रतिसाद आणि {{linksCount}} दुवे वगळले गेले आहेत. <1>पाहण्यासाठी येथे क्लिक करा</1>.",
   "this_thread_is_closed": "हा थ्रेड बंद आहे",
-  "reply_to_cid": "{{cid}} ला उत्तर द्या",
+  "reply_to_no": "पोस्ट No.{{no}} ला उत्तर द्या",
   "submit": "सबमिट करा",
   "gif": "जीआईएफ",
   "moderating": "मॉडरेट करीत आहे",

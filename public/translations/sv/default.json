@@ -60,7 +60,7 @@
   "replies_omitted": "{{repliesCount}} svar utelämnade. <1>Klicka här</1> för att visa dem.",
   "replies_and_links_omitted": "{{repliesCount}} svar och {{linksCount}} länkar utelämnade. <1>Klicka här</1> för att visa dem.",
   "this_thread_is_closed": "Tråden är stängd",
-  "reply_to_cid": "Svara på {{cid}}",
+  "reply_to_no": "Svara på inlägg No.{{no}}",
   "submit": "Skicka in",
   "gif": "GIF",
   "moderating": "modererar",

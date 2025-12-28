@@ -60,7 +60,7 @@
   "replies_omitted": "{{repliesCount}} స్పందనలు వదిలివేయబడ్డాయి. <1>చూడటానికి ఇక్కడ క్లిక్ చేయండి</1>.",
   "replies_and_links_omitted": "{{repliesCount}} స్పందనలు మరియు {{linksCount}} లింకులు వదిలివేయబడ్డాయి. <1>చూడటానికి ఇక్కడ క్లిక్ చేయండి</1>.",
   "this_thread_is_closed": "ఈ థ్రెడ్ మూసివేయబడింది",
-  "reply_to_cid": "{{cid}}కి స్పందించండి",
+  "reply_to_no": "పోస్ట్ No.{{no}}కి స్పందించండి",
   "submit": "సమర్పించు",
   "gif": "జీఐఎఫ్",
   "moderating": "మాడరేటింగ్",

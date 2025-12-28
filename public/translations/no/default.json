@@ -60,7 +60,7 @@
   "replies_omitted": "{{repliesCount}} svar utelatt. <1>Klikk her</1> for å se dem.",
   "replies_and_links_omitted": "{{repliesCount}} svar og {{linksCount}} lenker utelatt. <1>Klikk her</1> for å se dem.",
   "this_thread_is_closed": "Tråden er stengt",
-  "reply_to_cid": "Svar til {{cid}}",
+  "reply_to_no": "Svar til innlegg No.{{no}}",
   "submit": "Send inn",
   "gif": "GIF",
   "moderating": "modererer",

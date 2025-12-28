@@ -60,7 +60,7 @@
   "replies_omitted": "{{repliesCount}} câu trả lời bị bỏ qua. <1>Nhấn vào đây</1> để xem.",
   "replies_and_links_omitted": "{{repliesCount}} câu trả lời và {{linksCount}} liên kết bị bỏ qua. <1>Nhấn vào đây</1> để xem.",
   "this_thread_is_closed": "Chủ đề này đã đóng",
-  "reply_to_cid": "Trả lời {{cid}}",
+  "reply_to_no": "Trả lời bài No.{{no}}",
   "submit": "Gửi",
   "gif": "GIF",
   "moderating": "đang điều hành",

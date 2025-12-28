@@ -60,7 +60,7 @@
   "replies_omitted": "{{repliesCount}} reacties weggelaten. <1>Klik hier</1> om ze te bekijken.",
   "replies_and_links_omitted": "{{repliesCount}} reacties en {{linksCount}} links weggelaten. <1>Klik hier</1> om ze te bekijken.",
   "this_thread_is_closed": "De thread is gesloten",
-  "reply_to_cid": "Reageren op {{cid}}",
+  "reply_to_no": "Reageren op post No.{{no}}",
   "submit": "Verzenden",
   "gif": "GIF",
   "moderating": "modereren",

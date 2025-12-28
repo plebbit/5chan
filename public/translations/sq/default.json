@@ -60,7 +60,7 @@
   "replies_omitted": "{{repliesCount}} përgjigje janë lënë jashtë. <1>Kliko këtu</1> për t'i shikuar.",
   "replies_and_links_omitted": "{{repliesCount}} përgjigje dhe {{linksCount}} lidhje janë lënë jashtë. <1>Kliko këtu</1> për t'i shikuar.",
   "this_thread_is_closed": "Temë është mbyllur",
-  "reply_to_cid": "Përgjigju në {{cid}}",
+  "reply_to_no": "Përgjigju në postin No.{{no}}",
   "submit": "Dorëzo",
   "gif": "GIF",
   "moderating": "moderimi",

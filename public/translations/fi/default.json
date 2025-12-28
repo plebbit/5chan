@@ -60,7 +60,7 @@
   "replies_omitted": "{{repliesCount}} vastausta jätetty pois. <1>Napsauta tästä</1> nähdäksesi ne.",
   "replies_and_links_omitted": "{{repliesCount}} vastausta ja {{linksCount}} linkkiä jätetty pois. <1>Napsauta tästä</1> nähdäksesi ne.",
   "this_thread_is_closed": "Ketju on suljettu",
-  "reply_to_cid": "Vastaa {{cid}}",
+  "reply_to_no": "Vastaa viestiin No.{{no}}",
   "submit": "Lähetä",
   "gif": "GIF",
   "moderating": "moderoit",

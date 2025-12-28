@@ -60,7 +60,7 @@
   "replies_omitted": "{{repliesCount}} תגובות נשמטו. <1>לחץ כאן</1> לצפייה.",
   "replies_and_links_omitted": "{{repliesCount}} תגובות ו{{linksCount}} קישורים נשמטו. <1>לחץ כאן</1> לצפייה.",
   "this_thread_is_closed": "האשכול סגור",
-  "reply_to_cid": "תגובה ל{{cid}}",
+  "reply_to_no": "תגובה להודעה מס'{{no}}",
   "submit": "שלח",
   "gif": "גיף",
   "moderating": "מנהל",

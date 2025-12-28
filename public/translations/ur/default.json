@@ -60,7 +60,7 @@
   "replies_omitted": "{{repliesCount}} جوابات چھوڑ دیے گئے ہیں۔ <1>مکمل دیکھنے کے لیے یہاں کلک کریں</1>۔",
   "replies_and_links_omitted": "{{repliesCount}} جوابات اور {{linksCount}} لنکس چھوڑ دیے گئے ہیں۔ <1>مکمل دیکھنے کے لیے یہاں کلک کریں</1>۔",
   "this_thread_is_closed": "یہ دھاگہ بند ہے",
-  "reply_to_cid": "{{cid}} کا جواب دیں",
+  "reply_to_no": "پوسٹ No.{{no}} کا جواب دیں",
   "submit": "جمع کرائیں",
   "gif": "جی آئی ایف",
   "moderating": "منتظم کر رہے ہیں",

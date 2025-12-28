@@ -113,7 +113,7 @@ const GlobalLayout = () => {
     }
   }, [theme]);
 
-  const { activeCid, threadCid, subplebbitAddress, closeModal, showReplyModal, scrollY } = useReplyModalStore();
+  const { activeCid, parentNumber, threadCid, subplebbitAddress, closeModal, showReplyModal, scrollY } = useReplyModalStore();
 
   const location = useLocation();
   const isInSettingsView = location.pathname.endsWith('/settings');
@@ -125,6 +125,7 @@ const GlobalLayout = () => {
         <ReplyModal
           closeModal={closeModal}
           parentCid={activeCid}
+          parentNumber={parentNumber}
           postCid={threadCid}
           scrollY={scrollY}
           showReplyModal={showReplyModal}

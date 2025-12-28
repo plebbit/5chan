@@ -60,7 +60,7 @@
   "replies_omitted": "ข้าม {{repliesCount}} คำตอบ <1>คลิกที่นี่</1> เพื่อดู.",
   "replies_and_links_omitted": "ข้าม {{repliesCount}} คำตอบและ {{linksCount}} ลิงก์ <1>คลิกที่นี่</1> เพื่อดู.",
   "this_thread_is_closed": "กระทู้นี้ถูกปิด",
-  "reply_to_cid": "ตอบกลับ {{cid}}",
+  "reply_to_no": "ตอบกลับกระทู้ No.{{no}}",
   "submit": "ส่ง",
   "gif": "จีไอเอฟ",
   "moderating": "กำลังดูแล",

@@ -60,7 +60,7 @@
   "replies_omitted": "{{repliesCount}} mga tugon ang hindi ipinakita. <1>I-click dito</1> upang makita.",
   "replies_and_links_omitted": "{{repliesCount}} mga tugon at {{linksCount}} mga link ang hindi ipinakita. <1>I-click dito</1> upang makita.",
   "this_thread_is_closed": "Sarado na ang thread",
-  "reply_to_cid": "Tumugon sa {{cid}}",
+  "reply_to_no": "Tumugon sa post No.{{no}}",
   "submit": "Isumite",
   "gif": "GIF",
   "moderating": "namamahala",

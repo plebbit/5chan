@@ -60,7 +60,7 @@
   "replies_omitted": "{{repliesCount}}件の返信が省略されました。 <1>ここをクリック</1>して表示。",
   "replies_and_links_omitted": "{{repliesCount}}件の返信と{{linksCount}}件のリンクが省略されました。 <1>ここをクリック</1>して表示。",
   "this_thread_is_closed": "このスレッドは閉じられています",
-  "reply_to_cid": "{{cid}}に返信",
+  "reply_to_no": "投稿 No.{{no}}に返信",
   "submit": "送信",
   "gif": "GIF",
   "moderating": "モデレート中",

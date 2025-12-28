@@ -60,7 +60,7 @@
   "replies_omitted": "{{repliesCount}} پاسخ حذف شده است. <1>اینجا کلیک کنید</1> تا آنها را مشاهده کنید.",
   "replies_and_links_omitted": "{{repliesCount}} پاسخ و {{linksCount}} لینک حذف شده است. <1>اینجا کلیک کنید</1> تا آنها را مشاهده کنید.",
   "this_thread_is_closed": "موضوع بسته شده است",
-  "reply_to_cid": "پاسخ به {{cid}}",
+  "reply_to_no": "پاسخ به پست شماره{{no}}",
   "submit": "ارسال",
   "gif": "گیف",
   "moderating": "مدیریت",
