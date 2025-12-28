@@ -70,7 +70,7 @@ const PostPage = () => {
     post = comment;
   }
 
-  const { error, replyCount } = post || {};
+  const { error } = post || {};
 
   useEffect(() => {
     window.scrollTo(0, 0);
