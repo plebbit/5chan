@@ -32,7 +32,7 @@ import { selectPostMenuProps } from '../../lib/utils/post-menu-props';
 // Store scroll position for replies virtuoso across navigations
 const lastVirtuosoStates: { [key: string]: StateSnapshot } = {};
 
-const PostInfoAndMedia = ({ post, postReplyCount = 0, roles }: PostProps) => {
+const PostInfoAndMedia = ({ post, postReplyCount = 0, roles, threadNumber }: PostProps) => {
   const { t } = useTranslation();
   const defaultSubplebbits = useDefaultSubplebbits();
   const { author, cid, deleted, link, linkHeight, linkWidth, locked, parentCid, pinned, postCid, reason, removed, state, subplebbitAddress, timestamp, thumbnailUrl } =
@@ -78,7 +78,7 @@ const PostInfoAndMedia = ({ post, postReplyCount = 0, roles }: PostProps) => {
         ? isReply
           ? alert(t('this_reply_was_removed'))
           : alert(t('this_thread_was_removed'))
-        : openReplyModal && openReplyModal(cid, post?.number, postCid, subplebbitAddress);
+        : openReplyModal && openReplyModal(cid, post?.number, postCid, threadNumber, subplebbitAddress);
   };
 
   return (
@@ -249,7 +249,7 @@ const ReplyBacklinks = ({ post }: PostProps) => {
   );
 };
 
-const Reply = ({ postReplyCount, reply, roles }: PostProps) => {
+const Reply = ({ postReplyCount, reply, roles, threadNumber }: PostProps) => {
   let post = reply;
   // handle pending mod or author edit
   const { editedComment } = useEditedComment({ comment: reply });
@@ -273,7 +273,7 @@ const Reply = ({ postReplyCount, reply, roles }: PostProps) => {
           data-author-address={author?.shortAddress}
           data-post-cid={postCid}
         >
-          <PostInfoAndMedia post={post} postReplyCount={postReplyCount} roles={roles} />
+          <PostInfoAndMedia post={post} postReplyCount={postReplyCount} roles={roles} threadNumber={threadNumber} />
           {!hidden && (!(removed || deleted) || ((removed || deleted) && reason)) && <CommentContent comment={post} />}
           <ReplyBacklinks post={reply} />
         </div>
@@ -359,7 +359,7 @@ const PostMobile = ({ post, roles, showAllReplies, showReplies = true }: PostPro
                 data-post-cid={postCid}
               >
                 {shouldShowSnow() && <img src='assets/xmashat.gif' className={styles.xmasHat} alt='' />}
-                <PostInfoAndMedia post={post} postReplyCount={replyCount} roles={roles} />
+                <PostInfoAndMedia post={post} postReplyCount={replyCount} roles={roles} threadNumber={post?.number} />
                 <CommentContent comment={post} />
               </div>
               {!isInPostView && !isInPendingPostView && showReplies && (
@@ -382,7 +382,7 @@ const PostMobile = ({ post, roles, showAllReplies, showReplies = true }: PostPro
                 data={filteredReplies}
                 itemContent={(index, reply) => (
                   <div className={styles.replyContainer}>
-                    <Reply postReplyCount={replyCount} reply={reply} roles={roles} />
+                    <Reply postReplyCount={replyCount} reply={reply} roles={roles} threadNumber={post?.number} />
                   </div>
                 )}
                 useWindowScroll={true}
@@ -401,7 +401,7 @@ const PostMobile = ({ post, roles, showAllReplies, showReplies = true }: PostPro
               replyCount <= 25 &&
               filteredReplies.map((reply, index) => (
                 <div key={index} className={styles.replyContainer}>
-                  <Reply postReplyCount={replyCount} reply={reply} roles={roles} />
+                  <Reply postReplyCount={replyCount} reply={reply} roles={roles} threadNumber={post?.number} />
                 </div>
               ))}
             {/* Non-virtualized rendering for board view (last 5 replies) */}
@@ -412,7 +412,7 @@ const PostMobile = ({ post, roles, showAllReplies, showReplies = true }: PostPro
               showReplies &&
               filteredReplies.slice(-5).map((reply, index) => (
                 <div key={index} className={styles.replyContainer}>
-                  <Reply postReplyCount={replyCount} reply={reply} roles={roles} />
+                  <Reply postReplyCount={replyCount} reply={reply} roles={roles} threadNumber={post?.number} />
                 </div>
               ))}
           </div>

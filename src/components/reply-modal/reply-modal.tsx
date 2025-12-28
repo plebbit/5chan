@@ -25,13 +25,13 @@ interface ReplyModalProps {
   showReplyModal: boolean;
   parentCid: string;
   parentNumber: number | null;
-  postNumber: number | null;
+  threadNumber: number | null;
   postCid: string;
   scrollY: number;
   subplebbitAddress: string;
 }
 
-const ReplyModal = ({ closeModal, showReplyModal, parentCid, parentNumber, postNumber, postCid, scrollY, subplebbitAddress }: ReplyModalProps) => {
+const ReplyModal = ({ closeModal, showReplyModal, parentCid, parentNumber, threadNumber, postCid, scrollY, subplebbitAddress }: ReplyModalProps) => {
   const { t } = useTranslation();
   const { setPublishReplyOptions, publishReply, resetPublishReplyOptions, replyIndex } = usePublishReply({
     cid: parentCid,
@@ -260,7 +260,7 @@ const ReplyModal = ({ closeModal, showReplyModal, parentCid, parentNumber, postN
       }}
     >
       <div className={`replyModalHandle ${styles.title}`} {...(!isMobile ? bind() : {})}>
-        {t('reply_to_no', { no: postNumber ?? '?' })}
+        {t('reply_to_no', { no: threadNumber ?? '?' })}
         <button
           className={styles.closeIcon}
           onClick={(e) => {

@@ -53,7 +53,7 @@ const useShowOmittedReplies = create<ShowOmittedRepliesState>((set) => ({
     })),
 }));
 
-const PostInfo = ({ post, postReplyCount = 0, roles, isHidden }: PostProps) => {
+const PostInfo = ({ post, postReplyCount = 0, roles, isHidden, threadNumber }: PostProps) => {
   const { t } = useTranslation();
   const { author, cid, deleted, locked, pinned, parentCid, postCid, reason, removed, state, subplebbitAddress, timestamp } = post || {};
   const title = post?.title?.trim();
@@ -94,7 +94,7 @@ const PostInfo = ({ post, postReplyCount = 0, roles, isHidden }: PostProps) => {
         ? isReply
           ? alert(t('this_reply_was_removed'))
           : alert(t('this_thread_was_removed'))
-        : openReplyModal && openReplyModal(cid, post?.number, postCid, subplebbitAddress);
+        : openReplyModal && openReplyModal(cid, post?.number, postCid, threadNumber, subplebbitAddress);
   };
 
   return (
@@ -325,7 +325,7 @@ const PostMedia = ({
   );
 };
 
-const Reply = ({ postReplyCount, reply, roles }: PostProps) => {
+const Reply = ({ postReplyCount, reply, roles, threadNumber }: PostProps) => {
   let post = reply;
   // handle pending mod or author edit
   const { editedComment } = useEditedComment({ comment: reply });
@@ -353,7 +353,7 @@ const Reply = ({ postReplyCount, reply, roles }: PostProps) => {
     <div className={styles.replyDesktop}>
       <div className={styles.sideArrows}>{'>>'}</div>
       <div className={`${styles.reply} ${isRouteLinkToReply && styles.highlight}`} data-cid={cid} data-author-address={author?.shortAddress} data-post-cid={postCid}>
-        <PostInfo post={post} postReplyCount={postReplyCount} roles={roles} isHidden={hidden} />
+        <PostInfo post={post} postReplyCount={postReplyCount} roles={roles} isHidden={hidden} threadNumber={threadNumber} />
         {link && !hidden && !(deleted || removed) && isValidURL(link) && (
           <PostMedia
             commentMediaInfo={commentMediaInfo}
@@ -469,7 +469,7 @@ const PostDesktop = ({ post, roles, showAllReplies, showReplies = true }: PostPr
               isInSubscriptionsView={isInSubscriptionsView}
             />
           )}
-          <PostInfo isHidden={hidden} post={post} postReplyCount={replyCount} roles={roles} />
+          <PostInfo isHidden={hidden} post={post} postReplyCount={replyCount} roles={roles} threadNumber={post?.number} />
           {!isHidden && !content && !(deleted || removed) && <div className={styles.spacer} />}
           {!isHidden && <CommentContent comment={post} />}
         </div>
@@ -506,7 +506,7 @@ const PostDesktop = ({ post, roles, showAllReplies, showReplies = true }: PostPr
             data={filteredReplies}
             itemContent={(index, reply) => (
               <div className={styles.replyContainer}>
-                <Reply reply={reply} roles={roles} postReplyCount={replyCount} />
+                <Reply reply={reply} roles={roles} postReplyCount={replyCount} threadNumber={post?.number} />
               </div>
             )}
             useWindowScroll={true}
@@ -525,7 +525,7 @@ const PostDesktop = ({ post, roles, showAllReplies, showReplies = true }: PostPr
           replyCount <= 25 &&
           filteredReplies.map((reply, index) => (
             <div key={index} className={styles.replyContainer}>
-              <Reply reply={reply} roles={roles} postReplyCount={replyCount} />
+              <Reply reply={reply} roles={roles} postReplyCount={replyCount} threadNumber={post?.number} />
             </div>
           ))}
         {/* Non-virtualized rendering for board view (last 5 replies or show omitted) */}
@@ -537,7 +537,7 @@ const PostDesktop = ({ post, roles, showAllReplies, showReplies = true }: PostPr
           showReplies &&
           (showOmittedReplies[cid] ? filteredReplies : filteredReplies.slice(-5)).map((reply, index) => (
             <div key={index} className={styles.replyContainer}>
-              <Reply reply={reply} roles={roles} postReplyCount={replyCount} />
+              <Reply reply={reply} roles={roles} postReplyCount={replyCount} threadNumber={post?.number} />
             </div>
           ))}
       </div>

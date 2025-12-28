@@ -21,6 +21,7 @@ export interface PostProps {
   roles?: Role[];
   showAllReplies?: boolean;
   showReplies?: boolean;
+  threadNumber?: number;
 }
 
 export const Post = ({ post, showAllReplies = false, showReplies = true }: PostProps) => {
