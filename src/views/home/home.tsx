@@ -134,6 +134,9 @@ export const Footer = () => {
           <Link to='/faq'>FAQ</Link>
         </li>
         <li>
+          <Link to='/rules'>Rules</Link>
+        </li>
+        <li>
           <a href='https://t.me/plebbit' target='_blank' rel='noopener noreferrer'>
             Telegram
           </a>

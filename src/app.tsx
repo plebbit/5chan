@@ -13,6 +13,7 @@ import { getSubplebbitAddress, isPostRoute, isPendingPostRoute } from './lib/uti
 import styles from './app.module.css';
 import FAQ from './views/faq';
 import Home from './views/home';
+import Rules from './views/rules';
 import NotFound from './views/not-found';
 import PendingPost from './views/pending-post';
 import Post from './views/post';
@@ -145,6 +146,7 @@ const App = () => (
       <Route element={<GlobalLayout />}>
         <Route path='/' element={<Home />} />
         <Route path='/faq' element={<FAQ />} />
+        <Route path='/rules' element={<Rules />} />
         <Route element={<BoardLayout />}>
           <Route path='/all/:timeFilterName?' element={null} />
           <Route path='/all/:timeFilterName?/settings' element={null} />
