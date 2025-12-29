@@ -301,5 +301,8 @@
   "updates": "اپڈیٹس",
   "downloading_board": "فورم ڈاؤن لوڈ ہو رہا ہے",
   "subscriptions_subtitle": "آپ نے {{count}} board کی سبسکرپشن لی ہے",
-  "subscriptions_subtitle_one": "آپ نے {{count}} board کی سبسکرپشن لی ہے"
+  "subscriptions_subtitle_one": "آپ نے {{count}} board کی سبسکرپشن لی ہے",
+  "all_boards": "تمام بورڈز",
+  "nsfw_boards_only": "صرف NSFW بورڈز",
+  "worksafe_boards_only": "صرف کام کے لیے محفوظ بورڈز"
 }

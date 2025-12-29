@@ -301,5 +301,8 @@
   "updates": "Pembaruan",
   "downloading_board": "mengunduh forum",
   "subscriptions_subtitle": "Anda telah berlangganan {{count}} board",
-  "subscriptions_subtitle_one": "Anda telah berlangganan {{count}} board"
+  "subscriptions_subtitle_one": "Anda telah berlangganan {{count}} board",
+  "all_boards": "Semua papan",
+  "nsfw_boards_only": "Hanya papan NSFW",
+  "worksafe_boards_only": "Hanya papan aman untuk kerja"
 }

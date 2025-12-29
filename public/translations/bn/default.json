@@ -301,5 +301,8 @@
   "updates": "আপডেট",
   "downloading_board": "বোর্ড ডাউনলোড করা হচ্ছে",
   "subscriptions_subtitle": "আপনি {{count}}টি board-এ সাবস্ক্রাইব করেছেন",
-  "subscriptions_subtitle_one": "আপনি ১টি board-এ সাবস্ক্রাইব করেছেন"
+  "subscriptions_subtitle_one": "আপনি ১টি board-এ সাবস্ক্রাইব করেছেন",
+  "all_boards": "সব বোর্ড",
+  "nsfw_boards_only": "NSFW বোর্ড শুধুমাত্র",
+  "worksafe_boards_only": "কাজের জন্য নিরাপদ বোর্ড শুধুমাত্র"
 }

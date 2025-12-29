@@ -301,5 +301,8 @@
   "updates": "Güncellemeler",
   "downloading_board": "forum indiriliyor",
   "subscriptions_subtitle": "{{count}} board'a abone oldunuz",
-  "subscriptions_subtitle_one": "{{count}} board'a abone oldunuz"
+  "subscriptions_subtitle_one": "{{count}} board'a abone oldunuz",
+  "all_boards": "Tüm panolar",
+  "nsfw_boards_only": "Sadece NSFW panoları",
+  "worksafe_boards_only": "Sadece iş için güvenli panolar"
 }

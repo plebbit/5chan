@@ -301,5 +301,8 @@
   "updates": "التحديثات",
   "downloading_board": "جارٍ تنزيل المنتدى",
   "subscriptions_subtitle": "لقد اشتركت في {{count}} لوحة",
-  "subscriptions_subtitle_one": "لقد اشتركت في لوحة واحدة"
+  "subscriptions_subtitle_one": "لقد اشتركت في لوحة واحدة",
+  "all_boards": "جميع اللوحات",
+  "nsfw_boards_only": "لوحات NSFW فقط",
+  "worksafe_boards_only": "لوحات آمنة للعمل فقط"
 }

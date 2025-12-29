@@ -301,5 +301,8 @@
   "updates": "Updates",
   "downloading_board": "board downloaden",
   "subscriptions_subtitle": "Je bent geabonneerd op {{count}} board",
-  "subscriptions_subtitle_one": "Je bent geabonneerd op {{count}} board"
+  "subscriptions_subtitle_one": "Je bent geabonneerd op {{count}} board",
+  "all_boards": "Alle borden",
+  "nsfw_boards_only": "Alleen NSFW-borden",
+  "worksafe_boards_only": "Alleen werkveilige borden"
 }

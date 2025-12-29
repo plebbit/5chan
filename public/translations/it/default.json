@@ -301,5 +301,8 @@
   "updates": "Aggiornamenti",
   "downloading_board": "scaricando board",
   "subscriptions_subtitle": "Ti sei iscritto a {{count}} board",
-  "subscriptions_subtitle_one": "Ti sei iscritto a {{count}} board"
+  "subscriptions_subtitle_one": "Ti sei iscritto a {{count}} board",
+  "all_boards": "Tutte le bacheche",
+  "nsfw_boards_only": "Solo bacheche NSFW",
+  "worksafe_boards_only": "Solo bacheche sicure per il lavoro"
 }

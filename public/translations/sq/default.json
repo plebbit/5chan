@@ -301,5 +301,8 @@
   "updates": "Përditësime",
   "downloading_board": "duke shkarkuar forum",
   "subscriptions_subtitle": "Jeni abonuar në {{count}} board",
-  "subscriptions_subtitle_one": "Jeni abonuar në {{count}} board"
+  "subscriptions_subtitle_one": "Jeni abonuar në {{count}} board",
+  "all_boards": "Të gjitha tabelat",
+  "nsfw_boards_only": "Vetëm tabelat NSFW",
+  "worksafe_boards_only": "Vetëm tabelat e sigurta për punë"
 }

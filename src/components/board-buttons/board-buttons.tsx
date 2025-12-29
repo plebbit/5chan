@@ -291,9 +291,9 @@ const AllFeedFilter = () => {
     <>
       <span>{t('show')}</span>:&nbsp;
       <select className='capitalize' value={filter} onChange={(e) => setFilter(e.target.value as 'all' | 'nsfw' | 'sfw')}>
-        <option value='all'>{t('show_all_boards')}</option>
-        <option value='nsfw'>{t('show_nsfw_boards_only')}</option>
-        <option value='sfw'>{t('show_worksafe_boards_only')}</option>
+        <option value='all'>{t('all_boards')}</option>
+        <option value='nsfw'>{t('nsfw_boards_only')}</option>
+        <option value='sfw'>{t('worksafe_boards_only')}</option>
       </select>
     </>
   );

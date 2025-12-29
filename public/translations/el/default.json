@@ -301,5 +301,8 @@
   "updates": "Ενημερώσεις",
   "downloading_board": "λήψη φόρουμ",
   "subscriptions_subtitle": "Έχετε εγγραφεί σε {{count}} board",
-  "subscriptions_subtitle_one": "Έχετε εγγραφεί σε {{count}} board"
+  "subscriptions_subtitle_one": "Έχετε εγγραφεί σε {{count}} board",
+  "all_boards": "Όλες οι σανίδες",
+  "nsfw_boards_only": "Μόνο σανίδες NSFW",
+  "worksafe_boards_only": "Μόνο ασφαλείς σανίδες"
 }

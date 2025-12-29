@@ -301,5 +301,8 @@
   "updates": "Actualizări",
   "downloading_board": "se descarcă forumul",
   "subscriptions_subtitle": "Te-ai abonat la {{count}} board",
-  "subscriptions_subtitle_one": "Te-ai abonat la {{count}} board"
+  "subscriptions_subtitle_one": "Te-ai abonat la {{count}} board",
+  "all_boards": "Toate panourile",
+  "nsfw_boards_only": "Doar panouri NSFW",
+  "worksafe_boards_only": "Doar panouri sigure pentru muncă"
 }

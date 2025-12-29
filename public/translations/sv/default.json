@@ -301,5 +301,8 @@
   "updates": "Uppdateringar",
   "downloading_board": "laddar ner forum",
   "subscriptions_subtitle": "Du har prenumererat på {{count}} board",
-  "subscriptions_subtitle_one": "Du har prenumererat på {{count}} board"
+  "subscriptions_subtitle_one": "Du har prenumererat på {{count}} board",
+  "all_boards": "Alla tavlor",
+  "nsfw_boards_only": "Endast NSFW-tavlor",
+  "worksafe_boards_only": "Endast arbetsplats-säkra tavlor"
 }

@@ -301,5 +301,8 @@
   "updates": "更新",
   "downloading_board": "掲示板をダウンロード中",
   "subscriptions_subtitle": "{{count}}個のboardを購読しています",
-  "subscriptions_subtitle_one": "{{count}}個のboardを購読しています"
+  "subscriptions_subtitle_one": "{{count}}個のboardを購読しています",
+  "all_boards": "すべてのボード",
+  "nsfw_boards_only": "NSFWボードのみ",
+  "worksafe_boards_only": "職場安全ボードのみ"
 }
