@@ -3,6 +3,7 @@ import { Outlet, Route, Routes, useLocation, useParams } from 'react-router-dom'
 import { useAccountComment } from '@plebbit/plebbit-react-hooks';
 import { initSnow, removeSnow } from './lib/snow';
 import { isAllView, isModView, isSubscriptionsView } from './lib/utils/view-utils';
+import { preloadThemeAssets } from './lib/utils/preload-utils';
 import useReplyModalStore from './stores/use-reply-modal-store';
 import useCreateBoardModalStore from './stores/use-create-board-modal-store';
 import useSpecialThemeStore from './stores/use-special-theme-store';
@@ -30,6 +31,10 @@ import TopbarEditModal from './components/topbar-edit-modal';
 import DirectoryModal from './components/directory-modal';
 import DisclaimerModal from './components/disclaimer-modal';
 import SettingsModal from './components/settings-modal';
+
+// Preload all theme assets (buttons, backgrounds) immediately on app load
+// to prevent visible loading delays when switching themes
+preloadThemeAssets();
 
 const BoardLayout = () => {
   const { accountCommentIndex, boardIdentifier } = useParams();

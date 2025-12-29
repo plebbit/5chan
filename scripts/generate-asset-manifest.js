@@ -18,6 +18,15 @@ const notFoundImages = readdirSync(notFoundDir)
   .filter((file) => /^not-found-.*\.(jpg|jpeg|gif|png)$/i.test(file))
   .map((file) => `assets/not-found/${file}`);
 
+// Scan for button images (theme-specific buttons like cross, plus, minus, help, button-fade)
+const buttonsDir = join(publicDir, 'assets', 'buttons');
+const buttonImages = readdirSync(buttonsDir)
+  .filter((file) => /\.(jpg|jpeg|gif|png)$/i.test(file))
+  .map((file) => `assets/buttons/${file}`);
+
+// Theme background images
+const themeBackgrounds = ['assets/background-fade.png', 'assets/background-fade-blue.png'];
+
 // Generate TypeScript file with proper formatting (matches prettier config)
 const formatArray = (arr) => {
   if (arr.length === 0) return '[]';
@@ -32,6 +41,12 @@ const output = `// Auto-generated file - do not edit manually
 export const BANNERS = ${formatArray(banners)} as const;
 
 export const NOT_FOUND_IMAGES = ${formatArray(notFoundImages)} as const;
+
+// Theme button images (cross, plus, minus, help, button-fade variants)
+export const THEME_BUTTON_IMAGES = ${formatArray(buttonImages)} as const;
+
+// Theme background pattern images
+export const THEME_BACKGROUND_IMAGES = ${formatArray(themeBackgrounds)} as const;
 `;
 
 // Ensure directory exists
@@ -41,4 +56,6 @@ mkdirSync(generatedDir, { recursive: true });
 const outputPath = join(generatedDir, 'asset-manifest.ts');
 writeFileSync(outputPath, output, 'utf8');
 
-console.log(`✅ Generated asset manifest with ${banners.length} banners and ${notFoundImages.length} not-found images`);
+console.log(
+  `✅ Generated asset manifest with ${banners.length} banners, ${notFoundImages.length} not-found images, ${buttonImages.length} button images, and ${themeBackgrounds.length} background images`,
+);
