@@ -7,6 +7,7 @@ import styles from './board.module.css';
 import { shouldShowSnow } from '../../lib/snow';
 import { getCommentMediaInfo, getHasThumbnail } from '../../lib/utils/media-utils';
 import { useDefaultSubplebbitAddresses, useDefaultSubplebbits } from '../../hooks/use-default-subplebbits';
+import { useFilteredDefaultSubplebbitAddresses } from '../../hooks/use-filtered-default-subplebbit-addresses';
 import { useResolvedSubplebbitAddress, useBoardPath } from '../../hooks/use-resolved-subplebbit-address';
 import { useFeedStateString } from '../../hooks/use-state-string';
 import useTimeFilter, { timeFilterNameToSeconds } from '../../hooks/use-time-filter';
@@ -60,6 +61,7 @@ const Board = ({ feedCacheKey, viewType, boardIdentifier: boardIdentifierProp, t
 
   const boardPath = useBoardPath(subplebbitAddress);
   const defaultSubplebbitAddresses = useDefaultSubplebbitAddresses();
+  const filteredDefaultSubplebbitAddresses = useFilteredDefaultSubplebbitAddresses();
 
   const account = useAccount();
   const subscriptions = account?.subscriptions;
@@ -69,7 +71,7 @@ const Board = ({ feedCacheKey, viewType, boardIdentifier: boardIdentifierProp, t
 
   const subplebbitAddresses = useMemo(() => {
     if (isInAllView) {
-      return defaultSubplebbitAddresses;
+      return filteredDefaultSubplebbitAddresses;
     }
     if (isInSubscriptionsView) {
       return subscriptions || [];
@@ -78,7 +80,16 @@ const Board = ({ feedCacheKey, viewType, boardIdentifier: boardIdentifierProp, t
       return accountSubplebbitAddresses;
     }
     return [subplebbitAddress];
-  }, [isInAllView, isInSubscriptionsView, isInModView, subplebbitAddress, defaultSubplebbitAddresses, subscriptions, accountSubplebbitAddresses]);
+  }, [
+    isInAllView,
+    isInSubscriptionsView,
+    isInModView,
+    subplebbitAddress,
+    defaultSubplebbitAddresses,
+    filteredDefaultSubplebbitAddresses,
+    subscriptions,
+    accountSubplebbitAddresses,
+  ]);
 
   const { sortType } = useSortingStore();
   const { timeFilterSeconds: timeFilterSecondsFromHook, timeFilterName: timeFilterNameFromHook } = useTimeFilter();

@@ -6,6 +6,7 @@ import { Virtuoso, VirtuosoHandle, StateSnapshot } from 'react-virtuoso';
 import { getCommentMediaInfo, getHasThumbnail } from '../../lib/utils/media-utils';
 import useCatalogFeedRows from '../../hooks/use-catalog-feed-rows';
 import { useDefaultSubplebbits } from '../../hooks/use-default-subplebbits';
+import { useFilteredDefaultSubplebbitAddresses } from '../../hooks/use-filtered-default-subplebbit-addresses';
 import { useResolvedSubplebbitAddress, useBoardPath } from '../../hooks/use-resolved-subplebbit-address';
 import { useFeedStateString } from '../../hooks/use-state-string';
 import useTimeFilter, { timeFilterNameToSeconds } from '../../hooks/use-time-filter';
@@ -152,19 +153,18 @@ const Catalog = ({ feedCacheKey, viewType, boardIdentifier: boardIdentifierProp,
 
   const account = useAccount();
   const subscriptions = account?.subscriptions;
+  const filteredDefaultSubplebbitAddresses = useFilteredDefaultSubplebbitAddresses();
 
   const subplebbitAddresses = useMemo(() => {
-    const filteredDefaultSubplebbits = defaultSubplebbits.map((subplebbit) => subplebbit.address).filter(Boolean); // Filter out any undefined/null values
-
     if (isInAllView) {
-      return filteredDefaultSubplebbits;
+      return filteredDefaultSubplebbitAddresses;
     }
     if (isInSubscriptionsView) {
       return (subscriptions || []).filter(Boolean); // Filter out any undefined/null values
     }
     // Only include subplebbitAddress if it's defined
     return subplebbitAddress ? [subplebbitAddress] : [];
-  }, [isInAllView, isInSubscriptionsView, subplebbitAddress, defaultSubplebbits, subscriptions]);
+  }, [isInAllView, isInSubscriptionsView, subplebbitAddress, filteredDefaultSubplebbitAddresses, subscriptions]);
 
   const { imageSize } = useCatalogStyleStore();
   const columnWidth = imageSize === 'Large' ? 270 : 180;
