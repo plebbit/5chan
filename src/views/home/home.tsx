@@ -167,7 +167,6 @@ export const Footer = () => {
         <a href='https://github.com/plebbit/5chan/graphs/contributors' target='_blank' rel='noopener noreferrer'>
           Contact
         </a>
-        <span></span>
         <br />
         <br />
         <br />
