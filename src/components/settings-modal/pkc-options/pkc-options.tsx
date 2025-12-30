@@ -1,7 +1,7 @@
 import { RefObject, useRef, useState } from 'react';
 import { setAccount, useAccount, usePlebbitRpcSettings } from '@plebbit/plebbit-react-hooks';
 import { useTranslation } from 'react-i18next';
-import styles from './plebbit-options.module.css';
+import styles from './pkc-options.module.css';
 
 interface SettingsProps {
   ipfsGatewayUrlsRef?: RefObject<HTMLTextAreaElement>;
@@ -113,7 +113,7 @@ const PlebbitRPCSettings = ({ plebbitRpcRef }: SettingsProps) => {
       </div>
       {showInfo && (
         <div className={styles.plebbitRpcSettingsInfo}>
-          use a plebbit full node locally, or remotely with SSL
+          use a PKC full node locally, or remotely with SSL
           <br />
           <ol>
             <li>get secret auth key from the node</li>
@@ -264,7 +264,7 @@ const PlebbitOptions = () => {
         </span>
       </div>
       <div className={styles.category}>
-        <span className={styles.categoryTitle}>plebbit RPC:</span>
+        <span className={styles.categoryTitle}>Node RPC:</span>
         <span className={styles.categorySettings}>
           <PlebbitRPCSettings plebbitRpcRef={plebbitRpcRef} />
         </span>
