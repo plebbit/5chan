@@ -11,6 +11,7 @@ import Embed, { canEmbed } from '../embed';
 interface MediaProps {
   commentMediaInfo?: CommentMediaInfo;
   deleted?: boolean;
+  disableToggle?: boolean;
   displayHeight?: string;
   displayWidth?: string;
   isFloatingEmbed?: boolean;
@@ -83,7 +84,7 @@ const Thumbnail = ({ commentMediaInfo, deleted, displayHeight, displayWidth, isF
   );
 };
 
-const Media = ({ commentMediaInfo, isReply, setShowThumbnail }: MediaProps) => {
+const Media = ({ commentMediaInfo, disableToggle, isReply, setShowThumbnail }: MediaProps) => {
   const { t } = useTranslation();
   const { thumbnail, type, url } = commentMediaInfo || {};
   const isMobile = useIsMobile();
@@ -98,11 +99,11 @@ const Media = ({ commentMediaInfo, isReply, setShowThumbnail }: MediaProps) => {
       {type === 'iframe' && url ? (
         <Embed url={url} />
       ) : type === 'gif' ? (
-        <img src={url} alt='' onClick={() => setShowThumbnail(true)} />
+        <img src={url} alt='' onClick={disableToggle ? undefined : () => setShowThumbnail(true)} />
       ) : type === 'video' ? (
         <video src={url} controls autoPlay loop muted />
       ) : type === 'webpage' ? (
-        <img src={thumbnail} alt='' onClick={() => setShowThumbnail(true)} />
+        <img src={thumbnail} alt='' onClick={disableToggle ? undefined : () => setShowThumbnail(true)} />
       ) : null}
       {isMobile && type && (
         <div className={styles.fileInfo}>
@@ -126,19 +127,21 @@ const Media = ({ commentMediaInfo, isReply, setShowThumbnail }: MediaProps) => {
 
 interface ImageProps {
   commentMediaInfo: CommentMediaInfo;
+  disableToggle?: boolean;
   displayHeight: string;
   displayWidth: string;
+  initialExpanded?: boolean;
   isOutOfFeed: boolean;
   parentCid?: string;
   spoiler?: boolean;
 }
 
-const Image = ({ commentMediaInfo, displayHeight, displayWidth, isOutOfFeed, parentCid, spoiler }: ImageProps) => {
+const Image = ({ commentMediaInfo, disableToggle = false, displayHeight, displayWidth, initialExpanded = false, isOutOfFeed, parentCid, spoiler }: ImageProps) => {
   const { t } = useTranslation();
   const { type, url } = commentMediaInfo || {};
   const isReply = parentCid;
   const isMobile = useIsMobile();
-  const [isImageExpanded, setIsImageExpanded] = useState(false);
+  const [isImageExpanded, setIsImageExpanded] = useState(initialExpanded);
   const { fitExpandedImagesToScreen } = useExpandedMediaStore();
   const mediaDimensions = getMediaDimensions(commentMediaInfo);
   const mediaClass = `${isMobile ? styles.mediaMobile : isReply ? styles.mediaDesktopReply : styles.mediaDesktopOp} ${
@@ -171,7 +174,7 @@ const Image = ({ commentMediaInfo, displayHeight, displayWidth, isOutOfFeed, par
         {hasError ? (
           <img src='assets/filedeleted-res.gif' alt='File deleted' />
         ) : (
-          <img src={url} onError={handleError} alt='' onClick={() => setIsImageExpanded(!isImageExpanded)} />
+          <img src={url} onError={handleError} alt='' onClick={disableToggle ? undefined : () => setIsImageExpanded(!isImageExpanded)} />
         )}
       </span>
       {isImageExpanded && type && (
@@ -193,7 +196,7 @@ const Image = ({ commentMediaInfo, displayHeight, displayWidth, isOutOfFeed, par
       {hasError ? (
         <img src='assets/filedeleted-res.gif' alt='File deleted' />
       ) : (
-        <img src={url} onError={handleError} alt='' onClick={() => setIsImageExpanded(!isImageExpanded)} />
+        <img src={url} onError={handleError} alt='' onClick={disableToggle ? undefined : () => setIsImageExpanded(!isImageExpanded)} />
       )}
     </span>
   );
@@ -202,6 +205,7 @@ const Image = ({ commentMediaInfo, displayHeight, displayWidth, isOutOfFeed, par
 const CommentMedia = ({
   commentMediaInfo,
   deleted,
+  disableToggle,
   isFloatingEmbed,
   linkHeight,
   linkWidth,
@@ -253,10 +257,13 @@ const CommentMedia = ({
     <span className={styles.content}>
       {commentMediaInfo?.type === 'image' ? (
         // images just enlarge when clicked, so they don't need two separate components
+        // when showThumbnail is explicitly false (e.g., from embed button), start expanded
         <Image
           commentMediaInfo={commentMediaInfo}
+          disableToggle={disableToggle}
           displayHeight={displayHeight}
           displayWidth={displayWidth}
+          initialExpanded={showThumbnail === false}
           isOutOfFeed={isOutOfFeed}
           parentCid={parentCid}
           spoiler={spoiler}
@@ -279,7 +286,7 @@ const CommentMedia = ({
             )}
             {isMobile && type && <div className={styles.fileInfo}>{`${spoiler ? `${t('spoiler')} - ` : ''} ${getDisplayMediaInfoType(type, t)}`}</div>}
           </span>
-          {!showThumbnail && <Media commentMediaInfo={commentMediaInfo} isReply={!!parentCid} setShowThumbnail={setShowThumbnail} />}
+          {!showThumbnail && <Media commentMediaInfo={commentMediaInfo} disableToggle={disableToggle} isReply={!!parentCid} setShowThumbnail={setShowThumbnail} />}
         </>
       )}
     </span>
