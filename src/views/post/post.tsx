@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Comment, Role, useComment, useEditedComment, useSubplebbit } from '@plebbit/plebbit-react-hooks';
 import useSubplebbitsStore from '@plebbit/plebbit-react-hooks/dist/stores/subplebbits';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { isAllView } from '../../lib/utils/view-utils';
 import { useResolvedSubplebbitAddress } from '../../hooks/use-resolved-subplebbit-address';
 import { useDefaultSubplebbits } from '../../hooks/use-default-subplebbits';
@@ -60,6 +60,14 @@ const PostPage = () => {
   const isInAllView = isAllView(location.pathname);
 
   const comment = useComment({ commentCid });
+
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (comment?.subplebbitAddress && subplebbitAddress && comment.subplebbitAddress !== subplebbitAddress) {
+      navigate('/not-found', { replace: true });
+    }
+  }, [comment?.subplebbitAddress, subplebbitAddress, navigate]);
+
   const subplebbit = useSubplebbit({ subplebbitAddress });
   const { shortAddress, title } = subplebbit || {};
   const defaultSubplebbits = useDefaultSubplebbits();
