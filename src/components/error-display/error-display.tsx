@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { copyToClipboard } from '../../lib/utils/clipboard-utils';
 import styles from './error-display.module.css';
@@ -6,8 +6,27 @@ import styles from './error-display.module.css';
 const ErrorDisplay = ({ error }: { error: any }) => {
   const { t } = useTranslation();
   const [feedbackMessageKey, setFeedbackMessageKey] = useState<string | null>(null);
+  const [shouldShow, setShouldShow] = useState(false);
 
-  const originalDisplayMessage = error?.message ? `${t('error')}: ${error.message}` : null;
+  useEffect(() => {
+    const hasError = !!(error?.message || error?.stack || error?.details || error);
+    if (!hasError) {
+      setShouldShow(false);
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      setShouldShow(true);
+    }, 1000); // delay to avoid false positives, for example when accessing cached feeds that may appear offline for a second or so
+
+    return () => clearTimeout(timer);
+  }, [error]);
+
+  if (!shouldShow) {
+    return null;
+  }
+
+  const originalDisplayMessage = error?.message ? `${t('error')}: ${error.message}` : typeof error === 'string' ? error : null;
 
   const handleMessageClick = async () => {
     if (!error || !error.message || feedbackMessageKey) return;
@@ -45,19 +64,17 @@ const ErrorDisplay = ({ error }: { error: any }) => {
   }
 
   return (
-    (error?.message || error?.stack || error?.details || error) && (
-      <div className={styles.error}>
-        {currentDisplayMessage && (
-          <span
-            className={classNames.join(' ')}
-            onClick={isClickable ? handleMessageClick : undefined}
-            title={isClickable ? t('clickToCopyFullError', 'Click to copy full error') : undefined}
-          >
-            {currentDisplayMessage}
-          </span>
-        )}
-      </div>
-    )
+    <div className={styles.error}>
+      {currentDisplayMessage && (
+        <span
+          className={classNames.join(' ')}
+          onClick={isClickable ? handleMessageClick : undefined}
+          title={isClickable ? t('clickToCopyFullError', 'Click to copy full error') : undefined}
+        >
+          {currentDisplayMessage}
+        </span>
+      )}
+    </div>
   );
 };
 

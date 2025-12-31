@@ -18,6 +18,7 @@ import useCatalogFiltersStore from '../../stores/use-catalog-filters-store';
 import { getSubplebbitAddress, isDirectoryBoard } from '../../lib/utils/route-utils';
 import CatalogRow from '../../components/catalog-row';
 import LoadingEllipsis from '../../components/loading-ellipsis';
+import ErrorDisplay from '../../components/error-display/error-display';
 import styles from './catalog.module.css';
 import { commentMatchesPattern } from '../../lib/utils/pattern-utils';
 
@@ -345,12 +346,7 @@ const Catalog = ({ feedCacheKey, viewType, boardIdentifier: boardIdentifierProp,
       ) : (
         hasMore && <LoadingEllipsis string={loadingStateString} />
       )}
-      {error && (
-        <div className='red'>
-          <br />
-          {error.message}
-        </div>
-      )}
+      <ErrorDisplay error={error} />
     </div>
   );
 
