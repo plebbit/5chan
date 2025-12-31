@@ -60,7 +60,8 @@ const InfoBox = () => {
           i18nKey='5chan_description'
           shouldUnescape={true}
           components={{
-            1: <Link key='plebbit-link' to='https://plebbit.com' target='_blank' rel='noopener noreferrer' />,
+            1: <Link key='rules-link' to='/rules' />,
+            2: <Link key='faqs-link' to='/faq' />,
           }}
         />
         <br />
