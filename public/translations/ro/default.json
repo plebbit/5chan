@@ -2,7 +2,7 @@
   "what_is_5chan": "Ce este 5chan?",
   "go": "du-te",
   "or": "sau",
-  "5chan_description": "5chan este o alternativă descentralizată, fără server, fără administrator și open-source la 4chan, unde oricine poate crea și deține criptografic panouri nelimitate. Toate panourile sunt găzduite și moderate de proprietarii lor, care rulează noduri la care utilizatorii se conectează și distribuie, peer-to-peer. Toate datele sunt doar text, inclusiv link-uri pentru a încorpora imagini. Simțiți-vă liber să faceți clic pe un panou de mai jos care vă interesează și începeți imediat!",
+  "5chan_description": "5chan este o alternativă complet descentralizată și open-source la 4chan, unde oricine poate crea și deține criptografic panouri nelimitate. Proprietarii panourilor găzduiesc și modelează panoul lor și stabilesc <1>Regulile</1> acestuia. Toate datele sunt doar text și sunt partajate peer-to-peer, inclusiv link-uri către imagini încorporate. Consultă <2>Întrebările Frecvente</2> pentru a afla mai multe. Simte-te liber să dai click pe un panou de mai jos care te interesează și începe imediat!",
   "no_global_rules_info": "Poți să te conectezi întotdeauna la orice forum, complet P2P, nimeni nu te poate opri. Pur și simplu lipește adresa în câmpul de căutare de mai sus.",
   "boards": "forumuri",
   "popular_threads": "Threaduri populare",
@@ -107,7 +107,6 @@
   "account": "cont",
   "crypto_address": "adresa cripto",
   "crypto_wallets": "Portofele crypto",
-  "plebbit_options": "opțiuni plebbit",
   "reset": "resetează",
   "import": "importați",
   "export": "exportați",
@@ -239,7 +238,6 @@
   "stored_locally": "Stocat local ({{location}}), nu este sincronizat între dispozitive",
   "choose_one": "Alege una:",
   "create": "Creează",
-  "plebbit_account": "Cont Plebbit",
   "save_changes": "Salvează modificările",
   "reset_changes": "Resetează modificările",
   "crypto_address_yours": "Adresa crypto aparține acestui cont.",
@@ -304,5 +302,7 @@
   "subscriptions_subtitle_one": "Te-ai abonat la {{count}} board",
   "all_boards": "Toate panourile",
   "nsfw_boards_only": "Doar panouri NSFW",
-  "worksafe_boards_only": "Doar panouri sigure pentru muncă"
+  "worksafe_boards_only": "Doar panouri sigure pentru muncă",
+  "bitsocial_account": "Cont Bitsocial",
+  "p2p_options": "Opțiuni P2P"
 }

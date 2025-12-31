@@ -2,7 +2,7 @@
   "what_is_5chan": "What is 5chan?",
   "go": "go",
   "or": "or",
-  "5chan_description": "5chan is a serverless, adminless, decentralized and open-source 4chan alternative, where anyone can create and cryptographically own unlimited boards. All boards are hosted and moderated by their owners, who run nodes that users connect to and seed, peer-to-peer. All data is text-only, including links to embed images. Feel free to click on a board below that interests you and jump right in!",
+  "5chan_description": "5chan is a fully decentralized and open-source 4chan alternative, where anyone can create and cryptographically own unlimited boards. Board owners host and moderate their board, and set its <1>Rules</1>. All data is text-only and it's shared peer-to-peer, including links to embed images. Check out the <2>FAQs</2> to learn more. Feel free to click on a board below that interests you and jump right in!",
   "no_global_rules_info": "You can always connect to any board, fully P2P, nobody can stop you. Simply paste its address in the search field above.",
   "boards": "boards",
   "popular_threads": "Popular threads",
@@ -107,7 +107,6 @@
   "account": "account",
   "crypto_address": "crypto address",
   "crypto_wallets": "Crypto Wallets",
-  "plebbit_options": "plebbit options",
   "reset": "reset",
   "import": "import",
   "export": "export",
@@ -243,7 +242,6 @@
   "stored_locally": "Stored locally ({{location}}), not synced across devices",
   "choose_one": "Choose one:",
   "create": "Create",
-  "plebbit_account": "Plebbit Account",
   "save_changes": "Save Changes",
   "reset_changes": "Reset Changes",
   "crypto_address_yours": "Crypto address belongs to this account.",
@@ -303,5 +301,7 @@
   "administrator_of_this_board": "This user is an administrator of this board",
   "copy_content_id": "Copy content ID",
   "subscriptions_subtitle": "You have subscribed to {{count}} boards",
-  "subscriptions_subtitle_one": "You have subscribed to {{count}} board"
+  "subscriptions_subtitle_one": "You have subscribed to {{count}} board",
+  "bitsocial_account": "Bitsocial Account",
+  "p2p_options": "P2P options"
 }

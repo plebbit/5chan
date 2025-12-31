@@ -2,7 +2,7 @@
   "what_is_5chan": "Co je 5chan?",
   "go": "jít",
   "or": "nebo",
-  "5chan_description": "5chan je bezserverová, bez administrátora, decentralizovaná a open-source alternativa k 4chan, kde kdokoli může vytvářet a kryptograficky vlastnit neomezené desky. Všechny desky jsou hostovány a moderovány jejich majiteli, kteří provozují uzly, ke kterým se uživatelé připojují a sdílejí, peer-to-peer. Všechna data jsou pouze textová, včetně odkazů na vložené obrázky. Neváhejte kliknout na desku níže, která vás zajímá, a začněte hned!",
+  "5chan_description": "5chan je plně decentralizovaná a open-source alternativa k 4chanu, kde kdokoli může vytvořit a kryptograficky vlastnit neomezené množství desek. Vlastníci desek hostují a moderují své desky a nastavují jejich <1>Pravidla</1>. Všechna data jsou pouze textová a sdílejí se peer-to-peer, včetně odkazů na vložené obrázky. Podívejte se na <2>FAQ</2>, abyste se dozvěděli více. Neváhejte kliknout na desku níže, která vás zajímá, a začněte hned!",
   "no_global_rules_info": "Můžete se vždy připojit k jakékoli nástěnce, plně P2P, nikdo vás nemůže zastavit. Jednoduše vložte její adresu do vyhledávacího pole výše.",
   "boards": "nástěnky",
   "popular_threads": "Oblíbená vlákna",
@@ -107,7 +107,6 @@
   "account": "účet",
   "crypto_address": "adresa kryptoměny",
   "crypto_wallets": "Kryptoměny",
-  "plebbit_options": "plebbit možnosti",
   "reset": "obnovit",
   "import": "import",
   "export": "export",
@@ -239,7 +238,6 @@
   "stored_locally": "Uloženo lokálně ({{location}}), není synchronizováno mezi zařízeními",
   "choose_one": "Vyberte jednu:",
   "create": "Vytvořit",
-  "plebbit_account": "Účet Plebbit",
   "save_changes": "Uložit změny",
   "reset_changes": "Obnovit změny",
   "crypto_address_yours": "Adresa kryptoměny patří k tomuto účtu.",
@@ -304,5 +302,7 @@
   "subscriptions_subtitle_one": "Přihlásili jste se k {{count}} boardu",
   "all_boards": "Všechny desky",
   "nsfw_boards_only": "Pouze NSFW desky",
-  "worksafe_boards_only": "Pouze bezpečné desky"
+  "worksafe_boards_only": "Pouze bezpečné desky",
+  "bitsocial_account": "Účet Bitsocial",
+  "p2p_options": "Možnosti P2P"
 }

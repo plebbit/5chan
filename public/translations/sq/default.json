@@ -2,7 +2,7 @@
   "what_is_5chan": "Çfarë është 5chan?",
   "go": "shko",
   "or": "ose",
-  "5chan_description": "5chan është një alternativë pa server, pa administrator, e decentralizuar dhe me kod të hapur për 4chan, ku kushdo mund të krijojë dhe të zotërojë kriptografikisht borda të pakufizuara. Të gjitha bordat hostohen dhe moderohen nga pronarët e tyre, të cilët ekzekutojnë nyje me të cilat përdoruesit lidhen dhe shpërndajnë, peer-to-peer. Të gjitha të dhënat janë vetëm tekst, duke përfshirë lidhjet për të integruar imazhe. Mos ngurroni të klikoni në një bord më poshtë që ju intereson dhe filloni menjëherë!",
+  "5chan_description": "5chan është një alternativë plotësisht e decentralizuar dhe me burim të hapur për 4chan, ku kushdo mund të krijojë dhe të zotërojë kriptografikisht bordet e pakufizuara. Pronarët e bordit hostojnë dhe moderojnë bordin e tyre dhe vendosin <1>Rregullat</1> e tij. Të gjitha të dhënat janë vetëm tekst dhe shpërndahen peer-to-peer, duke përfshirë lidhjet me imazhet e integruara. Shikoni <2>Pyetjet e Shpeshta</2> për të mësuar më shumë. Mos hezitoni të klikoni në një bord më poshtë që ju intereson dhe filloni menjëherë!",
   "no_global_rules_info": "Mund të lidheni gjithmonë me çdo forum, plotësisht P2P, askush nuk mund t'ju ndalojë. Thjesht ngjisni adresën në fushën e kërkimit më sipër.",
   "boards": "forume",
   "popular_threads": "Threadet e njohur",
@@ -107,7 +107,6 @@
   "account": "llogari",
   "crypto_address": "adresa e kripto",
   "crypto_wallets": "Portofolitë e cryptos",
-  "plebbit_options": "opsione plebbit",
   "reset": "rithqas",
   "import": "importo",
   "export": "eksport",
@@ -239,7 +238,6 @@
   "stored_locally": "Ruajtur lokalmente ({{location}}), nuk është sinkronizuar ndërmjet pajisjeve",
   "choose_one": "Zgjidhni një:",
   "create": "Krijo",
-  "plebbit_account": "Llogaria Plebbit",
   "save_changes": "Ruaj ndryshimet",
   "reset_changes": "Rivendosni ndryshimet",
   "crypto_address_yours": "Adresa e kriptovalutës i përket këtij llogarie.",
@@ -304,5 +302,7 @@
   "subscriptions_subtitle_one": "Jeni abonuar në {{count}} board",
   "all_boards": "Të gjitha tabelat",
   "nsfw_boards_only": "Vetëm tabelat NSFW",
-  "worksafe_boards_only": "Vetëm tabelat e sigurta për punë"
+  "worksafe_boards_only": "Vetëm tabelat e sigurta për punë",
+  "bitsocial_account": "Llogaria Bitsocial",
+  "p2p_options": "Opsionet P2P"
 }

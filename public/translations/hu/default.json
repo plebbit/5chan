@@ -2,7 +2,7 @@
   "what_is_5chan": "Mi az a 5chan?",
   "go": "menni",
   "or": "vagy",
-  "5chan_description": "A 5chan egy szerver nélküli, adminisztrátor nélküli, decentralizált és nyílt forráskódú alternatíva a 4chan számára, ahol bárki létrehozhat és kriptográfiailag birtokolhat korlátlan táblákat. Minden táblát a tulajdonosaik üzemeltetnek és moderálnak, akik olyan csomópontokat futtatnak, amelyekhez a felhasználók peer-to-peer módon csatlakoznak és seedelnek. Minden adat csak szöveg, beleértve a képek beágyazásához szükséges linkeket. Nyugodtan kattintson egy alábbi táblára, amely érdekli, és azonnal kezdjen bele!",
+  "5chan_description": "A 5chan egy teljesen decentralizált és nyílt forráskódú alternatíva a 4chan számára, ahol bárki létrehozhat és kriptográfiailag birtokolhat korlátlan táblákat. A táblák tulajdonosai üzemeltetik és moderálják táblájukat, és beállítják annak <1>Szabályait</1>. Minden adat csak szöveg és peer-to-peer módon osztjuk meg, beleértve a beágyazott képekre mutató linkeket is. Tekintse meg a <2>GYIK</2> oldalt, hogy többet megtudjon. Nyugodtan kattintson az alábbi táblára, amely érdekli, és azonnal kezdjen el!",
   "no_global_rules_info": "Bármikor csatlakozhatsz bármely fórumhoz, teljesen P2P, senki sem tud megállítani. Egyszerűen illeszd be a címét a fenti keresőmezőbe.",
   "boards": "fórumok",
   "popular_threads": "Népszerű szálak",
@@ -107,7 +107,6 @@
   "account": "fiók",
   "crypto_address": "kriptovaluta cím",
   "crypto_wallets": "Kriptopénztárcák",
-  "plebbit_options": "plebbit lehetőségek",
   "reset": "alaphelyzetbe állít",
   "import": "importálás",
   "export": "exportálás",
@@ -239,7 +238,6 @@
   "stored_locally": "Helyben tárolva ({{location}}), nem szinkronizálva eszközök között",
   "choose_one": "Válasszon egyet:",
   "create": "Létrehozás",
-  "plebbit_account": "Plebbit-fiók",
   "save_changes": "Változások mentése",
   "reset_changes": "Változások visszaállítása",
   "crypto_address_yours": "A kripto-cím ehhez a fiókhoz tartozik.",
@@ -304,5 +302,7 @@
   "subscriptions_subtitle_one": "Feliratkoztál {{count}} boardra",
   "all_boards": "Minden tábla",
   "nsfw_boards_only": "Csak NSFW táblák",
-  "worksafe_boards_only": "Csak munkavédelmi táblák"
+  "worksafe_boards_only": "Csak munkavédelmi táblák",
+  "bitsocial_account": "Bitsocial fiók",
+  "p2p_options": "P2P beállítások"
 }

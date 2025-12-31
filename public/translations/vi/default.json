@@ -2,7 +2,7 @@
   "what_is_5chan": "5chan là gì?",
   "go": "đi",
   "or": "hoặc",
-  "5chan_description": "5chan là một thay thế không máy chủ, không quản trị viên, phi tập trung và mã nguồn mở cho 4chan, nơi bất kỳ ai cũng có thể tạo và sở hữu mã hóa các bảng không giới hạn. Tất cả các bảng được lưu trữ và điều hành bởi chủ sở hữu của chúng, những người chạy các nút mà người dùng kết nối và chia sẻ, peer-to-peer. Tất cả dữ liệu chỉ là văn bản, bao gồm các liên kết để nhúng hình ảnh. Hãy thoải mái nhấp vào một bảng bên dưới mà bạn quan tâm và bắt đầu ngay!",
+  "5chan_description": "5chan là một giải pháp thay thế hoàn toàn phi tập trung và mã nguồn mở cho 4chan, nơi bất kỳ ai cũng có thể tạo và sở hữu mã hóa các bảng không giới hạn. Chủ sở hữu bảng lưu trữ và kiểm duyệt bảng của họ và đặt <1>Quy tắc</1> của nó. Tất cả dữ liệu chỉ là văn bản và được chia sẻ peer-to-peer, bao gồm các liên kết đến hình ảnh nhúng. Xem <2>FAQ</2> để tìm hiểu thêm. Hãy thoải mái nhấp vào một bảng bên dưới mà bạn quan tâm và bắt đầu ngay!",
   "no_global_rules_info": "Bạn luôn có thể kết nối với bất kỳ diễn đàn nào, hoàn toàn P2P, không ai có thể ngăn cản bạn. Chỉ cần dán địa chỉ của nó vào trường tìm kiếm ở trên.",
   "boards": "diễn đàn",
   "popular_threads": "Chủ đề phổ biến",
@@ -107,7 +107,6 @@
   "account": "tài khoản",
   "crypto_address": "địa chỉ tiền điện tử",
   "crypto_wallets": "Ví tiền điện tử",
-  "plebbit_options": "tùy chọn plebbit",
   "reset": "đặt lại",
   "import": "nhập",
   "export": "xuất",
@@ -239,7 +238,6 @@
   "stored_locally": "Lưu trữ cục bộ ({{location}}), không được đồng bộ qua các thiết bị",
   "choose_one": "Chọn một:",
   "create": "Tạo",
-  "plebbit_account": "Tài khoản Plebbit",
   "save_changes": "Lưu thay đổi",
   "reset_changes": "Đặt lại thay đổi",
   "crypto_address_yours": "Địa chỉ tiền điện tử thuộc về tài khoản này.",
@@ -304,5 +302,7 @@
   "subscriptions_subtitle_one": "Bạn đã đăng ký {{count}} board",
   "all_boards": "Tất cả bảng",
   "nsfw_boards_only": "Chỉ bảng NSFW",
-  "worksafe_boards_only": "Chỉ bảng an toàn cho công việc"
+  "worksafe_boards_only": "Chỉ bảng an toàn cho công việc",
+  "bitsocial_account": "Tài khoản Bitsocial",
+  "p2p_options": "Tùy chọn P2P"
 }

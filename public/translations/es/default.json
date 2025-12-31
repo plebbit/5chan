@@ -2,7 +2,7 @@
   "what_is_5chan": "¿Qué es 5chan?",
   "go": "ir",
   "or": "o",
-  "5chan_description": "5chan es una alternativa descentralizada, sin servidor, sin administrador y de código abierto a 4chan, donde cualquiera puede crear y poseer criptográficamente foros ilimitados. Todos los foros son alojados y moderados por sus propietarios, quienes ejecutan nodos a los que los usuarios se conectan y comparten, peer-to-peer. Todos los datos son solo texto, incluyendo enlaces para incrustar imágenes. ¡Siéntete libre de hacer clic en un foro a continuación que te interese y únete de inmediato!",
+  "5chan_description": "5chan es una alternativa completamente descentralizada y de código abierto a 4chan, donde cualquiera puede crear y poseer criptográficamente tableros ilimitados. Los propietarios de tableros alojan y moderan su tablero y establecen sus <1>Reglas</1>. Todos los datos son solo texto y se comparten de igual a igual, incluidos los enlaces para incrustar imágenes. Consulta las <2>Preguntas Frecuentes</2> para obtener más información. ¡Siéntete libre de hacer clic en un tablero a continuación que te interese y comienza de inmediato!",
   "no_global_rules_info": "Siempre puedes conectarte a cualquier foro, completamente P2P, nadie puede detenerte. Simplemente pega su dirección en el campo de búsqueda de arriba.",
   "boards": "foros",
   "popular_threads": "Hilos populares",
@@ -107,7 +107,6 @@
   "account": "cuenta",
   "crypto_address": "dirección de cripto",
   "crypto_wallets": "Billeteras cripto",
-  "plebbit_options": "opciones plebbit",
   "reset": "restablecer",
   "import": "importar",
   "export": "exportar",
@@ -239,7 +238,6 @@
   "stored_locally": "Almacenado localmente ({{location}}), no sincronizado entre dispositivos",
   "choose_one": "Elige uno:",
   "create": "Crear",
-  "plebbit_account": "Cuenta Plebbit",
   "save_changes": "Guardar cambios",
   "reset_changes": "Restablecer cambios",
   "crypto_address_yours": "La dirección de criptomoneda pertenece a esta cuenta.",
@@ -304,5 +302,7 @@
   "subscriptions_subtitle_one": "Te has suscrito a {{count}} board",
   "all_boards": "Todas las tablas",
   "nsfw_boards_only": "Solo tablas NSFW",
-  "worksafe_boards_only": "Solo tablas seguras para el trabajo"
+  "worksafe_boards_only": "Solo tablas seguras para el trabajo",
+  "bitsocial_account": "Cuenta Bitsocial",
+  "p2p_options": "Opciones P2P"
 }

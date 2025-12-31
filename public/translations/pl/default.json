@@ -2,7 +2,7 @@
   "what_is_5chan": "Co to jest 5chan?",
   "go": "iść",
   "or": "lub",
-  "5chan_description": "5chan to bezserwerowa, bez administratora, zdecentralizowana i open-source alternatywa dla 4chan, gdzie każdy może tworzyć i kryptograficznie posiadać nieograniczone tablice. Wszystkie tablice są hostowane i moderowane przez ich właścicieli, którzy uruchamiają węzły, do których użytkownicy się łączą i seedują, peer-to-peer. Wszystkie dane są tylko tekstem, w tym linki do osadzania obrazów. Śmiało kliknij na tablicę poniżej, która Cię interesuje i zacznij od razu!",
+  "5chan_description": "5chan to w pełni zdecentralizowana i open-source alternatywa dla 4chan, gdzie każdy może tworzyć i kryptograficznie posiadać nieograniczone tablice. Właściciele tablic hostują i moderują swoje tablice oraz ustawiają ich <1>Zasady</1>. Wszystkie dane są tylko tekstem i są udostępniane peer-to-peer, w tym linki do osadzonych obrazów. Sprawdź <2>FAQ</2>, aby dowiedzieć się więcej. Śmiało kliknij na tablicę poniżej, która Cię interesuje i zacznij od razu!",
   "no_global_rules_info": "Zawsze możesz połączyć się z dowolnym forum, w pełni P2P, nikt nie może cię zatrzymać. Po prostu wklej jego adres w polu wyszukiwania powyżej.",
   "boards": "fora",
   "popular_threads": "Popularne wątki",
@@ -107,7 +107,6 @@
   "account": "konto",
   "crypto_address": "adres kryptowalutowy",
   "crypto_wallets": "Portfele kryptowalut",
-  "plebbit_options": "opcje plebbit",
   "reset": "zresetuj",
   "import": "importuj",
   "export": "eksportuj",
@@ -239,7 +238,6 @@
   "stored_locally": "Przechowywane lokalnie ({{location}}), nie synchronizowane między urządzeniami",
   "choose_one": "Wybierz jeden:",
   "create": "Utwórz",
-  "plebbit_account": "Konto Plebbit",
   "save_changes": "Zapisz zmiany",
   "reset_changes": "Zresetuj zmiany",
   "crypto_address_yours": "Adres kryptowaluty należy do tego konta.",
@@ -304,5 +302,7 @@
   "subscriptions_subtitle_one": "Subskrybujesz {{count}} board",
   "all_boards": "Wszystkie tablice",
   "nsfw_boards_only": "Tylko tablice NSFW",
-  "worksafe_boards_only": "Tylko bezpieczne tablice"
+  "worksafe_boards_only": "Tylko bezpieczne tablice",
+  "bitsocial_account": "Konto Bitsocial",
+  "p2p_options": "Opcje P2P"
 }

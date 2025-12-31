@@ -2,7 +2,7 @@
   "what_is_5chan": "Cos'è 5chan?",
   "go": "vai",
   "or": "oppure",
-  "5chan_description": "5chan è un'alternativa decentralizzata, senza server, senza amministratore e open-source a 4chan, dove chiunque può creare e possedere criptograficamente board illimitati. Tutte le board sono ospitate e moderate dai loro proprietari, che eseguono nodi a cui gli utenti si connettono e condividono, peer-to-peer. Tutti i dati sono solo testo, inclusi i link per incorporare immagini. Sentiti libero di cliccare su una board qui sotto che ti interessa e inizia subito!",
+  "5chan_description": "5chan è un'alternativa completamente decentralizzata e open-source a 4chan, dove chiunque può creare e possedere criptograficamente board illimitati. I proprietari dei board ospitano e moderano il loro board e ne stabiliscono le <1>Regole</1>. Tutti i dati sono solo testo e vengono condivisi peer-to-peer, inclusi i link alle immagini incorporate. Consulta le <2>FAQ</2> per saperne di più. Sentiti libero di cliccare su un board qui sotto che ti interessa e inizia subito!",
   "no_global_rules_info": "Puoi sempre connetterti a qualsiasi board, completamente P2P, nessuno può fermarti. Basta incollare il suo indirizzo nel campo di ricerca sopra.",
   "boards": "board",
   "popular_threads": "Thread popolari",
@@ -107,7 +107,6 @@
   "account": "account",
   "crypto_address": "indirizzo crypto",
   "crypto_wallets": "Wallet crypto",
-  "plebbit_options": "opzioni plebbit",
   "reset": "ripristina",
   "import": "importa",
   "export": "esporta",
@@ -239,7 +238,6 @@
   "stored_locally": "Memorizzato localmente ({{location}}), non sincronizzato tra i dispositivi",
   "choose_one": "Scegline una:",
   "create": "Crea",
-  "plebbit_account": "Account Plebbit",
   "save_changes": "Salva Modifiche",
   "reset_changes": "Ripristina Modifiche",
   "crypto_address_yours": "L'indirizzo cripto appartiene a questo account.",
@@ -304,5 +302,7 @@
   "subscriptions_subtitle_one": "Ti sei iscritto a {{count}} board",
   "all_boards": "Tutte le bacheche",
   "nsfw_boards_only": "Solo bacheche NSFW",
-  "worksafe_boards_only": "Solo bacheche sicure per il lavoro"
+  "worksafe_boards_only": "Solo bacheche sicure per il lavoro",
+  "bitsocial_account": "Account Bitsocial",
+  "p2p_options": "Opzioni P2P"
 }

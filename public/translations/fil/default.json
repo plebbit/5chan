@@ -2,7 +2,7 @@
   "what_is_5chan": "Ano ang 5chan?",
   "go": "pumunta",
   "or": "o",
-  "5chan_description": "Ang 5chan ay isang serverless, adminless, decentralized at open-source na alternatibo sa 4chan, kung saan sinuman ay maaaring lumikha at cryptographically magmamay-ari ng walang limitasyong boards. Lahat ng boards ay hosted at moderated ng kanilang mga may-ari, na nagpapatakbo ng nodes na ikinokonekta at siniseed ng mga user, peer-to-peer. Lahat ng data ay text-only, kasama ang mga link para i-embed ang mga imahe. Huwag mag-atubiling mag-click sa isang board sa ibaba na interesado ka at magsimula kaagad!",
+  "5chan_description": "Ang 5chan ay isang ganap na desentralisado at open-source na alternatibo sa 4chan, kung saan sinuman ay maaaring lumikha at kriptograpikong magmay-ari ng walang limitasyong boards. Ang mga may-ari ng board ay nagho-host at nagmo-moderate ng kanilang board, at nagtatakda ng <1>Mga Patakaran</1> nito. Ang lahat ng data ay teksto lamang at ibinabahagi nang peer-to-peer, kasama ang mga link sa embed na mga larawan. Tingnan ang <2>Mga FAQ</2> para matuto pa. Huwag mag-atubiling i-click ang isang board sa ibaba na interesado ka at magsimula kaagad!",
   "no_global_rules_info": "Maaari mong palaging kumonekta sa anumang board, ganap na P2P, walang makakapigil sa iyo. Ilagay lamang ang address nito sa search field sa itaas.",
   "boards": "mga board",
   "popular_threads": "Mga popular na thread",
@@ -107,7 +107,6 @@
   "account": "account",
   "crypto_address": "crypto address",
   "crypto_wallets": "Mga Wallet ng Crypto",
-  "plebbit_options": "mga pagpipilian ng plebbit",
   "reset": "i-reset",
   "import": "i-import",
   "export": "i-export",
@@ -239,7 +238,6 @@
   "stored_locally": "Nakaimbak nang lokal ({{location}}), hindi naka-sync sa iba pang device",
   "choose_one": "Pumili ng isa:",
   "create": "Lumikha",
-  "plebbit_account": "Plebbit Account",
   "save_changes": "I-save ang mga pagbabago",
   "reset_changes": "I-reset ang mga pagbabago",
   "crypto_address_yours": "Ang crypto address ay nauugnay sa account na ito.",
@@ -304,5 +302,7 @@
   "subscriptions_subtitle_one": "Nag-subscribe ka sa {{count}} na board",
   "all_boards": "Lahat ng boards",
   "nsfw_boards_only": "NSFW boards lang",
-  "worksafe_boards_only": "Worksafe boards lang"
+  "worksafe_boards_only": "Worksafe boards lang",
+  "bitsocial_account": "Account ng Bitsocial",
+  "p2p_options": "Mga Opsyon ng P2P"
 }

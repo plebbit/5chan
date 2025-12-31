@@ -2,7 +2,7 @@
   "what_is_5chan": "O que é 5chan?",
   "go": "vai",
   "or": "ou",
-  "5chan_description": "5chan é uma alternativa descentralizada, sem servidor, sem administrador e de código aberto ao 4chan, onde qualquer pessoa pode criar e possuir criptograficamente quadros ilimitados. Todos os quadros são hospedados e moderados por seus proprietários, que executam nós aos quais os usuários se conectam e compartilham, peer-to-peer. Todos os dados são apenas texto, incluindo links para incorporar imagens. Sinta-se à vontade para clicar em um quadro abaixo que lhe interesse e comece imediatamente!",
+  "5chan_description": "5chan é uma alternativa totalmente descentralizada e de código aberto ao 4chan, onde qualquer pessoa pode criar e possuir criptograficamente quadros ilimitados. Os proprietários dos quadros hospedam e moderam seu quadro e definem suas <1>Regras</1>. Todos os dados são apenas texto e são compartilhados peer-to-peer, incluindo links para imagens incorporadas. Confira as <2>Perguntas Frequentes</2> para saber mais. Sinta-se à vontade para clicar em um quadro abaixo que lhe interesse e comece imediatamente!",
   "no_global_rules_info": "Você sempre pode se conectar a qualquer fórum, completamente P2P, ninguém pode impedi-lo. Simplesmente cole o endereço no campo de pesquisa acima.",
   "boards": "fóruns",
   "popular_threads": "Tópicos populares",
@@ -107,7 +107,6 @@
   "account": "conta",
   "crypto_address": "endereço de cripto",
   "crypto_wallets": "Carteiras cripto",
-  "plebbit_options": "opções plebbit",
   "reset": "redefinir",
   "import": "importar",
   "export": "exportar",
@@ -239,7 +238,6 @@
   "stored_locally": "Armazenado localmente ({{location}}), não sincronizado entre dispositivos",
   "choose_one": "Escolha um:",
   "create": "Criar",
-  "plebbit_account": "Conta Plebbit",
   "save_changes": "Salvar Alterações",
   "reset_changes": "Redefinir Alterações",
   "crypto_address_yours": "O endereço de criptomoeda pertence a esta conta.",
@@ -304,5 +302,7 @@
   "subscriptions_subtitle_one": "Você se inscreveu em {{count}} board",
   "all_boards": "Todos os quadros",
   "nsfw_boards_only": "Apenas quadros NSFW",
-  "worksafe_boards_only": "Apenas quadros seguros para o trabalho"
+  "worksafe_boards_only": "Apenas quadros seguros para o trabalho",
+  "bitsocial_account": "Conta Bitsocial",
+  "p2p_options": "Opções P2P"
 }

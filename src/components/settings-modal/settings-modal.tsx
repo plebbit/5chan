@@ -147,7 +147,7 @@ const SettingsModal = () => {
         <div id='account-settings' className={`${styles.setting} ${styles.category}`}>
           <label onClick={() => handleCategoryClick('account-settings', showAccountSettings, setShowAccountSettings)}>
             <span className={showAccountSettings ? styles.hideButton : styles.showButton} />
-            {t('plebbit_account')}
+            {t('bitsocial_account')}
           </label>
         </div>
         {showAccountSettings && <AccountSettings />}
@@ -189,7 +189,7 @@ const SettingsModal = () => {
         <div id='pkc-options-settings' className={`${styles.setting} ${styles.category}`}>
           <label onClick={() => handleCategoryClick('pkc-options-settings', showPlebbitOptionsSettings, setShowPlebbitOptionsSettings)}>
             <span className={showPlebbitOptionsSettings ? styles.hideButton : styles.showButton} />
-            {t('plebbit_options')}
+            {t('p2p_options')}
           </label>
         </div>
         {showPlebbitOptionsSettings && <PlebbitOptions />}

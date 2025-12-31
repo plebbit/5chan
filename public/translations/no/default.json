@@ -2,7 +2,7 @@
   "what_is_5chan": "Hva er 5chan?",
   "go": "gå",
   "or": "eller",
-  "5chan_description": "5chan er et serverløst, adminløst, desentralisert og åpen kildekode-alternativ til 4chan, hvor alle kan opprette og kryptografisk eie ubegrensede boards. Alle boards hostes og modereres av sine eiere, som kjører noder som brukere kobler til og seed, peer-to-peer. Alle data er kun tekst, inkludert lenker for å bygge inn bilder. Gjerne klikk på et board nedenfor som interesserer deg og kom i gang med en gang!",
+  "5chan_description": "5chan er et fullstendig desentralisert og åpen kildekode-alternativ til 4chan, hvor hvem som helst kan opprette og kryptografisk eie ubegrensede boards. Board-eiere hoster og modererer sitt board og setter dets <1>Regler</1>. Alle data er kun tekst og deles peer-to-peer, inkludert lenker til innebygde bilder. Sjekk ut <2>FAQ</2> for å lære mer. Ta gjerne en titt på et board nedenfor som interesserer deg og kom i gang med en gang!",
   "no_global_rules_info": "Du kan alltid koble til hvilket som helst forum, fullt P2P, ingen kan stoppe deg. Lim bare adressen i søkefeltet ovenfor.",
   "boards": "fora",
   "popular_threads": "Populære tråder",
@@ -107,7 +107,6 @@
   "account": "konto",
   "crypto_address": "kryptoadresse",
   "crypto_wallets": "Crypto-lommebøker",
-  "plebbit_options": "plebbit alternativer",
   "reset": "nullstill",
   "import": "importer",
   "export": "eksporter",
@@ -239,7 +238,6 @@
   "stored_locally": "Lagring lokalt ({{location}}), ikke synkronisert på tvers av enheter",
   "choose_one": "Velg en:",
   "create": "Opprett",
-  "plebbit_account": "Plebbit-konto",
   "save_changes": "Lagre endringer",
   "reset_changes": "Tilbakestill endringer",
   "crypto_address_yours": "Crypto-adressen tilhører denne kontoen.",
@@ -304,5 +302,7 @@
   "subscriptions_subtitle_one": "Du har abonnert på {{count}} board",
   "all_boards": "Alle tavler",
   "nsfw_boards_only": "Kun NSFW-tavler",
-  "worksafe_boards_only": "Kun arbeidssikre tavler"
+  "worksafe_boards_only": "Kun arbeidssikre tavler",
+  "bitsocial_account": "Bitsocial-konto",
+  "p2p_options": "P2P-alternativer"
 }
