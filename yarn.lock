@@ -5309,6 +5309,11 @@
   resolved "https://registry.yarnpkg.com/@xmldom/xmldom/-/xmldom-0.8.11.tgz#b79de2d67389734c57c52595f7a7305e30c2d608"
   integrity sha512-cQzWCtO6C8TQiYl1ruKNn2U6Ao4o4WBBcbL61yJl84x+j5sOWWFU9X7DpND8XZG3daDppSsigMdfAIl2upQBRw==
 
+"@xstate/solid@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@xstate/solid/-/solid-2.0.0.tgz#22d21610ad3edb663bc0d05e7695b836a89f6b06"
+  integrity sha512-ycGMMJWPtfnc+CGhUxxe664wTVr4M2NXEJx4EsShbcT5G0d2bP378AtAsVvVhSjr6W5+7Br6htDivND1I6DOfQ==
+
 JSONStream@^1.3.5:
   version "1.3.5"
   resolved "https://registry.yarnpkg.com/JSONStream/-/JSONStream-1.3.5.tgz#3208c1f08d3a4d99261ab64f92302bc15e111ca0"
@@ -5808,6 +5813,13 @@ bippy@^0.3.8:
   version "0.3.32"
   resolved "https://registry.yarnpkg.com/bippy/-/bippy-0.3.32.tgz#d0f306b6cbab09090fca8d8aeb4737a5b45dc77c"
   integrity sha512-hJnncyDOOK/QAgQeSsvaz8gFj93GGmJGBQU91M/E4+G5zS/u5nANPWL0j4bTOfY1asVkXIozG6H/qxlR/yCeYA==
+  dependencies:
+    "@types/react-reconciler" "^0.28.9"
+
+bippy@^0.5.27:
+  version "0.5.27"
+  resolved "https://registry.yarnpkg.com/bippy/-/bippy-0.5.27.tgz#030dc48cda43e7e5c05857a8ce97dea5da3d9045"
+  integrity sha512-LvGYTQm5cMqEhnUT2tr6mSE1mrhmX/xxu3jiypHAscThhxC+9SWdaQW8Nye5CT/sR79LObNJlQpOUgi4DopTMg==
   dependencies:
     "@types/react-reconciler" "^0.28.9"
 
@@ -7040,6 +7052,11 @@ csstype@^3.0.2:
   version "3.1.3"
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-3.1.3.tgz#d80ff294d114fb0e6ac500fbf85b60137d7eff81"
   integrity sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw==
+
+csstype@^3.1.0:
+  version "3.2.3"
+  resolved "https://registry.yarnpkg.com/csstype/-/csstype-3.2.3.tgz#ec48c0f3e993e50648c86da559e2610995cf989a"
+  integrity sha512-z1HGKcYy2xA8AGQfwrn0PAy+PB7X/GSj3UVJW9qKyn43xWa+gl5nXmU4qqLMRzWVLFC8KusUX8T/0kCiOYpAIQ==
 
 cz-conventional-changelog@3.3.0:
   version "3.3.0"
@@ -13057,6 +13074,16 @@ react-dom@19.1.2:
   dependencies:
     scheduler "^0.26.0"
 
+react-grab@0.0.94:
+  version "0.0.94"
+  resolved "https://registry.yarnpkg.com/react-grab/-/react-grab-0.0.94.tgz#3844eeba0f36faf24d6cfeae86ee4fac240ef204"
+  integrity sha512-C/4w8G5/AgCRfZB6sHmxemkGIReUmtFPjcB43uLv3zSJTvnOrcx+ELnZlv1uZ+OTck2sO4Jf4JSintgbWUXxLA==
+  dependencies:
+    "@xstate/solid" "^2.0.0"
+    bippy "^0.5.27"
+    solid-js "^1.9.10"
+    xstate "^5.25.0"
+
 react-i18next@13.2.2:
   version "13.2.2"
   resolved "https://registry.yarnpkg.com/react-i18next/-/react-i18next-13.2.2.tgz#b1e78ed66a54f4bc819616f68b98221e1b1a1936"
@@ -13738,6 +13765,16 @@ serialize-javascript@^6.0.1:
   dependencies:
     randombytes "^2.1.0"
 
+seroval-plugins@~1.3.0:
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/seroval-plugins/-/seroval-plugins-1.3.3.tgz#51bcacf09e5384080d7ea4002b08fd9f6166daf5"
+  integrity sha512-16OL3NnUBw8JG1jBLUoZJsLnQq0n5Ua6aHalhJK4fMQkz1lqR7Osz1sA30trBtd9VUDc2NgkuRCn8+/pBwqZ+w==
+
+seroval@~1.3.0:
+  version "1.3.2"
+  resolved "https://registry.yarnpkg.com/seroval/-/seroval-1.3.2.tgz#7e5be0dc1a3de020800ef013ceae3a313f20eca7"
+  integrity sha512-RbcPH1n5cfwKrru7v7+zrZvjLurgHhGyso3HTyGtRivGWgYjbOmGuivCQaORNELjNONoK35nj28EoWul9sb1zQ==
+
 set-blocking@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/set-blocking/-/set-blocking-2.0.0.tgz#045f9782d011ae9a6803ddd382b24392b3d890f7"
@@ -14000,6 +14037,15 @@ socks@^2.6.2:
   dependencies:
     ip-address "^10.0.1"
     smart-buffer "^4.2.0"
+
+solid-js@^1.9.10:
+  version "1.9.10"
+  resolved "https://registry.yarnpkg.com/solid-js/-/solid-js-1.9.10.tgz#95e57b004f3788d38f19e3b47101e90a9ab9dd0f"
+  integrity sha512-Coz956cos/EPDlhs6+jsdTxKuJDPT7B5SVIWgABwROyxjY7Xbr8wkzD68Et+NxnV7DLJ3nJdAC2r9InuV/4Jew==
+  dependencies:
+    csstype "^3.1.0"
+    seroval "~1.3.0"
+    seroval-plugins "~1.3.0"
 
 sort-keys-length@^1.0.0:
   version "1.0.1"
@@ -15929,6 +15975,11 @@ xmlchars@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/xmlchars/-/xmlchars-2.2.0.tgz#060fe1bcb7f9c76fe2a17db86a9bc3ab894210cb"
   integrity sha512-JZnDKK8B0RCDw84FNdDAIpZK+JuJw+s7Lz8nksI7SIuU3UXJJslUthsi+uWBUYOwPFwW7W7PRLRfUKpxjtjFCw==
+
+xstate@^5.25.0:
+  version "5.25.0"
+  resolved "https://registry.yarnpkg.com/xstate/-/xstate-5.25.0.tgz#34b36c4843a9db445ed608f0e8caf8c381d5bce2"
+  integrity sha512-yyWzfhVRoTHNLjLoMmdwZGagAYfmnzpm9gPjlX2MhJZsDojXGqRxODDOi4BsgGRKD46NZRAdcLp6CKOyvQS0Bw==
 
 xtend@^4.0.0, xtend@^4.0.2:
   version "4.0.2"

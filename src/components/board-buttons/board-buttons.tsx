@@ -10,6 +10,7 @@ import useCatalogFiltersStore from '../../stores/use-catalog-filters-store';
 import useCatalogStyleStore from '../../stores/use-catalog-style-store';
 import useFeedResetStore from '../../stores/use-feed-reset-store';
 import useSortingStore from '../../stores/use-sorting-store';
+import useAllFeedFilterStore from '../../stores/use-all-feed-filter-store';
 import useCountLinksInReplies from '../../hooks/use-count-links-in-replies';
 import useIsMobile from '../../hooks/use-is-mobile';
 import useTimeFilter from '../../hooks/use-time-filter';
@@ -247,14 +248,14 @@ export const TimeFilter = ({ isInAllView, isInCatalogView, isInSubscriptionsView
         ? `/all/catalog/${timeFilterName}`
         : `/all/${timeFilterName}`
       : isInSubscriptionsView
-      ? isInCatalogView
-        ? `/subs/catalog/${timeFilterName}`
-        : `/subs/${timeFilterName}`
-      : isInModView
-      ? isInCatalogView
-        ? `/mod/catalog/${timeFilterName}`
-        : `/mod/${timeFilterName}`
-      : null;
+        ? isInCatalogView
+          ? `/subs/catalog/${timeFilterName}`
+          : `/subs/${timeFilterName}`
+        : isInModView
+          ? isInCatalogView
+            ? `/mod/catalog/${timeFilterName}`
+            : `/mod/${timeFilterName}`
+          : null;
     link && navigate(link);
   };
 
@@ -277,6 +278,22 @@ export const TimeFilter = ({ isInAllView, isInCatalogView, isInSubscriptionsView
             {name}
           </option>
         ))}
+      </select>
+    </>
+  );
+};
+
+const AllFeedFilter = () => {
+  const { t } = useTranslation();
+  const { filter, setFilter } = useAllFeedFilterStore();
+
+  return (
+    <>
+      <span>{t('show')}</span>:&nbsp;
+      <select className='capitalize' value={filter} onChange={(e) => setFilter(e.target.value as 'all' | 'nsfw' | 'sfw')}>
+        <option value='all'>{t('all_boards')}</option>
+        <option value='nsfw'>{t('nsfw_boards_only')}</option>
+        <option value='sfw'>{t('worksafe_boards_only')}</option>
       </select>
     </>
   );
@@ -340,6 +357,14 @@ export const MobileBoardButtons = () => {
                 — {t('filtered_threads')}: <strong>{filteredCount}</strong>
               </span>
             )
+          )}
+          {isInAllView && (
+            <>
+              <hr />
+              <div className={styles.options}>
+                <AllFeedFilter />
+              </div>
+            </>
           )}
           {isInCatalogView && (
             <>
@@ -409,11 +434,9 @@ export const DesktopBoardButtons = () => {
         {isInPostView || isInPendingPostPage ? (
           <>
             [
-            <ReturnButton address={subplebbitAddress} isInAllView={isInAllView} isInSubscriptionsView={isInSubscriptionsView} isInModView={isInModView} />
-            ] [
+            <ReturnButton address={subplebbitAddress} isInAllView={isInAllView} isInSubscriptionsView={isInSubscriptionsView} isInModView={isInModView} />] [
             <CatalogButton address={subplebbitAddress} isInAllView={isInAllView} isInSubscriptionsView={isInSubscriptionsView} isInModView={isInModView} />] [
-            <UpdateButton />
-            ] [
+            <UpdateButton />] [
             <AutoButton />]
             <span className={styles.rightSideButtons}>
               <PostPageStats />
@@ -462,6 +485,7 @@ export const DesktopBoardButtons = () => {
                   <ShowOPCommentOption />
                 </>
               )}
+              {isInAllView && <AllFeedFilter />}
               {(isInAllView || isInSubscriptionsView || isInModView) && (
                 <TimeFilter isInAllView={isInAllView} isInCatalogView={isInCatalogView} isInSubscriptionsView={isInSubscriptionsView} isInModView={isInModView} />
               )}

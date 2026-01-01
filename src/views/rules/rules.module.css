@@ -1,0 +1,172 @@
+.wrapper {
+  width: 100%;
+}
+
+.content {
+  height: 100%;
+  margin: auto;
+  text-align: left;
+  width: 750px;
+  min-width: 750px;
+}
+
+.box {
+  position: relative;
+  margin-bottom: 0.5em;
+  padding-bottom: 0.5em;
+  border: 1px solid;
+}
+
+.boxBar {
+  padding-left: 0.5em;
+  line-height: 2em;
+  text-transform: capitalize;
+}
+
+.boxBar h2 {
+  font-size: 131%;
+  font-weight: 700;
+}
+
+.boxContent {
+  line-height: 1.5em;
+  font-size: 93%;
+  padding: 0.5em;
+  padding-top: 0.25em;
+  padding-bottom: 0;
+  color: #000;
+}
+
+.infoBox {
+  background: var(--homepage-box-background-color);
+  color: var(--homepage-infobox-text-color);
+  border: 1px solid var(--homepage-box-border-color);
+}
+
+.infoBox .boxBar {
+  background: var(--homepage-box-bar-background-color);
+  color: var(--homepage-box-bar-text-color);
+}
+
+.selectorBox {
+  background: #efe;
+  color: #060;
+}
+
+.selectorBox .boxBar {
+  background: #9c6;
+  color: #060;
+}
+
+.selectorRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+}
+
+.boardSelect {
+  padding: 5px 10px;
+  font-size: 14px;
+  border: 1px solid #aaa;
+  border-radius: 0;
+  background: #fff;
+  cursor: pointer;
+  min-width: 200px;
+  box-sizing: border-box;
+}
+
+.orSeparator {
+  color: #666;
+  font-style: italic;
+}
+
+.customAddressForm {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  box-sizing: border-box;
+}
+
+.addressInput {
+  padding: 5px 10px;
+  font-size: 14px;
+  border: 1px solid #aaa;
+  border-radius: 0;
+  min-width: 200px;
+  box-sizing: border-box;
+}
+
+.addressInput:focus {
+  border-color: #ea8;
+  outline: none;
+}
+
+.goButton {
+  padding: 5px 10px;
+  font-size: 14px;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.rulesBox {
+  background: #eff;
+  color: #006;
+}
+
+.rulesBox .boxBar {
+  background: #59a;
+  color: #fff;
+}
+
+.box ol {
+  margin: 1em;
+  margin-left: 2em;
+}
+
+.box ol li {
+  list-style: decimal outside;
+  margin-bottom: 0.5em;
+}
+
+@media (max-width: 640px) {
+  .content {
+    min-width: 0;
+    width: auto;
+    padding: 10px;
+  }
+
+  .selectorRow {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .boardSelect,
+  .addressInput {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+
+  .orSeparator {
+    text-align: center;
+  }
+
+  .customAddressForm {
+    flex-direction: column;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .goButton {
+    box-sizing: border-box;
+    margin-top: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+}
+
+.selectorBoxTitle, .rulesBoxTitle {
+  text-transform: none;
+}

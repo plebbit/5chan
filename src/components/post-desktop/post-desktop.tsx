@@ -1,7 +1,8 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { Link, useLocation, useParams } from 'react-router-dom';
-import { Comment, useAuthorAvatar, useEditedComment } from '@plebbit/plebbit-react-hooks';
+import { Link, useLocation, useNavigationType, useParams } from 'react-router-dom';
+import { Virtuoso, VirtuosoHandle, StateSnapshot } from 'react-virtuoso';
+import { Comment, useAuthorAvatar, useEditedComment, useReplies } from '@plebbit/plebbit-react-hooks';
 import Plebbit from '@plebbit/plebbit-js';
 import styles from '../../views/post/post.module.css';
 import { CommentMediaInfo, getDisplayMediaInfoType, getHasThumbnail, getMediaDimensions } from '../../lib/utils/media-utils';
@@ -17,7 +18,6 @@ import { useCommentMediaInfo } from '../../hooks/use-comment-media-info';
 import useCountLinksInReplies from '../../hooks/use-count-links-in-replies';
 import useFetchGifFirstFrame from '../../hooks/use-fetch-gif-first-frame';
 import useHide from '../../hooks/use-hide';
-import useReplies from '../../hooks/use-replies';
 import useStateString from '../../hooks/use-state-string';
 import CommentContent from '../comment-content';
 import CommentMedia from '../comment-media';
@@ -33,6 +33,9 @@ import _ from 'lodash';
 import { shouldShowSnow } from '../../lib/snow';
 import useReplyModalStore from '../../stores/use-reply-modal-store';
 import { selectPostMenuProps } from '../../lib/utils/post-menu-props';
+
+// Store scroll position for replies virtuoso across navigations
+const lastVirtuosoStates: { [key: string]: StateSnapshot } = {};
 
 interface ShowOmittedRepliesState {
   showOmittedReplies: Record<string, boolean>;
@@ -50,11 +53,11 @@ const useShowOmittedReplies = create<ShowOmittedRepliesState>((set) => ({
     })),
 }));
 
-const PostInfo = ({ post, postReplyCount = 0, roles, isHidden }: PostProps) => {
+const PostInfo = ({ post, postReplyCount = 0, roles, isHidden, threadNumber }: PostProps) => {
   const { t } = useTranslation();
   const { author, cid, deleted, locked, pinned, parentCid, postCid, reason, removed, state, subplebbitAddress, timestamp } = post || {};
   const title = post?.title?.trim();
-  const replies = useReplies(post);
+  const { replies } = useReplies({ comment: post });
   const { address, shortAddress } = author || {};
   const displayName = author?.displayName?.trim();
   const authorRole = roles?.[address]?.role?.replace('moderator', 'mod');
@@ -88,10 +91,10 @@ const PostInfo = ({ post, postReplyCount = 0, roles, isHidden }: PostProps) => {
         ? alert(t('this_reply_was_deleted'))
         : alert(t('this_thread_was_deleted'))
       : removed
-      ? isReply
-        ? alert(t('this_reply_was_removed'))
-        : alert(t('this_thread_was_removed'))
-      : openReplyModal && openReplyModal(cid, postCid, subplebbitAddress);
+        ? isReply
+          ? alert(t('this_reply_was_removed'))
+          : alert(t('this_thread_was_removed'))
+        : openReplyModal && openReplyModal(cid, post?.number, postCid, threadNumber, subplebbitAddress);
   };
 
   return (
@@ -322,7 +325,7 @@ const PostMedia = ({
   );
 };
 
-const Reply = ({ postReplyCount, reply, roles }: PostProps) => {
+const Reply = ({ postReplyCount, reply, roles, threadNumber }: PostProps) => {
   let post = reply;
   // handle pending mod or author edit
   const { editedComment } = useEditedComment({ comment: reply });
@@ -350,7 +353,7 @@ const Reply = ({ postReplyCount, reply, roles }: PostProps) => {
     <div className={styles.replyDesktop}>
       <div className={styles.sideArrows}>{'>>'}</div>
       <div className={`${styles.reply} ${isRouteLinkToReply && styles.highlight}`} data-cid={cid} data-author-address={author?.shortAddress} data-post-cid={postCid}>
-        <PostInfo post={post} postReplyCount={postReplyCount} roles={roles} isHidden={hidden} />
+        <PostInfo post={post} postReplyCount={postReplyCount} roles={roles} isHidden={hidden} threadNumber={threadNumber} />
         {link && !hidden && !(deleted || removed) && isValidURL(link) && (
           <PostMedia
             commentMediaInfo={commentMediaInfo}
@@ -377,6 +380,7 @@ const PostDesktop = ({ post, roles, showAllReplies, showReplies = true }: PostPr
   const { author, cid, content, deleted, link, linkHeight, linkWidth, pinned, postCid, removed, spoiler, state, subplebbitAddress, thumbnailUrl, parentCid } = post || {};
   const params = useParams();
   const location = useLocation();
+  const navigationType = useNavigationType();
   const isInPendingPostView = isPendingPostView(location.pathname, params);
   const isInPostPageView = isPostPageView(location.pathname, params);
   const isInAllView = isAllView(location.pathname);
@@ -387,7 +391,7 @@ const PostDesktop = ({ post, roles, showAllReplies, showReplies = true }: PostPr
   const { hidden, unhide, hide } = useHide({ cid });
   const isHidden = hidden && !isInPostPageView;
 
-  const replies = useReplies(post);
+  const { replies, hasMore, loadMore } = useReplies({ comment: post });
   const visiblelinksCount = useCountLinksInReplies(post, 5);
   const totalLinksCount = useCountLinksInReplies(post);
   const replyCount = replies?.length;
@@ -400,6 +404,38 @@ const PostDesktop = ({ post, roles, showAllReplies, showReplies = true }: PostPr
 
   const commentMediaInfo = useCommentMediaInfo(link, thumbnailUrl, linkWidth, linkHeight);
   const hasThumbnail = getHasThumbnail(commentMediaInfo, link);
+
+  // Filter out deleted replies with no children for both virtuoso and non-virtuoso rendering
+  const filteredReplies = useMemo(() => (replies || []).filter((reply) => !(reply.deleted && (reply.replyCount === 0 || !reply.replyCount))), [replies]);
+
+  // Virtuoso scroll position management for infinite replies
+  const virtuosoRef = useRef<VirtuosoHandle | null>(null);
+  const virtuosoStateKey = `replies-desktop-${cid}`;
+
+  useEffect(() => {
+    if (!showAllReplies || !isInPostPageView) return;
+
+    const currentKey = virtuosoStateKey;
+    const setLastVirtuosoState = () => {
+      virtuosoRef.current?.getState((snapshot: StateSnapshot) => {
+        if (snapshot?.ranges?.length) {
+          lastVirtuosoStates[currentKey] = snapshot;
+        }
+      });
+    };
+    window.addEventListener('scroll', setLastVirtuosoState);
+    return () => window.removeEventListener('scroll', setLastVirtuosoState);
+  }, [virtuosoStateKey, showAllReplies, isInPostPageView]);
+
+  const lastVirtuosoState = navigationType === 'POP' ? lastVirtuosoStates?.[virtuosoStateKey] : undefined;
+
+  // Footer component for Virtuoso showing loading state
+  const RepliesFooter = () =>
+    hasMore ? (
+      <div className={styles.stateString}>
+        <LoadingEllipsis string={t('loading')} />
+      </div>
+    ) : null;
 
   return (
     <div className={styles.postDesktop}>
@@ -433,7 +469,7 @@ const PostDesktop = ({ post, roles, showAllReplies, showReplies = true }: PostPr
               isInSubscriptionsView={isInSubscriptionsView}
             />
           )}
-          <PostInfo isHidden={hidden} post={post} postReplyCount={replyCount} roles={roles} />
+          <PostInfo isHidden={hidden} post={post} postReplyCount={replyCount} roles={roles} threadNumber={post?.number} />
           {!isHidden && !content && !(deleted || removed) && <div className={styles.spacer} />}
           {!isHidden && <CommentContent comment={post} />}
         </div>
@@ -462,19 +498,48 @@ const PostDesktop = ({ post, roles, showAllReplies, showReplies = true }: PostPr
             )}
           </span>
         )}
+        {/* Virtuoso infinite scroll for post page view with more than 25 replies */}
+        {!isHidden && showAllReplies && !isInPendingPostView && showReplies && replyCount > 25 && (
+          <Virtuoso
+            increaseViewportBy={{ bottom: 1200, top: 1200 }}
+            totalCount={filteredReplies.length}
+            data={filteredReplies}
+            itemContent={(index, reply) => (
+              <div className={styles.replyContainer}>
+                <Reply reply={reply} roles={roles} postReplyCount={replyCount} threadNumber={post?.number} />
+              </div>
+            )}
+            useWindowScroll={true}
+            components={{ Footer: RepliesFooter }}
+            endReached={loadMore}
+            ref={virtuosoRef}
+            restoreStateFrom={lastVirtuosoState}
+            initialScrollTop={lastVirtuosoState?.scrollTop}
+          />
+        )}
+        {/* Non-virtualized rendering for post page view with 25 or fewer replies */}
         {!isHidden &&
+          showAllReplies &&
+          !isInPendingPostView &&
+          showReplies &&
+          replyCount <= 25 &&
+          filteredReplies.map((reply, index) => (
+            <div key={index} className={styles.replyContainer}>
+              <Reply reply={reply} roles={roles} postReplyCount={replyCount} threadNumber={post?.number} />
+            </div>
+          ))}
+        {/* Non-virtualized rendering for board view (last 5 replies or show omitted) */}
+        {!isHidden &&
+          !showAllReplies &&
           !(pinned && !isInPostPageView && !showOmittedReplies[cid]) &&
           !isInPendingPostView &&
           replies &&
           showReplies &&
-          (showAllReplies || showOmittedReplies[cid] ? replies : replies.slice(-5))
-            // Don't render deleted replies that have no children (replyCount = 0)
-            .filter((reply) => !(reply.deleted && (reply.replyCount === 0 || !reply.replyCount)))
-            .map((reply, index) => (
-              <div key={index} className={styles.replyContainer}>
-                <Reply reply={reply} roles={roles} postReplyCount={replyCount} />
-              </div>
-            ))}
+          (showOmittedReplies[cid] ? filteredReplies : filteredReplies.slice(-5)).map((reply, index) => (
+            <div key={index} className={styles.replyContainer}>
+              <Reply reply={reply} roles={roles} postReplyCount={replyCount} threadNumber={post?.number} />
+            </div>
+          ))}
       </div>
       {!isInPendingPostView && stateString && stateString !== 'Failed' && state !== 'succeeded' && isInPostPageView && !(!showReplies && !showAllReplies) ? (
         <div className={styles.stateString}>

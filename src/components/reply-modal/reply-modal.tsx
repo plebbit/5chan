@@ -3,7 +3,6 @@ import { useLocation, useParams } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
 import { setAccount, useAccount } from '@plebbit/plebbit-react-hooks';
 import useSubplebbitsStore from '@plebbit/plebbit-react-hooks/dist/stores/subplebbits';
-import Plebbit from '@plebbit/plebbit-js';
 import { formatMarkdown } from '../../lib/utils/post-utils';
 import { getFormattedTimeAgo } from '../../lib/utils/time-utils';
 import { isValidURL } from '../../lib/utils/url-utils';
@@ -25,12 +24,14 @@ interface ReplyModalProps {
   closeModal: () => void;
   showReplyModal: boolean;
   parentCid: string;
+  parentNumber: number | null;
+  threadNumber: number | null;
   postCid: string;
   scrollY: number;
   subplebbitAddress: string;
 }
 
-const ReplyModal = ({ closeModal, showReplyModal, parentCid, postCid, scrollY, subplebbitAddress }: ReplyModalProps) => {
+const ReplyModal = ({ closeModal, showReplyModal, parentCid, parentNumber, threadNumber, postCid, scrollY, subplebbitAddress }: ReplyModalProps) => {
   const { t } = useTranslation();
   const { setPublishReplyOptions, publishReply, resetPublishReplyOptions, replyIndex } = usePublishReply({
     cid: parentCid,
@@ -178,7 +179,7 @@ const ReplyModal = ({ closeModal, showReplyModal, parentCid, postCid, scrollY, s
     }
   }, []);
 
-  const contentPrefix = `>>${parentCid && Plebbit.getShortCid({ cid: parentCid })}\n`;
+  const contentPrefix = `>>${parentNumber ?? '?'}\n`;
 
   // enable spellcheck after the prefix is set
   useEffect(() => {
@@ -259,7 +260,7 @@ const ReplyModal = ({ closeModal, showReplyModal, parentCid, postCid, scrollY, s
       }}
     >
       <div className={`replyModalHandle ${styles.title}`} {...(!isMobile ? bind() : {})}>
-        {t('reply_to_cid', { cid: `CID:${parentCid && Plebbit.getShortCid({ cid: parentCid })}`, interpolation: { escapeValue: false } })}
+        {t('reply_to_no', { no: threadNumber ?? '?' })}
         <button
           className={styles.closeIcon}
           onClick={(e) => {

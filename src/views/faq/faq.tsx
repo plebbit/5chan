@@ -86,7 +86,7 @@ const FAQ = () => {
                   What is 5chan?
                 </dt>
                 <dd>
-                  5chan is a serverless, adminless, decentralized 4chan alternative where any pleb can create and own unlimited boards. All data comes from the Plebbit
+                  5chan is a serverless, adminless, decentralized 4chan alternative where anyone can create and own unlimited boards. All data comes from the Bitsocial
                   protocol, it's all text including links from which media is embedded, shared peer-to-peer. Users do not need to register an account before participating
                   in the community.
                 </dd>
@@ -106,8 +106,8 @@ const FAQ = () => {
                   To post as "Anonymous", simply do not fill in the [Name] field when submitting content.
                   <br />
                   <br />
-                  5chan uses the Plebbit protocol to function, which does not leak IP addresses of people who post. When you post on 5chan, no board admin can know your
-                  IP address, nor can the app itself, which is just static HTML. However, the Plebbit protocol is not fully anonymous, it uses IPFS, which means your IP
+                  5chan uses the Bitsocial protocol to function, which does not leak IP addresses of people who post. When you post on 5chan, no board admin can know your
+                  IP address, nor can the app itself, which is just static HTML. However, the Bitsocial protocol is not fully anonymous, it uses IPFS, which means your IP
                   address is part of a public P2P swarm, similarly to how BitTorrent works.
                 </dd>
                 <dt id='register'>Can I register a username?</dt>
@@ -141,10 +141,10 @@ const FAQ = () => {
                   when submitting content. You can paste any link, not just image links. You can also get an image link from social media, by right clicking the image and
                   selecting "Copy image URL", or by using tools such as <a href='https://cobalt.tools/'>cobalt</a>.<br />
                   <br />
-                  The reason why uploading media directly to boards is not possible, is because 5chan is a client for the Plebbit protocol, which is text-only (including
-                  links, from which media is embedded by clients). However, Plebbit uses IPFS, so in theory it could let users upload media to the subplebbit (board)
-                  owner's IPFS node, and then post the direct IPFS link for the media. This is not enabled because loading media from IPFS is extremely slow at the moment
-                  (because most people have slow internet).
+                  The reason why uploading media directly to boards is not possible, is because 5chan is a client for the Bitsocial protocol, which is text-only
+                  (including links, from which media is embedded by clients). However, Plebbit uses IPFS, so in theory it could let users upload media to the subplebbit
+                  (board) owner's IPFS node, and then post the direct IPFS link for the media. This is not enabled because loading media from IPFS is extremely slow at
+                  the moment (because most people have slow internet).
                 </dd>
                 <dt id='postimage'>Must I post an image?</dt>
                 <dd>
@@ -164,7 +164,7 @@ const FAQ = () => {
                   <br />
                   <br />
                   Unlike 4chan and other imageboards, 5chan does <i>not</i> allow to quote more than one post at a time. You can only reply to one post at a time. This is
-                  because 5chan is a client for the Plebbit protocol, which is designed to be an alternative to Reddit-like social media, in which you can only reply to
+                  because 5chan is a client for the Bitsocial protocol, which is designed to be an alternative to Reddit-like social media, in which you can only reply to
                   one post at a time.
                   <br />
                   <br />

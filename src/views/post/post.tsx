@@ -2,9 +2,11 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Comment, Role, useComment, useEditedComment, useSubplebbit } from '@plebbit/plebbit-react-hooks';
 import useSubplebbitsStore from '@plebbit/plebbit-react-hooks/dist/stores/subplebbits';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { isAllView } from '../../lib/utils/view-utils';
 import { useResolvedSubplebbitAddress } from '../../hooks/use-resolved-subplebbit-address';
+import { useDefaultSubplebbits } from '../../hooks/use-default-subplebbits';
+import { isDirectoryBoard } from '../../lib/utils/route-utils';
 import useIsMobile from '../../hooks/use-is-mobile';
 import ErrorDisplay from '../../components/error-display/error-display';
 import PostDesktop from '../../components/post-desktop';
@@ -21,6 +23,7 @@ export interface PostProps {
   roles?: Role[];
   showAllReplies?: boolean;
   showReplies?: boolean;
+  threadNumber?: number;
 }
 
 export const Post = ({ post, showAllReplies = false, showReplies = true }: PostProps) => {
@@ -57,8 +60,17 @@ const PostPage = () => {
   const isInAllView = isAllView(location.pathname);
 
   const comment = useComment({ commentCid });
+
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (comment?.subplebbitAddress && subplebbitAddress && comment.subplebbitAddress !== subplebbitAddress) {
+      navigate('/not-found', { replace: true });
+    }
+  }, [comment?.subplebbitAddress, subplebbitAddress, navigate]);
+
   const subplebbit = useSubplebbit({ subplebbitAddress });
   const { shortAddress, title } = subplebbit || {};
+  const defaultSubplebbits = useDefaultSubplebbits();
 
   // if the comment is a reply, return the post comment instead, then the reply will be highlighted in the thread
   const postComment = useComment({ commentCid: comment?.postCid });
@@ -69,26 +81,35 @@ const PostPage = () => {
     post = comment;
   }
 
-  const { error, replyCount } = post || {};
+  const { error } = post || {};
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
   useEffect(() => {
-    const boardTitle = title ? title : shortAddress || subplebbitAddress;
+    const boardIdentifier = params.boardIdentifier;
+    const isDirectory = boardIdentifier ? isDirectoryBoard(boardIdentifier, defaultSubplebbits) : false;
+
+    let boardTitle: string;
+    if (isInAllView) {
+      boardTitle = t('all');
+    } else if (isDirectory) {
+      boardTitle = `/${boardIdentifier}/`;
+    } else {
+      boardTitle = title ? title : shortAddress || subplebbitAddress || '';
+    }
+
     const postTitle = post?.title?.slice(0, 30) || post?.content?.slice(0, 30);
-    const postDucumentTitle = (postTitle ? postTitle.trim() + '... - ' : '') + boardTitle + ' - 5chan';
-    document.title = isInAllView ? `${t('all')} - 5chan` : postDucumentTitle;
-  }, [title, shortAddress, subplebbitAddress, post?.title, post?.content, isInAllView, t]);
+    const postTitlePart = postTitle ? ` - ${postTitle.trim()}...` : '';
+    document.title = `${boardTitle}${postTitlePart} - 5chan`;
+  }, [title, shortAddress, subplebbitAddress, post?.title, post?.content, isInAllView, t, params.boardIdentifier, defaultSubplebbits]);
 
   // probably not necessary to show the error to the user if the post loaded successfully
   const shouldShowErrorToUser = post?.error && ((post?.replyCount > 0 && post?.replies?.length === 0) || (post?.state === 'failed' && post?.error));
 
   return (
     <div className={styles.content}>
-      {/* TODO: remove this replyCount error once api supports scrolling replies pages */}
-      {replyCount > 60 && <span className={styles.error}>Error: this thread has too many replies, some of them cannot be displayed right now.</span>}
       {shouldShowErrorToUser && (
         <div className={styles.error}>
           <ErrorDisplay error={error} />

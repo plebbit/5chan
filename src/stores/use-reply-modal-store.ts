@@ -4,16 +4,20 @@ import useSelectedTextStore from './use-selected-text-store';
 interface ReplyModalState {
   showReplyModal: boolean;
   activeCid: string | null;
+  parentNumber: number | null;
+  threadNumber: number | null;
   threadCid: string | null;
   subplebbitAddress: string | null;
   scrollY: number;
   closeModal: () => void;
-  openReplyModal: (parentCid: string, postCid: string, subplebbitAddress: string) => void;
+  openReplyModal: (parentCid: string, parentNumber: number | undefined, postCid: string, threadNumber: number | undefined, subplebbitAddress: string) => void;
 }
 
 const useReplyModalStore = create<ReplyModalState>((set, get) => ({
   showReplyModal: false,
   activeCid: null,
+  parentNumber: null,
+  threadNumber: null,
   threadCid: null,
   subplebbitAddress: null,
   scrollY: 0,
@@ -24,10 +28,12 @@ const useReplyModalStore = create<ReplyModalState>((set, get) => ({
     set({
       showReplyModal: false,
       activeCid: null,
+      parentNumber: null,
+      threadNumber: null,
     });
   },
 
-  openReplyModal: (parentCid, postCid, subplebbitAddress) => {
+  openReplyModal: (parentCid, parentNumber, postCid, threadNumber, subplebbitAddress) => {
     // Don't update if already open with different parent
     if (get().activeCid && get().activeCid !== parentCid) {
       window.alert('Multiple quotes are not possible on 5chan for the time being, because of a protocol limitation. Please reply to one post at a time.');
@@ -46,6 +52,8 @@ const useReplyModalStore = create<ReplyModalState>((set, get) => ({
 
     set({
       activeCid: parentCid,
+      parentNumber: parentNumber ?? null,
+      threadNumber: threadNumber ?? null,
       threadCid: postCid,
       showReplyModal: true,
       subplebbitAddress,

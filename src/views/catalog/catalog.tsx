@@ -6,6 +6,7 @@ import { Virtuoso, VirtuosoHandle, StateSnapshot } from 'react-virtuoso';
 import { getCommentMediaInfo, getHasThumbnail } from '../../lib/utils/media-utils';
 import useCatalogFeedRows from '../../hooks/use-catalog-feed-rows';
 import { useDefaultSubplebbits } from '../../hooks/use-default-subplebbits';
+import { useFilteredDefaultSubplebbitAddresses } from '../../hooks/use-filtered-default-subplebbit-addresses';
 import { useResolvedSubplebbitAddress, useBoardPath } from '../../hooks/use-resolved-subplebbit-address';
 import { useFeedStateString } from '../../hooks/use-state-string';
 import useTimeFilter, { timeFilterNameToSeconds } from '../../hooks/use-time-filter';
@@ -14,9 +15,10 @@ import useCatalogStyleStore from '../../stores/use-catalog-style-store';
 import useFeedResetStore from '../../stores/use-feed-reset-store';
 import useSortingStore from '../../stores/use-sorting-store';
 import useCatalogFiltersStore from '../../stores/use-catalog-filters-store';
-import { getSubplebbitAddress } from '../../lib/utils/route-utils';
+import { getSubplebbitAddress, isDirectoryBoard } from '../../lib/utils/route-utils';
 import CatalogRow from '../../components/catalog-row';
 import LoadingEllipsis from '../../components/loading-ellipsis';
+import ErrorDisplay from '../../components/error-display/error-display';
 import styles from './catalog.module.css';
 import { commentMatchesPattern } from '../../lib/utils/pattern-utils';
 
@@ -152,19 +154,18 @@ const Catalog = ({ feedCacheKey, viewType, boardIdentifier: boardIdentifierProp,
 
   const account = useAccount();
   const subscriptions = account?.subscriptions;
+  const filteredDefaultSubplebbitAddresses = useFilteredDefaultSubplebbitAddresses();
 
   const subplebbitAddresses = useMemo(() => {
-    const filteredDefaultSubplebbits = defaultSubplebbits.map((subplebbit) => subplebbit.address).filter(Boolean); // Filter out any undefined/null values
-
     if (isInAllView) {
-      return filteredDefaultSubplebbits;
+      return filteredDefaultSubplebbitAddresses;
     }
     if (isInSubscriptionsView) {
       return (subscriptions || []).filter(Boolean); // Filter out any undefined/null values
     }
     // Only include subplebbitAddress if it's defined
     return subplebbitAddress ? [subplebbitAddress] : [];
-  }, [isInAllView, isInSubscriptionsView, subplebbitAddress, defaultSubplebbits, subscriptions]);
+  }, [isInAllView, isInSubscriptionsView, subplebbitAddress, filteredDefaultSubplebbitAddresses, subscriptions]);
 
   const { imageSize } = useCatalogStyleStore();
   const columnWidth = imageSize === 'Large' ? 270 : 180;
@@ -345,12 +346,7 @@ const Catalog = ({ feedCacheKey, viewType, boardIdentifier: boardIdentifierProp,
       ) : (
         hasMore && <LoadingEllipsis string={loadingStateString} />
       )}
-      {error && (
-        <div className='red'>
-          <br />
-          {error.message}
-        </div>
-      )}
+      <ErrorDisplay error={error} />
     </div>
   );
 
@@ -491,11 +487,21 @@ const Catalog = ({ feedCacheKey, viewType, boardIdentifier: boardIdentifierProp,
 
   useEffect(() => {
     if (!isVisible) return;
-    let documentTitle = title ? title : shortAddress;
-    if (isInAllView) documentTitle = t('all');
-    else if (isInSubscriptionsView) documentTitle = t('subscriptions');
+    const boardIdentifier = params.boardIdentifier || boardIdentifierProp;
+    const isDirectory = boardIdentifier ? isDirectoryBoard(boardIdentifier, defaultSubplebbits) : false;
+
+    let documentTitle: string;
+    if (isInAllView) {
+      documentTitle = t('all');
+    } else if (isInSubscriptionsView) {
+      documentTitle = t('subscriptions');
+    } else if (isDirectory) {
+      documentTitle = `/${boardIdentifier}/`;
+    } else {
+      documentTitle = title ? title : shortAddress || subplebbitAddress || '';
+    }
     document.title = documentTitle + ` - ${t('catalog')} - 5chan`;
-  }, [title, shortAddress, isInAllView, isInSubscriptionsView, t, isVisible]);
+  }, [title, shortAddress, subplebbitAddress, isInAllView, isInSubscriptionsView, t, isVisible, params.boardIdentifier, boardIdentifierProp, defaultSubplebbits]);
 
   // Clear matched filters when component mounts or when subplebbit changes
   useEffect(() => {

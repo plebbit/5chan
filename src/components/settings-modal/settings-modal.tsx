@@ -8,7 +8,7 @@ import BlockedAddressesSetting from './blocked-addresses-setting';
 import CryptoAddressSetting from './crypto-address-setting';
 import CryptoWalletsSetting from './crypto-wallets-setting';
 import InterfaceSettings from './interface-settings';
-import PlebbitOptions from './plebbit-options';
+import PlebbitOptions from './pkc-options';
 import SubscriptionsSetting from './subscriptions-setting';
 
 const SettingsModal = () => {
@@ -66,7 +66,7 @@ const SettingsModal = () => {
     if (showCryptoWalletSettings && 'crypto-wallet-settings' !== excludeCategoryId) return 'crypto-wallet-settings';
     if (showSubscriptionsSettings && 'subscriptions-settings' !== excludeCategoryId) return 'subscriptions-settings';
     if (showBlockedAddressesSetting && 'blocked-addresses-settings' !== excludeCategoryId) return 'blocked-addresses-settings';
-    if (showPlebbitOptionsSettings && 'plebbit-options-settings' !== excludeCategoryId) return 'plebbit-options-settings';
+    if (showPlebbitOptionsSettings && 'pkc-options-settings' !== excludeCategoryId) return 'pkc-options-settings';
     return null;
   };
 
@@ -106,7 +106,7 @@ const SettingsModal = () => {
       setShowCryptoWalletSettings(hash === 'crypto-wallet-settings');
       setShowSubscriptionsSettings(hash === 'subscriptions-settings');
       setShowBlockedAddressesSetting(hash === 'blocked-addresses-settings');
-      setShowPlebbitOptionsSettings(hash === 'plebbit-options-settings');
+      setShowPlebbitOptionsSettings(hash === 'pkc-options-settings');
     }
   }, [hash]);
 
@@ -147,7 +147,7 @@ const SettingsModal = () => {
         <div id='account-settings' className={`${styles.setting} ${styles.category}`}>
           <label onClick={() => handleCategoryClick('account-settings', showAccountSettings, setShowAccountSettings)}>
             <span className={showAccountSettings ? styles.hideButton : styles.showButton} />
-            {t('plebbit_account')}
+            {t('bitsocial_account')}
           </label>
         </div>
         {showAccountSettings && <AccountSettings />}
@@ -186,10 +186,10 @@ const SettingsModal = () => {
           </label>
         </div>
         {showBlockedAddressesSetting && <BlockedAddressesSetting />}
-        <div id='plebbit-options-settings' className={`${styles.setting} ${styles.category}`}>
-          <label onClick={() => handleCategoryClick('plebbit-options-settings', showPlebbitOptionsSettings, setShowPlebbitOptionsSettings)}>
+        <div id='pkc-options-settings' className={`${styles.setting} ${styles.category}`}>
+          <label onClick={() => handleCategoryClick('pkc-options-settings', showPlebbitOptionsSettings, setShowPlebbitOptionsSettings)}>
             <span className={showPlebbitOptionsSettings ? styles.hideButton : styles.showButton} />
-            {t('plebbit_options')}
+            {t('p2p_options')}
           </label>
         </div>
         {showPlebbitOptionsSettings && <PlebbitOptions />}

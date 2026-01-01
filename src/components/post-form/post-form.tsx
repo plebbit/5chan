@@ -8,7 +8,7 @@ import useSubplebbitsPagesStore from '@plebbit/plebbit-react-hooks/dist/stores/s
 import { getHasThumbnail, getLinkMediaInfo } from '../../lib/utils/media-utils';
 import { formatMarkdown } from '../../lib/utils/post-utils';
 import { isValidURL } from '../../lib/utils/url-utils';
-import { isAllView, isModView, isPostPageView, isSubscriptionsView } from '../../lib/utils/view-utils';
+import { isAllView, isCatalogView, isModView, isPostPageView, isSubscriptionsView } from '../../lib/utils/view-utils';
 import { useDefaultSubplebbits } from '../../hooks/use-default-subplebbits';
 import { useResolvedSubplebbitAddress } from '../../hooks/use-resolved-subplebbit-address';
 import useFetchGifFirstFrame from '../../hooks/use-fetch-gif-first-frame';
@@ -361,6 +361,7 @@ const PostForm = () => {
   const isInAllView = isAllView(location.pathname);
   const isInModView = isModView(location.pathname);
   const isInSubscriptionsView = isSubscriptionsView(location.pathname, params);
+  const isInCatalogView = isCatalogView(location.pathname, params);
 
   const commentCid = params?.commentCid;
   const post = useSubplebbitsPagesStore((state) => state.comments[commentCid as string]);
@@ -424,6 +425,7 @@ const PostForm = () => {
             {showForm && <PostFormTable closeForm={() => setShowForm(false)} postCid={postCid} />}
           </>
         )}
+        {isInCatalogView && <hr />}
       </div>
     </>
   );

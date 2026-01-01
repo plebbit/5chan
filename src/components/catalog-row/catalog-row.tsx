@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import { useFloating, offset, size, autoUpdate, Placement } from '@floating-ui/react';
-import { Comment } from '@plebbit/plebbit-react-hooks';
+import { Comment, useReplies } from '@plebbit/plebbit-react-hooks';
 import Plebbit from '@plebbit/plebbit-js';
 import { shouldShowSnow } from '../../lib/snow';
 import { getHasThumbnail } from '../../lib/utils/media-utils';
@@ -19,7 +19,6 @@ import useCountLinksInReplies from '../../hooks/use-count-links-in-replies';
 import useFetchGifFirstFrame from '../../hooks/use-fetch-gif-first-frame';
 import useHide from '../../hooks/use-hide';
 import useWindowWidth from '../../hooks/use-window-width';
-import useReplies from '../../hooks/use-replies';
 import { ContentPreview } from '../../views/home/popular-threads-box';
 import PostMenuDesktop from '../post-desktop/post-menu-desktop';
 import styles from './catalog-row.module.css';
@@ -181,8 +180,8 @@ const CatalogPost = ({ post }: { post: Comment }) => {
     update();
   }, [update, windowWidth]);
 
-  const replies = useReplies(post);
-  const lastReply = replies.length > 0 ? replies[replies.length - 1] : null;
+  const { replies } = useReplies({ comment: post });
+  const lastReply = replies?.length > 0 ? replies[replies.length - 1] : null;
 
   const { isCommentAuthorMod: isCatalogPostAuthorMod, commentAuthorRole: catalogPostAuthorRole } = useEditCommentPrivileges({
     commentAuthorAddress: author?.address,

@@ -3,6 +3,7 @@ import { Outlet, Route, Routes, useLocation, useParams } from 'react-router-dom'
 import { useAccountComment } from '@plebbit/plebbit-react-hooks';
 import { initSnow, removeSnow } from './lib/snow';
 import { isAllView, isModView, isSubscriptionsView } from './lib/utils/view-utils';
+import { preloadThemeAssets } from './lib/utils/preload-utils';
 import useReplyModalStore from './stores/use-reply-modal-store';
 import useCreateBoardModalStore from './stores/use-create-board-modal-store';
 import useSpecialThemeStore from './stores/use-special-theme-store';
@@ -13,6 +14,7 @@ import { getSubplebbitAddress, isPostRoute, isPendingPostRoute } from './lib/uti
 import styles from './app.module.css';
 import FAQ from './views/faq';
 import Home from './views/home';
+import Rules from './views/rules';
 import NotFound from './views/not-found';
 import PendingPost from './views/pending-post';
 import Post from './views/post';
@@ -29,6 +31,10 @@ import TopbarEditModal from './components/topbar-edit-modal';
 import DirectoryModal from './components/directory-modal';
 import DisclaimerModal from './components/disclaimer-modal';
 import SettingsModal from './components/settings-modal';
+
+// Preload all theme assets (buttons, backgrounds) immediately on app load
+// to prevent visible loading delays when switching themes
+preloadThemeAssets();
 
 const BoardLayout = () => {
   const { accountCommentIndex, boardIdentifier } = useParams();
@@ -77,8 +83,8 @@ const BoardLayout = () => {
       {isMobile
         ? (subplebbitAddress || isInAllView || isInModView || isInSubscriptionsView || pendingPost?.subplebbitAddress) && (
             <>
-              <MobileBoardButtons />
               <PostForm key={key} />
+              <MobileBoardButtons />
             </>
           )
         : (subplebbitAddress || isInAllView || isInModView || isInSubscriptionsView || pendingPost?.subplebbitAddress) && (
@@ -113,7 +119,7 @@ const GlobalLayout = () => {
     }
   }, [theme]);
 
-  const { activeCid, threadCid, subplebbitAddress, closeModal, showReplyModal, scrollY } = useReplyModalStore();
+  const { activeCid, parentNumber, threadNumber, threadCid, subplebbitAddress, closeModal, showReplyModal, scrollY } = useReplyModalStore();
 
   const location = useLocation();
   const isInSettingsView = location.pathname.endsWith('/settings');
@@ -125,6 +131,8 @@ const GlobalLayout = () => {
         <ReplyModal
           closeModal={closeModal}
           parentCid={activeCid}
+          parentNumber={parentNumber}
+          threadNumber={threadNumber}
           postCid={threadCid}
           scrollY={scrollY}
           showReplyModal={showReplyModal}
@@ -143,6 +151,7 @@ const App = () => (
       <Route element={<GlobalLayout />}>
         <Route path='/' element={<Home />} />
         <Route path='/faq' element={<FAQ />} />
+        <Route path='/rules' element={<Rules />} />
         <Route element={<BoardLayout />}>
           <Route path='/all/:timeFilterName?' element={null} />
           <Route path='/all/:timeFilterName?/settings' element={null} />

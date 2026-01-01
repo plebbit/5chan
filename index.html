@@ -10,6 +10,12 @@
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/manifest.json" />
     <title>5chan</title>
+    <!-- React Grab: Hold ⌘C and click any element to provide visual context to AI coding agents (dev only) -->
+    <script type="module">
+      if (import.meta.env.DEV) {
+        import("react-grab");
+      }
+    </script>
     <script>
       // Redirect non-hash URLs to hash URLs on initial load
       if (window.location.pathname && window.location.pathname !== '/' && window.location.pathname !== '/index.html' && !window.location.hash) {

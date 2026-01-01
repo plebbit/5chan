@@ -148,42 +148,76 @@ const isValidDomain = (str: string): boolean => {
   return str.includes('.') && str.split('.').length >= 2 && str.split('.').every((part) => part.length > 0);
 };
 
-// Check if a plain text pattern is a valid 5chan subplebbit reference
-export const isValidSubplebbitPattern = (pattern: string): boolean => {
-  // Must start with "p/"
-  if (!pattern.startsWith('p/')) {
+// Check if a plain text pattern is a valid 5chan cross-board reference (>>>/...)
+export const isValidCrossboardPattern = (pattern: string): boolean => {
+  // Must start with ">>>/"
+  if (!pattern.startsWith('>>>/')) {
     return false;
   }
 
-  const pathPart = pattern.substring(2); // Remove "p/"
+  const pathPart = pattern.substring(4); // Remove ">>>/"
 
-  // Check if it's a post pattern: subplebbitAddress/c/cid
-  const postMatch = pathPart.match(/^([^/]+)\/c\/([^/]+)$/);
-  if (postMatch) {
-    const [, subplebbitAddress, cid] = postMatch;
-    // CID should be at least 10 characters (minimum reasonable CID length)
-    return (isValidDomain(subplebbitAddress) || isValidIPNSKey(subplebbitAddress)) && cid.length >= 10;
+  // Check if it's a directory pattern with trailing slash: >>>/biz/
+  if (/^[a-zA-Z0-9]{1,10}\/$/.test(pathPart)) {
+    return true; // Directory codes are always valid (highest-voted boards)
   }
 
-  // Check if it's just a subplebbit pattern: subplebbitAddress
+  // Check if it's a directory + thread pattern: >>>/biz/fullCid
+  const directoryThreadMatch = pathPart.match(/^([a-zA-Z0-9]{1,10})\/([a-zA-Z0-9]{46})$/);
+  if (directoryThreadMatch) {
+    return true; // CID is exactly 46 alphanumeric chars
+  }
+
+  // Check if it's a full address + thread pattern: >>>/board.eth/fullCid
+  const addressThreadMatch = pathPart.match(/^([^/]+)\/([a-zA-Z0-9]{46})$/);
+  if (addressThreadMatch) {
+    const [, address] = addressThreadMatch;
+    // Address must be valid domain or IPNS key
+    return isValidDomain(address) || isValidIPNSKey(address);
+  }
+
+  // Check if it's just a full address pattern: >>>/board.eth
   return isValidDomain(pathPart) || isValidIPNSKey(pathPart);
 };
 
-// Preprocess content to convert plain text 5chan patterns to markdown links
+// Preprocess content to convert plain text 5chan cross-board patterns to markdown links
 export const preprocess5chanPatterns = (content: string): string => {
-  // Pattern to match "p/something" or "p/something/c/something"
+  // Pattern to match ">>>/something" or ">>>/something/cid"
   // Negative lookbehind prevents matching patterns that are already part of URLs
-  const pattern = /(?<!https?:\/\/[^\s]*)\bp\/([a-zA-Z0-9\-.]+(?:\/c\/[a-zA-Z0-9]{10,100})?)[.,:;!?]*/g;
+  // Matches: >>>/directory/, >>>/directory/cid (46 chars), >>>/address, >>>/address/cid (46 chars)
+  const pattern = /(?<!https?:\/\/[^\s]*)>>>\/([a-zA-Z0-9]{1,10}\/(?:[a-zA-Z0-9]{46})?|[a-zA-Z0-9\-.]+(?:\/[a-zA-Z0-9]{46})?)[.,:;!?]*/g;
 
   return content.replace(pattern, (match, capturedPath) => {
     // Remove any trailing punctuation from the captured path
     const cleanPath = capturedPath.replace(/[.,:;!?]+$/, '');
-    const fullPattern = `p/${cleanPath}`;
+    const fullPattern = `>>>/${cleanPath}`;
 
-    if (isValidSubplebbitPattern(fullPattern)) {
+    if (isValidCrossboardPattern(fullPattern)) {
+      // Generate internal route based on pattern type
+      let internalRoute: string;
+
+      // Directory with trailing slash: >>>/biz/ → /biz
+      if (/^[a-zA-Z0-9]{1,10}\/$/.test(cleanPath)) {
+        internalRoute = `/${cleanPath.slice(0, -1)}`;
+      }
+      // Directory + CID: >>>/biz/cid → /biz/thread/cid (CID is 46 chars)
+      else if (/^[a-zA-Z0-9]{1,10}\/[a-zA-Z0-9]{46}$/.test(cleanPath)) {
+        const [code, cid] = cleanPath.split('/');
+        internalRoute = `/${code}/thread/${cid}`;
+      }
+      // Full address + CID: >>>/board.eth/cid → /board.eth/thread/cid (CID is 46 chars)
+      else if (/^[^/]+\/[a-zA-Z0-9]{46}$/.test(cleanPath)) {
+        const [address, cid] = cleanPath.split('/');
+        internalRoute = `/${address}/thread/${cid}`;
+      }
+      // Just a full address: >>>/board.eth → /board.eth
+      else {
+        internalRoute = `/${cleanPath}`;
+      }
+
       // Preserve trailing punctuation outside the link
       const trailingPunctuation = match.slice(fullPattern.length);
-      return `[${fullPattern}](/${fullPattern})${trailingPunctuation}`;
+      return `[${fullPattern}](${internalRoute})${trailingPunctuation}`;
     }
 
     return match;
