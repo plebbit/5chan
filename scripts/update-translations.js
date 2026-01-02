@@ -19,8 +19,15 @@
   - Delete a key from all languages (actually delete):
     node scripts/update-translations.js --key obsolete_key --delete --write
 
+  - Audit for unused keys (dry run):
+    node scripts/update-translations.js --audit --dry
+
+  - Remove all unused keys:
+    node scripts/update-translations.js --audit --write
+
   Flags:
-    --key <name>                 Required. The translation key to update/delete.
+    --key <name>                 Required (except for --audit). The translation key to update/delete.
+    --audit                      Scan codebase for unused translation keys and report/remove them.
     --delete                     Delete the key from all languages instead of updating.
     --from <lang>                Source language to read value from if --value/--map are not provided (default: en).
     --value <string>             Literal value to set for targets (use with caution, no auto-translate).
@@ -41,7 +48,7 @@ function parseArgs(argv) {
     const arg = argv[i]
     const next = i + 1 < argv.length ? argv[i + 1] : undefined
     if (arg.startsWith('--')) {
-      if (['--dry', '--dry-run', '--write', '--include-en', '--delete'].includes(arg)) {
+      if (['--dry', '--dry-run', '--write', '--include-en', '--delete', '--audit'].includes(arg)) {
         out.flags.add(arg)
         continue
       }
@@ -145,6 +152,124 @@ async function handleDelete(key, translationsRoot, only, exclude, dryRun, write)
   }
 }
 
+/**
+ * Recursively get all files in a directory matching given extensions
+ */
+async function getFilesRecursive(dir, extensions) {
+  const files = []
+  const entries = await fs.readdir(dir, { withFileTypes: true })
+  for (const entry of entries) {
+    const fullPath = path.join(dir, entry.name)
+    if (entry.isDirectory()) {
+      // Skip node_modules and hidden directories
+      if (entry.name === 'node_modules' || entry.name.startsWith('.')) continue
+      files.push(...(await getFilesRecursive(fullPath, extensions)))
+    } else if (extensions.some((ext) => entry.name.endsWith(ext))) {
+      files.push(fullPath)
+    }
+  }
+  return files
+}
+
+/**
+ * Scan source files and extract all translation keys used in the codebase.
+ * Matches patterns like: t('key'), t("key"), i18nKey="key", i18nKey={'key'}
+ */
+async function extractUsedKeys(srcDir) {
+  const usedKeys = new Set()
+  const extensions = ['.ts', '.tsx', '.js', '.jsx']
+  const files = await getFilesRecursive(srcDir, extensions)
+
+  // Patterns to match translation key usage:
+  // - t('key') or t("key") with optional params
+  // - i18nKey="key" or i18nKey={'key'} or i18nKey={"key"} for Trans components
+  const patterns = [
+    /\bt\(\s*['"]([^'"]+)['"]/g, // t('key') or t("key")
+    /i18nKey\s*=\s*['"]([^'"]+)['"]/g, // i18nKey="key"
+    /i18nKey\s*=\s*\{\s*['"]([^'"]+)['"]\s*\}/g, // i18nKey={'key'}
+  ]
+
+  for (const file of files) {
+    const content = await fs.readFile(file, 'utf8')
+    for (const pattern of patterns) {
+      // Reset lastIndex for global regex
+      pattern.lastIndex = 0
+      let match
+      while ((match = pattern.exec(content)) !== null) {
+        usedKeys.add(match[1])
+      }
+    }
+  }
+
+  return usedKeys
+}
+
+async function handleAudit(translationsRoot, srcDir, dryRun, write) {
+  console.log('Scanning codebase for translation key usage...\n')
+
+  // Get all keys used in the codebase
+  const usedKeys = await extractUsedKeys(srcDir)
+  console.log(`Found ${usedKeys.size} translation keys used in the codebase.\n`)
+
+  // Load the English translation file as the reference
+  const enPath = path.join(translationsRoot, 'en', 'default.json')
+  if (!(await fileExists(enPath))) {
+    console.error(`English translation file not found: ${enPath}`)
+    process.exit(1)
+  }
+  const enJson = await loadJson(enPath)
+  const definedKeys = Object.keys(enJson)
+
+  // Find unused keys (defined but not used)
+  const unusedKeys = definedKeys.filter((key) => !usedKeys.has(key))
+
+  if (unusedKeys.length === 0) {
+    console.log('No unused translation keys found. All keys are in use.')
+    return
+  }
+
+  console.log(`Found ${unusedKeys.length} unused translation key(s):\n`)
+  for (const key of unusedKeys) {
+    const value = enJson[key]
+    const preview = String(value).substring(0, 50)
+    console.log(`  - ${key}: "${preview}${String(value).length > 50 ? '...' : ''}"`)
+  }
+
+  if (dryRun) {
+    console.log(`\nDry run complete. ${unusedKeys.length} key(s) would be removed from all language files.`)
+    console.log('Re-run with --write to remove them.')
+    return
+  }
+
+  // Remove unused keys from all language files
+  const dirents = await fs.readdir(translationsRoot, { withFileTypes: true })
+  const langs = dirents.filter((d) => d.isDirectory()).map((d) => d.name)
+
+  let filesChanged = 0
+  for (const lang of langs) {
+    const filePath = path.join(translationsRoot, lang, 'default.json')
+    if (!(await fileExists(filePath))) continue
+
+    const json = await loadJson(filePath)
+    let changed = false
+
+    for (const key of unusedKeys) {
+      if (Object.prototype.hasOwnProperty.call(json, key)) {
+        delete json[key]
+        changed = true
+      }
+    }
+
+    if (changed) {
+      await writeJson(filePath, json)
+      filesChanged++
+      console.log(`\n[${lang}] Removed ${unusedKeys.length} unused key(s).`)
+    }
+  }
+
+  console.log(`\nRemoved unused keys from ${filesChanged} language file(s).`)
+}
+
 async function handleUpdate(key, translationsRoot, fromLang, includeEn, only, exclude, literalValue, mapFile, map, dryRun, write) {
   let sourceValue = undefined
   if (!literalValue && !map) {
@@ -220,19 +345,28 @@ async function main() {
   const argv = process.argv.slice(2)
   const args = parseArgs(argv)
 
-  const key = args['--key']
-  if (!key) usage(1, 'Missing required --key')
-
   const translationsRoot = path.join(process.cwd(), 'public', 'translations')
   if (!(await fileExists(translationsRoot))) {
     usage(1, `Translations directory not found: ${translationsRoot}`)
   }
 
+  const isAudit = args.flags.has('--audit')
   const isDelete = args.flags.has('--delete')
-  const fromLang = args['--from'] || 'en'
-  const includeEn = args.flags.has('--include-en')
   const dryRun = args.flags.has('--dry') || args.flags.has('--dry-run') || !args.flags.has('--write')
   const write = args.flags.has('--write')
+
+  if (isAudit) {
+    // Audit mode: scan codebase and remove unused keys
+    const srcDir = path.join(process.cwd(), 'src')
+    await handleAudit(translationsRoot, srcDir, dryRun, write)
+    return
+  }
+
+  const key = args['--key']
+  if (!key) usage(1, 'Missing required --key')
+
+  const fromLang = args['--from'] || 'en'
+  const includeEn = args.flags.has('--include-en')
   const only = parseCsv(args['--only'])
   const exclude = parseCsv(args['--exclude'])
 
