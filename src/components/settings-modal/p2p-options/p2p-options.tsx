@@ -7,6 +7,7 @@ interface SettingsProps {
   ipfsGatewayUrlsRef?: RefObject<HTMLTextAreaElement>;
   mediaIpfsGatewayUrlRef?: RefObject<HTMLInputElement>;
   pubsubProvidersRef?: RefObject<HTMLTextAreaElement>;
+  httpRoutersRef?: RefObject<HTMLTextAreaElement>;
   ethRpcRef?: RefObject<HTMLTextAreaElement>;
   solRpcRef?: RefObject<HTMLTextAreaElement>;
   maticRpcRef?: RefObject<HTMLTextAreaElement>;
@@ -70,6 +71,30 @@ const PubsubProvidersSettings = ({ pubsubProvidersRef }: SettingsProps) => {
         autoComplete='off'
         spellCheck='false'
         rows={pubsubHttpClientsOptions?.length || 1}
+      />
+    </div>
+  );
+};
+
+const HttpRoutersSettings = ({ httpRoutersRef }: SettingsProps) => {
+  const account = useAccount();
+  const { plebbitOptions } = account || {};
+  const { httpRoutersOptions } = plebbitOptions || {};
+  const plebbitRpc = usePlebbitRpcSettings();
+  const isConnectedToRpc = plebbitRpc?.state === 'connected';
+  const httpRoutersDefaultValue = httpRoutersOptions?.join('\n');
+
+  return (
+    <div className={styles.httpRoutersSettings}>
+      <textarea
+        defaultValue={httpRoutersDefaultValue}
+        ref={httpRoutersRef}
+        disabled={isConnectedToRpc}
+        autoCorrect='off'
+        autoCapitalize='off'
+        autoComplete='off'
+        spellCheck='false'
+        rows={httpRoutersOptions?.length || 1}
       />
     </div>
   );
@@ -276,6 +301,12 @@ const P2pOptions = () => {
         <span className={styles.categoryTitle}>pubsub providers:</span>
         <span className={styles.categorySettings}>
           <PubsubProvidersSettings pubsubProvidersRef={pubsubProvidersRef} />
+        </span>
+      </div>
+      <div className={styles.category}>
+        <span className={styles.categoryTitle}>http routers:</span>
+        <span className={styles.categorySettings}>
+          <HttpRoutersSettings httpRoutersRef={httpRoutersRef} />
         </span>
       </div>
       <div className={styles.category}>

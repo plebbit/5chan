@@ -25,6 +25,10 @@
   height: unset;
 }
 
+.httpRoutersSettings textarea {
+  height: unset;
+}
+
 .blockchainProvidersSettings textarea {
   height: unset;
 }
