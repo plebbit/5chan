@@ -32,6 +32,7 @@ const IPFSGatewaysSettings = ({ ipfsGatewayUrlsRef, mediaIpfsGatewayUrlRef }: Se
           autoCorrect='off'
           autoComplete='off'
           spellCheck='false'
+          rows={ipfsGatewayUrls?.length || 1}
         />
       </div>
       <span className={styles.settingTip}>NFT profile pics gateway</span>
@@ -68,6 +69,7 @@ const PubsubProvidersSettings = ({ pubsubProvidersRef }: SettingsProps) => {
         autoCapitalize='off'
         autoComplete='off'
         spellCheck='false'
+        rows={pubsubHttpClientsOptions?.length || 1}
       />
     </div>
   );
@@ -85,15 +87,36 @@ const BlockchainProvidersSettings = ({ ethRpcRef, solRpcRef, maticRpcRef }: Sett
     <div className={styles.blockchainProvidersSettings}>
       <span className={styles.settingTip}>Ethereum RPC, for .eth domains</span>
       <div>
-        <textarea defaultValue={ethRpcDefaultValue} ref={ethRpcRef} autoCorrect='off' autoComplete='off' spellCheck='false' />
+        <textarea
+          defaultValue={ethRpcDefaultValue}
+          ref={ethRpcRef}
+          autoCorrect='off'
+          autoComplete='off'
+          spellCheck='false'
+          rows={chainProviders?.['eth']?.urls?.length || 1}
+        />
       </div>
       <span className={styles.settingTip}>Solana RPC, for .sol domains</span>
       <div>
-        <textarea defaultValue={solRpcDefaultValue} ref={solRpcRef} autoCorrect='off' autoComplete='off' spellCheck='false' />
+        <textarea
+          defaultValue={solRpcDefaultValue}
+          ref={solRpcRef}
+          autoCorrect='off'
+          autoComplete='off'
+          spellCheck='false'
+          rows={chainProviders?.['sol']?.urls?.length || 1}
+        />
       </div>
       <span className={styles.settingTip}>Polygon RPC, for avatar NFTs</span>
       <div>
-        <textarea defaultValue={maticRpcDefaultValue} ref={maticRpcRef} autoCorrect='off' autoComplete='off' spellCheck='false' />
+        <textarea
+          defaultValue={maticRpcDefaultValue}
+          ref={maticRpcRef}
+          autoCorrect='off'
+          autoComplete='off'
+          spellCheck='false'
+          rows={chainProviders?.['matic']?.urls?.length || 1}
+        />
       </div>
     </div>
   );

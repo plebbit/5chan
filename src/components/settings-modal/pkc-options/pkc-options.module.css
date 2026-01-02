@@ -18,18 +18,15 @@
 }
 
 .ipfsGatewaysSettings textarea {
-  min-height: 80px;
-  height: 80px;
+  height: unset;
 }
 
 .pubsubProvidersSettings textarea {
-  min-height: 50px;
-  height: 50px;
+  height: unset;
 }
 
 .blockchainProvidersSettings textarea {
-  min-height: 50px;
-  height: 50px;
+  height: unset;
 }
 
 .content button {
