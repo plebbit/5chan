@@ -33,12 +33,12 @@
   cursor: pointer;
 }
 
-.plebbitRpcSettingsInfo {
+.p2pRpcSettingsInfo {
   padding: 5px 20px 0 0;
   word-break: break-word;
 }
 
-.plebbitRpcSettingsInfo ol {
+.p2pRpcSettingsInfo ol {
   padding-bottom: 5px;
   padding-left: 20px;
 }
@@ -58,12 +58,14 @@
   padding: 2px 4px 3px;
   width: 95%;
   font-size: 13px;
+  font-family: monospace;
 }
 
 .content input[type="text"] {
   outline: none;
   width: 55%;
   font-size: 13px;
+  font-family: monospace;
 }
 
 .settingTip {
@@ -73,6 +75,6 @@
   padding-left: 1px;
 }
 
-.plebbitRPCSettings button {
+.p2pRPCSettings button {
   margin-left: 5px;
 }

@@ -8,7 +8,7 @@ import BlockedAddressesSetting from './blocked-addresses-setting';
 import CryptoAddressSetting from './crypto-address-setting';
 import CryptoWalletsSetting from './crypto-wallets-setting';
 import InterfaceSettings from './interface-settings';
-import PlebbitOptions from './pkc-options';
+import P2pOptions from './p2p-options';
 import SubscriptionsSetting from './subscriptions-setting';
 
 const SettingsModal = () => {
@@ -42,7 +42,7 @@ const SettingsModal = () => {
   const [showCryptoWalletSettings, setShowCryptoWalletSettings] = useState(false);
   const [showSubscriptionsSettings, setShowSubscriptionsSettings] = useState(false);
   const [showBlockedAddressesSetting, setShowBlockedAddressesSetting] = useState(false);
-  const [showPlebbitOptionsSettings, setShowPlebbitOptionsSettings] = useState(false);
+  const [showP2pOptionsSettings, setShowP2pOptionsSettings] = useState(false);
   const [expandAll, setExpandAll] = useState(false);
 
   const getExpandedCount = () => {
@@ -54,7 +54,7 @@ const SettingsModal = () => {
       Number(showCryptoWalletSettings) +
       Number(showSubscriptionsSettings) +
       Number(showBlockedAddressesSetting) +
-      Number(showPlebbitOptionsSettings)
+      Number(showP2pOptionsSettings)
     );
   };
 
@@ -66,7 +66,7 @@ const SettingsModal = () => {
     if (showCryptoWalletSettings && 'crypto-wallet-settings' !== excludeCategoryId) return 'crypto-wallet-settings';
     if (showSubscriptionsSettings && 'subscriptions-settings' !== excludeCategoryId) return 'subscriptions-settings';
     if (showBlockedAddressesSetting && 'blocked-addresses-settings' !== excludeCategoryId) return 'blocked-addresses-settings';
-    if (showPlebbitOptionsSettings && 'pkc-options-settings' !== excludeCategoryId) return 'pkc-options-settings';
+    if (showP2pOptionsSettings && 'p2p-options-settings' !== excludeCategoryId) return 'p2p-options-settings';
     return null;
   };
 
@@ -106,7 +106,7 @@ const SettingsModal = () => {
       setShowCryptoWalletSettings(hash === 'crypto-wallet-settings');
       setShowSubscriptionsSettings(hash === 'subscriptions-settings');
       setShowBlockedAddressesSetting(hash === 'blocked-addresses-settings');
-      setShowPlebbitOptionsSettings(hash === 'pkc-options-settings');
+      setShowP2pOptionsSettings(hash === 'p2p-options-settings');
     }
   }, [hash]);
 
@@ -120,7 +120,7 @@ const SettingsModal = () => {
     setShowCryptoWalletSettings(newExpandState);
     setShowSubscriptionsSettings(newExpandState);
     setShowBlockedAddressesSetting(newExpandState);
-    setShowPlebbitOptionsSettings(newExpandState);
+    setShowP2pOptionsSettings(newExpandState);
 
     const baseSettingsPath = location.pathname.split('#')[0];
     navigate(baseSettingsPath, { replace: true });
@@ -186,13 +186,13 @@ const SettingsModal = () => {
           </label>
         </div>
         {showBlockedAddressesSetting && <BlockedAddressesSetting />}
-        <div id='pkc-options-settings' className={`${styles.setting} ${styles.category}`}>
-          <label onClick={() => handleCategoryClick('pkc-options-settings', showPlebbitOptionsSettings, setShowPlebbitOptionsSettings)}>
-            <span className={showPlebbitOptionsSettings ? styles.hideButton : styles.showButton} />
+        <div id='p2p-options-settings' className={`${styles.setting} ${styles.category}`}>
+          <label onClick={() => handleCategoryClick('p2p-options-settings', showP2pOptionsSettings, setShowP2pOptionsSettings)}>
+            <span className={showP2pOptionsSettings ? styles.hideButton : styles.showButton} />
             {t('p2p_options')}
           </label>
         </div>
-        {showPlebbitOptionsSettings && <PlebbitOptions />}
+        {showP2pOptionsSettings && <P2pOptions />}
       </div>
     </>
   );

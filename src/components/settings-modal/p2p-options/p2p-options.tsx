@@ -1,7 +1,7 @@
 import { RefObject, useRef, useState } from 'react';
 import { setAccount, useAccount, usePlebbitRpcSettings } from '@plebbit/plebbit-react-hooks';
 import { useTranslation } from 'react-i18next';
-import styles from './pkc-options.module.css';
+import styles from './p2p-options.module.css';
 
 interface SettingsProps {
   ipfsGatewayUrlsRef?: RefObject<HTMLTextAreaElement>;
@@ -10,8 +10,8 @@ interface SettingsProps {
   ethRpcRef?: RefObject<HTMLTextAreaElement>;
   solRpcRef?: RefObject<HTMLTextAreaElement>;
   maticRpcRef?: RefObject<HTMLTextAreaElement>;
-  plebbitRpcRef?: RefObject<HTMLInputElement>;
-  plebbitDataPathRef?: RefObject<HTMLInputElement>;
+  p2pRpcRef?: RefObject<HTMLInputElement>;
+  p2pDataPathRef?: RefObject<HTMLInputElement>;
 }
 
 const IPFSGatewaysSettings = ({ ipfsGatewayUrlsRef, mediaIpfsGatewayUrlRef }: SettingsProps) => {
@@ -122,21 +122,21 @@ const BlockchainProvidersSettings = ({ ethRpcRef, solRpcRef, maticRpcRef }: Sett
   );
 };
 
-const PlebbitRPCSettings = ({ plebbitRpcRef }: SettingsProps) => {
+const P2pRPCSettings = ({ p2pRpcRef }: SettingsProps) => {
   const [showInfo, setShowInfo] = useState(false);
   const account = useAccount();
   const { plebbitOptions } = account || {};
   const { plebbitRpcClientsOptions } = plebbitOptions || {};
 
   return (
-    <div className={styles.plebbitRPCSettings}>
+    <div className={styles.p2pRPCSettings}>
       <div>
-        <input type='text' defaultValue={plebbitRpcClientsOptions} ref={plebbitRpcRef} autoCorrect='off' autoCapitalize='off' spellCheck='false' />
+        <input type='text' defaultValue={plebbitRpcClientsOptions} ref={p2pRpcRef} autoCorrect='off' autoCapitalize='off' spellCheck='false' />
         <button onClick={() => setShowInfo(!showInfo)}>{showInfo ? 'X' : '?'}</button>
       </div>
       {showInfo && (
-        <div className={styles.plebbitRpcSettingsInfo}>
-          use a PKC full node locally, or remotely with SSL
+        <div className={styles.p2pRpcSettingsInfo}>
+          use a P2P full node locally, or remotely with SSL
           <br />
           <ol>
             <li>get secret auth key from the node</li>
@@ -152,16 +152,16 @@ const PlebbitRPCSettings = ({ plebbitRpcRef }: SettingsProps) => {
   );
 };
 
-const PlebbitDataPathSettings = ({ plebbitDataPathRef }: SettingsProps) => {
+const P2pDataPathSettings = ({ p2pDataPathRef }: SettingsProps) => {
   const plebbitRpc = usePlebbitRpcSettings();
   const { plebbitRpcSettings } = plebbitRpc || {};
   const isConnectedToRpc = plebbitRpc?.state === 'connected';
   const path = plebbitRpcSettings?.plebbitOptions?.dataPath || '';
 
   return (
-    <div className={styles.plebbitDataPathSettings}>
+    <div className={styles.p2pDataPathSettings}>
       <div>
-        <input autoCorrect='off' autoCapitalize='off' spellCheck='false' type='text' defaultValue={path} disabled={!isConnectedToRpc} ref={plebbitDataPathRef} />
+        <input autoCorrect='off' autoCapitalize='off' spellCheck='false' type='text' defaultValue={path} disabled={!isConnectedToRpc} ref={p2pDataPathRef} />
       </div>
     </div>
   );
@@ -169,7 +169,7 @@ const PlebbitDataPathSettings = ({ plebbitDataPathRef }: SettingsProps) => {
 
 const isElectron = window.electronApi?.isElectron === true;
 
-const PlebbitOptions = () => {
+const P2pOptions = () => {
   const { t } = useTranslation();
   const account = useAccount();
   const { plebbitOptions } = account || {};
@@ -181,8 +181,8 @@ const PlebbitOptions = () => {
   const solRpcRef = useRef<HTMLTextAreaElement>(null);
   const maticRpcRef = useRef<HTMLTextAreaElement>(null);
   const httpRoutersRef = useRef<HTMLTextAreaElement>(null);
-  const plebbitRpcRef = useRef<HTMLInputElement>(null);
-  const plebbitDataPathRef = useRef<HTMLInputElement>(null);
+  const p2pRpcRef = useRef<HTMLInputElement>(null);
+  const p2pDataPathRef = useRef<HTMLInputElement>(null);
 
   const handleSave = async () => {
     const ipfsGatewayUrls = ipfsGatewayUrlsRef.current?.value
@@ -217,8 +217,8 @@ const PlebbitOptions = () => {
       .map((url) => url.trim())
       .filter((url) => url !== '');
 
-    const plebbitRpcClientsOptions = plebbitRpcRef.current?.value.trim() ? [plebbitRpcRef.current.value.trim()] : undefined;
-    const dataPath = plebbitDataPathRef.current?.value.trim() || undefined;
+    const plebbitRpcClientsOptions = p2pRpcRef.current?.value.trim() ? [p2pRpcRef.current.value.trim()] : undefined;
+    const dataPath = p2pDataPathRef.current?.value.trim() || undefined;
 
     const chainProviders = {
       eth: {
@@ -289,14 +289,14 @@ const PlebbitOptions = () => {
       <div className={styles.category}>
         <span className={styles.categoryTitle}>Node RPC:</span>
         <span className={styles.categorySettings}>
-          <PlebbitRPCSettings plebbitRpcRef={plebbitRpcRef} />
+          <P2pRPCSettings p2pRpcRef={p2pRpcRef} />
         </span>
       </div>
       {isElectron && (
         <div className={styles.category}>
-          <span className={styles.categoryTitle}>plebbit data path:</span>
+          <span className={styles.categoryTitle}>p2p data path:</span>
           <span className={styles.categorySettings}>
-            <PlebbitDataPathSettings plebbitDataPathRef={plebbitDataPathRef} />
+            <P2pDataPathSettings p2pDataPathRef={p2pDataPathRef} />
           </span>
         </div>
       )}
@@ -304,4 +304,4 @@ const PlebbitOptions = () => {
   );
 };
 
-export default PlebbitOptions;
+export default P2pOptions;
