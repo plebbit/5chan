@@ -231,7 +231,7 @@ const PostMediaContent = ({ post, link }: { post: any; link: string }) => {
 
 const ReplyBacklinks = ({ post }: PostProps) => {
   const { cid, parentCid } = post || {};
-  const { replies } = useReplies({ comment: post });
+  const { replies } = useReplies({ comment: post, flat: true });
 
   return (
     cid &&

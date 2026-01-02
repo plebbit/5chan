@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { memo, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Comment, Subplebbit } from '@plebbit/plebbit-react-hooks';
@@ -25,36 +25,41 @@ export const ContentPreview = ({ content, maxLength = 99 }: { content: string; m
   return truncatedText;
 };
 
-const PopularThreadCard = ({ post, multisub }: PopularThreadProps) => {
-  const { cid, content, link, linkHeight, linkWidth, subplebbitAddress, thumbnailUrl, title } = post || {};
-  const commentMediaInfo = getCommentMediaInfo(link, thumbnailUrl, linkWidth, linkHeight);
-  const defaultSubplebbits = useDefaultSubplebbits();
+// Memoize to prevent rerenders when parent rerenders due to updatingState
+const PopularThreadCard = memo(
+  ({ post, multisub }: PopularThreadProps) => {
+    const { cid, content, link, linkHeight, linkWidth, subplebbitAddress, thumbnailUrl, title } = post || {};
+    const commentMediaInfo = getCommentMediaInfo(link, thumbnailUrl, linkWidth, linkHeight);
+    const defaultSubplebbits = useDefaultSubplebbits();
 
-  // Find the matching MultisubSubplebbit entry and get its title
-  const multisubEntry = multisub.find((ms) => ms?.address === subplebbitAddress);
-  const boardTitle = multisubEntry?.title?.replace(/^\/[^/]+\/\s*-\s*/, '') || '';
-  const boardPath = subplebbitAddress ? getBoardPath(subplebbitAddress, defaultSubplebbits) : '';
+    // Find the matching MultisubSubplebbit entry and get its title
+    const multisubEntry = multisub.find((ms) => ms?.address === subplebbitAddress);
+    const boardTitle = multisubEntry?.title?.replace(/^\/[^/]+\/\s*-\s*/, '') || '';
+    const boardPath = subplebbitAddress ? getBoardPath(subplebbitAddress, defaultSubplebbits) : '';
 
-  return (
-    <div className={styles.popularThread} key={cid}>
-      <div className={styles.title}>{boardTitle}</div>
-      <div className={styles.mediaContainer}>
-        <Link to={`/${boardPath}/thread/${cid}`}>
-          <CatalogPostMedia commentMediaInfo={commentMediaInfo} isOutOfFeed={true} cid={cid} />
-        </Link>
+    return (
+      <div className={styles.popularThread} key={cid}>
+        <div className={styles.title}>{boardTitle}</div>
+        <div className={styles.mediaContainer}>
+          <Link to={`/${boardPath}/thread/${cid}`}>
+            <CatalogPostMedia commentMediaInfo={commentMediaInfo} isOutOfFeed={true} cid={cid} />
+          </Link>
+        </div>
+        <div className={styles.threadContent}>
+          {title && (
+            <>
+              <b>{title.trim()}</b>
+              {content && ': '}
+            </>
+          )}
+          {content && <ContentPreview content={content} maxLength={99} />}
+        </div>
       </div>
-      <div className={styles.threadContent}>
-        {title && (
-          <>
-            <b>{title.trim()}</b>
-            {content && ': '}
-          </>
-        )}
-        {content && <ContentPreview content={content} maxLength={99} />}
-      </div>
-    </div>
-  );
-};
+    );
+  },
+  // Custom equality: only rerender if post.cid changes
+  (prevProps, nextProps) => prevProps.post?.cid === nextProps.post?.cid,
+);
 
 const PopularThreadsBox = ({ multisub, subplebbits }: { multisub: MultisubSubplebbit[]; subplebbits: any }) => {
   const { t } = useTranslation();

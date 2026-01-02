@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useParams, useNavigate } from 'react-router-dom';
-import { useAccount, useAccountComment } from '@plebbit/plebbit-react-hooks';
-import Plebbit from '@plebbit/plebbit-js';
+import { useAccountComment } from '@plebbit/plebbit-react-hooks';
+import useAccountsStore from '@plebbit/plebbit-react-hooks/dist/stores/accounts';
 import useSubplebbitsStore from '@plebbit/plebbit-react-hooks/dist/stores/subplebbits';
+import Plebbit from '@plebbit/plebbit-js';
+import { useStableSubplebbit } from '../../hooks/use-stable-subplebbit';
 import { isAllView, isSubscriptionsView, isModView } from '../../lib/utils/view-utils';
 import styles from './board-header.module.css';
 import { useMultisubMetadata, useDefaultSubplebbits } from '../../hooks/use-default-subplebbits';
@@ -21,6 +23,26 @@ const ImageBanner = () => {
   return <img src={banner} alt='' />;
 };
 
+// Separate component for offline indicator to isolate rerenders from updatingState
+// Only this component will rerender when updatingState changes, not the whole BoardHeader
+const OfflineIndicator = ({ subplebbitAddress }: { subplebbitAddress: string | undefined }) => {
+  // Subscribe to full subplebbit including transient state for offline detection
+  const subplebbit = useSubplebbitsStore((state) => (subplebbitAddress ? state.subplebbits[subplebbitAddress] : undefined));
+  const { isOffline, isOnlineStatusLoading, offlineIconClass, offlineTitle } = useIsSubplebbitOffline(subplebbit);
+
+  if (!isOffline && !isOnlineStatusLoading) {
+    return null;
+  }
+
+  return (
+    <span className={styles.offlineIconWrapper}>
+      <Tooltip content={offlineTitle}>
+        <span className={`${styles.offlineIcon} ${offlineIconClass}`} />
+      </Tooltip>
+    </span>
+  );
+};
+
 const BoardHeader = () => {
   const { t } = useTranslation();
   const location = useLocation();
@@ -33,9 +55,9 @@ const BoardHeader = () => {
   const resolvedAddress = useResolvedSubplebbitAddress();
   const subplebbitAddress = resolvedAddress || accountComment?.subplebbitAddress;
 
-  const subplebbit = useSubplebbitsStore((state) => state.subplebbits[subplebbitAddress]);
-
-  const { address, shortAddress } = subplebbit || {};
+  // Use stable subplebbit for display fields to avoid rerenders from updatingState
+  const stableSubplebbit = useStableSubplebbit(subplebbitAddress);
+  const { address, shortAddress } = stableSubplebbit || {};
 
   const multisubMetadata = useMultisubMetadata();
   const defaultSubplebbits = useDefaultSubplebbits();
@@ -43,20 +65,22 @@ const BoardHeader = () => {
   // Find matching subplebbit from default list to get its title
   const defaultSubplebbit = subplebbitAddress ? defaultSubplebbits.find((s) => s.address === subplebbitAddress) : null;
 
-  const account = useAccount() || {};
-  const subscriptions = account?.subscriptions || [];
-  const subscriptionsSubtitle = t('subscriptions_subtitle', { count: subscriptions?.length || 0 });
+  // Use accounts store with selector to only subscribe to subscriptions count
+  const subscriptionsCount = useAccountsStore((state) => {
+    const activeAccountId = state.activeAccountId;
+    const activeAccount = activeAccountId ? state.accounts[activeAccountId] : undefined;
+    return activeAccount?.subscriptions?.length || 0;
+  });
+  const subscriptionsSubtitle = t('subscriptions_subtitle', { count: subscriptionsCount });
 
   const title = isInAllView
     ? multisubMetadata?.title || '/all/ - 5chan Directories'
     : isInSubscriptionsView
-    ? '/subs/ - Subscriptions'
-    : isInModView
-    ? _.startCase(t('boards_you_moderate'))
-    : defaultSubplebbit?.title || subplebbit?.title;
+      ? '/subs/ - Subscriptions'
+      : isInModView
+        ? _.startCase(t('boards_you_moderate'))
+        : defaultSubplebbit?.title || stableSubplebbit?.title;
   const subtitle = isInAllView ? '' : isInSubscriptionsView ? subscriptionsSubtitle : isInModView ? '/mod/' : `${address || subplebbitAddress || ''}`;
-
-  const { isOffline, isOnlineStatusLoading, offlineIconClass, offlineTitle } = useIsSubplebbitOffline(subplebbit);
 
   return (
     <div className={`${styles.content} ${shouldShowSnow() ? styles.garland : ''}`}>
@@ -72,13 +96,7 @@ const BoardHeader = () => {
               ? shortAddress.slice(0, -4)
               : shortAddress
             : subplebbitAddress && Plebbit.getShortAddress({ address: subplebbitAddress }))}
-        {(isOffline || isOnlineStatusLoading) && !isInAllView && !isInSubscriptionsView && !isInModView && (
-          <span className={styles.offlineIconWrapper}>
-            <Tooltip content={offlineTitle}>
-              <span className={`${styles.offlineIcon} ${offlineIconClass}`} />
-            </Tooltip>
-          </span>
-        )}
+        {!isInAllView && !isInSubscriptionsView && !isInModView && <OfflineIndicator subplebbitAddress={subplebbitAddress} />}
       </div>
       <div className={styles.boardSubtitle}>
         {isInSubscriptionsView ? (

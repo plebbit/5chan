@@ -391,7 +391,7 @@ const PostDesktop = ({ post, roles, showAllReplies, showReplies = true }: PostPr
   const { hidden, unhide, hide } = useHide({ cid });
   const isHidden = hidden && !isInPostPageView;
 
-  const { replies, hasMore, loadMore } = useReplies({ comment: post });
+  const { replies, hasMore, loadMore } = useReplies({ comment: post, flat: true });
   const visiblelinksCount = useCountLinksInReplies(post, 5);
   const totalLinksCount = useCountLinksInReplies(post);
   const replyCount = replies?.length;

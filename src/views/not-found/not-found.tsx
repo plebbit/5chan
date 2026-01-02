@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import useSubplebbitsStore from '@plebbit/plebbit-react-hooks/dist/stores/subplebbits';
+import { useSubplebbitField } from '../../hooks/use-stable-subplebbit';
 import { useDefaultSubplebbits } from '../../hooks/use-default-subplebbits';
 import { getSubplebbitAddress } from '../../lib/utils/route-utils';
 import { HomeLogo } from '../home';
@@ -20,8 +20,9 @@ const NotFound = () => {
   const boardIdentifier = pathParts[0] && pathParts[0] !== 'not-found' && pathParts[0] !== 'faq' ? pathParts[0] : '';
   const defaultSubplebbits = useDefaultSubplebbits();
   const subplebbitAddress = boardIdentifier ? getSubplebbitAddress(boardIdentifier, defaultSubplebbits) : '';
-  const subplebbit = useSubplebbitsStore((state) => state.subplebbits[subplebbitAddress]);
-  const { address, shortAddress } = subplebbit || {};
+  // Only subscribe to address and shortAddress to avoid rerenders from updatingState changes
+  const address = useSubplebbitField(subplebbitAddress, (subplebbit) => subplebbit?.address);
+  const shortAddress = useSubplebbitField(subplebbitAddress, (subplebbit) => subplebbit?.shortAddress);
 
   return (
     <div className={styles.wrapper}>

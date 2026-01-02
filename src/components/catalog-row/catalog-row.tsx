@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { memo, useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation, useParams } from 'react-router-dom';
@@ -109,202 +109,206 @@ export const CatalogPostMedia = ({ cid, commentMediaInfo, linkWidth, linkHeight 
   );
 };
 
-const CatalogPost = ({ post }: { post: Comment }) => {
-  const { t } = useTranslation();
-  const { author, cid, content, link, linkHeight, linkWidth, locked, pinned, replyCount, spoiler, subplebbitAddress, timestamp, title, thumbnailUrl } = post || {};
-  const linkCount = useCountLinksInReplies(post);
+// Memoize CatalogPost to prevent rerenders when parent rerenders due to updatingState
+const CatalogPost = memo(
+  ({ post }: { post: Comment }) => {
+    const { t } = useTranslation();
+    const { author, cid, content, link, linkHeight, linkWidth, locked, pinned, replyCount, spoiler, subplebbitAddress, timestamp, title, thumbnailUrl } = post || {};
+    const linkCount = useCountLinksInReplies(post);
 
-  const commentMediaInfo = useCommentMediaInfo(link, thumbnailUrl, linkWidth, linkHeight);
-  const hasThumbnail = getHasThumbnail(commentMediaInfo, link);
+    const commentMediaInfo = useCommentMediaInfo(link, thumbnailUrl, linkWidth, linkHeight);
+    const hasThumbnail = getHasThumbnail(commentMediaInfo, link);
 
-  const { hidden } = useHide({ cid });
+    const { hidden } = useHide({ cid });
 
-  const location = useLocation();
-  const params = useParams();
-  const isInAllView = isAllView(location.pathname);
-  const isInSubscriptionsView = isSubscriptionsView(location.pathname, params);
-  const defaultSubplebbits = useDefaultSubplebbits();
-  const boardPath = subplebbitAddress ? getBoardPath(subplebbitAddress, defaultSubplebbits) : '';
-  const postMenuProps = useMemo(() => selectPostMenuProps(post), [post]);
+    const location = useLocation();
+    const params = useParams();
+    const isInAllView = isAllView(location.pathname);
+    const isInSubscriptionsView = isSubscriptionsView(location.pathname, params);
+    const defaultSubplebbits = useDefaultSubplebbits();
+    const boardPath = subplebbitAddress ? getBoardPath(subplebbitAddress, defaultSubplebbits) : '';
+    const postMenuProps = useMemo(() => selectPostMenuProps(post), [post]);
 
-  const postLink = boardPath ? `/${boardPath}/thread/${cid}` : `/thread/${cid}`;
+    const postLink = boardPath ? `/${boardPath}/thread/${cid}` : `/thread/${cid}`;
 
-  const threadIcons = (
-    <div className={styles.threadIcons}>
-      {pinned && <span className={styles.stickyIcon} title={t('sticky')} />}
-      {locked && <span className={styles.closedIcon} title={t('closed')} />}
-    </div>
-  );
+    const threadIcons = (
+      <div className={styles.threadIcons}>
+        {pinned && <span className={styles.stickyIcon} title={t('sticky')} />}
+        {locked && <span className={styles.closedIcon} title={t('closed')} />}
+      </div>
+    );
 
-  const [hoveredCid, setHoveredCid] = useState<string | null>(null);
-  const [showPortal, setShowPortal] = useState<boolean>(false);
-  const placementRef = useRef<Placement>('right-start');
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+    const [hoveredCid, setHoveredCid] = useState<string | null>(null);
+    const [showPortal, setShowPortal] = useState<boolean>(false);
+    const placementRef = useRef<Placement>('right-start');
+    const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  const windowWidth = useWindowWidth();
+    const windowWidth = useWindowWidth();
 
-  const { refs, floatingStyles, update } = useFloating({
-    open: showPortal,
-    placement: placementRef.current,
-    middleware: [
-      offset({ mainAxis: 5 }),
-      size({
-        apply({ elements }) {
-          const referenceElement = refs.reference.current;
-          if (referenceElement) {
-            const availableWidthToTheRight = windowWidth - (referenceElement.getBoundingClientRect().left + referenceElement.getBoundingClientRect().width);
-            const availableWidthToTheLeft = referenceElement.getBoundingClientRect().left;
-            const minWidth = windowWidth * 0.25;
+    const { refs, floatingStyles, update } = useFloating({
+      open: showPortal,
+      placement: placementRef.current,
+      middleware: [
+        offset({ mainAxis: 5 }),
+        size({
+          apply({ elements }) {
+            const referenceElement = refs.reference.current;
+            if (referenceElement) {
+              const availableWidthToTheRight = windowWidth - (referenceElement.getBoundingClientRect().left + referenceElement.getBoundingClientRect().width);
+              const availableWidthToTheLeft = referenceElement.getBoundingClientRect().left;
+              const minWidth = windowWidth * 0.25;
 
-            if (availableWidthToTheRight >= minWidth) {
-              placementRef.current = 'right-start';
-              elements.floating.style.maxWidth = `${availableWidthToTheRight - 40}px`;
-            } else if (availableWidthToTheLeft >= minWidth) {
-              placementRef.current = 'left-start';
-              elements.floating.style.maxWidth = `${availableWidthToTheLeft - 25}px`;
-            } else if (availableWidthToTheRight > availableWidthToTheLeft) {
-              placementRef.current = 'right-start';
-              elements.floating.style.maxWidth = `${availableWidthToTheRight - 40}px`;
-            } else {
-              placementRef.current = 'left-start';
-              elements.floating.style.maxWidth = `${availableWidthToTheLeft - 25}px`;
+              if (availableWidthToTheRight >= minWidth) {
+                placementRef.current = 'right-start';
+                elements.floating.style.maxWidth = `${availableWidthToTheRight - 40}px`;
+              } else if (availableWidthToTheLeft >= minWidth) {
+                placementRef.current = 'left-start';
+                elements.floating.style.maxWidth = `${availableWidthToTheLeft - 25}px`;
+              } else if (availableWidthToTheRight > availableWidthToTheLeft) {
+                placementRef.current = 'right-start';
+                elements.floating.style.maxWidth = `${availableWidthToTheRight - 40}px`;
+              } else {
+                placementRef.current = 'left-start';
+                elements.floating.style.maxWidth = `${availableWidthToTheLeft - 25}px`;
+              }
             }
-          }
-        },
-      }),
-    ],
-    whileElementsMounted: autoUpdate,
-  });
+          },
+        }),
+      ],
+      whileElementsMounted: autoUpdate,
+    });
 
-  useEffect(() => {
-    update();
-  }, [update, windowWidth]);
+    useEffect(() => {
+      update();
+    }, [update, windowWidth]);
 
-  const { replies } = useReplies({ comment: post });
-  const lastReply = replies?.length > 0 ? replies[replies.length - 1] : null;
+    const { replies } = useReplies({ comment: post, flat: true });
+    const lastReply = replies?.length > 0 ? replies[replies.length - 1] : null;
 
-  const { isCommentAuthorMod: isCatalogPostAuthorMod, commentAuthorRole: catalogPostAuthorRole } = useEditCommentPrivileges({
-    commentAuthorAddress: author?.address,
-    subplebbitAddress,
-  });
-  const { isCommentAuthorMod: isLastReplyAuthorMod, commentAuthorRole: lastReplyAuthorRole } = useEditCommentPrivileges({
-    commentAuthorAddress: lastReply?.author?.address,
-    subplebbitAddress,
-  });
+    const { isCommentAuthorMod: isCatalogPostAuthorMod, commentAuthorRole: catalogPostAuthorRole } = useEditCommentPrivileges({
+      commentAuthorAddress: author?.address,
+      subplebbitAddress,
+    });
+    const { isCommentAuthorMod: isLastReplyAuthorMod, commentAuthorRole: lastReplyAuthorRole } = useEditCommentPrivileges({
+      commentAuthorAddress: lastReply?.author?.address,
+      subplebbitAddress,
+    });
 
-  const postContent = (
-    <div className={`${styles.teaser} ${hidden && styles.hidden}`}>
-      {hidden ? (
-        <b>({t('hidden')})</b>
-      ) : (
-        <>
-          {title && (
-            <span>
-              <b>{title}</b>
-              {content ? ': ' : ''}
-            </span>
-          )}
-          {content && <ContentPreview content={content} maxLength={9999} />}
-        </>
-      )}
-    </div>
-  );
-
-  const { imageSize, showOPComment } = useCatalogStyleStore();
-  const maxWidth = imageSize === 'Large' ? '250px' : '150px';
-  const maxHeight = imageSize === 'Large' ? '250px' : '150px';
-  const CSSProperties = {
-    '--maxWidth': maxWidth,
-    '--maxHeight': maxHeight,
-  } as React.CSSProperties;
-
-  const isTextOnlyThread = !hasThumbnail;
-
-  return (
-    <>
-      <div className={`${styles.post} ${imageSize === 'Large' ? styles.large : ''}`} style={CSSProperties}>
-        <div onMouseOver={() => setHoveredCid(cid)} onMouseLeave={() => setHoveredCid(null)}>
-          {hidden ? (
-            <Link to={postLink}>
-              <span className={styles.hiddenThumbnail} />
-            </Link>
-          ) : hasThumbnail ? (
-            <>
-              {shouldShowSnow() && hasThumbnail && <img src='assets/xmashat.gif' className={styles.xmasHat} alt='' />}
-              <Link to={postLink}>
-                <div
-                  className={`${styles.mediaPaddingWrapper} ${hidden && styles.hidden}`}
-                  ref={refs.setReference}
-                  onMouseOver={() => (timeoutRef.current = setTimeout(() => setShowPortal(true), 250))}
-                  onMouseLeave={() => {
-                    setShowPortal(false);
-                    if (timeoutRef.current) {
-                      clearTimeout(timeoutRef.current);
-                      timeoutRef.current = null;
-                    }
-                  }}
-                >
-                  {threadIcons}
-                  {spoiler ? (
-                    <img src='assets/spoiler.png' alt='' />
-                  ) : (
-                    <CatalogPostMedia cid={cid} commentMediaInfo={commentMediaInfo} linkWidth={linkWidth} linkHeight={linkHeight} />
-                  )}
-                </div>
-              </Link>
-            </>
-          ) : (
-            threadIcons
-          )}
-          <div className={styles.meta} title='(R)eplies / (L)ink Replies'>
-            R: <b>{replyCount || '0'}</b>
-            {linkCount > 0 && (
+    const postContent = (
+      <div className={`${styles.teaser} ${hidden && styles.hidden}`}>
+        {hidden ? (
+          <b>({t('hidden')})</b>
+        ) : (
+          <>
+            {title && (
               <span>
-                {' '}
-                / L: <b>{linkCount}</b>
+                <b>{title}</b>
+                {content ? ': ' : ''}
               </span>
             )}
-            <span className={`${styles.postMenu} ${hoveredCid && styles.postMenuVisible}`}>
-              <PostMenuDesktop postMenu={postMenuProps} />
-            </span>
-          </div>
-          <div className={styles.postContent}>{(showOPComment || isTextOnlyThread) && (hasThumbnail ? postContent : <Link to={postLink}>{postContent}</Link>)}</div>
-        </div>
+            {content && <ContentPreview content={content} maxLength={9999} />}
+          </>
+        )}
       </div>
-      {hoveredCid === cid &&
-        showPortal &&
-        createPortal(
-          <div className={styles.postPreview} ref={refs.setFloating} style={floatingStyles}>
-            {title ? (
+    );
+
+    const { imageSize, showOPComment } = useCatalogStyleStore();
+    const maxWidth = imageSize === 'Large' ? '250px' : '150px';
+    const maxHeight = imageSize === 'Large' ? '250px' : '150px';
+    const CSSProperties = {
+      '--maxWidth': maxWidth,
+      '--maxHeight': maxHeight,
+    } as React.CSSProperties;
+
+    const isTextOnlyThread = !hasThumbnail;
+
+    return (
+      <>
+        <div className={`${styles.post} ${imageSize === 'Large' ? styles.large : ''}`} style={CSSProperties}>
+          <div onMouseOver={() => setHoveredCid(cid)} onMouseLeave={() => setHoveredCid(null)}>
+            {hidden ? (
+              <Link to={postLink}>
+                <span className={styles.hiddenThumbnail} />
+              </Link>
+            ) : hasThumbnail ? (
               <>
-                <span className={styles.postSubject}>{title} </span>
-                {t('by')}
+                {shouldShowSnow() && hasThumbnail && <img src='assets/xmashat.gif' className={styles.xmasHat} alt='' />}
+                <Link to={postLink}>
+                  <div
+                    className={`${styles.mediaPaddingWrapper} ${hidden && styles.hidden}`}
+                    ref={refs.setReference}
+                    onMouseOver={() => (timeoutRef.current = setTimeout(() => setShowPortal(true), 250))}
+                    onMouseLeave={() => {
+                      setShowPortal(false);
+                      if (timeoutRef.current) {
+                        clearTimeout(timeoutRef.current);
+                        timeoutRef.current = null;
+                      }
+                    }}
+                  >
+                    {threadIcons}
+                    {spoiler ? (
+                      <img src='assets/spoiler.png' alt='' />
+                    ) : (
+                      <CatalogPostMedia cid={cid} commentMediaInfo={commentMediaInfo} linkWidth={linkWidth} linkHeight={linkHeight} />
+                    )}
+                  </div>
+                </Link>
               </>
             ) : (
-              t('posted_by')
-            )}{' '}
-            <span className={`${styles.postAuthor} ${isCatalogPostAuthorMod && styles.capcode}`}>
-              {author?.displayName || _.capitalize(t('anonymous'))}
-              {isCatalogPostAuthorMod && <span className='capitalize'>{` ## Board ${catalogPostAuthorRole}`}</span>}
-            </span>
-            {(isInAllView || isInSubscriptionsView) && subplebbitAddress && ` to p/${Plebbit.getShortAddress({ address: subplebbitAddress })}`}
-            <span className={styles.postAgo}> {getFormattedTimeAgo(timestamp)}</span>
-            {replyCount > 0 && (
-              <div className={styles.postLast}>
-                {t('last_reply_by')}{' '}
-                <span className={`${styles.postAuthor} ${isLastReplyAuthorMod && styles.capcode}`}>
-                  {lastReply?.author?.displayName || _.capitalize(t('anonymous'))}
-                  {isLastReplyAuthorMod && ` ## Board ${lastReplyAuthorRole}`}
-                </span>
-                <span className={styles.postAgo}> {getFormattedTimeAgo(lastReply?.timestamp)}</span>
-              </div>
+              threadIcons
             )}
-          </div>,
-          document.body,
-        )}
-    </>
-  );
-};
+            <div className={styles.meta} title='(R)eplies / (L)ink Replies'>
+              R: <b>{replyCount || '0'}</b>
+              {linkCount > 0 && (
+                <span>
+                  {' '}
+                  / L: <b>{linkCount}</b>
+                </span>
+              )}
+              <span className={`${styles.postMenu} ${hoveredCid && styles.postMenuVisible}`}>
+                <PostMenuDesktop postMenu={postMenuProps} />
+              </span>
+            </div>
+            <div className={styles.postContent}>{(showOPComment || isTextOnlyThread) && (hasThumbnail ? postContent : <Link to={postLink}>{postContent}</Link>)}</div>
+          </div>
+        </div>
+        {hoveredCid === cid &&
+          showPortal &&
+          createPortal(
+            <div className={styles.postPreview} ref={refs.setFloating} style={floatingStyles}>
+              {title ? (
+                <>
+                  <span className={styles.postSubject}>{title} </span>
+                  {t('by')}
+                </>
+              ) : (
+                t('posted_by')
+              )}{' '}
+              <span className={`${styles.postAuthor} ${isCatalogPostAuthorMod && styles.capcode}`}>
+                {author?.displayName || _.capitalize(t('anonymous'))}
+                {isCatalogPostAuthorMod && <span className='capitalize'>{` ## Board ${catalogPostAuthorRole}`}</span>}
+              </span>
+              {(isInAllView || isInSubscriptionsView) && subplebbitAddress && ` to p/${Plebbit.getShortAddress({ address: subplebbitAddress })}`}
+              <span className={styles.postAgo}> {getFormattedTimeAgo(timestamp)}</span>
+              {replyCount > 0 && (
+                <div className={styles.postLast}>
+                  {t('last_reply_by')}{' '}
+                  <span className={`${styles.postAuthor} ${isLastReplyAuthorMod && styles.capcode}`}>
+                    {lastReply?.author?.displayName || _.capitalize(t('anonymous'))}
+                    {isLastReplyAuthorMod && ` ## Board ${lastReplyAuthorRole}`}
+                  </span>
+                  <span className={styles.postAgo}> {getFormattedTimeAgo(lastReply?.timestamp)}</span>
+                </div>
+              )}
+            </div>,
+            document.body,
+          )}
+      </>
+    );
+  },
+  (prevProps, nextProps) => prevProps.post?.cid === nextProps.post?.cid,
+);
 
 interface CatalogRowProps {
   index?: number;

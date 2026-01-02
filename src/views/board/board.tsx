@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useLocation, useNavigationType, useParams } from 'react-router-dom';
-import { Comment, useAccount, useAccountComments, useAccountSubplebbits, useBlock, useFeed, useSubplebbit } from '@plebbit/plebbit-react-hooks';
+import { Comment, useAccount, useAccountComments, useAccountSubplebbits, useBlock, useFeed } from '@plebbit/plebbit-react-hooks';
+import { useStableSubplebbit, useSubplebbitField } from '../../hooks/use-stable-subplebbit';
 import { Virtuoso, VirtuosoHandle, StateSnapshot } from 'react-virtuoso';
 import { Trans, useTranslation } from 'react-i18next';
 import styles from './board.module.css';
@@ -153,9 +154,13 @@ const Board = ({ feedCacheKey, viewType, boardIdentifier: boardIdentifierProp, t
     }
   }, [filteredComments, reset]);
 
-  const subplebbit = useSubplebbit({ subplebbitAddress });
-  const { error, shortAddress, state } = subplebbit || {};
-  const title = isInAllView ? t('all') : isInSubscriptionsView ? t('subscriptions') : isInModView ? t('mod') : subplebbit?.title;
+  // Use stable subplebbit fields to avoid rerenders from updatingState
+  const subplebbitTitle = useSubplebbitField(subplebbitAddress, (sub) => sub?.title);
+  const shortAddress = useSubplebbitField(subplebbitAddress, (sub) => sub?.shortAddress);
+  // Only subscribe to state and error for footer display - these are needed
+  const stableSubplebbit = useStableSubplebbit(subplebbitAddress);
+  const { error, state } = stableSubplebbit || {};
+  const title = isInAllView ? t('all') : isInSubscriptionsView ? t('subscriptions') : isInModView ? t('mod') : subplebbitTitle;
 
   const { blocked, unblock } = useBlock({ address: subplebbitAddress });
 
