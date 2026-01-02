@@ -304,5 +304,9 @@
   "nsfw_boards_only": "Hanya papan NSFW",
   "worksafe_boards_only": "Hanya papan aman untuk kerja",
   "bitsocial_account": "Akun Bitsocial",
-  "p2p_options": "Opsi P2P"
+  "p2p_options": "Opsi P2P",
+  "purge": "hapus",
+  "purge_confirm": "Menghapus akan menghapus konten ini dan semua balasannya secara permanen dari database. Lanjutkan?",
+  "this_thread_was_purged": "Thread ini telah dihapus secara permanen dari database",
+  "this_reply_was_purged": "Balasan ini telah dihapus secara permanen dari database"
 }

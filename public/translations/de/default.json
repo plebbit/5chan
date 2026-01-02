@@ -304,5 +304,9 @@
   "nsfw_boards_only": "Nur NSFW-Boards",
   "worksafe_boards_only": "Nur arbeitsplatzsichere Boards",
   "bitsocial_account": "Bitsocial-Konto",
-  "p2p_options": "P2P-Optionen"
+  "p2p_options": "P2P-Optionen",
+  "purge": "löschen",
+  "purge_confirm": "Das Löschen entfernt diesen Inhalt und alle Antworten dauerhaft aus der Datenbank. Fortfahren?",
+  "this_thread_was_purged": "Dieser Thread wurde dauerhaft aus der Datenbank gelöscht",
+  "this_reply_was_purged": "Diese Antwort wurde dauerhaft aus der Datenbank gelöscht"
 }

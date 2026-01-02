@@ -304,5 +304,9 @@
   "nsfw_boards_only": "Endast NSFW-tavlor",
   "worksafe_boards_only": "Endast arbetsplats-säkra tavlor",
   "bitsocial_account": "Bitsocial-konto",
-  "p2p_options": "P2P-alternativ"
+  "p2p_options": "P2P-alternativ",
+  "purge": "radera",
+  "purge_confirm": "Raderande tar permanent bort detta innehåll och alla dess svar från databasen. Fortsätta?",
+  "this_thread_was_purged": "Denna tråd raderades permanent från databasen",
+  "this_reply_was_purged": "Detta svar raderades permanent från databasen"
 }

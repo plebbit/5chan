@@ -304,5 +304,9 @@
   "nsfw_boards_only": "Alleen NSFW-borden",
   "worksafe_boards_only": "Alleen werkveilige borden",
   "bitsocial_account": "Bitsocial-account",
-  "p2p_options": "P2P-opties"
+  "p2p_options": "P2P-opties",
+  "purge": "verwijderen",
+  "purge_confirm": "Verwijderen verwijdert deze inhoud en alle antwoorden ervan permanent uit de database. Doorgaan?",
+  "this_thread_was_purged": "Deze thread is permanent verwijderd uit de database",
+  "this_reply_was_purged": "Dit antwoord is permanent verwijderd uit de database"
 }

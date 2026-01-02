@@ -304,5 +304,9 @@
   "nsfw_boards_only": "Pouze NSFW desky",
   "worksafe_boards_only": "Pouze bezpečné desky",
   "bitsocial_account": "Účet Bitsocial",
-  "p2p_options": "Možnosti P2P"
+  "p2p_options": "Možnosti P2P",
+  "purge": "vymazat",
+  "purge_confirm": "Vymazání trvale odstraní tento obsah a všechny jeho odpovědi z databáze. Pokračovat?",
+  "this_thread_was_purged": "Toto vlákno bylo trvale vymazáno z databáze",
+  "this_reply_was_purged": "Tato odpověď byla trvale vymazána z databáze"
 }

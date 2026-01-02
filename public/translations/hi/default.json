@@ -304,5 +304,9 @@
   "nsfw_boards_only": "केवल NSFW बोर्ड",
   "worksafe_boards_only": "केवल कार्य-सुरक्षित बोर्ड",
   "bitsocial_account": "Bitsocial खाता",
-  "p2p_options": "P2P विकल्प"
+  "p2p_options": "P2P विकल्प",
+  "purge": "हटाएं",
+  "purge_confirm": "पर्ज करने से यह सामग्री और इसकी सभी प्रतिक्रियाएं डेटाबेस से स्थायी रूप से हट जाएंगी। जारी रखें?",
+  "this_thread_was_purged": "यह थ्रेड डेटाबेस से स्थायी रूप से हटा दिया गया था",
+  "this_reply_was_purged": "यह प्रतिक्रिया डेटाबेस से स्थायी रूप से हटा दी गई थी"
 }

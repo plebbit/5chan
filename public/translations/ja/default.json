@@ -304,5 +304,9 @@
   "nsfw_boards_only": "NSFWボードのみ",
   "worksafe_boards_only": "職場安全ボードのみ",
   "bitsocial_account": "Bitsocialアカウント",
-  "p2p_options": "P2Pオプション"
+  "p2p_options": "P2Pオプション",
+  "purge": "削除",
+  "purge_confirm": "削除すると、このコンテンツとそのすべての返信がデータベースから永続的に削除されます。続行しますか？",
+  "this_thread_was_purged": "このスレッドはデータベースから永続的に削除されました",
+  "this_reply_was_purged": "この返信はデータベースから永続的に削除されました"
 }

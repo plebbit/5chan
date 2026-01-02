@@ -304,5 +304,9 @@
   "nsfw_boards_only": "Tableaux NSFW uniquement",
   "worksafe_boards_only": "Tableaux sûrs uniquement",
   "bitsocial_account": "Compte Bitsocial",
-  "p2p_options": "Options P2P"
+  "p2p_options": "Options P2P",
+  "purge": "purger",
+  "purge_confirm": "La purge supprime définitivement ce contenu et toutes ses réponses de la base de données. Continuer?",
+  "this_thread_was_purged": "Ce fil de discussion a été définitivement purgé de la base de données",
+  "this_reply_was_purged": "Cette réponse a été définitivement purgée de la base de données"
 }

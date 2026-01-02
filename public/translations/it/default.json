@@ -304,5 +304,9 @@
   "nsfw_boards_only": "Solo bacheche NSFW",
   "worksafe_boards_only": "Solo bacheche sicure per il lavoro",
   "bitsocial_account": "Account Bitsocial",
-  "p2p_options": "Opzioni P2P"
+  "p2p_options": "Opzioni P2P",
+  "purge": "elimina",
+  "purge_confirm": "L'eliminazione rimuoverà permanentemente questo contenuto e tutte le sue risposte dal database. Continuare?",
+  "this_thread_was_purged": "Questa discussione è stata eliminata definitivamente dal database",
+  "this_reply_was_purged": "Questa risposta è stata eliminata definitivamente dal database"
 }

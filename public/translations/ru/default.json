@@ -304,5 +304,9 @@
   "nsfw_boards_only": "Только доски NSFW",
   "worksafe_boards_only": "Только безопасные для работы доски",
   "bitsocial_account": "Аккаунт Bitsocial",
-  "p2p_options": "Опции P2P"
+  "p2p_options": "Опции P2P",
+  "purge": "удалить",
+  "purge_confirm": "Удаление навсегда удалит этот контент и все ответы на него из базы данных. Продолжить?",
+  "this_thread_was_purged": "Эта ветка была окончательно удалена из базы данных",
+  "this_reply_was_purged": "Этот ответ был окончательно удален из базы данных"
 }

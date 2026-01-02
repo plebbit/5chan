@@ -304,5 +304,9 @@
   "nsfw_boards_only": "Vetëm tabelat NSFW",
   "worksafe_boards_only": "Vetëm tabelat e sigurta për punë",
   "bitsocial_account": "Llogaria Bitsocial",
-  "p2p_options": "Opsionet P2P"
+  "p2p_options": "Opsionet P2P",
+  "purge": "fshi",
+  "purge_confirm": "Fshirja do të heqë përgjithmonë këtë përmbajtje dhe të gjitha përgjigjet e saj nga baza e të dhënave. Vazhdo?",
+  "this_thread_was_purged": "Kjo fije u fshi përgjithmonë nga baza e të dhënave",
+  "this_reply_was_purged": "Kjo përgjigje u fshi përgjithmonë nga baza e të dhënave"
 }

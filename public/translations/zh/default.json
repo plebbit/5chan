@@ -304,5 +304,9 @@
   "nsfw_boards_only": "仅NSFW板块",
   "worksafe_boards_only": "仅工作安全板块",
   "bitsocial_account": "Bitsocial账户",
-  "p2p_options": "P2P选项"
+  "p2p_options": "P2P选项",
+  "purge": "清除",
+  "purge_confirm": "清除将永久删除此内容及其所有回复。继续吗？",
+  "this_thread_was_purged": "此主题已从数据库中永久清除",
+  "this_reply_was_purged": "此回复已从数据库中永久清除"
 }

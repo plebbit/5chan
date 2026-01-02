@@ -304,5 +304,9 @@
   "nsfw_boards_only": "Sadece NSFW panoları",
   "worksafe_boards_only": "Sadece iş için güvenli panolar",
   "bitsocial_account": "Bitsocial Hesabı",
-  "p2p_options": "P2P Seçenekleri"
+  "p2p_options": "P2P Seçenekleri",
+  "purge": "temizle",
+  "purge_confirm": "Temizleme, bu içeriği ve tüm yanıtlarını veritabanından kalıcı olarak kaldıracaktır. Devam edilsin mi?",
+  "this_thread_was_purged": "Bu konu veritabanından kalıcı olarak temizlendi",
+  "this_reply_was_purged": "Bu yanıt veritabanından kalıcı olarak temizlendi"
 }

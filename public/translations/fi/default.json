@@ -304,5 +304,9 @@
   "nsfw_boards_only": "Vain NSFW-taulut",
   "worksafe_boards_only": "Vain työturvalliset taulut",
   "bitsocial_account": "Bitsocial-tili",
-  "p2p_options": "P2P-asetukset"
+  "p2p_options": "P2P-asetukset",
+  "purge": "poistaa",
+  "purge_confirm": "Poistaminen poistaa pysyvästi tämän sisällön ja kaikki sen vastaukset tietokannasta. Jatketaanko?",
+  "this_thread_was_purged": "Tämä ketju poistettiin pysyvästi tietokannasta",
+  "this_reply_was_purged": "Tämä vastaus poistettiin pysyvästi tietokannasta"
 }

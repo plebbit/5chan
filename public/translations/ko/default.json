@@ -304,5 +304,9 @@
   "nsfw_boards_only": "NSFW 게시판만",
   "worksafe_boards_only": "직장 안전 게시판만",
   "bitsocial_account": "Bitsocial 계정",
-  "p2p_options": "P2P 옵션"
+  "p2p_options": "P2P 옵션",
+  "purge": "삭제",
+  "purge_confirm": "삭제하면 이 콘텐츠와 모든 답글이 데이터베이스에서 영구적으로 제거됩니다. 계속하시겠습니까?",
+  "this_thread_was_purged": "이 스레드가 데이터베이스에서 영구적으로 삭제되었습니다",
+  "this_reply_was_purged": "이 답글이 데이터베이스에서 영구적으로 삭제되었습니다"
 }

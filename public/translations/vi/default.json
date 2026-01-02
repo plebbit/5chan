@@ -304,5 +304,9 @@
   "nsfw_boards_only": "Chỉ bảng NSFW",
   "worksafe_boards_only": "Chỉ bảng an toàn cho công việc",
   "bitsocial_account": "Tài khoản Bitsocial",
-  "p2p_options": "Tùy chọn P2P"
+  "p2p_options": "Tùy chọn P2P",
+  "purge": "xóa",
+  "purge_confirm": "Xóa sẽ loại bỏ vĩnh viễn nội dung này và tất cả các phản hồi của nó khỏi cơ sở dữ liệu. Tiếp tục?",
+  "this_thread_was_purged": "Chủ đề này đã bị xóa vĩnh viễn khỏi cơ sở dữ liệu",
+  "this_reply_was_purged": "Phản hồi này đã bị xóa vĩnh viễn khỏi cơ sở dữ liệu"
 }

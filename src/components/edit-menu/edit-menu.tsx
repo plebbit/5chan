@@ -33,6 +33,7 @@ const EditMenu = ({ post }: { post: Comment }) => {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
   const { author, cid, content, deleted, locked, parentCid, pinned, postCid, reason, removed, spoiler, subplebbitAddress } = post || {};
+  const purged = post?.commentModeration?.purged ?? false;
   const [isEditMenuOpen, setIsEditMenuOpen] = useState(false);
   const [isContentEditorOpen, setIsContentEditorOpen] = useState(false);
 
@@ -63,14 +64,15 @@ const EditMenu = ({ post }: { post: Comment }) => {
       subplebbitAddress,
       // Author edit properties
       content: isAccountCommentAuthor ? content : undefined,
-      deleted: isAccountCommentAuthor ? deleted ?? false : undefined,
-      spoiler: isAccountCommentAuthor ? spoiler ?? false : undefined,
+      deleted: isAccountCommentAuthor ? (deleted ?? false) : undefined,
+      spoiler: isAccountCommentAuthor ? (spoiler ?? false) : undefined,
       // Mod edit properties
       commentModeration: isAccountMod
         ? {
             locked: locked ?? false,
             pinned: pinned ?? false,
             removed: removed ?? false,
+            purged: purged ?? false,
             spoiler: spoiler ?? false,
             reason,
             banExpiresAt: post?.commentModeration?.banExpiresAt,
@@ -83,7 +85,7 @@ const EditMenu = ({ post }: { post: Comment }) => {
         alert('Comment edit failed. ' + error.message);
       },
     };
-  }, [isAccountMod, isAccountCommentAuthor, cid, content, deleted, locked, pinned, reason, removed, spoiler, subplebbitAddress, post]);
+  }, [isAccountMod, isAccountCommentAuthor, cid, content, deleted, locked, pinned, reason, removed, purged, spoiler, subplebbitAddress, post]);
 
   const [publishCommentEditOptions, setPublishCommentEditOptions] = useState<PublishCommentEditOptions>(defaultPublishEditOptions);
 
@@ -115,6 +117,7 @@ const EditMenu = ({ post }: { post: Comment }) => {
         locked: parentCid === undefined ? publishCommentEditOptions.commentModeration?.locked : undefined,
         pinned: publishCommentEditOptions.commentModeration?.pinned,
         removed: publishCommentEditOptions.commentModeration?.removed,
+        purged: publishCommentEditOptions.commentModeration?.purged,
         spoiler: publishCommentEditOptions.commentModeration?.spoiler,
         reason: publishCommentEditOptions.reason,
         banExpiresAt: publishCommentEditOptions.commentModeration?.banExpiresAt,
@@ -169,6 +172,33 @@ const EditMenu = ({ post }: { post: Comment }) => {
       ...state,
       commentAuthor: { ...state.commentAuthor, banExpiresAt: daysToTimestampInSeconds(days) },
     }));
+  };
+
+  const onPurgeCheckbox = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { checked } = e.target;
+
+    // Double confirmation for purge action
+    if (checked) {
+      const firstConfirm = window.confirm(t('purge_confirm'));
+      if (!firstConfirm) {
+        return;
+      }
+      const secondConfirm = window.confirm(t('double_confirm'));
+      if (!secondConfirm) {
+        return;
+      }
+    }
+
+    setPublishCommentEditOptions((state) => {
+      const newState = { ...state };
+      if (isAccountMod) {
+        newState.commentModeration = {
+          ...newState.commentModeration,
+          purged: checked,
+        };
+      }
+      return newState;
+    });
   };
 
   const { refs, floatingStyles, context } = useFloating({
@@ -263,7 +293,14 @@ const EditMenu = ({ post }: { post: Comment }) => {
                       [
                       <input onChange={onCheckbox} checked={publishCommentEditOptions.commentModeration?.removed ?? false} type='checkbox' id='removed' />
                       {_.capitalize(t('remove'))}?]
-                    </label>
+                    </label>{' '}
+                    <span className={styles.purgeItem}>
+                      <label>
+                        [
+                        <input onChange={onPurgeCheckbox} checked={publishCommentEditOptions.commentModeration?.purged ?? false} type='checkbox' id='purged' />
+                        {_.capitalize(t('purge'))}?]
+                      </label>
+                    </span>
                   </div>
                   {!parentCid && (
                     <div className={styles.menuItem}>

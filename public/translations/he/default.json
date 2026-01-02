@@ -304,5 +304,9 @@
   "nsfw_boards_only": "לוחות NSFW בלבד",
   "worksafe_boards_only": "לוחות בטוחים לעבודה בלבד",
   "bitsocial_account": "חשבון Bitsocial",
-  "p2p_options": "אפשרויות P2P"
+  "p2p_options": "אפשרויות P2P",
+  "purge": "למחוק",
+  "purge_confirm": "מחיקה תסיר לצמיתות את התוכן הזה ואת כל התגובות שלו מהמסד הנתונים. להמשיך?",
+  "this_thread_was_purged": "האשכול הזה נמחק לצמיתות מהמסד הנתונים",
+  "this_reply_was_purged": "התגובה הזו נמחקה לצמיתות מהמסד הנתונים"
 }

@@ -304,5 +304,9 @@
   "nsfw_boards_only": "فقط تابلوهای NSFW",
   "worksafe_boards_only": "فقط تابلوهای ایمن برای کار",
   "bitsocial_account": "حساب Bitsocial",
-  "p2p_options": "گزینه‌های P2P"
+  "p2p_options": "گزینه‌های P2P",
+  "purge": "پاکسازی",
+  "purge_confirm": "پاکسازی این محتوا و تمام پاسخ‌های آن را به طور دائم از پایگاه داده حذف می‌کند. ادامه دهید؟",
+  "this_thread_was_purged": "این موضوع به طور دائم از پایگاه داده پاکسازی شد",
+  "this_reply_was_purged": "این پاسخ به طور دائم از پایگاه داده پاکسازی شد"
 }

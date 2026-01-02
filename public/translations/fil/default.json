@@ -304,5 +304,9 @@
   "nsfw_boards_only": "NSFW boards lang",
   "worksafe_boards_only": "Worksafe boards lang",
   "bitsocial_account": "Account ng Bitsocial",
-  "p2p_options": "Mga Opsyon ng P2P"
+  "p2p_options": "Mga Opsyon ng P2P",
+  "purge": "purga",
+  "purge_confirm": "Ang pag-purge ay permanenteng mag-aalis ng nilalamang ito at lahat ng mga tugon nito mula sa database. Magpatuloy?",
+  "this_thread_was_purged": "Ang thread na ito ay permanenteng na-purge mula sa database",
+  "this_reply_was_purged": "Ang sagot na ito ay permanenteng na-purge mula sa database"
 }

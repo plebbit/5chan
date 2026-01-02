@@ -304,5 +304,9 @@
   "nsfw_boards_only": "Kun NSFW-tavler",
   "worksafe_boards_only": "Kun arbejdssikre tavler",
   "bitsocial_account": "Bitsocial-konto",
-  "p2p_options": "P2P-indstillinger"
+  "p2p_options": "P2P-indstillinger",
+  "purge": "slet",
+  "purge_confirm": "Sletning fjerner permanent dette indhold og alle dets svar fra databasen. Fortsætte?",
+  "this_thread_was_purged": "Denne tråd blev permanent slettet fra databasen",
+  "this_reply_was_purged": "Dette svar blev permanent slettet fra databasen"
 }

@@ -304,5 +304,9 @@
   "nsfw_boards_only": "صرف NSFW بورڈز",
   "worksafe_boards_only": "صرف کام کے لیے محفوظ بورڈز",
   "bitsocial_account": "Bitsocial اکاؤنٹ",
-  "p2p_options": "P2P اختیارات"
+  "p2p_options": "P2P اختیارات",
+  "purge": "ختم کرنا",
+  "purge_confirm": "پرج کرنا اس مواد اور اس کی تمام جوابات کو ڈیٹا بیس سے مستقل طور پر ہٹا دے گا۔ جاری رکھیں؟",
+  "this_thread_was_purged": "یہ تھریڈ ڈیٹا بیس سے مستقل طور پر ہٹا دیا گیا تھا",
+  "this_reply_was_purged": "یہ جواب ڈیٹا بیس سے مستقل طور پر ہٹا دیا گیا تھا"
 }
