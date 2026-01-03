@@ -2,6 +2,21 @@ import { useMemo } from 'react';
 import useSubplebbitsStore from '@plebbit/plebbit-react-hooks/dist/stores/subplebbits';
 
 /**
+ * Shallow compare two objects by keys and values.
+ */
+const shallowEqual = (obj1: Record<string, any> | undefined, obj2: Record<string, any> | undefined): boolean => {
+  if (obj1 === obj2) return true;
+  if (!obj1 || !obj2) return obj1 === obj2;
+  const keys1 = Object.keys(obj1);
+  const keys2 = Object.keys(obj2);
+  if (keys1.length !== keys2.length) return false;
+  for (const key of keys1) {
+    if (obj1[key] !== obj2[key]) return false;
+  }
+  return true;
+};
+
+/**
  * Custom equality function that ignores transient state properties
  * like updatingState, state, errors, etc. Only compares stable content fields.
  */
@@ -10,11 +25,12 @@ const isSubplebbitEqual = (prev: any, next: any): boolean => {
   if (!prev || !next) return prev === next;
 
   // Compare only stable fields, ignore transient state
+  // Use shallow comparison for roles object to handle new object instances with same content
   return (
     prev.address === next.address &&
     prev.title === next.title &&
     prev.shortAddress === next.shortAddress &&
-    prev.roles === next.roles &&
+    shallowEqual(prev.roles, next.roles) &&
     prev.updatedAt === next.updatedAt &&
     prev.createdAt === next.createdAt &&
     prev.description === next.description
