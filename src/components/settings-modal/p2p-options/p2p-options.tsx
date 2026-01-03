@@ -252,7 +252,7 @@ const P2pOptions = () => {
       },
       sol: {
         urls: solRpcUrls,
-        chainId: 1,
+        chainId: 101,
       },
       matic: {
         urls: maticRpcUrls,
