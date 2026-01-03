@@ -76,10 +76,6 @@
   "challenge_counter": "{{index}} of {{total}}",
   "embed": "embed",
   "remove": "remove",
-  "purge": "purge",
-  "purge_confirm": "Purging permanently removes this content and all its replies from the database. Continue?",
-  "this_thread_was_purged": "This thread was permanently purged from the database",
-  "this_reply_was_purged": "This reply was permanently purged from the database",
   "download_latest_desktop": "Download the latest desktop version here: {{link}}",
   "new_stable_version": "New stable version available, 5chan v{{newVersion}}. You are using 5chan v{{oldVersion}}.",
   "refresh_to_update": "Refresh the page to update",
@@ -307,5 +303,9 @@
   "subscriptions_subtitle": "You have subscribed to {{count}} boards",
   "subscriptions_subtitle_one": "You have subscribed to {{count}} board",
   "bitsocial_account": "Bitsocial Account",
-  "p2p_options": "P2P options"
+  "p2p_options": "P2P options",
+  "purge": "purge",
+  "purge_confirm": "Purging permanently removes this content and all its replies from the database. Continue?",
+  "this_thread_was_purged": "This thread was permanently purged from the database",
+  "this_reply_was_purged": "This reply was permanently purged from the database"
 }
