@@ -37,13 +37,10 @@ const useDisclaimerModalStore = create<DisclaimerModalState>((set) => ({
     // Check if user has already accepted the disclaimer
     if (hasAcceptedDisclaimer()) {
       // If there's a valid board path, navigate directly
-      if (boardPath) {
-        navigate(`/${boardPath}`);
-        return;
+      const path = boardPath || address;
+      if (path) {
+        navigate(`/${path}`);
       }
-      // If no board path (placeholder), don't navigate - we'll handle this separately
-      // Don't show disclaimer modal either since it's already accepted
-      // Caller should handle showing directory modal or other UI
       return;
     }
 
