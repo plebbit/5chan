@@ -1,5 +1,5 @@
 import { useMemo, useRef } from 'react';
-import { Subplebbit } from '@plebbit/plebbit-react-hooks';
+import { Comment, Subplebbit } from '@plebbit/plebbit-react-hooks';
 import { getCommentMediaInfo, getHasThumbnail } from '../lib/utils/media-utils';
 
 /**
@@ -51,17 +51,20 @@ const usePopularPosts = (subplebbits: Subplebbit[]) => {
     }
   }, [subplebbits]);
 
-  // Create stable reference: only update if the CIDs actually change
-  // This prevents unnecessary rerenders when only updatingState changes
-  const currentCids = popularPosts.map((p: any) => p.cid).join(',');
+  // Create stable reference: only update if the post content actually changes
+  // Build a key from relevant mutable fields, not just CIDs
+  const currentKey = popularPosts.map((p) => `${p.cid}:${p.replyCount}:${p.timestamp}:${p.locked}:${p.pinned}`).join(',');
   const stablePostsRef = useRef<Comment[]>(popularPosts);
 
-  if (currentCids !== prevCidsRef.current) {
-    prevCidsRef.current = currentCids;
+  if (currentKey !== prevCidsRef.current) {
+    prevCidsRef.current = currentKey;
     stablePostsRef.current = popularPosts;
   }
 
-  const isLoading = stablePostsRef.current.length === 0;
+  // Derive loading state from subplebbit states rather than post count
+  // A subplebbit is still loading if it has no posts pages yet and isn't in a terminal state
+  const hasLoadedData = subplebbits.some((sub) => sub?.posts?.pages?.hot?.comments);
+  const isLoading = subplebbits.length > 0 && !hasLoadedData;
 
   return { popularPosts: stablePostsRef.current, isLoading, error };
 };
