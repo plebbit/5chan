@@ -165,3 +165,6 @@ yarn-error.log*
 .vscode
 .cursor
 .playwright-mcp
+
+.specstory
+.cursorindexingignore

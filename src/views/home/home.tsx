@@ -8,10 +8,10 @@ import useSubplebbitsStats from '../../hooks/use-subplebbits-stats';
 import PopularThreadsBox from './popular-threads-box';
 import BoardsList from './boards-list';
 import Version from '../../components/version';
-import useDisclaimerModalStore from '../../stores/use-disclaimer-modal-store';
 import useDirectoryModalStore from '../../stores/use-directory-modal-store';
 import DisclaimerModal from '../../components/disclaimer-modal';
 import DirectoryModal from '../../components/directory-modal';
+import { getBoardPath } from '../../lib/utils/route-utils';
 import _ from 'lodash';
 
 // https://github.com/plebbit/lists/blob/master/5chan-multisub.json
@@ -20,13 +20,14 @@ const SearchBar = () => {
   const searchInputRef = useRef<HTMLInputElement>(null);
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { showDisclaimerModal } = useDisclaimerModalStore();
+  const defaultSubplebbits = useDefaultSubplebbits();
 
   const handleSearchSubmit = (e: FormEvent) => {
     e.preventDefault();
     const searchInput = searchInputRef.current?.value;
     if (searchInput) {
-      showDisclaimerModal(searchInput, navigate);
+      const boardPath = getBoardPath(searchInput, defaultSubplebbits);
+      navigate(`/${boardPath}`);
     }
   };
 

@@ -37,6 +37,10 @@
   padding-bottom: 2px;
 }
 
+.purgeItem {
+  color: #d00;
+}
+
 
 .menuItem input[type="text"], .editTextarea {
   padding: 2px;

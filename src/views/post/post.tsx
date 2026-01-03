@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Comment, Role, useComment, useEditedComment, useSubplebbit } from '@plebbit/plebbit-react-hooks';
-import useSubplebbitsStore from '@plebbit/plebbit-react-hooks/dist/stores/subplebbits';
+import { useSubplebbitField } from '../../hooks/use-stable-subplebbit';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { isAllView } from '../../lib/utils/view-utils';
 import { useResolvedSubplebbitAddress } from '../../hooks/use-resolved-subplebbit-address';
@@ -27,7 +27,8 @@ export interface PostProps {
 }
 
 export const Post = ({ post, showAllReplies = false, showReplies = true }: PostProps) => {
-  const subplebbit = useSubplebbitsStore((state) => state.subplebbits[post?.subplebbitAddress]);
+  // Only subscribe to roles field to avoid rerenders from updatingState changes
+  const roles = useSubplebbitField(post?.subplebbitAddress, (subplebbit) => subplebbit?.roles);
   const isMobile = useIsMobile();
 
   let comment = post;
@@ -42,9 +43,9 @@ export const Post = ({ post, showAllReplies = false, showReplies = true }: PostP
     <div className={styles.thread}>
       <div className={styles.postContainer}>
         {isMobile ? (
-          <PostMobile post={comment} roles={subplebbit?.roles} showAllReplies={showAllReplies} showReplies={showReplies} />
+          <PostMobile post={comment} roles={roles} showAllReplies={showAllReplies} showReplies={showReplies} />
         ) : (
-          <PostDesktop post={comment} roles={subplebbit?.roles} showAllReplies={showAllReplies} showReplies={showReplies} />
+          <PostDesktop post={comment} roles={roles} showAllReplies={showAllReplies} showReplies={showReplies} />
         )}
       </div>
     </div>

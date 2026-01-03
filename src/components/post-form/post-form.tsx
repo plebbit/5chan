@@ -22,6 +22,19 @@ import _ from 'lodash';
 
 const isAndroid = Capacitor.getPlatform() === 'android';
 
+// Separate component for offline alert to isolate rerenders from updatingState
+// Only this component will rerender when updatingState changes, not the whole PostForm
+const OfflineAlert = ({ subplebbitAddress }: { subplebbitAddress: string | undefined }) => {
+  const subplebbit = useSubplebbitsStore((state) => (subplebbitAddress ? state.subplebbits[subplebbitAddress] : undefined));
+  const { isOffline, isOnlineStatusLoading, offlineTitle } = useIsSubplebbitOffline(subplebbit);
+
+  if (!isOffline && !isOnlineStatusLoading) {
+    return null;
+  }
+
+  return <div className={styles.offlineBoard}>{offlineTitle}</div>;
+};
+
 export const LinkTypePreviewer = ({ link }: { link: string }) => {
   const { t } = useTranslation();
   const mediaInfo = getLinkMediaInfo(link);
@@ -380,15 +393,11 @@ const PostForm = () => {
   const accountComment = useAccountComment({ commentIndex: params?.accountCommentIndex as any });
   const resolvedAddress = useResolvedSubplebbitAddress();
   const subplebbitAddress = resolvedAddress || accountComment?.subplebbitAddress;
-  const subplebbit = useSubplebbitsStore((state) => state.subplebbits[subplebbitAddress]);
-  const { isOffline, isOnlineStatusLoading, offlineTitle } = useIsSubplebbitOffline(subplebbit);
 
   return (
     <>
       <div className={styles.postFormDesktop}>
-        {!(isInAllView || isInSubscriptionsView || isInModView) && showForm && (isOffline || isOnlineStatusLoading) && (
-          <div className={styles.offlineBoard}>{offlineTitle}</div>
-        )}
+        {!(isInAllView || isInSubscriptionsView || isInModView) && showForm && <OfflineAlert subplebbitAddress={subplebbitAddress} />}
         {isThreadClosed ? (
           <div className={styles.closed}>
             {t('thread_closed')}
@@ -408,9 +417,7 @@ const PostForm = () => {
         )}
       </div>
       <div className={styles.postFormMobile}>
-        {!(isInAllView || isInSubscriptionsView || isInModView) && showForm && (isOffline || isOnlineStatusLoading) && (
-          <div className={styles.offlineBoard}>{offlineTitle}</div>
-        )}
+        {!(isInAllView || isInSubscriptionsView || isInModView) && showForm && <OfflineAlert subplebbitAddress={subplebbitAddress} />}
         {isThreadClosed ? (
           <div className={styles.closed}>
             {t('thread_closed')}

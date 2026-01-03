@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
 import { setAccount, useAccount } from '@plebbit/plebbit-react-hooks';
-import useSubplebbitsStore from '@plebbit/plebbit-react-hooks/dist/stores/subplebbits';
+import { useSubplebbitField } from '../../hooks/use-stable-subplebbit';
 import { formatMarkdown } from '../../lib/utils/post-utils';
 import { getFormattedTimeAgo } from '../../lib/utils/time-utils';
 import { isValidURL } from '../../lib/utils/url-utils';
@@ -140,9 +140,9 @@ const ReplyModal = ({ closeModal, showReplyModal, parentCid, parentNumber, threa
   const location = useLocation();
   const isInAllView = isAllView(location.pathname);
   const isInSubscriptionsView = isSubscriptionsView(location.pathname, useParams());
-  const subplebbit = useSubplebbitsStore((state) => state.subplebbits[subplebbitAddress]);
-  const { updatedAt } = subplebbit || {};
-  const isBoardOffline = subplebbit?.updatedAt && subplebbit.updatedAt < Date.now() / 1000 - 60 * 60;
+  // Only subscribe to updatedAt to avoid rerenders from updatingState changes
+  const updatedAt = useSubplebbitField(subplebbitAddress, (subplebbit) => subplebbit?.updatedAt);
+  const isBoardOffline = updatedAt && updatedAt < Date.now() / 1000 - 60 * 60;
   const offlineAlert = updatedAt
     ? isBoardOffline && (
         <div className={styles.offlineBoard}>

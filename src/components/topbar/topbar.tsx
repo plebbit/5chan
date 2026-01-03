@@ -2,7 +2,8 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Plebbit from '@plebbit/plebbit-js';
-import { useAccount, useAccountComment, useAccountSubplebbits } from '@plebbit/plebbit-react-hooks';
+import { useAccountComment } from '@plebbit/plebbit-react-hooks';
+import useAccountsStore from '@plebbit/plebbit-react-hooks/dist/stores/accounts';
 import { isAllView, isCatalogView, isSubscriptionsView } from '../../lib/utils/view-utils';
 import { useDefaultSubplebbits, MultisubSubplebbit } from '../../hooks/use-default-subplebbits';
 import { useBoardPath, useResolvedSubplebbitAddress } from '../../hooks/use-resolved-subplebbit-address';
@@ -87,7 +88,6 @@ const findBoardAddressByCode = (code: string, defaultSubplebbits: MultisubSubple
 
 const TopBarDesktop = () => {
   const { t } = useTranslation();
-  const account = useAccount();
   const location = useLocation();
   const params = useParams();
   const isInCatalogView = isCatalogView(location.pathname, params);
@@ -102,9 +102,36 @@ const TopBarDesktop = () => {
   // Memoize allBoardCodes since it's derived from a constant
   const allBoardCodes = useMemo(() => getAllBoardCodes(), []);
 
-  const subscriptions = account?.subscriptions || [];
-  const { accountSubplebbits } = useAccountSubplebbits();
-  const accountSubplebbitAddresses = Object.keys(accountSubplebbits);
+  // Use accounts store with selective subscriptions to avoid rerenders from updatingState
+  // Only subscribe to subscriptions array and account subplebbit addresses
+  const subscriptions = useAccountsStore(
+    (state) => {
+      const activeAccountId = state.activeAccountId;
+      const activeAccount = activeAccountId ? state.accounts[activeAccountId] : undefined;
+      // Spread to create new reference - if array is mutated in place, the equality
+      // function needs different references to detect content changes
+      return [...(activeAccount?.subscriptions || [])];
+    },
+    (prev, next) => {
+      // Shallow compare arrays - only rerender if subscriptions actually change
+      if (prev.length !== next.length) return false;
+      return prev.every((val, idx) => val === next[idx]);
+    },
+  );
+
+  const accountSubplebbitAddresses = useAccountsStore(
+    (state) => {
+      const activeAccountId = state.activeAccountId;
+      const activeAccount = activeAccountId ? state.accounts[activeAccountId] : undefined;
+      const accountSubplebbits = activeAccount?.subplebbits || {};
+      return Object.keys(accountSubplebbits);
+    },
+    (prev, next) => {
+      // Shallow compare arrays - only rerender if addresses actually change
+      if (prev.length !== next.length) return false;
+      return prev.every((val, idx) => val === next[idx]);
+    },
+  );
 
   // Filter subscriptions to only show visible ones
   const visibleSubscriptionAddresses = subscriptions.filter((address: string) => visibleSubscriptions.has(address));
@@ -243,8 +270,21 @@ const TopBarMobile = ({ subplebbitAddress }: { subplebbitAddress: string }) => {
   const boardPath = useBoardPath(subplebbitAddress);
   const selectValue = isInAllView ? 'all' : isInSubscriptionsView ? 'subs' : boardPath || subplebbitAddress;
 
-  const { accountSubplebbits } = useAccountSubplebbits();
-  const accountSubplebbitAddresses = Object.keys(accountSubplebbits);
+  // Use accounts store with selective subscriptions to avoid rerenders from updatingState
+  // Only subscribe to account subplebbit addresses (keys only)
+  const accountSubplebbitAddresses = useAccountsStore(
+    (state) => {
+      const activeAccountId = state.activeAccountId;
+      const activeAccount = activeAccountId ? state.accounts[activeAccountId] : undefined;
+      const accountSubplebbits = activeAccount?.subplebbits || {};
+      return Object.keys(accountSubplebbits);
+    },
+    (prev, next) => {
+      // Shallow compare arrays - only rerender if addresses actually change
+      if (prev.length !== next.length) return false;
+      return prev.every((val, idx) => val === next[idx]);
+    },
+  );
 
   // Check if current subplebbit is a directory board
   const currentIsDirectoryBoard = directoryBoards.some((board) => board.address === subplebbitAddress);

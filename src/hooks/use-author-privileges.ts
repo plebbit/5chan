@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useAccount } from '@plebbit/plebbit-react-hooks';
-import useSubplebbitsStore from '@plebbit/plebbit-react-hooks/dist/stores/subplebbits';
+import { useSubplebbitField } from './use-stable-subplebbit';
 
 interface AuthorPrivilegesProps {
   commentAuthorAddress: string;
@@ -11,8 +11,8 @@ interface AuthorPrivilegesProps {
 const useAuthorPrivileges = ({ commentAuthorAddress, subplebbitAddress }: AuthorPrivilegesProps) => {
   const account = useAccount();
   const accountAuthorAddress = account?.author?.address;
-  const subplebbit = useSubplebbitsStore((state) => state.subplebbits[subplebbitAddress]);
-  const { roles } = subplebbit || {};
+  // Only subscribe to roles field to avoid rerenders from updatingState changes
+  const roles = useSubplebbitField(subplebbitAddress, (subplebbit) => subplebbit?.roles);
   const { isCommentAuthorMod, isAccountMod, isAccountCommentAuthor, commentAuthorRole, accountAuthorRole } = useMemo(() => {
     const commentAuthorRole = roles?.[commentAuthorAddress]?.role;
     const isCommentAuthorMod = commentAuthorRole === 'admin' || commentAuthorRole === 'owner' || commentAuthorRole === 'moderator';
