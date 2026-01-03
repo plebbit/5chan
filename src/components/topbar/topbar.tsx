@@ -108,7 +108,9 @@ const TopBarDesktop = () => {
     (state) => {
       const activeAccountId = state.activeAccountId;
       const activeAccount = activeAccountId ? state.accounts[activeAccountId] : undefined;
-      return activeAccount?.subscriptions || [];
+      // Spread to create new reference - if array is mutated in place, the equality
+      // function needs different references to detect content changes
+      return [...(activeAccount?.subscriptions || [])];
     },
     (prev, next) => {
       // Shallow compare arrays - only rerender if subscriptions actually change
