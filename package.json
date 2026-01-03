@@ -142,7 +142,7 @@
     "elliptic": "6.6.1",
     "ws": "8.18.3",
     "jose": "4.15.9",
-    "sharp": "0.33.5",
+    "sharp": "0.34.5",
     "cacache": "19.0.1"
   },
   "main": "electron/main.js",
