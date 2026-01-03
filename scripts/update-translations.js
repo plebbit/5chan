@@ -25,6 +25,9 @@
   - Remove all unused keys:
     node scripts/update-translations.js --audit --write
 
+  - Force removal even when dynamic keys detected:
+    node scripts/update-translations.js --audit --write --force
+
   Flags:
     --key <name>                 Required (except for --audit). The translation key to update/delete.
     --audit                      Scan codebase for unused translation keys and report/remove them.
@@ -37,6 +40,26 @@
     --include-en                 Include the source language (e.g. en) in updates.
     --dry|--dry-run              Show changes but do not write files (default).
     --write                      Actually write the files.
+    --force                      Force --audit --write even when dynamic translation keys are detected.
+                                 Use with caution: dynamic keys (e.g. t(`prefix_${var}`)) cannot be
+                                 statically analyzed, so some "unused" keys may actually be in use.
+
+  ⚠️  LIMITATIONS (audit mode):
+  This script uses static analysis to find translation keys. It can only detect string literals like:
+    - t('key') or t("key")
+    - i18nKey="key" or i18nKey={'key'}
+
+  It CANNOT detect dynamic keys such as:
+    - t(`prefix_${variable}`)
+    - t(someVariable)
+    - i18nKey={dynamicValue}
+
+  When dynamic key usage is detected, the script will:
+    1. Warn you about the files/lines containing dynamic keys
+    2. Block --write unless --force is also passed
+    3. Recommend manual review before deletion
+
+  Always review the dynamic key warnings before using --force!
 */
 
 import fs from 'fs/promises'
@@ -48,7 +71,7 @@ function parseArgs(argv) {
     const arg = argv[i]
     const next = i + 1 < argv.length ? argv[i + 1] : undefined
     if (arg.startsWith('--')) {
-      if (['--dry', '--dry-run', '--write', '--include-en', '--delete', '--audit'].includes(arg)) {
+      if (['--dry', '--dry-run', '--write', '--include-en', '--delete', '--audit', '--force'].includes(arg)) {
         out.flags.add(arg)
         continue
       }
@@ -173,43 +196,118 @@ async function getFilesRecursive(dir, extensions) {
 
 /**
  * Scan source files and extract all translation keys used in the codebase.
- * Matches patterns like: t('key'), t("key"), i18nKey="key", i18nKey={'key'}
+ * Also detects dynamic key usage that cannot be statically analyzed.
+ *
+ * Returns: { usedKeys: Set<string>, dynamicUsages: Array<{file, line, code, type}> }
  */
 async function extractUsedKeys(srcDir) {
   const usedKeys = new Set()
+  const dynamicUsages = []
   const extensions = ['.ts', '.tsx', '.js', '.jsx']
   const files = await getFilesRecursive(srcDir, extensions)
 
-  // Patterns to match translation key usage:
+  // Patterns to match static translation key usage:
   // - t('key') or t("key") with optional params
   // - i18nKey="key" or i18nKey={'key'} or i18nKey={"key"} for Trans components
-  const patterns = [
+  const staticPatterns = [
     /\bt\(\s*['"]([^'"]+)['"]/g, // t('key') or t("key")
     /i18nKey\s*=\s*['"]([^'"]+)['"]/g, // i18nKey="key"
     /i18nKey\s*=\s*\{\s*['"]([^'"]+)['"]\s*\}/g, // i18nKey={'key'}
   ]
 
+  // Patterns to detect dynamic/unknown key usage (cannot extract concrete keys):
+  // - t(`...`) template literals with interpolations
+  // - t(variable) where variable is not a string literal
+  // - i18nKey={variable} where variable is not a string literal
+  // Note: We use (?<![a-zA-Z]) negative lookbehind to avoid matching clearTimeout(), parseInt(), etc.
+  const dynamicPatterns = [
+    { pattern: /(?<![a-zA-Z])t\(\s*`[^`]*\$\{[^}]+\}[^`]*`/g, type: 't() with template literal interpolation' },
+    { pattern: /(?<![a-zA-Z])t\(\s*([a-zA-Z_$][a-zA-Z0-9_$]*)\s*[,)]/g, type: 't() with variable', checkCapture: true },
+    { pattern: /i18nKey\s*=\s*\{\s*([a-zA-Z_$][a-zA-Z0-9_$.]*)\s*\}/g, type: 'i18nKey with variable', checkCapture: true },
+  ]
+
   for (const file of files) {
     const content = await fs.readFile(file, 'utf8')
-    for (const pattern of patterns) {
-      // Reset lastIndex for global regex
+    const lines = content.split('\n')
+
+    // Extract static keys
+    for (const pattern of staticPatterns) {
       pattern.lastIndex = 0
       let match
       while ((match = pattern.exec(content)) !== null) {
         usedKeys.add(match[1])
       }
     }
+
+    // Detect dynamic key usage
+    for (const { pattern, type, checkCapture } of dynamicPatterns) {
+      pattern.lastIndex = 0
+      let match
+      while ((match = pattern.exec(content)) !== null) {
+        // For variable patterns, skip if the captured group is a string literal indicator
+        // (already handled by static patterns)
+        if (checkCapture) {
+          const captured = match[1]
+          // Skip common false positives: the match is actually a string literal we already caught
+          if (!captured || captured.startsWith("'") || captured.startsWith('"')) continue
+        }
+
+        // Find line number
+        const matchStart = match.index
+        let lineNum = 1
+        let charCount = 0
+        for (let i = 0; i < lines.length; i++) {
+          charCount += lines[i].length + 1 // +1 for newline
+          if (charCount > matchStart) {
+            lineNum = i + 1
+            break
+          }
+        }
+
+        dynamicUsages.push({
+          file,
+          line: lineNum,
+          code: match[0].trim().substring(0, 60),
+          type,
+        })
+      }
+    }
   }
 
-  return usedKeys
+  return { usedKeys, dynamicUsages }
 }
 
-async function handleAudit(translationsRoot, srcDir, dryRun, write) {
+async function handleAudit(translationsRoot, srcDir, dryRun, write, force) {
   console.log('Scanning codebase for translation key usage...\n')
 
-  // Get all keys used in the codebase
-  const usedKeys = await extractUsedKeys(srcDir)
-  console.log(`Found ${usedKeys.size} translation keys used in the codebase.\n`)
+  // Get all keys used in the codebase (and dynamic usage warnings)
+  const { usedKeys, dynamicUsages } = await extractUsedKeys(srcDir)
+  console.log(`Found ${usedKeys.size} static translation keys used in the codebase.`)
+
+  // Report dynamic key usages (these could reference any key at runtime)
+  const hasDynamicUsages = dynamicUsages.length > 0
+  if (hasDynamicUsages) {
+    console.log(`\n⚠️  WARNING: Found ${dynamicUsages.length} dynamic translation key usage(s):\n`)
+    console.log('These use variables or template literals, so the actual keys cannot be determined statically.')
+    console.log('Some "unused" keys below may actually be used at runtime!\n')
+
+    // Group by file for cleaner output
+    const byFile = new Map()
+    for (const usage of dynamicUsages) {
+      if (!byFile.has(usage.file)) byFile.set(usage.file, [])
+      byFile.get(usage.file).push(usage)
+    }
+
+    for (const [file, usages] of byFile) {
+      const relPath = path.relative(process.cwd(), file)
+      console.log(`  ${relPath}:`)
+      for (const u of usages) {
+        console.log(`    Line ${u.line}: ${u.code}${u.code.length >= 60 ? '...' : ''}`)
+        console.log(`             (${u.type})`)
+      }
+    }
+    console.log('')
+  }
 
   // Load the English translation file as the reference
   const enPath = path.join(translationsRoot, 'en', 'default.json')
@@ -220,7 +318,7 @@ async function handleAudit(translationsRoot, srcDir, dryRun, write) {
   const enJson = await loadJson(enPath)
   const definedKeys = Object.keys(enJson)
 
-  // Find unused keys (defined but not used)
+  // Find unused keys (defined but not used statically)
   const unusedKeys = definedKeys.filter((key) => !usedKeys.has(key))
 
   if (unusedKeys.length === 0) {
@@ -237,8 +335,31 @@ async function handleAudit(translationsRoot, srcDir, dryRun, write) {
 
   if (dryRun) {
     console.log(`\nDry run complete. ${unusedKeys.length} key(s) would be removed from all language files.`)
-    console.log('Re-run with --write to remove them.')
+    if (hasDynamicUsages) {
+      console.log('\n⚠️  Dynamic key usage detected! Review the warnings above before removing keys.')
+      console.log('Re-run with --write --force to remove them anyway (after manual review).')
+    } else {
+      console.log('Re-run with --write to remove them.')
+    }
     return
+  }
+
+  // Block --write if dynamic usages detected and --force not provided
+  if (hasDynamicUsages && !force) {
+    console.log('\n❌ BLOCKED: Cannot remove keys automatically when dynamic key usage is detected.')
+    console.log('Some "unused" keys may actually be referenced by dynamic expressions at runtime.')
+    console.log('')
+    console.log('Please:')
+    console.log('  1. Review the dynamic key warnings above')
+    console.log('  2. Manually verify that the "unused" keys are truly not needed')
+    console.log('  3. Re-run with --write --force to proceed with deletion')
+    console.log('')
+    console.log('Alternatively, refactor dynamic keys to use static strings where possible.')
+    process.exit(1)
+  }
+
+  if (hasDynamicUsages && force) {
+    console.log('\n⚠️  Proceeding with --force despite dynamic key usage warnings...')
   }
 
   // Remove unused keys from all language files
@@ -354,11 +475,12 @@ async function main() {
   const isDelete = args.flags.has('--delete')
   const dryRun = args.flags.has('--dry') || args.flags.has('--dry-run') || !args.flags.has('--write')
   const write = args.flags.has('--write')
+  const force = args.flags.has('--force')
 
   if (isAudit) {
     // Audit mode: scan codebase and remove unused keys
     const srcDir = path.join(process.cwd(), 'src')
-    await handleAudit(translationsRoot, srcDir, dryRun, write)
+    await handleAudit(translationsRoot, srcDir, dryRun, write, force)
     return
   }
 
