@@ -14,6 +14,13 @@ import { useResolvedSubplebbitAddress } from '../../hooks/use-resolved-subplebbi
 import useFetchGifFirstFrame from '../../hooks/use-fetch-gif-first-frame';
 import useIsSubplebbitOffline from '../../hooks/use-is-subplebbit-offline';
 import usePublishPost from '../../hooks/use-publish-post';
+import usePublishReply from '../../hooks/use-publish-reply';
+import FileUploader from '../../plugins/file-uploader';
+import styles from './post-form.module.css';
+import { Capacitor } from '@capacitor/core';
+import _ from 'lodash';
+
+const isAndroid = Capacitor.getPlatform() === 'android';
 
 // Separate component for offline alert to isolate rerenders from updatingState
 // Only this component will rerender when updatingState changes, not the whole PostForm
@@ -27,13 +34,6 @@ const OfflineAlert = ({ subplebbitAddress }: { subplebbitAddress: string | undef
 
   return <div className={styles.offlineBoard}>{offlineTitle}</div>;
 };
-import usePublishReply from '../../hooks/use-publish-reply';
-import FileUploader from '../../plugins/file-uploader';
-import styles from './post-form.module.css';
-import { Capacitor } from '@capacitor/core';
-import _ from 'lodash';
-
-const isAndroid = Capacitor.getPlatform() === 'android';
 
 export const LinkTypePreviewer = ({ link }: { link: string }) => {
   const { t } = useTranslation();
