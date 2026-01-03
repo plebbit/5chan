@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useLocation, useNavigationType, useParams } from 'react-router-dom';
 import { Comment, useAccount, useAccountComments, useAccountSubplebbits, useBlock, useFeed } from '@plebbit/plebbit-react-hooks';
-import { useStableSubplebbit, useSubplebbitField } from '../../hooks/use-stable-subplebbit';
+import { useSubplebbitField } from '../../hooks/use-stable-subplebbit';
 import { Virtuoso, VirtuosoHandle, StateSnapshot } from 'react-virtuoso';
 import { Trans, useTranslation } from 'react-i18next';
 import styles from './board.module.css';
@@ -157,9 +157,9 @@ const Board = ({ feedCacheKey, viewType, boardIdentifier: boardIdentifierProp, t
   // Use stable subplebbit fields to avoid rerenders from updatingState
   const subplebbitTitle = useSubplebbitField(subplebbitAddress, (sub) => sub?.title);
   const shortAddress = useSubplebbitField(subplebbitAddress, (sub) => sub?.shortAddress);
-  // Only subscribe to state and error for footer display - these are needed
-  const stableSubplebbit = useStableSubplebbit(subplebbitAddress);
-  const { error, state } = stableSubplebbit || {};
+  // Subscribe to transient state/error separately from stable fields since useStableSubplebbit ignores them
+  const subplebbitState = useSubplebbitField(subplebbitAddress, (sub) => sub?.state);
+  const subplebbitError = useSubplebbitField(subplebbitAddress, (sub) => sub?.error);
   const title = isInAllView ? t('all') : isInSubscriptionsView ? t('subscriptions') : isInModView ? t('mod') : subplebbitTitle;
 
   const { blocked, unblock } = useBlock({ address: subplebbitAddress });
@@ -276,8 +276,8 @@ const Board = ({ feedCacheKey, viewType, boardIdentifier: boardIdentifierProp, t
       <div className={styles.footer}>
         {footerContent}
         <div>
-          {state === 'failed' ? (
-            <span className='red'>{state}</span>
+          {subplebbitState === 'failed' ? (
+            <span className='red'>{subplebbitState}</span>
           ) : isInSubscriptionsView && subscriptions?.length === 0 ? (
             <span className='red'>{t('not_subscribed_to_any_board')}</span>
           ) : isInModView && accountSubplebbitAddresses?.length === 0 ? (
@@ -370,7 +370,7 @@ const Board = ({ feedCacheKey, viewType, boardIdentifier: boardIdentifierProp, t
     t,
   ]);
 
-  const shouldShowErrorToUser = error?.message && feed.length === 0;
+  const shouldShowErrorToUser = subplebbitError?.message && feed.length === 0;
 
   return (
     <>
@@ -378,7 +378,7 @@ const Board = ({ feedCacheKey, viewType, boardIdentifier: boardIdentifierProp, t
       <div className={`${styles.content} ${shouldShowSnow() ? styles.garland : ''}`}>
         {shouldShowErrorToUser && (
           <div className={styles.error}>
-            <ErrorDisplay error={error} />
+            <ErrorDisplay error={subplebbitError} />
           </div>
         )}
         <Virtuoso
