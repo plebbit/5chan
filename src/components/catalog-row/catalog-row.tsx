@@ -307,7 +307,28 @@ const CatalogPost = memo(
       </>
     );
   },
-  (prevProps, nextProps) => prevProps.post?.cid === nextProps.post?.cid,
+  (prevProps, nextProps) => {
+    const prev = prevProps.post;
+    const next = nextProps.post;
+    // Compare all fields that affect rendering to avoid stale displays
+    return (
+      prev?.cid === next?.cid &&
+      prev?.replyCount === next?.replyCount &&
+      prev?.locked === next?.locked &&
+      prev?.pinned === next?.pinned &&
+      prev?.title === next?.title &&
+      prev?.content === next?.content &&
+      prev?.spoiler === next?.spoiler &&
+      prev?.timestamp === next?.timestamp &&
+      prev?.author?.displayName === next?.author?.displayName &&
+      prev?.author?.address === next?.author?.address &&
+      prev?.link === next?.link &&
+      prev?.thumbnailUrl === next?.thumbnailUrl &&
+      prev?.linkWidth === next?.linkWidth &&
+      prev?.linkHeight === next?.linkHeight &&
+      prev?.subplebbitAddress === next?.subplebbitAddress
+    );
+  },
 );
 
 interface CatalogRowProps {
