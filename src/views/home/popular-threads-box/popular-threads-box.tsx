@@ -57,8 +57,14 @@ const PopularThreadCard = memo(
       </div>
     );
   },
-  // Custom equality: only rerender if post.cid changes
-  (prevProps, nextProps) => prevProps.post?.cid === nextProps.post?.cid,
+  // Custom equality: rerender if post.cid or multisub entry title changes
+  (prevProps, nextProps) => {
+    if (prevProps.post?.cid !== nextProps.post?.cid) return false;
+    // Compare the relevant multisub entry for this post's subplebbitAddress
+    const prevEntry = prevProps.multisub.find((ms) => ms?.address === prevProps.post?.subplebbitAddress);
+    const nextEntry = nextProps.multisub.find((ms) => ms?.address === nextProps.post?.subplebbitAddress);
+    return prevEntry?.title === nextEntry?.title;
+  },
 );
 
 const PopularThreadsBox = ({ multisub, subplebbits }: { multisub: MultisubSubplebbit[]; subplebbits: any }) => {
