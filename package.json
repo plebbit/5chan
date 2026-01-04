@@ -13,10 +13,6 @@
     "@floating-ui/react": "0.26.1",
     "@plebbit/plebbit-react-hooks": "https://github.com/plebbit/plebbit-react-hooks.git#d17fa5d9b50f6e489f11d67f7e652c69be33cc6d",
     "@react-spring/web": "9.7.5",
-    "@testing-library/jest-dom": "5.14.1",
-    "@testing-library/react": "13.0.0",
-    "@testing-library/user-event": "13.2.1",
-    "@types/jest": "29.5.5",
     "@types/node": "20.8.2",
     "@types/react": "18.2.25",
     "@types/react-dom": "18.2.10",
@@ -46,7 +42,6 @@
     "remark-supersub": "1.0.0",
     "tcp-port-used": "1.0.2",
     "typescript": "5.1.6",
-    "uuid": "13.0.0",
     "zustand": "4.4.3"
   },
   "scripts": {
