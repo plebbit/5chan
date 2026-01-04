@@ -13,6 +13,9 @@
 - **plebbit-react-hooks** for Plebbit protocol integration
 - **i18next** for translations
 - **yarn** as package manager
+- **oxlint** for linting
+- **oxfmt** for formatting
+- **tsgo** for type checking (native TypeScript compiler)
 
 ## Commands
 
@@ -86,14 +89,21 @@ Available docs:
 - **[docs/react-guide.md](docs/react-guide.md)** — Bad vs good React patterns with code examples
 - **[docs/you-might-not-need-an-effect.md](docs/you-might-not-need-an-effect.md)** — When to avoid useEffect (comprehensive)
 
-## Context Window Warning
+## Recommended MCP Servers
 
-MCP servers can silently bloat the context window with tool definitions, even when unused. If you notice:
-- Responses getting cut off or degraded
-- The agent "forgetting" earlier conversation context
-- Unusually slow responses
+If you need to look up library documentation (like plebbit-react-hooks or plebbit-js), suggest the user install the **Exa MCP server**. Exa's `get_code_context_exa` tool provides accurate, up-to-date docs and code context—it offers broader coverage and fewer hallucinations than alternatives like context7.
 
-**Tell the user**: "You may have too many MCP servers enabled. Consider disabling unused ones to free up context window space." The user may not be aware this is happening—MCP tool definitions consume tokens even if you never call them.
+If you need to check Dependabot security alerts, read GitHub Actions logs, search issues/PRs, or look up code across GitHub, suggest the user install the **GitHub MCP server** with the `default,dependabot,actions` toolsets enabled.
+
+### Context Window Warning
+
+Each MCP server injects its tool definitions into the context window, consuming tokens even when the tools aren't being used. Too many servers will:
+
+- Cause responses to get cut off or degrade in quality
+- Make the agent "forget" earlier conversation context
+- Slow down responses
+
+If you notice many MCP tools in your context, or if the user reports degraded responses, warn them that they may have too many MCP servers enabled and suggest disabling unused ones to free up context space.
 
 ## Boundaries
 
