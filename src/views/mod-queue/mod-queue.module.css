@@ -1,0 +1,252 @@
+.container {
+  padding: 10px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.title {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.alertThresholdSetting {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.alertThresholdSetting label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+}
+
+.alertThresholdInput {
+  width: 50px;
+  padding: 4px;
+  border: 1px solid var(--border-color);
+  background: var(--input-background-color);
+  color: var(--text-color);
+}
+
+.tableHeader {
+  display: flex;
+  padding: 8px;
+  border-bottom: 2px solid var(--border-color);
+  background: var(--header-background-color);
+  font-weight: bold;
+  font-size: 13px;
+}
+
+.boardHeader {
+  width: 50px;
+  flex-shrink: 0;
+}
+
+.excerptHeader {
+  flex-grow: 1;
+}
+
+.timeHeader {
+  width: 80px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.actionsHeader {
+  width: 150px;
+  flex-shrink: 0;
+  text-align: right;
+}
+
+.empty {
+  padding: 20px;
+  text-align: center;
+  color: var(--secondary-text-color);
+}
+
+/* ModQueueRow styles */
+.row {
+  display: flex;
+  padding: 4px 8px;
+  border-bottom: 1px solid var(--border-color);
+  align-items: center;
+  gap: 8px;
+  background-color: var(--post-background-color);
+  color: var(--text-color);
+  font-size: 13px;
+}
+
+.row:hover {
+  background-color: var(--post-highlight-color);
+}
+
+.board {
+  width: 50px;
+  flex-shrink: 0;
+  font-weight: bold;
+}
+
+.excerpt {
+  flex-grow: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+.excerpt a {
+  text-decoration: none;
+  color: var(--link-color);
+}
+
+.excerpt a:hover {
+  text-decoration: underline;
+}
+
+.time {
+  width: 80px;
+  flex-shrink: 0;
+  text-align: right;
+  color: var(--secondary-text-color);
+}
+
+.time.alert {
+  color: red;
+  font-weight: bold;
+  animation: blink 2s infinite;
+}
+
+@keyframes blink {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+.actions {
+  width: 150px;
+  flex-shrink: 0;
+  display: flex;
+  gap: 4px;
+  justify-content: flex-end;
+}
+
+.button {
+  cursor: pointer;
+  padding: 2px 6px;
+  border: 1px solid var(--border-color);
+  background: var(--button-background);
+  color: var(--button-text);
+  font-size: 11px;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.button:hover {
+  background: var(--button-hover-background);
+}
+
+.approve {
+  color: green;
+}
+
+.reject {
+  color: red;
+}
+
+/* ModQueueBoardFilter styles */
+.filterContainer {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.filterSelect {
+  padding: 4px;
+  border: 1px solid var(--border-color);
+  background: var(--input-background-color);
+  color: var(--text-color);
+}
+
+/* ModQueueButton styles */
+.modQueueButton {
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  margin-left: 8px;
+  text-decoration: none;
+  color: var(--text-color);
+  font-size: 13px;
+}
+
+.modQueueButton:hover {
+  text-decoration: underline;
+}
+
+.modQueueButtonCount {
+  margin-left: 4px;
+  font-weight: bold;
+}
+
+.modQueueButtonAlert {
+  color: red;
+  animation: blink 2s infinite;
+}
+
+/* Mobile Layout */
+@media (max-width: 600px) {
+  .tableHeader {
+    display: none;
+  }
+
+  .row {
+    flex-wrap: wrap;
+    padding: 8px;
+  }
+  
+  .board {
+    width: auto;
+    margin-right: 8px;
+  }
+  
+  .time {
+    margin-left: auto;
+    width: auto;
+  }
+  
+  .excerpt {
+    width: 100%;
+    margin: 4px 0;
+    white-space: normal;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+  
+  .actions {
+    width: 100%;
+    justify-content: flex-start;
+  }
+  
+  .button {
+    flex: 1;
+    text-align: center;
+    padding: 8px;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

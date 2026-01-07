@@ -254,5 +254,17 @@
   "bitsocial_account": "Compte Bitsocial",
   "p2p_options": "Options P2P",
   "purge": "purger",
-  "purge_confirm": "La purge supprime définitivement ce contenu et toutes ses réponses de la base de données. Continuer?"
+  "purge_confirm": "La purge supprime définitivement ce contenu et toutes ses réponses de la base de données. Continuer?",
+  "mod_queue": "File de Modération",
+  "moderation_queue": "File de Modération",
+  "queue_is_empty": "La file est vide",
+  "approve": "Approuver",
+  "reject": "Rejeter",
+  "waiting": "En attente",
+  "filter_by_board": "Filtrer par forum",
+  "mod_queue_alert_threshold": "Seuil d'alerte de la file de modération",
+  "mod_queue_alert_threshold_tip": "Afficher un indicateur rouge clignotant lorsque les éléments attendent plus longtemps que ce temps",
+  "no_content": "Aucun contenu",
+  "view": "Voir",
+  "excerpt": "Extrait"
 }

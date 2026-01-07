@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useAccountComment, useSubscribe } from '@plebbit/plebbit-react-hooks';
 import useSubplebbitsPagesStore from '@plebbit/plebbit-react-hooks/dist/stores/subplebbits-pages';
-import { isAllView, isCatalogView, isModView, isPendingPostView, isPostPageView, isSubscriptionsView } from '../../lib/utils/view-utils';
+import { isAllView, isCatalogView, isModView, isModQueueView, isPendingPostView, isPostPageView, isSubscriptionsView } from '../../lib/utils/view-utils';
 import { useDefaultSubplebbits } from '../../hooks/use-default-subplebbits';
 import { getBoardPath, isDirectoryBoard } from '../../lib/utils/route-utils';
 import { useResolvedSubplebbitAddress } from '../../hooks/use-resolved-subplebbit-address';
@@ -26,6 +26,7 @@ interface BoardButtonsProps {
   isInCatalogView?: boolean;
   isInSubscriptionsView?: boolean;
   isInModView?: boolean;
+  isInModQueueView?: boolean;
   isTopbar?: boolean;
 }
 
@@ -72,7 +73,7 @@ const SubscribeButton = ({ address }: BoardButtonsProps) => {
   );
 };
 
-const ReturnButton = ({ address, isInAllView, isInSubscriptionsView, isInModView }: BoardButtonsProps) => {
+const ReturnButton = ({ address, isInAllView, isInSubscriptionsView, isInModView, isInModQueueView }: BoardButtonsProps) => {
   const { t } = useTranslation();
   const params = useParams();
   const defaultSubplebbits = useDefaultSubplebbits();
@@ -84,6 +85,12 @@ const ReturnButton = ({ address, isInAllView, isInSubscriptionsView, isInModView
     } else if (isInSubscriptionsView) {
       if (params?.timeFilterName) return `/subs/${params.timeFilterName}`;
       return `/subs`;
+    } else if (isInModQueueView) {
+      // If in mod queue view, return to /mod or /:boardIdentifier
+      if (params?.boardIdentifier) {
+        return `/${params.boardIdentifier}`;
+      }
+      return `/mod`;
     } else if (isInModView) {
       if (params?.timeFilterName) return `/mod/${params.timeFilterName}`;
       return `/mod`;
@@ -309,6 +316,7 @@ export const MobileBoardButtons = () => {
   const isInPostView = isPostPageView(location.pathname, params);
   const isInSubscriptionsView = isSubscriptionsView(location.pathname, useParams());
   const isInModView = isModView(location.pathname);
+  const isInModQueueView = isModQueueView(location.pathname);
 
   const accountComment = useAccountComment({ commentIndex: params?.accountCommentIndex as any });
   const resolvedAddress = useResolvedSubplebbitAddress();
@@ -333,6 +341,17 @@ export const MobileBoardButtons = () => {
             <UpdateButton />
             <AutoButton />
           </div>
+        </>
+      ) : isInModQueueView ? (
+        <>
+          <ReturnButton
+            address={subplebbitAddress}
+            isInAllView={isInAllView}
+            isInSubscriptionsView={isInSubscriptionsView}
+            isInModView={isInModView}
+            isInModQueueView={isInModQueueView}
+          />
+          <RefreshButton />
         </>
       ) : (
         <>
@@ -419,6 +438,7 @@ export const DesktopBoardButtons = () => {
   const isInPostView = isPostPageView(location.pathname, params);
   const isInSubscriptionsView = isSubscriptionsView(location.pathname, useParams());
   const isInModView = isModView(location.pathname);
+  const isInModQueueView = isModQueueView(location.pathname);
 
   const { filteredCount, searchText } = useCatalogFiltersStore();
 
@@ -441,6 +461,19 @@ export const DesktopBoardButtons = () => {
             <span className={styles.rightSideButtons}>
               <PostPageStats />
             </span>
+          </>
+        ) : isInModQueueView ? (
+          <>
+            [
+            <ReturnButton
+              address={subplebbitAddress}
+              isInAllView={isInAllView}
+              isInSubscriptionsView={isInSubscriptionsView}
+              isInModView={isInModView}
+              isInModQueueView={isInModQueueView}
+            />
+            ] [
+            <RefreshButton />]
           </>
         ) : (
           <>

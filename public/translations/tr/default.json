@@ -254,5 +254,17 @@
   "bitsocial_account": "Bitsocial Hesabı",
   "p2p_options": "P2P Seçenekleri",
   "purge": "temizle",
-  "purge_confirm": "Temizleme, bu içeriği ve tüm yanıtlarını veritabanından kalıcı olarak kaldıracaktır. Devam edilsin mi?"
+  "purge_confirm": "Temizleme, bu içeriği ve tüm yanıtlarını veritabanından kalıcı olarak kaldıracaktır. Devam edilsin mi?",
+  "mod_queue": "Moderasyon Kuyruğu",
+  "moderation_queue": "Moderasyon Kuyruğu",
+  "queue_is_empty": "Kuyruk boş",
+  "approve": "Onayla",
+  "reject": "Reddet",
+  "waiting": "Bekliyor",
+  "filter_by_board": "Panoya göre filtrele",
+  "mod_queue_alert_threshold": "Moderasyon kuyruğu uyarı eşiği",
+  "mod_queue_alert_threshold_tip": "Öğeler bu süreden daha uzun süre beklediğinde yanıp sönen kırmızı bir gösterge göster",
+  "no_content": "İçerik yok",
+  "view": "Görüntüle",
+  "excerpt": "Alıntı"
 }

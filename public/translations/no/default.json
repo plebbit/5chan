@@ -254,5 +254,17 @@
   "bitsocial_account": "Bitsocial-konto",
   "p2p_options": "P2P-alternativer",
   "purge": "slette",
-  "purge_confirm": "Sletting fjerner permanent dette innholdet og alle svarene fra databasen. Fortsette?"
+  "purge_confirm": "Sletting fjerner permanent dette innholdet og alle svarene fra databasen. Fortsette?",
+  "mod_queue": "Modereringskø",
+  "moderation_queue": "Modereringskø",
+  "queue_is_empty": "Køen er tom",
+  "approve": "Godkjenn",
+  "reject": "Avvis",
+  "waiting": "Venter",
+  "filter_by_board": "Filtrer etter tavle",
+  "mod_queue_alert_threshold": "Terskel for modereringskø-varsel",
+  "mod_queue_alert_threshold_tip": "Vis en blinkende rød indikator når elementer venter lenger enn denne tiden",
+  "no_content": "Ingen innhold",
+  "view": "Vis",
+  "excerpt": "Utdrag"
 }

@@ -253,5 +253,17 @@
   "bitsocial_account": "Bitsocial Account",
   "p2p_options": "P2P options",
   "purge": "purge",
-  "purge_confirm": "Purging permanently removes this content and all its replies from the database. Continue?"
+  "purge_confirm": "Purging permanently removes this content and all its replies from the database. Continue?",
+  "mod_queue": "Mod Queue",
+  "moderation_queue": "Moderation Queue",
+  "queue_is_empty": "Queue is empty",
+  "approve": "Approve",
+  "reject": "Reject",
+  "waiting": "Waiting",
+  "filter_by_board": "Filter by board",
+  "mod_queue_alert_threshold": "Mod queue alert threshold",
+  "mod_queue_alert_threshold_tip": "Show a blinking red indicator when items are waiting for longer than this time",
+  "no_content": "No content",
+  "view": "View",
+  "excerpt": "Excerpt"
 }

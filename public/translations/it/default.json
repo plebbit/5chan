@@ -254,5 +254,17 @@
   "bitsocial_account": "Account Bitsocial",
   "p2p_options": "Opzioni P2P",
   "purge": "elimina",
-  "purge_confirm": "L'eliminazione rimuoverà permanentemente questo contenuto e tutte le sue risposte dal database. Continuare?"
+  "purge_confirm": "L'eliminazione rimuoverà permanentemente questo contenuto e tutte le sue risposte dal database. Continuare?",
+  "mod_queue": "Coda Moderazione",
+  "moderation_queue": "Coda di Moderazione",
+  "queue_is_empty": "La coda è vuota",
+  "approve": "Approva",
+  "reject": "Rifiuta",
+  "waiting": "In attesa",
+  "filter_by_board": "Filtra per board",
+  "mod_queue_alert_threshold": "Soglia di allerta coda moderazione",
+  "mod_queue_alert_threshold_tip": "Mostra un indicatore rosso lampeggiante quando gli elementi attendono più di questo tempo",
+  "no_content": "Nessun contenuto",
+  "view": "Visualizza",
+  "excerpt": "Estratto"
 }

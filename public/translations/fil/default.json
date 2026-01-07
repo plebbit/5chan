@@ -254,5 +254,17 @@
   "bitsocial_account": "Account ng Bitsocial",
   "p2p_options": "Mga Opsyon ng P2P",
   "purge": "purga",
-  "purge_confirm": "Ang pag-purge ay permanenteng mag-aalis ng nilalamang ito at lahat ng mga tugon nito mula sa database. Magpatuloy?"
+  "purge_confirm": "Ang pag-purge ay permanenteng mag-aalis ng nilalamang ito at lahat ng mga tugon nito mula sa database. Magpatuloy?",
+  "mod_queue": "Moderasyon Queue",
+  "moderation_queue": "Moderasyon Queue",
+  "queue_is_empty": "Walang laman ang queue",
+  "approve": "Aprubahan",
+  "reject": "Tanggihan",
+  "waiting": "Naghihintay",
+  "filter_by_board": "I-filter ayon sa board",
+  "mod_queue_alert_threshold": "Moderasyon queue alert threshold",
+  "mod_queue_alert_threshold_tip": "Magpakita ng kumikislap na pulang indicator kapag ang mga item ay naghihintay nang mas mahaba kaysa sa oras na ito",
+  "no_content": "Walang nilalaman",
+  "view": "Tingnan",
+  "excerpt": "Sipi"
 }

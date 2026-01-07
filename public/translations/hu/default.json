@@ -254,5 +254,17 @@
   "bitsocial_account": "Bitsocial fiók",
   "p2p_options": "P2P beállítások",
   "purge": "törlés",
-  "purge_confirm": "A törlés véglegesen eltávolítja ezt a tartalmat és az összes válaszát az adatbázisból. Folytatás?"
+  "purge_confirm": "A törlés véglegesen eltávolítja ezt a tartalmat és az összes válaszát az adatbázisból. Folytatás?",
+  "mod_queue": "Moderációs Sor",
+  "moderation_queue": "Moderációs Sor",
+  "queue_is_empty": "A sor üres",
+  "approve": "Jóváhagyás",
+  "reject": "Elutasítás",
+  "waiting": "Várakozás",
+  "filter_by_board": "Szűrés tábla szerint",
+  "mod_queue_alert_threshold": "Moderációs sor riasztási küszöb",
+  "mod_queue_alert_threshold_tip": "Villogó piros jelző megjelenítése, amikor az elemek ennél hosszabb ideig várakoznak",
+  "no_content": "Nincs tartalom",
+  "view": "Megtekintés",
+  "excerpt": "Kivonat"
 }

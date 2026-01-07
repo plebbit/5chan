@@ -254,5 +254,17 @@
   "bitsocial_account": "Akun Bitsocial",
   "p2p_options": "Opsi P2P",
   "purge": "hapus",
-  "purge_confirm": "Menghapus akan menghapus konten ini dan semua balasannya secara permanen dari database. Lanjutkan?"
+  "purge_confirm": "Menghapus akan menghapus konten ini dan semua balasannya secara permanen dari database. Lanjutkan?",
+  "mod_queue": "Antrian Moderasi",
+  "moderation_queue": "Antrian Moderasi",
+  "queue_is_empty": "Antrian kosong",
+  "approve": "Setujui",
+  "reject": "Tolak",
+  "waiting": "Menunggu",
+  "filter_by_board": "Filter berdasarkan papan",
+  "mod_queue_alert_threshold": "Ambang peringatan antrian moderasi",
+  "mod_queue_alert_threshold_tip": "Tampilkan indikator merah berkedip ketika item menunggu lebih lama dari waktu ini",
+  "no_content": "Tidak ada konten",
+  "view": "Lihat",
+  "excerpt": "Kutipan"
 }
