@@ -147,24 +147,29 @@
   display: flex;
   gap: 4px;
   justify-content: flex-end;
+  align-items: center;
 }
 
-/* Desktop: buttons styled as text links */
+/* Desktop: buttons styled as text links (same as board buttons) */
 @media (min-width: 640px) {
+  .actions {
+    display: block;
+    text-align: right;
+  }
+
   .button {
     all: unset;
     cursor: pointer;
-    padding: 0;
-    color: var(--mod-queue-button-text-color);
-    font-size: 11px;
-    text-decoration: var(--mod-queue-button-text-decoration);
-    display: inline-block;
+    text-transform: capitalize;
+    color: var(--button-desktop-text-color);
+    text-decoration: var(--button-text-decoration);
+    display: inline;
     font-family: inherit;
   }
 
   .button:hover {
-    color: var(--mod-queue-button-text-color-hover);
-    text-decoration: var(--mod-queue-button-text-decoration);
+    color: var(--button-desktop-text-color-hover);
+    cursor: pointer;
   }
 
   .button:disabled {
@@ -173,20 +178,25 @@
   }
 }
 
-.approve {
-  color: var(--mod-queue-approve-color);
+/* Status indicators (spans only) - bold, green/red, no underline */
+span.approve {
+  color: green;
+  font-weight: 700;
+  text-decoration: none;
 }
 
-.approve:hover {
-  color: var(--mod-queue-approve-color-hover);
+span.approve:hover {
+  color: green;
 }
 
-.reject {
-  color: var(--mod-queue-reject-color);
+span.reject {
+  color: red;
+  font-weight: 700;
+  text-decoration: none;
 }
 
-.reject:hover {
-  color: var(--mod-queue-reject-color-hover);
+span.reject:hover {
+  color: red;
 }
 
 /* ModQueueBoardFilter styles */

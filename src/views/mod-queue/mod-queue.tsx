@@ -154,20 +154,31 @@ const ModQueueRow = ({ comment, showBoardColumn = false }: ModQueueRowProps) => 
 
     return (
       <>
-        <button className={`${styles.button} ${styles.approve}`} onClick={handleApprove} disabled={isPublishing}>
+        [
+        <button className={styles.button} onClick={handleApprove} disabled={isPublishing}>
           {t('approve')}
         </button>
-        <button className={`${styles.button} ${styles.reject}`} onClick={handleReject} disabled={isPublishing}>
+        ] [
+        <button className={styles.button} onClick={handleReject} disabled={isPublishing}>
           {t('reject')}
         </button>
+        ]{' '}
         {postUrl ? (
-          <Link to={postUrl} className={styles.button}>
-            {t('view')}
-          </Link>
+          <>
+            [
+            <Link to={postUrl} className={styles.button}>
+              {t('view')}
+            </Link>
+            ]
+          </>
         ) : (
-          <button className={styles.button} disabled>
-            {t('view')}
-          </button>
+          <>
+            [
+            <button className={styles.button} disabled>
+              {t('view')}
+            </button>
+            ]
+          </>
         )}
       </>
     );
@@ -263,6 +274,7 @@ export const ModQueueButton = ({ boardIdentifier, isMobile }: ModQueueButtonProp
   const { feed } = useFeed({
     subplebbitAddresses: shouldFetch ? subplebbitAddresses : [],
     modQueue: ['pendingApproval'],
+    sortType: 'new',
     postsPerPage: 100, // Fetch enough to check timestamps
   });
 
