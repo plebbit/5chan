@@ -50,7 +50,13 @@ const ModQueueRow = ({ comment, showBoardColumn = false }: ModQueueRowProps) => 
   const { alertThresholdHours } = useModQueueStore();
   const [initiatedAction, setInitiatedAction] = useState<ModerationAction>(null);
 
-  const { content, title, timestamp, subplebbitAddress, cid, threadCid, link, thumbnailUrl, linkWidth, linkHeight } = comment;
+  const { content, title, timestamp, subplebbitAddress, cid, threadCid, link, thumbnailUrl, linkWidth, linkHeight, removed, approved } = comment;
+
+  // Check if already moderated (from previous session or API update)
+  // Note: `approved` and `removed` are direct fields on the comment from CommentUpdate,
+  // not nested under commentModeration (which is the options object for publishing moderation actions)
+  const alreadyApproved = approved === true;
+  const alreadyRejected = removed === true;
 
   const boardPath = useBoardPath(subplebbitAddress);
   const timeWaiting = Date.now() / 1000 - timestamp;
@@ -116,14 +122,16 @@ const ModQueueRow = ({ comment, showBoardColumn = false }: ModQueueRowProps) => 
   const rejectFailed = initiatedAction === 'reject' && rejectState === 'failed';
 
   const excerpt = title || content || (getHasThumbnail(getCommentMediaInfo(link, thumbnailUrl, linkWidth, linkHeight), link) ? t('image') : t('no_content'));
-  const postUrl = `/${boardPath}/thread/${threadCid || cid}`;
+  const threadTargetCid = threadCid || cid;
+  const postUrl = boardPath && threadTargetCid ? `/${boardPath}/thread/${threadTargetCid}` : undefined;
 
   // Render the status or action buttons
   const renderActions = () => {
-    if (approveSucceeded) {
+    // Check existing moderation state first (from API/previous sessions)
+    if (alreadyApproved || approveSucceeded) {
       return <span className={`${styles.button} ${styles.approve}`}>{t('approved')}</span>;
     }
-    if (rejectSucceeded) {
+    if (alreadyRejected || rejectSucceeded) {
       return <span className={`${styles.button} ${styles.reject}`}>{t('rejected')}</span>;
     }
     if (approveFailed) {
@@ -152,24 +160,30 @@ const ModQueueRow = ({ comment, showBoardColumn = false }: ModQueueRowProps) => 
         <button className={`${styles.button} ${styles.reject}`} onClick={handleReject} disabled={isPublishing}>
           {t('reject')}
         </button>
-        <Link to={postUrl} className={styles.button}>
-          {t('view')}
-        </Link>
+        {postUrl ? (
+          <Link to={postUrl} className={styles.button}>
+            {t('view')}
+          </Link>
+        ) : (
+          <button className={styles.button} disabled>
+            {t('view')}
+          </button>
+        )}
       </>
     );
   };
 
   return (
     <div className={styles.row}>
-      {showBoardColumn && (
-        <div className={styles.board}>
-          <Link to={`/${boardPath}`}>/{boardPath}/</Link>
-        </div>
-      )}
+      {showBoardColumn && <div className={styles.board}>{boardPath ? <Link to={`/${boardPath}`}>/{boardPath}/</Link> : <span>—</span>}</div>}
       <div className={styles.excerpt}>
-        <Link to={postUrl} title={excerpt}>
-          {excerpt}
-        </Link>
+        {postUrl ? (
+          <Link to={postUrl} title={excerpt}>
+            {excerpt}
+          </Link>
+        ) : (
+          <span title={excerpt}>{excerpt}</span>
+        )}
       </div>
       <div className={`${styles.time} ${isOverThreshold ? styles.alert : ''}`}>{formatDistanceToNow(timestamp * 1000, { addSuffix: false })}</div>
       <div className={styles.actions}>{renderActions()}</div>
