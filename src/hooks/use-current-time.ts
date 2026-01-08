@@ -1,0 +1,27 @@
+import { useState, useEffect } from 'react';
+
+/**
+ * Returns the current time in seconds, updating periodically.
+ * This prevents unnecessary rerenders by only updating every 60 seconds
+ * instead of on every render cycle.
+ *
+ * For visual updates like blinking animations, CSS handles that independently.
+ * This hook is for time-based calculations that don't need millisecond precision.
+ */
+export const useCurrentTime = (updateIntervalSeconds = 60) => {
+  const [currentTime, setCurrentTime] = useState(() => Date.now() / 1000);
+
+  useEffect(() => {
+    // Update immediately on mount
+    setCurrentTime(Date.now() / 1000);
+
+    // Then update periodically
+    const intervalId = setInterval(() => {
+      setCurrentTime(Date.now() / 1000);
+    }, updateIntervalSeconds * 1000);
+
+    return () => clearInterval(intervalId);
+  }, [updateIntervalSeconds]);
+
+  return currentTime;
+};

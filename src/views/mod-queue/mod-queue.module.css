@@ -34,16 +34,20 @@
 .alertThresholdInput {
   width: 50px;
   padding: 4px;
-  border: 1px solid var(--border-color);
-  background: var(--input-background-color);
-  color: var(--text-color);
+  border: var(--mod-queue-table-border);
+  background: var(--mod-queue-header-background-color);
+  color: var(--body-font-color);
+}
+
+.tableWrapper {
+  border: var(--mod-queue-table-border);
 }
 
 .tableHeader {
   display: flex;
   padding: 8px;
-  border-bottom: 2px solid var(--border-color);
-  background: var(--header-background-color);
+  border-bottom: var(--mod-queue-header-border-bottom);
+  background: var(--mod-queue-header-background-color);
   font-weight: bold;
   font-size: 13px;
 }
@@ -72,23 +76,26 @@
 .empty {
   padding: 20px;
   text-align: center;
-  color: var(--secondary-text-color);
+  color: var(--mod-queue-time-color);
 }
 
 /* ModQueueRow styles */
 .row {
   display: flex;
   padding: 4px 8px;
-  border-bottom: 1px solid var(--border-color);
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: var(--mod-queue-row-border-bottom);
   align-items: center;
   gap: 8px;
-  background-color: var(--post-background-color);
-  color: var(--text-color);
+  background-color: var(--mod-queue-row-background-color);
+  color: var(--body-font-color);
   font-size: 13px;
 }
 
 .row:hover {
-  background-color: var(--post-highlight-color);
+  background-color: var(--mod-queue-row-hover-background-color);
 }
 
 .board {
@@ -106,23 +113,24 @@
 }
 
 .excerpt a {
-  text-decoration: none;
-  color: var(--link-color);
+  text-decoration: var(--post-link-text-decoration);
+  color: var(--post-link-text-color);
 }
 
 .excerpt a:hover {
-  text-decoration: underline;
+  text-decoration: var(--post-link-text-decoration-hover);
+  color: var(--post-link-text-color-hover);
 }
 
 .time {
   width: 80px;
   flex-shrink: 0;
   text-align: right;
-  color: var(--secondary-text-color);
+  color: var(--mod-queue-time-color);
 }
 
 .time.alert {
-  color: red;
+  color: var(--mod-queue-alert-color);
   font-weight: bold;
   animation: blink 2s infinite;
 }
@@ -141,27 +149,39 @@
   justify-content: flex-end;
 }
 
-.button {
-  cursor: pointer;
-  padding: 2px 6px;
-  border: 1px solid var(--border-color);
-  background: var(--button-background);
-  color: var(--button-text);
-  font-size: 11px;
-  text-decoration: none;
-  display: inline-block;
-}
+/* Desktop: buttons styled as text links */
+@media (min-width: 640px) {
+  .button {
+    all: unset;
+    cursor: pointer;
+    padding: 0;
+    color: var(--mod-queue-button-text-color);
+    font-size: 11px;
+    text-decoration: var(--mod-queue-button-text-decoration);
+    display: inline-block;
+    font-family: inherit;
+  }
 
-.button:hover {
-  background: var(--button-hover-background);
+  .button:hover {
+    color: var(--mod-queue-button-text-color-hover);
+    text-decoration: var(--mod-queue-button-text-decoration);
+  }
 }
 
 .approve {
-  color: green;
+  color: var(--mod-queue-approve-color);
+}
+
+.approve:hover {
+  color: var(--mod-queue-approve-color-hover);
 }
 
 .reject {
-  color: red;
+  color: var(--mod-queue-reject-color);
+}
+
+.reject:hover {
+  color: var(--mod-queue-reject-color-hover);
 }
 
 /* ModQueueBoardFilter styles */
@@ -174,34 +194,31 @@
 
 .filterSelect {
   padding: 4px;
-  border: 1px solid var(--border-color);
-  background: var(--input-background-color);
-  color: var(--text-color);
+  border: var(--mod-queue-table-border);
+  background: var(--mod-queue-header-background-color);
+  color: var(--body-font-color);
 }
 
 /* ModQueueButton styles */
-.modQueueButton {
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  margin-left: 8px;
-  text-decoration: none;
-  color: var(--text-color);
-  font-size: 13px;
-}
-
-.modQueueButton:hover {
-  text-decoration: underline;
-}
-
 .modQueueButtonCount {
-  margin-left: 4px;
   font-weight: bold;
 }
 
-.modQueueButtonAlert {
-  color: red;
-  animation: blink 2s infinite;
+/* Number blinking, changing color to red */
+.modQueueButtonCountAlert {
+  animation: blinkColor 2s infinite;
+}
+
+@keyframes blinkColor {
+  0% {
+    color: inherit;
+  }
+  50% {
+    color: var(--mod-queue-alert-color);
+  }
+  100% {
+    color: inherit;
+  }
 }
 
 /* Mobile Layout */
@@ -243,6 +260,14 @@
     flex: 1;
     text-align: center;
     padding: 8px;
+    border: var(--button-border-mobile);
+    background: var(--button-background-color-mobile);
+    color: var(--button-text-color-mobile);
+    text-decoration: none;
+  }
+
+  .button:hover {
+    background: var(--button-background-color-mobile);
   }
 
   .header {

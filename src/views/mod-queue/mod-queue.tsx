@@ -148,16 +148,25 @@ export const ModQueueButton = ({ boardIdentifier, isMobile }: ModQueueButtonProp
   const { alertThresholdHours } = useModQueueStore();
   const { accountSubplebbits } = useAccountSubplebbits();
   const accountSubplebbitAddresses = useMemo(() => Object.keys(accountSubplebbits || {}), [accountSubplebbits]);
+  const defaultSubplebbits = useDefaultSubplebbits();
+
+  // Resolve boardIdentifier to address if it exists
+  const resolvedAddress = useMemo(() => {
+    if (boardIdentifier) {
+      return getSubplebbitAddress(boardIdentifier, defaultSubplebbits);
+    }
+    return undefined;
+  }, [boardIdentifier, defaultSubplebbits]);
 
   const subplebbitAddresses = useMemo(() => {
-    if (boardIdentifier) {
-      return [boardIdentifier];
+    if (resolvedAddress) {
+      return [resolvedAddress];
     }
     return accountSubplebbitAddresses;
-  }, [boardIdentifier, accountSubplebbitAddresses]);
+  }, [resolvedAddress, accountSubplebbitAddresses]);
 
-  // If specific board, check if user is mod
-  const isModOfBoard = boardIdentifier ? accountSubplebbitAddresses.includes(boardIdentifier) : true;
+  // If specific board, check if user is mod using resolved address
+  const isModOfBoard = resolvedAddress ? accountSubplebbitAddresses.includes(resolvedAddress) : true;
 
   // Only fetch if we have addresses to check and permissions
   const shouldFetch = subplebbitAddresses.length > 0 && isModOfBoard;
@@ -172,29 +181,57 @@ export const ModQueueButton = ({ boardIdentifier, isMobile }: ModQueueButtonProp
     return null;
   }
 
-  const count = feed.length;
+  // Separate comments into normal and urgent based on threshold
+  // Match ModQueueRow logic: use > (strictly greater) to be consistent
+  const { normalCount, urgentCount } = useMemo(() => {
+    const thresholdSeconds = alertThresholdHours * 3600;
+    const now = Date.now() / 1000;
 
-  const hasAlert = feed.some((item) => {
-    const timeWaiting = Date.now() / 1000 - item.timestamp;
-    return timeWaiting > alertThresholdHours * 3600;
-  });
+    let normal = 0;
+    let urgent = 0;
 
+    for (const item of feed) {
+      const timeWaiting = now - item.timestamp;
+      if (timeWaiting > thresholdSeconds) {
+        urgent++;
+      } else {
+        normal++;
+      }
+    }
+
+    return { normalCount: normal, urgentCount: urgent };
+  }, [feed, alertThresholdHours]);
+
+  const totalCount = normalCount + urgentCount;
+
+  // Use boardIdentifier for the route, but resolvedAddress for mod check
   const to = boardIdentifier ? `/${boardIdentifier}/queue` : '/mod/queue';
 
-  if (count === 0) {
-    // If we are on a specific board and the user is a mod, we still show the button
-    // If we are in global mod view, we show it too
-    return (
-      <Link to={to} className={styles.modQueueButton}>
-        [{t('mod_queue')}]
-      </Link>
-    );
-  }
-
   return (
-    <Link to={to} className={`${styles.modQueueButton} ${hasAlert ? styles.modQueueButtonAlert : ''}`}>
-      [{t('mod_queue')} <span className={styles.modQueueButtonCount}>{count}</span>]
-    </Link>
+    <button className='button'>
+      <Link to={to}>
+        {t('mod_queue')}
+        {totalCount > 0 && (
+          <strong>
+            (
+            {urgentCount > 0 && normalCount > 0 ? (
+              <>
+                <span className={styles.modQueueButtonCount}>{normalCount}</span>
+                <span className={`${styles.modQueueButtonCount} ${styles.modQueueButtonCountAlert}`}>
+                  {'+'}
+                  {urgentCount}
+                </span>
+              </>
+            ) : urgentCount > 0 ? (
+              <span className={`${styles.modQueueButtonCount} ${styles.modQueueButtonCountAlert}`}>{urgentCount}</span>
+            ) : (
+              <span className={styles.modQueueButtonCount}>{totalCount}</span>
+            )}
+            )
+          </strong>
+        )}
+      </Link>
+    </button>
   );
 };
 

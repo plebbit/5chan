@@ -17,6 +17,7 @@ import useTimeFilter from '../../hooks/use-time-filter';
 import CatalogFilters from '../catalog-filters';
 import CatalogSearch from '../catalog-search';
 import Tooltip from '../tooltip';
+import { ModQueueButton } from '../../views/mod-queue/mod-queue';
 import styles from './board-buttons.module.css';
 import _ from 'lodash';
 
@@ -362,6 +363,7 @@ export const MobileBoardButtons = () => {
           )}
           {showVoteButton && <VoteButton />}
           {!(isInAllView || isInSubscriptionsView || isInModView) && <SubscribeButton address={subplebbitAddress} />}
+          {!(isInAllView || isInSubscriptionsView || isInModView) && <ModQueueButton boardIdentifier={boardIdentifier} isMobile={true} />}
           <RefreshButton />
           {isInCatalogView && searchText ? (
             <span className={styles.filteredThreadsCount}>
@@ -494,6 +496,12 @@ export const DesktopBoardButtons = () => {
               <>
                 {' '}
                 [<VoteButton />]
+              </>
+            )}
+            {!(isInAllView || isInSubscriptionsView || isInModView) && (
+              <>
+                {' '}
+                [<ModQueueButton boardIdentifier={boardIdentifier} isMobile={false} />]
               </>
             )}
             {isInCatalogView && searchText ? (
