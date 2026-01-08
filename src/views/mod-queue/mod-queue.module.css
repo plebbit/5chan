@@ -166,6 +166,11 @@
     color: var(--mod-queue-button-text-color-hover);
     text-decoration: var(--mod-queue-button-text-decoration);
   }
+
+  .button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
 }
 
 .approve {
@@ -268,6 +273,11 @@
 
   .button:hover {
     background: var(--button-background-color-mobile);
+  }
+
+  .button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
   }
 
   .header {

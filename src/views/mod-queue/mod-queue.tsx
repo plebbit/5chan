@@ -53,6 +53,7 @@ const ModQueueRow = ({ comment, showBoardColumn = false }: ModQueueRowProps) => 
       await approve();
     } catch (e) {
       console.error(e);
+    } finally {
       setIsModerating(false);
     }
   };
@@ -63,13 +64,10 @@ const ModQueueRow = ({ comment, showBoardColumn = false }: ModQueueRowProps) => 
       await reject();
     } catch (e) {
       console.error(e);
+    } finally {
       setIsModerating(false);
     }
   };
-
-  if (isModerating) {
-    return null; // Or show a loading state / fade out
-  }
 
   const excerpt = title || content || (getHasThumbnail(getCommentMediaInfo(link, thumbnailUrl, linkWidth, linkHeight), link) ? t('image') : t('no_content'));
   const postUrl = `/${boardPath}/thread/${threadCid || cid}`;
@@ -88,10 +86,10 @@ const ModQueueRow = ({ comment, showBoardColumn = false }: ModQueueRowProps) => 
       </div>
       <div className={`${styles.time} ${isOverThreshold ? styles.alert : ''}`}>{formatDistanceToNow(timestamp * 1000, { addSuffix: false })}</div>
       <div className={styles.actions}>
-        <button className={`${styles.button} ${styles.approve}`} onClick={handleApprove}>
+        <button className={`${styles.button} ${styles.approve}`} onClick={handleApprove} disabled={isModerating}>
           {t('approve')}
         </button>
-        <button className={`${styles.button} ${styles.reject}`} onClick={handleReject}>
+        <button className={`${styles.button} ${styles.reject}`} onClick={handleReject} disabled={isModerating}>
           {t('reject')}
         </button>
         <Link to={postUrl} className={styles.button}>
