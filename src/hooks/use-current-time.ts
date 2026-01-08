@@ -12,10 +12,7 @@ export const useCurrentTime = (updateIntervalSeconds = 60) => {
   const [currentTime, setCurrentTime] = useState(() => Date.now() / 1000);
 
   useEffect(() => {
-    // Update immediately on mount
-    setCurrentTime(Date.now() / 1000);
-
-    // Then update periodically
+    // Update periodically
     const intervalId = setInterval(() => {
       setCurrentTime(Date.now() / 1000);
     }, updateIntervalSeconds * 1000);

@@ -19,6 +19,20 @@ interface ModQueueViewProps {
   boardIdentifier?: string; // If provided, shows queue for single board
 }
 
+interface ModQueueFooterProps {
+  hasMore: boolean;
+  loadingStateString: string;
+}
+
+// Defined outside ModQueueView to preserve component identity across renders (Virtuoso optimization)
+const ModQueueFooter = ({ hasMore, loadingStateString }: ModQueueFooterProps) => {
+  return hasMore ? (
+    <div style={{ padding: '10px', textAlign: 'center' }}>
+      <LoadingEllipsis string={loadingStateString} />
+    </div>
+  ) : null;
+};
+
 interface ModQueueRowProps {
   comment: Comment;
   showBoardColumn?: boolean;
@@ -281,13 +295,13 @@ export const ModQueueView = ({ boardIdentifier: propBoardIdentifier }: ModQueueV
   const loadingStateString = useFeedStateString(subplebbitAddresses) || t('loading');
   const showBoardColumn = !resolvedAddress && !selectedBoardFilter;
 
-  const Footer = () => {
-    return hasMore ? (
-      <div style={{ padding: '10px', textAlign: 'center' }}>
-        <LoadingEllipsis string={loadingStateString} />
-      </div>
-    ) : null;
-  };
+  // Memoize footer components object to preserve identity across renders (Virtuoso optimization)
+  const footerComponents = useMemo(
+    () => ({
+      Footer: () => <ModQueueFooter hasMore={hasMore} loadingStateString={loadingStateString} />,
+    }),
+    [hasMore, loadingStateString],
+  );
 
   return (
     <div className={styles.container}>
@@ -327,7 +341,7 @@ export const ModQueueView = ({ boardIdentifier: propBoardIdentifier }: ModQueueV
             totalCount={feed.length}
             endReached={loadMore}
             itemContent={(index, comment) => <ModQueueRow key={comment.cid} comment={comment} showBoardColumn={showBoardColumn} />}
-            components={{ Footer }}
+            components={footerComponents}
           />
         </>
       )}
