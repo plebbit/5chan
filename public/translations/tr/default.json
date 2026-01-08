@@ -266,5 +266,8 @@
   "mod_queue_alert_threshold_tip": "Öğeler bu süreden daha uzun süre beklediğinde yanıp sönen kırmızı bir gösterge göster",
   "no_content": "İçerik yok",
   "view": "Görüntüle",
-  "excerpt": "Alıntı"
+  "excerpt": "Alıntı",
+  "publishing": "Yayınlama",
+  "approved": "Onaylandı",
+  "rejected": "Reddedildi"
 }

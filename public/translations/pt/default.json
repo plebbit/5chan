@@ -266,5 +266,8 @@
   "mod_queue_alert_threshold_tip": "Mostrar um indicador vermelho piscante quando os itens estão aguardando por mais tempo que este tempo",
   "no_content": "Sem conteúdo",
   "view": "Ver",
-  "excerpt": "Trecho"
+  "excerpt": "Trecho",
+  "publishing": "Publicando",
+  "approved": "Aprovado",
+  "rejected": "Rejeitado"
 }

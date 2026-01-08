@@ -266,5 +266,8 @@
   "mod_queue_alert_threshold_tip": "항목이 이 시간보다 오래 대기 중일 때 깜빡이는 빨간색 표시기 표시",
   "no_content": "콘텐츠 없음",
   "view": "보기",
-  "excerpt": "요약"
+  "excerpt": "요약",
+  "publishing": "게시 중",
+  "approved": "승인됨",
+  "rejected": "거부됨"
 }

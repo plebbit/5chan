@@ -266,5 +266,8 @@
   "mod_queue_alert_threshold_tip": "Mostrar un indicador rojo parpadeante cuando los elementos están esperando más de este tiempo",
   "no_content": "Sin contenido",
   "view": "Ver",
-  "excerpt": "Extracto"
+  "excerpt": "Extracto",
+  "publishing": "Publicando",
+  "approved": "Aprobado",
+  "rejected": "Rechazado"
 }

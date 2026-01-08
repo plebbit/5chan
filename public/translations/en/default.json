@@ -265,5 +265,8 @@
   "mod_queue_alert_threshold_tip": "Show a blinking red indicator when items are waiting for longer than this time",
   "no_content": "No content",
   "view": "View",
-  "excerpt": "Excerpt"
+  "excerpt": "Excerpt",
+  "publishing": "Publishing",
+  "approved": "Approved",
+  "rejected": "Rejected"
 }

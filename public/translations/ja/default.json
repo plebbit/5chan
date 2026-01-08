@@ -266,5 +266,8 @@
   "mod_queue_alert_threshold_tip": "アイテムがこの時間より長く待機している場合、点滅する赤いインジケーターを表示",
   "no_content": "コンテンツなし",
   "view": "表示",
-  "excerpt": "抜粋"
+  "excerpt": "抜粋",
+  "publishing": "公開中",
+  "approved": "承認済み",
+  "rejected": "却下"
 }

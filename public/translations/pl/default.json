@@ -266,5 +266,8 @@
   "mod_queue_alert_threshold_tip": "Pokaż migający czerwony wskaźnik, gdy elementy czekają dłużej niż ten czas",
   "no_content": "Brak zawartości",
   "view": "Zobacz",
-  "excerpt": "Fragment"
+  "excerpt": "Fragment",
+  "publishing": "Publikowanie",
+  "approved": "Zatwierdzone",
+  "rejected": "Odrzucone"
 }

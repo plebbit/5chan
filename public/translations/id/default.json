@@ -266,5 +266,8 @@
   "mod_queue_alert_threshold_tip": "Tampilkan indikator merah berkedip ketika item menunggu lebih lama dari waktu ini",
   "no_content": "Tidak ada konten",
   "view": "Lihat",
-  "excerpt": "Kutipan"
+  "excerpt": "Kutipan",
+  "publishing": "Menerbitkan",
+  "approved": "Disetujui",
+  "rejected": "Ditolak"
 }

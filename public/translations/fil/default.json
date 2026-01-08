@@ -266,5 +266,8 @@
   "mod_queue_alert_threshold_tip": "Magpakita ng kumikislap na pulang indicator kapag ang mga item ay naghihintay nang mas mahaba kaysa sa oras na ito",
   "no_content": "Walang nilalaman",
   "view": "Tingnan",
-  "excerpt": "Sipi"
+  "excerpt": "Sipi",
+  "publishing": "Pag-publish",
+  "approved": "Naaprubado",
+  "rejected": "Tinanggihan"
 }

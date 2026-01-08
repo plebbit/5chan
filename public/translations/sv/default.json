@@ -266,5 +266,8 @@
   "mod_queue_alert_threshold_tip": "Visa en blinkande röd indikator när objekt väntar längre än denna tid",
   "no_content": "Inget innehåll",
   "view": "Visa",
-  "excerpt": "Utdrag"
+  "excerpt": "Utdrag",
+  "publishing": "Publicerar",
+  "approved": "Godkänd",
+  "rejected": "Avvisad"
 }

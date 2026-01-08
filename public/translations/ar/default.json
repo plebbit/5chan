@@ -266,5 +266,8 @@
   "mod_queue_alert_threshold_tip": "إظهار مؤشر أحمر وامض عندما تكون العناصر في الانتظار لأكثر من هذا الوقت",
   "no_content": "لا يوجد محتوى",
   "view": "عرض",
-  "excerpt": "مقتطف"
+  "excerpt": "مقتطف",
+  "publishing": "نشر",
+  "approved": "موافق عليه",
+  "rejected": "مرفوض"
 }

@@ -266,5 +266,8 @@
   "mod_queue_alert_threshold_tip": "Näytä vilkkuva punainen indikaattori, kun kohteet odottavat pidempään kuin tämä aika",
   "no_content": "Ei sisältöä",
   "view": "Näytä",
-  "excerpt": "Ote"
+  "excerpt": "Ote",
+  "publishing": "Julkaiseminen",
+  "approved": "Hyväksytty",
+  "rejected": "Hylätty"
 }

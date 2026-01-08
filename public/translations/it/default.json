@@ -266,5 +266,8 @@
   "mod_queue_alert_threshold_tip": "Mostra un indicatore rosso lampeggiante quando gli elementi attendono più di questo tempo",
   "no_content": "Nessun contenuto",
   "view": "Visualizza",
-  "excerpt": "Estratto"
+  "excerpt": "Estratto",
+  "publishing": "Pubblicazione",
+  "approved": "Approvato",
+  "rejected": "Rifiutato"
 }

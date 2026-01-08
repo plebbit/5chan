@@ -14,6 +14,10 @@ import { useDefaultSubplebbits, MultisubSubplebbit } from '../../hooks/use-defau
 import { useBoardPath } from '../../hooks/use-resolved-subplebbit-address';
 import { getHasThumbnail, getCommentMediaInfo } from '../../lib/utils/media-utils';
 import useFeedResetStore from '../../stores/use-feed-reset-store';
+import useChallengesStore from '../../stores/use-challenges-store';
+import { alertChallengeVerificationFailed } from '../../lib/utils/challenge-utils';
+
+const { addChallenge } = useChallengesStore.getState();
 
 interface ModQueueViewProps {
   boardIdentifier?: string; // If provided, shows queue for single board
@@ -38,10 +42,13 @@ interface ModQueueRowProps {
   showBoardColumn?: boolean;
 }
 
+// Track which action was initiated to show appropriate completion message
+type ModerationAction = 'approve' | 'reject' | null;
+
 const ModQueueRow = ({ comment, showBoardColumn = false }: ModQueueRowProps) => {
   const { t } = useTranslation();
   const { alertThresholdHours } = useModQueueStore();
-  const [isModerating, setIsModerating] = useState(false);
+  const [initiatedAction, setInitiatedAction] = useState<ModerationAction>(null);
 
   const { content, title, timestamp, subplebbitAddress, cid, threadCid, link, thumbnailUrl, linkWidth, linkHeight } = comment;
 
@@ -49,42 +56,108 @@ const ModQueueRow = ({ comment, showBoardColumn = false }: ModQueueRowProps) => 
   const timeWaiting = Date.now() / 1000 - timestamp;
   const isOverThreshold = timeWaiting > alertThresholdHours * 3600;
 
-  const { publishCommentModeration: approve } = usePublishCommentModeration({
+  const {
+    publishCommentModeration: approve,
+    state: approveState,
+    error: approveError,
+  } = usePublishCommentModeration({
     commentCid: cid,
     subplebbitAddress,
     commentModeration: { approved: true },
+    onChallenge: (...args: any) => addChallenge([...args, comment]),
+    onChallengeVerification: alertChallengeVerificationFailed,
+    onError: (error: Error) => {
+      console.error('Approve failed:', error);
+    },
   });
 
-  const { publishCommentModeration: reject } = usePublishCommentModeration({
+  const {
+    publishCommentModeration: reject,
+    state: rejectState,
+    error: rejectError,
+  } = usePublishCommentModeration({
     commentCid: cid,
     subplebbitAddress,
     commentModeration: { removed: true },
+    onChallenge: (...args: any) => addChallenge([...args, comment]),
+    onChallengeVerification: alertChallengeVerificationFailed,
+    onError: (error: Error) => {
+      console.error('Reject failed:', error);
+    },
   });
 
   const handleApprove = async () => {
+    setInitiatedAction('approve');
     try {
-      setIsModerating(true);
       await approve();
     } catch (e) {
       console.error(e);
-    } finally {
-      setIsModerating(false);
     }
   };
 
   const handleReject = async () => {
+    setInitiatedAction('reject');
     try {
-      setIsModerating(true);
       await reject();
     } catch (e) {
       console.error(e);
-    } finally {
-      setIsModerating(false);
     }
   };
 
+  // Determine the current moderation state based on which action was initiated
+  const isApproving = initiatedAction === 'approve' && approveState !== 'initializing' && approveState !== 'succeeded' && approveState !== 'failed';
+  const isRejecting = initiatedAction === 'reject' && rejectState !== 'initializing' && rejectState !== 'succeeded' && rejectState !== 'failed';
+  const isPublishing = isApproving || isRejecting;
+
+  const approveSucceeded = initiatedAction === 'approve' && approveState === 'succeeded';
+  const rejectSucceeded = initiatedAction === 'reject' && rejectState === 'succeeded';
+
+  const approveFailed = initiatedAction === 'approve' && approveState === 'failed';
+  const rejectFailed = initiatedAction === 'reject' && rejectState === 'failed';
+
   const excerpt = title || content || (getHasThumbnail(getCommentMediaInfo(link, thumbnailUrl, linkWidth, linkHeight), link) ? t('image') : t('no_content'));
   const postUrl = `/${boardPath}/thread/${threadCid || cid}`;
+
+  // Render the status or action buttons
+  const renderActions = () => {
+    if (approveSucceeded) {
+      return <span className={`${styles.button} ${styles.approve}`}>{t('approved')}</span>;
+    }
+    if (rejectSucceeded) {
+      return <span className={`${styles.button} ${styles.reject}`}>{t('rejected')}</span>;
+    }
+    if (approveFailed) {
+      return (
+        <span className={`${styles.button} ${styles.reject}`}>
+          {t('failed')}: {approveError?.message}
+        </span>
+      );
+    }
+    if (rejectFailed) {
+      return (
+        <span className={`${styles.button} ${styles.reject}`}>
+          {t('failed')}: {rejectError?.message}
+        </span>
+      );
+    }
+    if (isPublishing) {
+      return <LoadingEllipsis string={t('publishing')} />;
+    }
+
+    return (
+      <>
+        <button className={`${styles.button} ${styles.approve}`} onClick={handleApprove} disabled={isPublishing}>
+          {t('approve')}
+        </button>
+        <button className={`${styles.button} ${styles.reject}`} onClick={handleReject} disabled={isPublishing}>
+          {t('reject')}
+        </button>
+        <Link to={postUrl} className={styles.button}>
+          {t('view')}
+        </Link>
+      </>
+    );
+  };
 
   return (
     <div className={styles.row}>
@@ -99,17 +172,7 @@ const ModQueueRow = ({ comment, showBoardColumn = false }: ModQueueRowProps) => 
         </Link>
       </div>
       <div className={`${styles.time} ${isOverThreshold ? styles.alert : ''}`}>{formatDistanceToNow(timestamp * 1000, { addSuffix: false })}</div>
-      <div className={styles.actions}>
-        <button className={`${styles.button} ${styles.approve}`} onClick={handleApprove} disabled={isModerating}>
-          {t('approve')}
-        </button>
-        <button className={`${styles.button} ${styles.reject}`} onClick={handleReject} disabled={isModerating}>
-          {t('reject')}
-        </button>
-        <Link to={postUrl} className={styles.button}>
-          {t('view')}
-        </Link>
-      </div>
+      <div className={styles.actions}>{renderActions()}</div>
     </div>
   );
 };

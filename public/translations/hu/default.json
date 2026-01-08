@@ -266,5 +266,8 @@
   "mod_queue_alert_threshold_tip": "Villogó piros jelző megjelenítése, amikor az elemek ennél hosszabb ideig várakoznak",
   "no_content": "Nincs tartalom",
   "view": "Megtekintés",
-  "excerpt": "Kivonat"
+  "excerpt": "Kivonat",
+  "publishing": "Közzététel",
+  "approved": "Jóváhagyva",
+  "rejected": "Elutasítva"
 }

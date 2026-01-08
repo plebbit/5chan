@@ -266,5 +266,8 @@
   "mod_queue_alert_threshold_tip": "הצג אינדיקטור אדום מהבהב כאשר פריטים ממתינים יותר מזמן זה",
   "no_content": "אין תוכן",
   "view": "הצג",
-  "excerpt": "תקציר"
+  "excerpt": "תקציר",
+  "publishing": "מפרסם",
+  "approved": "אושר",
+  "rejected": "נדחה"
 }

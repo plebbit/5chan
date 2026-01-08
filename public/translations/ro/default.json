@@ -266,5 +266,8 @@
   "mod_queue_alert_threshold_tip": "Afișează un indicator roșu intermitent când elementele așteaptă mai mult decât acest timp",
   "no_content": "Fără conținut",
   "view": "Vizualizează",
-  "excerpt": "Fragment"
+  "excerpt": "Fragment",
+  "publishing": "Publicare",
+  "approved": "Aprobat",
+  "rejected": "Respins"
 }

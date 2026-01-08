@@ -266,5 +266,8 @@
   "mod_queue_alert_threshold_tip": "Hiển thị chỉ báo màu đỏ nhấp nháy khi các mục đang chờ lâu hơn thời gian này",
   "no_content": "Không có nội dung",
   "view": "Xem",
-  "excerpt": "Trích đoạn"
+  "excerpt": "Trích đoạn",
+  "publishing": "Đang xuất bản",
+  "approved": "Đã phê duyệt",
+  "rejected": "Đã từ chối"
 }

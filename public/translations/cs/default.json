@@ -266,5 +266,8 @@
   "mod_queue_alert_threshold_tip": "Zobrazit blikající červený indikátor, když položky čekají déle než tento čas",
   "no_content": "Žádný obsah",
   "view": "Zobrazit",
-  "excerpt": "Výňatek"
+  "excerpt": "Výňatek",
+  "publishing": "Publikování",
+  "approved": "Schváleno",
+  "rejected": "Zamítnuto"
 }

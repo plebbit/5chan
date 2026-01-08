@@ -266,5 +266,8 @@
   "mod_queue_alert_threshold_tip": "Einen blinkenden roten Indikator anzeigen, wenn Elemente länger als diese Zeit warten",
   "no_content": "Kein Inhalt",
   "view": "Anzeigen",
-  "excerpt": "Auszug"
+  "excerpt": "Auszug",
+  "publishing": "Veröffentlichung",
+  "approved": "Genehmigt",
+  "rejected": "Abgelehnt"
 }

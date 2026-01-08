@@ -266,5 +266,8 @@
   "mod_queue_alert_threshold_tip": "Vis en blinkende rød indikator når elementer venter lenger enn denne tiden",
   "no_content": "Ingen innhold",
   "view": "Vis",
-  "excerpt": "Utdrag"
+  "excerpt": "Utdrag",
+  "publishing": "Publisering",
+  "approved": "Godkjent",
+  "rejected": "Avslått"
 }

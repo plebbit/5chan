@@ -266,5 +266,8 @@
   "mod_queue_alert_threshold_tip": "Afficher un indicateur rouge clignotant lorsque les éléments attendent plus longtemps que ce temps",
   "no_content": "Aucun contenu",
   "view": "Voir",
-  "excerpt": "Extrait"
+  "excerpt": "Extrait",
+  "publishing": "Publication",
+  "approved": "Approuvé",
+  "rejected": "Rejeté"
 }
