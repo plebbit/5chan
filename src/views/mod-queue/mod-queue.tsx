@@ -70,8 +70,12 @@ const ModQueueRow = ({ comment, showBoardColumn = false }: ModQueueRowProps) => 
     commentCid: cid,
     subplebbitAddress,
     commentModeration: { approved: true },
-    onChallenge: (...args: any) => addChallenge([...args, comment]),
-    onChallengeVerification: alertChallengeVerificationFailed,
+    onChallenge: async (...args: any) => {
+      addChallenge([...args, comment]);
+    },
+    onChallengeVerification: async (challengeVerification, comment) => {
+      alertChallengeVerificationFailed(challengeVerification, comment);
+    },
     onError: (error: Error) => {
       console.error('Approve failed:', error);
     },
@@ -85,8 +89,12 @@ const ModQueueRow = ({ comment, showBoardColumn = false }: ModQueueRowProps) => 
     commentCid: cid,
     subplebbitAddress,
     commentModeration: { removed: true },
-    onChallenge: (...args: any) => addChallenge([...args, comment]),
-    onChallengeVerification: alertChallengeVerificationFailed,
+    onChallenge: async (...args: any) => {
+      addChallenge([...args, comment]);
+    },
+    onChallengeVerification: async (challengeVerification, comment) => {
+      alertChallengeVerificationFailed(challengeVerification, comment);
+    },
     onError: (error: Error) => {
       console.error('Reject failed:', error);
     },
