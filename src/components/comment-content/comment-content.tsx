@@ -23,7 +23,7 @@ const CommentContent = ({ comment: post }: { comment: Comment }) => {
   const isMobile = useIsMobile();
 
   // TODO: commentAuthor is not yet available outside of editedComment, wait for API to be updated
-  const { cid, content, deleted, edit, original, parentCid, postCid, reason, removed, state } = post || {};
+  const { cid, content, deleted, edit, original, parentCid, postCid, pendingApproval, reason, removed, state } = post || {};
   // const banned = !!post?.commentAuthor?.banExpiresAt;
 
   const [showFullComment, setShowFullComment] = useState(false);
@@ -32,8 +32,8 @@ const CommentContent = ({ comment: post }: { comment: Comment }) => {
     (!isInPostView && content.length > 1000 && !showFullComment
       ? content.slice(0, 1000)
       : isInPostView && content.length > 2000 && !showFullComment
-      ? content.slice(0, 2000)
-      : content);
+        ? content.slice(0, 2000)
+        : content);
 
   const quotelinkReply = useSubplebbitsPagesStore((state) => state.comments[parentCid]);
 
@@ -70,6 +70,12 @@ const CommentContent = ({ comment: post }: { comment: Comment }) => {
       ) : (
         <>
           {!showOriginal && <Markdown content={displayContent} />}
+          {pendingApproval && (
+            <>
+              <br />
+              <span className={styles.pendingApproval}>(Pending mod approval, not visible to users)</span>
+            </>
+          )}
           {((!isInPostView && content?.length > 1000 && !showFullComment) || (isInPostView && content?.length > 2000 && !showFullComment)) && (
             <span className={styles.abbr}>
               <br />

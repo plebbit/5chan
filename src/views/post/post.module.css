@@ -517,6 +517,11 @@
   color: red;
 }
 
+.pendingApproval {
+  color: red;
+  font-weight: 700;
+}
+
 .grayEditMessage {
   color: var(--post-mobile-abbr-text-color);
 }
