@@ -90,8 +90,7 @@ const BoardLayout = () => {
               <MobileBoardButtons />
             </>
           )
-        : (subplebbitAddress || isInAllView || isInModView || isInSubscriptionsView || pendingPost?.subplebbitAddress) &&
-          !isOnModQueueRoute && (
+        : (subplebbitAddress || isInAllView || isInModView || isInSubscriptionsView || pendingPost?.subplebbitAddress) && (
             <>
               <PostForm key={key} />
               {!(isInAllView || isInSubscriptionsView || isInModView) && !isOnModQueueRoute && <SubplebbitStats />}
