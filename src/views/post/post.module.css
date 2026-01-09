@@ -655,3 +655,10 @@
   width: 6px;
   display: inline-block;
 }
+
+
+.removedContent {
+  color: red;
+  font-weight: 700;
+  text-transform: uppercase;
+}
