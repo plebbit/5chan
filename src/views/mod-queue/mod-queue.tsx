@@ -303,7 +303,7 @@ export const ModQueueButton = ({ boardIdentifier, isMobile }: ModQueueButtonProp
   // Use boardIdentifier for the route, but resolvedAddress for mod check
   const to = boardIdentifier ? `/${boardIdentifier}/queue` : '/mod/queue';
 
-  return (
+  const buttonContent = (
     <button className='button'>
       <Link to={to}>
         {t('mod_queue')}
@@ -329,6 +329,8 @@ export const ModQueueButton = ({ boardIdentifier, isMobile }: ModQueueButtonProp
       </Link>
     </button>
   );
+
+  return isMobile ? buttonContent : <>[{buttonContent}]</>;
 };
 
 export const ModQueueView = ({ boardIdentifier: propBoardIdentifier }: ModQueueViewProps) => {
