@@ -72,7 +72,7 @@ const BoardRulesDisplay = ({ subplebbitAddress, defaultSubplebbits }: { subplebb
           </p>
         ) : rules && rules.length > 0 ? (
           <ol>
-            {rules.map((rule, index) => (
+            {rules.map((rule: string, index: number) => (
               <li key={index}>{rule}</li>
             ))}
           </ol>

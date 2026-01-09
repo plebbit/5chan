@@ -254,5 +254,20 @@
   "bitsocial_account": "Bitsocial-tili",
   "p2p_options": "P2P-asetukset",
   "purge": "poistaa",
-  "purge_confirm": "Poistaminen poistaa pysyvästi tämän sisällön ja kaikki sen vastaukset tietokannasta. Jatketaanko?"
+  "purge_confirm": "Poistaminen poistaa pysyvästi tämän sisällön ja kaikki sen vastaukset tietokannasta. Jatketaanko?",
+  "mod_queue": "Moderaatiojono",
+  "moderation_queue": "Moderaatiojono",
+  "queue_is_empty": "Jono on tyhjä",
+  "approve": "Hyväksy",
+  "reject": "Hylkää",
+  "waiting": "Odottaa",
+  "filter_by_board": "Suodata taulun mukaan",
+  "mod_queue_alert_threshold": "Moderaatiojonon hälytyskynnys",
+  "mod_queue_alert_threshold_tip": "Näytä vilkkuva punainen indikaattori, kun kohteet odottavat pidempään kuin tämä aika",
+  "no_content": "Ei sisältöä",
+  "view": "Näytä",
+  "excerpt": "Ote",
+  "publishing": "Julkaiseminen",
+  "approved": "Hyväksytty",
+  "rejected": "Hylätty"
 }

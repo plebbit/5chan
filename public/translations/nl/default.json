@@ -254,5 +254,20 @@
   "bitsocial_account": "Bitsocial-account",
   "p2p_options": "P2P-opties",
   "purge": "verwijderen",
-  "purge_confirm": "Verwijderen verwijdert deze inhoud en alle antwoorden ervan permanent uit de database. Doorgaan?"
+  "purge_confirm": "Verwijderen verwijdert deze inhoud en alle antwoorden ervan permanent uit de database. Doorgaan?",
+  "mod_queue": "Moderatie Wachtrij",
+  "moderation_queue": "Moderatie Wachtrij",
+  "queue_is_empty": "Wachtrij is leeg",
+  "approve": "Goedkeuren",
+  "reject": "Afwijzen",
+  "waiting": "Wachten",
+  "filter_by_board": "Filteren op bord",
+  "mod_queue_alert_threshold": "Drempelwaarde voor moderatiewachtrijwaarschuwing",
+  "mod_queue_alert_threshold_tip": "Toon een knipperende rode indicator wanneer items langer dan deze tijd wachten",
+  "no_content": "Geen inhoud",
+  "view": "Bekijken",
+  "excerpt": "Uittreksel",
+  "publishing": "Publiceren",
+  "approved": "Goedgekeurd",
+  "rejected": "Afgewezen"
 }

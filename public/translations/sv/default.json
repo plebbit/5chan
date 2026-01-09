@@ -254,5 +254,20 @@
   "bitsocial_account": "Bitsocial-konto",
   "p2p_options": "P2P-alternativ",
   "purge": "radera",
-  "purge_confirm": "Raderande tar permanent bort detta innehåll och alla dess svar från databasen. Fortsätta?"
+  "purge_confirm": "Raderande tar permanent bort detta innehåll och alla dess svar från databasen. Fortsätta?",
+  "mod_queue": "Modereringskö",
+  "moderation_queue": "Modereringskö",
+  "queue_is_empty": "Kön är tom",
+  "approve": "Godkänn",
+  "reject": "Avvisa",
+  "waiting": "Väntar",
+  "filter_by_board": "Filtrera efter tavla",
+  "mod_queue_alert_threshold": "Tröskelvärde för modereringskö-varning",
+  "mod_queue_alert_threshold_tip": "Visa en blinkande röd indikator när objekt väntar längre än denna tid",
+  "no_content": "Inget innehåll",
+  "view": "Visa",
+  "excerpt": "Utdrag",
+  "publishing": "Publicerar",
+  "approved": "Godkänd",
+  "rejected": "Avvisad"
 }

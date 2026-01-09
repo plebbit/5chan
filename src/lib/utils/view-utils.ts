@@ -59,6 +59,10 @@ export const isModView = (pathname: string): boolean => {
   return pathname === `/mod` || pathname.startsWith(`/mod/`);
 };
 
+export const isModQueueView = (pathname: string): boolean => {
+  return pathname.includes('/queue');
+};
+
 export const isPendingPostView = (pathname: string, params: ParamsType): boolean => {
   return pathname === `/pending/${params.accountCommentIndex}` || pathname === `/pending/${params.accountCommentIndex}/settings`;
 };
@@ -101,6 +105,7 @@ export const isNotFoundView = (pathname: string, params: ParamsType): boolean =>
     !isPendingPostView(pathname, params) &&
     !isPostPageView(pathname, params) &&
     !isSettingsView(pathname, params) &&
-    !isSubscriptionsView(pathname, params)
+    !isSubscriptionsView(pathname, params) &&
+    !isModQueueView(pathname)
   );
 };

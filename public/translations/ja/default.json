@@ -254,5 +254,20 @@
   "bitsocial_account": "Bitsocialアカウント",
   "p2p_options": "P2Pオプション",
   "purge": "削除",
-  "purge_confirm": "削除すると、このコンテンツとそのすべての返信がデータベースから永続的に削除されます。続行しますか？"
+  "purge_confirm": "削除すると、このコンテンツとそのすべての返信がデータベースから永続的に削除されます。続行しますか？",
+  "mod_queue": "モデレーションキュー",
+  "moderation_queue": "モデレーションキュー",
+  "queue_is_empty": "キューは空です",
+  "approve": "承認",
+  "reject": "拒否",
+  "waiting": "待機中",
+  "filter_by_board": "ボードでフィルター",
+  "mod_queue_alert_threshold": "モデレーションキューのアラート閾値",
+  "mod_queue_alert_threshold_tip": "アイテムがこの時間より長く待機している場合、点滅する赤いインジケーターを表示",
+  "no_content": "コンテンツなし",
+  "view": "表示",
+  "excerpt": "抜粋",
+  "publishing": "公開中",
+  "approved": "承認済み",
+  "rejected": "却下"
 }

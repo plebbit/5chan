@@ -11,12 +11,8 @@
     "@capacitor/status-bar": "7.0.1",
     "@capawesome/capacitor-android-edge-to-edge-support": "7.2.2",
     "@floating-ui/react": "0.26.1",
-    "@plebbit/plebbit-react-hooks": "https://github.com/plebbit/plebbit-react-hooks.git#d17fa5d9b50f6e489f11d67f7e652c69be33cc6d",
+    "@plebbit/plebbit-react-hooks": "https://github.com/plebbit/plebbit-react-hooks.git#60b9d18ebc647f76cdda8f36e2143192d7378658",
     "@react-spring/web": "9.7.5",
-    "@testing-library/jest-dom": "5.14.1",
-    "@testing-library/react": "13.0.0",
-    "@testing-library/user-event": "13.2.1",
-    "@types/jest": "29.5.5",
     "@types/node": "20.8.2",
     "@types/react": "18.2.25",
     "@types/react-dom": "18.2.10",
@@ -37,7 +33,7 @@
     "react-dom": "19.1.2",
     "react-i18next": "13.2.2",
     "react-markdown": "8.0.6",
-    "react-router-dom": "6.16.0",
+    "react-router-dom": "6.30.2",
     "react-router-hash-link": "2.4.3",
     "react-virtuoso": "4.17.0",
     "rehype-raw": "7.0.0",
@@ -46,7 +42,6 @@
     "remark-supersub": "1.0.0",
     "tcp-port-used": "1.0.2",
     "typescript": "5.1.6",
-    "uuid": "13.0.0",
     "zustand": "4.4.3"
   },
   "scripts": {
@@ -121,7 +116,7 @@
     "oxfmt": "0.20.0",
     "oxlint": "1.35.0",
     "progress": "2.0.3",
-    "react-grab": "0.0.94",
+    "react-grab": "0.0.98",
     "react-scan": "0.4.3",
     "stream-browserify": "3.0.0",
     "vite": "npm:rolldown-vite@7.2.11",
@@ -143,7 +138,9 @@
     "ws": "8.18.3",
     "jose": "4.15.9",
     "sharp": "0.34.5",
-    "cacache": "19.0.1"
+    "cacache": "19.0.1",
+    "preact": "10.27.3",
+    "@remix-run/router": "1.23.2"
   },
   "main": "electron/main.js",
   "build": {

@@ -75,7 +75,7 @@ const EditMenu = ({ post }: { post: Comment }) => {
             purged: purged ?? false,
             spoiler: spoiler ?? false,
             reason,
-            banExpiresAt: post?.commentModeration?.banExpiresAt,
+            author: post?.commentModeration?.author?.banExpiresAt ? { banExpiresAt: post.commentModeration.author.banExpiresAt } : undefined,
           }
         : undefined,
       onChallenge: (...args: any) => addChallenge([...args, post]),
@@ -120,7 +120,7 @@ const EditMenu = ({ post }: { post: Comment }) => {
         purged: publishCommentEditOptions.commentModeration?.purged,
         spoiler: publishCommentEditOptions.commentModeration?.spoiler,
         reason: publishCommentEditOptions.reason,
-        banExpiresAt: publishCommentEditOptions.commentModeration?.banExpiresAt,
+        author: publishCommentEditOptions.commentModeration?.author,
       },
       author: account?.author,
       onChallenge: (...args: any) => addChallenge([...args, post]),
@@ -141,7 +141,7 @@ const EditMenu = ({ post }: { post: Comment }) => {
   }, [defaultPublishEditOptions]);
 
   const [banDuration, setBanDuration] = useState(() =>
-    publishCommentEditOptions.commentModeration?.banExpiresAt ? timestampToDays(publishCommentEditOptions.commentModeration.banExpiresAt) : 1,
+    publishCommentEditOptions.commentModeration?.author?.banExpiresAt ? timestampToDays(publishCommentEditOptions.commentModeration.author.banExpiresAt) : 1,
   );
 
   const onCheckbox = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -151,10 +151,18 @@ const EditMenu = ({ post }: { post: Comment }) => {
       const newState = { ...state };
 
       if (isAccountMod) {
-        newState.commentModeration = {
-          ...newState.commentModeration,
-          [id === 'banUser' ? 'banExpiresAt' : id]: id === 'banUser' ? (checked ? daysToTimestampInSeconds(banDuration) : undefined) : checked,
-        };
+        if (id === 'banUser') {
+          const banValue = checked ? daysToTimestampInSeconds(banDuration) : undefined;
+          newState.commentModeration = {
+            ...newState.commentModeration,
+            author: banValue ? { banExpiresAt: banValue } : undefined,
+          };
+        } else {
+          newState.commentModeration = {
+            ...newState.commentModeration,
+            [id]: checked,
+          };
+        }
       }
 
       if (isAccountCommentAuthor) {
@@ -168,10 +176,17 @@ const EditMenu = ({ post }: { post: Comment }) => {
   const onBanDurationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const days = parseInt(e.target.value, 10) || 1;
     setBanDuration(days);
-    setPublishCommentEditOptions((state) => ({
-      ...state,
-      commentAuthor: { ...state.commentAuthor, banExpiresAt: daysToTimestampInSeconds(days) },
-    }));
+    setPublishCommentEditOptions((state) => {
+      // Only update ban expiration if ban is currently enabled (checkbox is checked)
+      const isBanEnabled = state.commentModeration?.author?.banExpiresAt !== undefined;
+      return {
+        ...state,
+        commentModeration: {
+          ...state.commentModeration,
+          author: isBanEnabled ? { banExpiresAt: daysToTimestampInSeconds(days) } : state.commentModeration?.author,
+        },
+      };
+    });
   };
 
   const onPurgeCheckbox = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -332,12 +347,27 @@ const EditMenu = ({ post }: { post: Comment }) => {
                     <div className={styles.menuItem}>
                       [
                       <label>
-                        <input onChange={onCheckbox} checked={publishCommentEditOptions.commentModeration?.banExpiresAt !== undefined} type='checkbox' id='banUser' />
+                        <input
+                          onChange={onCheckbox}
+                          checked={publishCommentEditOptions.commentModeration?.author?.banExpiresAt !== undefined}
+                          type='checkbox'
+                          id='banUser'
+                        />
                         <Trans
                           i18nKey='ban_user_for'
                           shouldUnescape={true}
                           components={{
-                            1: <input className={styles.banInput} onChange={onBanDurationChange} type='number' min={1} max={100} value={banDuration || ''} />,
+                            1: (
+                              <input
+                                key='ban-duration-input'
+                                className={styles.banInput}
+                                onChange={onBanDurationChange}
+                                type='number'
+                                min={1}
+                                max={100}
+                                value={banDuration || ''}
+                              />
+                            ),
                           }}
                         />
                         ?

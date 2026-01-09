@@ -5,7 +5,7 @@ import { getFormattedTimeAgo } from '../lib/utils/time-utils';
 import useSubplebbitOfflineStore from '../stores/use-subplebbit-offline-store';
 import useSubplebbitsLoadingStartTimestamps from '../stores/use-subplebbits-loading-start-timestamps-store';
 
-const useIsSubplebbitOffline = (subplebbit: Subplebbit) => {
+const useIsSubplebbitOffline = (subplebbit: Subplebbit | undefined) => {
   const { t } = useTranslation();
   const { address, state, updatedAt, updatingState } = subplebbit || {};
   const { subplebbitOfflineState, setSubplebbitOfflineState, initializesubplebbitOfflineState } = useSubplebbitOfflineStore();

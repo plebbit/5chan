@@ -517,6 +517,11 @@
   color: red;
 }
 
+.pendingApproval {
+  color: red;
+  font-weight: 700;
+}
+
 .grayEditMessage {
   color: var(--post-mobile-abbr-text-color);
 }
@@ -649,4 +654,11 @@
 .hiddenReplyEditMenuSpacer {
   width: 6px;
   display: inline-block;
+}
+
+
+.removedContent {
+  color: red;
+  font-weight: 700;
+  text-transform: uppercase;
 }

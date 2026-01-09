@@ -3,6 +3,7 @@ import { useLocation, useParams } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
 import { Comment } from '@plebbit/plebbit-react-hooks';
 import useSubplebbitsPagesStore from '@plebbit/plebbit-react-hooks/dist/stores/subplebbits-pages';
+import Plebbit from '@plebbit/plebbit-js';
 import { getFormattedDate, getFormattedTimeAgo } from '../../lib/utils/time-utils';
 import { isPostPageView } from '../../lib/utils/view-utils';
 import useIsMobile from '../../hooks/use-is-mobile';
@@ -22,9 +23,8 @@ const CommentContent = ({ comment: post }: { comment: Comment }) => {
   const [showOriginal, setShowOriginal] = useState(false);
   const isMobile = useIsMobile();
 
-  // TODO: commentAuthor is not yet available outside of editedComment, wait for API to be updated
-  const { cid, content, deleted, edit, original, parentCid, postCid, reason, removed, state } = post || {};
-  // const banned = !!post?.commentAuthor?.banExpiresAt;
+  const { cid, content, deleted, edit, original, parentCid, postCid, pendingApproval, reason, removed, state, subplebbitAddress } = post || {};
+  const banned = !!post?.author?.subplebbit?.banExpiresAt;
 
   const [showFullComment, setShowFullComment] = useState(false);
   const displayContent =
@@ -32,8 +32,8 @@ const CommentContent = ({ comment: post }: { comment: Comment }) => {
     (!isInPostView && content.length > 1000 && !showFullComment
       ? content.slice(0, 1000)
       : isInPostView && content.length > 2000 && !showFullComment
-      ? content.slice(0, 2000)
-      : content);
+        ? content.slice(0, 2000)
+        : content);
 
   const quotelinkReply = useSubplebbitsPagesStore((state) => state.comments[parentCid]);
 
@@ -70,6 +70,12 @@ const CommentContent = ({ comment: post }: { comment: Comment }) => {
       ) : (
         <>
           {!showOriginal && <Markdown content={displayContent} />}
+          {pendingApproval && (
+            <>
+              <br />
+              <span className={styles.pendingApproval}>(Pending mod approval, not visible to users)</span>
+            </>
+          )}
           {((!isInPostView && content?.length > 1000 && !showFullComment) || (isInPostView && content?.length > 2000 && !showFullComment)) && (
             <span className={styles.abbr}>
               <br />
@@ -108,8 +114,7 @@ const CommentContent = ({ comment: post }: { comment: Comment }) => {
           )}
         </>
       )}
-      {/* TODO: commentAuthor is not yet available outside of editedComment, wait for API to be updated */}
-      {/* {banned && (
+      {banned && (
         <span className={styles.removedContent}>
           <br />
           <br />
@@ -117,12 +122,12 @@ const CommentContent = ({ comment: post }: { comment: Comment }) => {
             children={`(${t('user_banned')})`}
             content={`${t('ban_expires_at', {
               address: subplebbitAddress && Plebbit.getShortAddress({ address: subplebbitAddress }),
-              timestamp: getFormattedDate(commentAuthor?.banExpiresAt),
+              timestamp: getFormattedDate(post?.author?.subplebbit?.banExpiresAt),
               interpolation: { escapeValue: false },
             })}${reason ? `. ${_.capitalize(t('reason'))}: "${reason}"` : ''}`}
           />
         </span>
-      )} */}
+      )}
       {!cid && state === 'pending' && stateString !== 'Failed' && (
         <>
           <br />

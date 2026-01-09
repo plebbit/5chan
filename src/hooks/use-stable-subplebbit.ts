@@ -1,4 +1,3 @@
-import { useMemo } from 'react';
 import useSubplebbitsStore from '@plebbit/plebbit-react-hooks/dist/stores/subplebbits';
 
 /**

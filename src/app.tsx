@@ -10,7 +10,7 @@ import useSpecialThemeStore from './stores/use-special-theme-store';
 import useIsMobile from './hooks/use-is-mobile';
 import useTheme from './hooks/use-theme';
 import { useDefaultSubplebbits } from './hooks/use-default-subplebbits';
-import { getSubplebbitAddress, isPostRoute, isPendingPostRoute } from './lib/utils/route-utils';
+import { getSubplebbitAddress, isPostRoute, isPendingPostRoute, isModQueueRoute } from './lib/utils/route-utils';
 import styles from './app.module.css';
 import FAQ from './views/faq';
 import Home from './views/home';
@@ -18,6 +18,7 @@ import Rules from './views/rules';
 import NotFound from './views/not-found';
 import PendingPost from './views/pending-post';
 import Post from './views/post';
+import ModQueueView from './views/mod-queue';
 import { DesktopBoardButtons, MobileBoardButtons } from './components/board-buttons';
 import BoardHeader from './components/board-header';
 import ChallengeModal from './components/challenge-modal';
@@ -50,6 +51,7 @@ const BoardLayout = () => {
 
   const isOnPostRoute = isPostRoute(location.pathname);
   const isOnPendingPostRoute = isPendingPostRoute(location.pathname);
+  const isOnModQueueRoute = isModQueueRoute(location.pathname);
 
   // Christmas theme
   const { isEnabled: isSpecialEnabled } = useSpecialThemeStore();
@@ -81,7 +83,8 @@ const BoardLayout = () => {
       <DisclaimerModal />
       <BoardHeader />
       {isMobile
-        ? (subplebbitAddress || isInAllView || isInModView || isInSubscriptionsView || pendingPost?.subplebbitAddress) && (
+        ? (subplebbitAddress || isInAllView || isInModView || isInSubscriptionsView || pendingPost?.subplebbitAddress) &&
+          !isOnModQueueRoute && (
             <>
               <PostForm key={key} />
               <MobileBoardButtons />
@@ -90,12 +93,12 @@ const BoardLayout = () => {
         : (subplebbitAddress || isInAllView || isInModView || isInSubscriptionsView || pendingPost?.subplebbitAddress) && (
             <>
               <PostForm key={key} />
-              {!(isInAllView || isInSubscriptionsView || isInModView) && <SubplebbitStats />}
+              {!(isInAllView || isInSubscriptionsView || isInModView) && !isOnModQueueRoute && <SubplebbitStats />}
               <DesktopBoardButtons />
             </>
           )}
       <FeedCacheContainer />
-      {(isOnPostRoute || isOnPendingPostRoute) && <Outlet />}
+      {(isOnPostRoute || isOnPendingPostRoute || isOnModQueueRoute) && <Outlet />}
     </div>
   );
 };
@@ -168,10 +171,16 @@ const App = () => (
           <Route path='/mod/catalog/:timeFilterName?' element={null} />
           <Route path='/mod/catalog/:timeFilterName?/settings' element={null} />
 
+          <Route path='/mod/queue' element={<ModQueueView />} />
+          <Route path='/mod/queue/settings' element={<ModQueueView />} />
+
           <Route path='/:boardIdentifier' element={null} />
           <Route path='/:boardIdentifier/settings' element={null} />
           <Route path='/:boardIdentifier/catalog' element={null} />
           <Route path='/:boardIdentifier/catalog/settings' element={null} />
+
+          <Route path='/:boardIdentifier/queue' element={<ModQueueView />} />
+          <Route path='/:boardIdentifier/queue/settings' element={<ModQueueView />} />
 
           <Route path='/:boardIdentifier/thread/:commentCid' element={<Post />} />
           <Route path='/:boardIdentifier/thread/:commentCid/settings' element={<Post />} />

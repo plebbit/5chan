@@ -254,5 +254,20 @@
   "bitsocial_account": "Llogaria Bitsocial",
   "p2p_options": "Opsionet P2P",
   "purge": "fshi",
-  "purge_confirm": "Fshirja do të heqë përgjithmonë këtë përmbajtje dhe të gjitha përgjigjet e saj nga baza e të dhënave. Vazhdo?"
+  "purge_confirm": "Fshirja do të heqë përgjithmonë këtë përmbajtje dhe të gjitha përgjigjet e saj nga baza e të dhënave. Vazhdo?",
+  "mod_queue": "Radha e Moderimit",
+  "moderation_queue": "Radha e Moderimit",
+  "queue_is_empty": "Radha është e zbrazët",
+  "approve": "Aprovo",
+  "reject": "Refuzo",
+  "waiting": "Duke pritur",
+  "filter_by_board": "Filtro sipas tabelës",
+  "mod_queue_alert_threshold": "Pragu i alarmit të radhës së moderimit",
+  "mod_queue_alert_threshold_tip": "Shfaq një tregues të kuq që blinkon kur elementët po presin më shumë se kjo kohë",
+  "no_content": "Pa përmbajtje",
+  "view": "Shiko",
+  "excerpt": "Fragment",
+  "publishing": "Publikimi",
+  "approved": "Aprovuar",
+  "rejected": "Refuzuar"
 }

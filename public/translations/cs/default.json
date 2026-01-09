@@ -254,5 +254,20 @@
   "bitsocial_account": "Účet Bitsocial",
   "p2p_options": "Možnosti P2P",
   "purge": "vymazat",
-  "purge_confirm": "Vymazání trvale odstraní tento obsah a všechny jeho odpovědi z databáze. Pokračovat?"
+  "purge_confirm": "Vymazání trvale odstraní tento obsah a všechny jeho odpovědi z databáze. Pokračovat?",
+  "mod_queue": "Fronta moderování",
+  "moderation_queue": "Fronta moderování",
+  "queue_is_empty": "Fronta je prázdná",
+  "approve": "Schválit",
+  "reject": "Odmítnout",
+  "waiting": "Čeká",
+  "filter_by_board": "Filtrovat podle desky",
+  "mod_queue_alert_threshold": "Práh upozornění fronty moderování",
+  "mod_queue_alert_threshold_tip": "Zobrazit blikající červený indikátor, když položky čekají déle než tento čas",
+  "no_content": "Žádný obsah",
+  "view": "Zobrazit",
+  "excerpt": "Výňatek",
+  "publishing": "Publikování",
+  "approved": "Schváleno",
+  "rejected": "Zamítnuto"
 }

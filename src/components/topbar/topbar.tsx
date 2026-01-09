@@ -102,18 +102,13 @@ const TopBarDesktop = () => {
   // Memoize allBoardCodes since it's derived from a constant
   const allBoardCodes = useMemo(() => getAllBoardCodes(), []);
 
-  // Use accounts store with selective subscriptions to avoid rerenders from updatingState
-  // Only subscribe to subscriptions array and account subplebbit addresses
   const subscriptions = useAccountsStore(
     (state) => {
       const activeAccountId = state.activeAccountId;
       const activeAccount = activeAccountId ? state.accounts[activeAccountId] : undefined;
-      // Spread to create new reference - if array is mutated in place, the equality
-      // function needs different references to detect content changes
       return [...(activeAccount?.subscriptions || [])];
     },
     (prev, next) => {
-      // Shallow compare arrays - only rerender if subscriptions actually change
       if (prev.length !== next.length) return false;
       return prev.every((val, idx) => val === next[idx]);
     },
@@ -127,7 +122,6 @@ const TopBarDesktop = () => {
       return Object.keys(accountSubplebbits);
     },
     (prev, next) => {
-      // Shallow compare arrays - only rerender if addresses actually change
       if (prev.length !== next.length) return false;
       return prev.every((val, idx) => val === next[idx]);
     },
@@ -270,8 +264,6 @@ const TopBarMobile = ({ subplebbitAddress }: { subplebbitAddress: string }) => {
   const boardPath = useBoardPath(subplebbitAddress);
   const selectValue = isInAllView ? 'all' : isInSubscriptionsView ? 'subs' : boardPath || subplebbitAddress;
 
-  // Use accounts store with selective subscriptions to avoid rerenders from updatingState
-  // Only subscribe to account subplebbit addresses (keys only)
   const accountSubplebbitAddresses = useAccountsStore(
     (state) => {
       const activeAccountId = state.activeAccountId;
@@ -280,7 +272,6 @@ const TopBarMobile = ({ subplebbitAddress }: { subplebbitAddress: string }) => {
       return Object.keys(accountSubplebbits);
     },
     (prev, next) => {
-      // Shallow compare arrays - only rerender if addresses actually change
       if (prev.length !== next.length) return false;
       return prev.every((val, idx) => val === next[idx]);
     },
@@ -357,7 +348,8 @@ const TopBarMobile = ({ subplebbitAddress }: { subplebbitAddress: string }) => {
 
 const TopBar = () => {
   const params = useParams();
-  const accountComment = useAccountComment({ commentIndex: params?.accountCommentIndex as any });
+  const commentIndex = params?.accountCommentIndex ? parseInt(params.accountCommentIndex) : undefined;
+  const accountComment = useAccountComment({ commentIndex });
   const resolvedSubplebbitAddress = useResolvedSubplebbitAddress();
   const subplebbitAddress = resolvedSubplebbitAddress || accountComment?.subplebbitAddress;
 

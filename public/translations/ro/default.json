@@ -254,5 +254,20 @@
   "bitsocial_account": "Cont Bitsocial",
   "p2p_options": "Opțiuni P2P",
   "purge": "șterge",
-  "purge_confirm": "Ștergerea va elimina permanent acest conținut și toate răspunsurile sale din baza de date. Continuați?"
+  "purge_confirm": "Ștergerea va elimina permanent acest conținut și toate răspunsurile sale din baza de date. Continuați?",
+  "mod_queue": "Coadă de Moderare",
+  "moderation_queue": "Coadă de Moderare",
+  "queue_is_empty": "Coada este goală",
+  "approve": "Aprobă",
+  "reject": "Respinge",
+  "waiting": "Așteaptă",
+  "filter_by_board": "Filtrează după panou",
+  "mod_queue_alert_threshold": "Prag de alertă pentru coada de moderare",
+  "mod_queue_alert_threshold_tip": "Afișează un indicator roșu intermitent când elementele așteaptă mai mult decât acest timp",
+  "no_content": "Fără conținut",
+  "view": "Vizualizează",
+  "excerpt": "Fragment",
+  "publishing": "Publicare",
+  "approved": "Aprobat",
+  "rejected": "Respins"
 }

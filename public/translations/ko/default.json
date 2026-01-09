@@ -254,5 +254,20 @@
   "bitsocial_account": "Bitsocial 계정",
   "p2p_options": "P2P 옵션",
   "purge": "삭제",
-  "purge_confirm": "삭제하면 이 콘텐츠와 모든 답글이 데이터베이스에서 영구적으로 제거됩니다. 계속하시겠습니까?"
+  "purge_confirm": "삭제하면 이 콘텐츠와 모든 답글이 데이터베이스에서 영구적으로 제거됩니다. 계속하시겠습니까?",
+  "mod_queue": "관리자 대기열",
+  "moderation_queue": "관리자 대기열",
+  "queue_is_empty": "대기열이 비어 있습니다",
+  "approve": "승인",
+  "reject": "거부",
+  "waiting": "대기 중",
+  "filter_by_board": "게시판별 필터",
+  "mod_queue_alert_threshold": "관리자 대기열 알림 임계값",
+  "mod_queue_alert_threshold_tip": "항목이 이 시간보다 오래 대기 중일 때 깜빡이는 빨간색 표시기 표시",
+  "no_content": "콘텐츠 없음",
+  "view": "보기",
+  "excerpt": "요약",
+  "publishing": "게시 중",
+  "approved": "승인됨",
+  "rejected": "거부됨"
 }
