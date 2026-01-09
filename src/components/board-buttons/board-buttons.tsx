@@ -501,7 +501,7 @@ export const DesktopBoardButtons = () => {
             {!(isInAllView || isInSubscriptionsView || isInModView) && (
               <>
                 {' '}
-                [<ModQueueButton boardIdentifier={boardIdentifier} isMobile={false} />]
+                <ModQueueButton boardIdentifier={boardIdentifier} isMobile={false} />
               </>
             )}
             {isInCatalogView && searchText ? (

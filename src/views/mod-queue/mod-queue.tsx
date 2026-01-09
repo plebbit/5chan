@@ -170,24 +170,7 @@ const ModQueueRow = ({ comment, showBoardColumn = false }: ModQueueRowProps) => 
         <button className={styles.button} onClick={handleReject} disabled={isPublishing}>
           {t('reject')}
         </button>
-        ]{' '}
-        {postUrl ? (
-          <>
-            [
-            <Link to={postUrl} className={styles.button}>
-              {t('view')}
-            </Link>
-            ]
-          </>
-        ) : (
-          <>
-            [
-            <button className={styles.button} disabled>
-              {t('view')}
-            </button>
-            ]
-          </>
-        )}
+        ]
       </>
     );
   };
@@ -282,13 +265,17 @@ export const ModQueueButton = ({ boardIdentifier, isMobile }: ModQueueButtonProp
   const { feed } = useFeed({
     subplebbitAddresses: shouldFetch ? subplebbitAddresses : [],
     modQueue: ['pendingApproval'],
-    sortType: 'new',
     postsPerPage: 100, // Fetch enough to check timestamps
   });
 
   if (!shouldFetch || subplebbitAddresses.length === 0) {
     return null;
   }
+
+  // Sort feed by timestamp (oldest first) to match ModQueueView sorting
+  const sortedFeed = useMemo(() => {
+    return [...feed].sort((a, b) => a.timestamp - b.timestamp);
+  }, [feed]);
 
   // Separate comments into normal and urgent based on threshold
   // Match ModQueueRow logic: use > (strictly greater) to be consistent
@@ -299,7 +286,7 @@ export const ModQueueButton = ({ boardIdentifier, isMobile }: ModQueueButtonProp
     let normal = 0;
     let urgent = 0;
 
-    for (const item of feed) {
+    for (const item of sortedFeed) {
       const timeWaiting = now - item.timestamp;
       if (timeWaiting > thresholdSeconds) {
         urgent++;
@@ -309,7 +296,7 @@ export const ModQueueButton = ({ boardIdentifier, isMobile }: ModQueueButtonProp
     }
 
     return { normalCount: normal, urgentCount: urgent };
-  }, [feed, alertThresholdHours]);
+  }, [sortedFeed, alertThresholdHours]);
 
   const totalCount = normalCount + urgentCount;
 
@@ -383,6 +370,11 @@ export const ModQueueView = ({ boardIdentifier: propBoardIdentifier }: ModQueueV
     postsPerPage: 50,
   });
 
+  // Sort feed by timestamp (oldest first) to show items waiting longest at the top
+  const sortedFeed = useMemo(() => {
+    return [...feed].sort((a, b) => a.timestamp - b.timestamp);
+  }, [feed]);
+
   // Register reset function with feed reset store so refresh button works
   const setResetFunction = useFeedResetStore((state) => state.setResetFunction);
   useEffect(() => {
@@ -421,7 +413,7 @@ export const ModQueueView = ({ boardIdentifier: propBoardIdentifier }: ModQueueV
 
       {!resolvedAddress && <ModQueueBoardFilter subplebbits={subplebbitsWithMetadata} />}
 
-      {feed.length === 0 && !hasMore ? (
+      {sortedFeed.length === 0 && !hasMore ? (
         <div className={styles.empty}>{t('queue_is_empty')}</div>
       ) : (
         <>
@@ -434,8 +426,8 @@ export const ModQueueView = ({ boardIdentifier: propBoardIdentifier }: ModQueueV
 
           <Virtuoso
             useWindowScroll
-            data={feed}
-            totalCount={feed.length}
+            data={sortedFeed}
+            totalCount={sortedFeed.length}
             endReached={loadMore}
             itemContent={(index, comment) => <ModQueueRow key={comment.cid} comment={comment} showBoardColumn={showBoardColumn} />}
             components={footerComponents}
