@@ -133,6 +133,8 @@
   color: var(--mod-queue-alert-color);
   font-weight: bold;
   animation: blink 2s infinite;
+  /* Synchronize all animations by starting from the same phase */
+  animation-delay: calc(var(--mod-queue-blink-phase, 0s) * -1);
 }
 
 @keyframes blink {

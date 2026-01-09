@@ -383,6 +383,25 @@ export const ModQueueView = ({ boardIdentifier: propBoardIdentifier }: ModQueueV
     setResetFunction(reset);
   }, [reset, setResetFunction]);
 
+  // Synchronize blinking animation across all rows
+  // Set a CSS variable with the current animation phase so all elements start from the same point
+  // Update frequently to ensure elements rendered at different times stay synchronized
+  useEffect(() => {
+    const ANIMATION_DURATION = 2000; // 2 seconds
+    const UPDATE_INTERVAL = 100; // Update every 100ms for smooth synchronization
+
+    const updateAnimationPhase = () => {
+      // Calculate current phase in the animation cycle (0 to 2 seconds)
+      const phase = (Date.now() % ANIMATION_DURATION) / 1000;
+      document.documentElement.style.setProperty('--mod-queue-blink-phase', `${phase}s`);
+    };
+
+    // Update immediately and then at regular intervals
+    updateAnimationPhase();
+    const interval = setInterval(updateAnimationPhase, UPDATE_INTERVAL);
+    return () => clearInterval(interval);
+  }, []);
+
   const loadingStateString = useFeedStateString(subplebbitAddresses) || t('loading');
   const showBoardColumn = !resolvedAddress && !selectedBoardFilter;
 
