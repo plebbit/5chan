@@ -176,13 +176,17 @@ const EditMenu = ({ post }: { post: Comment }) => {
   const onBanDurationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const days = parseInt(e.target.value, 10) || 1;
     setBanDuration(days);
-    setPublishCommentEditOptions((state) => ({
-      ...state,
-      commentModeration: {
-        ...state.commentModeration,
-        author: { banExpiresAt: daysToTimestampInSeconds(days) },
-      },
-    }));
+    setPublishCommentEditOptions((state) => {
+      // Only update ban expiration if ban is currently enabled (checkbox is checked)
+      const isBanEnabled = state.commentModeration?.author?.banExpiresAt !== undefined;
+      return {
+        ...state,
+        commentModeration: {
+          ...state.commentModeration,
+          author: isBanEnabled ? { banExpiresAt: daysToTimestampInSeconds(days) } : state.commentModeration?.author,
+        },
+      };
+    });
   };
 
   const onPurgeCheckbox = (e: React.ChangeEvent<HTMLInputElement>) => {
