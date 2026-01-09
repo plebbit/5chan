@@ -337,7 +337,17 @@ const EditMenu = ({ post }: { post: Comment }) => {
                           i18nKey='ban_user_for'
                           shouldUnescape={true}
                           components={{
-                            1: <input className={styles.banInput} onChange={onBanDurationChange} type='number' min={1} max={100} value={banDuration || ''} />,
+                            1: (
+                              <input
+                                key='ban-duration-input'
+                                className={styles.banInput}
+                                onChange={onBanDurationChange}
+                                type='number'
+                                min={1}
+                                max={100}
+                                value={banDuration || ''}
+                              />
+                            ),
                           }}
                         />
                         ?
