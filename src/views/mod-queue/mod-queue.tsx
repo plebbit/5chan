@@ -62,6 +62,9 @@ const ModQueueRow = ({ comment, showBoardColumn = false }: ModQueueRowProps) => 
   const timeWaiting = Date.now() / 1000 - timestamp;
   const isOverThreshold = timeWaiting > alertThresholdHours * 3600;
 
+  // Only show alert animation for comments awaiting approval (not approved or rejected)
+  const isAwaitingApproval = !alreadyApproved && !alreadyRejected;
+
   const {
     publishCommentModeration: approve,
     state: approveState,
@@ -187,7 +190,9 @@ const ModQueueRow = ({ comment, showBoardColumn = false }: ModQueueRowProps) => 
           <span title={excerpt}>{excerpt}</span>
         )}
       </div>
-      <div className={`${styles.time} ${isOverThreshold ? styles.alert : ''}`}>{formatDistanceToNow(timestamp * 1000, { addSuffix: false })}</div>
+      <div className={`${styles.time} ${isOverThreshold && isAwaitingApproval && !approveSucceeded && !rejectSucceeded ? styles.alert : ''}`}>
+        {formatDistanceToNow(timestamp * 1000, { addSuffix: false })}
+      </div>
       <div className={styles.actions}>{renderActions()}</div>
     </div>
   );
@@ -265,19 +270,15 @@ export const ModQueueButton = ({ boardIdentifier, isMobile }: ModQueueButtonProp
   const { feed } = useFeed({
     subplebbitAddresses: shouldFetch ? subplebbitAddresses : [],
     modQueue: ['pendingApproval'],
-    postsPerPage: 100, // Fetch enough to check timestamps
+    sortType: 'new',
   });
 
   if (!shouldFetch || subplebbitAddresses.length === 0) {
     return null;
   }
 
-  // Sort feed by timestamp (oldest first) to match ModQueueView sorting
-  const sortedFeed = useMemo(() => {
-    return [...feed].sort((a, b) => a.timestamp - b.timestamp);
-  }, [feed]);
-
   // Separate comments into normal and urgent based on threshold
+  // Only count items awaiting approval (not approved or rejected) for blinking counter
   // Match ModQueueRow logic: use > (strictly greater) to be consistent
   const { normalCount, urgentCount } = useMemo(() => {
     const thresholdSeconds = alertThresholdHours * 3600;
@@ -286,7 +287,15 @@ export const ModQueueButton = ({ boardIdentifier, isMobile }: ModQueueButtonProp
     let normal = 0;
     let urgent = 0;
 
-    for (const item of sortedFeed) {
+    for (const item of feed) {
+      // Only count items that are awaiting approval (not approved or rejected)
+      const isAwaitingApproval = item.approved !== true && item.removed !== true;
+
+      if (!isAwaitingApproval) {
+        // Skip items that are already approved or rejected
+        continue;
+      }
+
       const timeWaiting = now - item.timestamp;
       if (timeWaiting > thresholdSeconds) {
         urgent++;
@@ -296,7 +305,7 @@ export const ModQueueButton = ({ boardIdentifier, isMobile }: ModQueueButtonProp
     }
 
     return { normalCount: normal, urgentCount: urgent };
-  }, [sortedFeed, alertThresholdHours]);
+  }, [feed, alertThresholdHours]);
 
   const totalCount = normalCount + urgentCount;
 
@@ -372,11 +381,6 @@ export const ModQueueView = ({ boardIdentifier: propBoardIdentifier }: ModQueueV
     postsPerPage: 50,
   });
 
-  // Sort feed by timestamp (oldest first) to show items waiting longest at the top
-  const sortedFeed = useMemo(() => {
-    return [...feed].sort((a, b) => a.timestamp - b.timestamp);
-  }, [feed]);
-
   // Register reset function with feed reset store so refresh button works
   const setResetFunction = useFeedResetStore((state) => state.setResetFunction);
   useEffect(() => {
@@ -434,7 +438,7 @@ export const ModQueueView = ({ boardIdentifier: propBoardIdentifier }: ModQueueV
 
       {!resolvedAddress && <ModQueueBoardFilter subplebbits={subplebbitsWithMetadata} />}
 
-      {sortedFeed.length === 0 && !hasMore ? (
+      {feed.length === 0 && !hasMore ? (
         <div className={styles.empty}>{t('queue_is_empty')}</div>
       ) : (
         <>
@@ -447,8 +451,8 @@ export const ModQueueView = ({ boardIdentifier: propBoardIdentifier }: ModQueueV
 
           <Virtuoso
             useWindowScroll
-            data={sortedFeed}
-            totalCount={sortedFeed.length}
+            data={feed}
+            totalCount={feed.length}
             endReached={loadMore}
             itemContent={(index, comment) => <ModQueueRow key={comment.cid} comment={comment} showBoardColumn={showBoardColumn} />}
             components={footerComponents}
