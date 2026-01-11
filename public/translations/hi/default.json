@@ -260,14 +260,12 @@
   "queue_is_empty": "कतार खाली है",
   "approve": "अनुमोदन करें",
   "reject": "अस्वीकार करें",
-  "waiting": "प्रतीक्षा कर रहा है",
   "filter_by_board": "बोर्ड के अनुसार फ़िल्टर करें",
   "mod_queue_alert_threshold": "मॉडरेटर कतार सतर्कता सीमा",
-  "mod_queue_alert_threshold_tip": "जब आइटम इस समय से अधिक समय तक प्रतीक्षा कर रहे हों तो एक चमकता हुआ लाल संकेतक दिखाएं",
   "no_content": "कोई सामग्री नहीं",
-  "view": "देखें",
   "excerpt": "अंश",
   "publishing": "प्रकाशन",
   "approved": "अनुमोदित",
-  "rejected": "अस्वीकृत"
+  "rejected": "अस्वीकृत",
+  "submitted": "सबमिट किया गया"
 }

@@ -1,7 +1,7 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams, Link } from 'react-router-dom';
-import { useAccountSubplebbits, useFeed, Comment, usePublishCommentModeration } from '@plebbit/plebbit-react-hooks';
+import { useAccountSubplebbits, useFeed, Comment, usePublishCommentModeration, useEditedComment } from '@plebbit/plebbit-react-hooks';
 import { Virtuoso } from 'react-virtuoso';
 import { formatDistanceToNow } from 'date-fns';
 import styles from './mod-queue.module.css';
@@ -13,6 +13,7 @@ import { getSubplebbitAddress, getBoardPath } from '../../lib/utils/route-utils'
 import { useDefaultSubplebbits, MultisubSubplebbit } from '../../hooks/use-default-subplebbits';
 import { useBoardPath } from '../../hooks/use-resolved-subplebbit-address';
 import { getHasThumbnail, getCommentMediaInfo } from '../../lib/utils/media-utils';
+import { getFormattedDate, getFormattedTimeAgo } from '../../lib/utils/time-utils';
 import useFeedResetStore from '../../stores/use-feed-reset-store';
 import useChallengesStore from '../../stores/use-challenges-store';
 import { alertChallengeVerificationFailed } from '../../lib/utils/challenge-utils';
@@ -50,7 +51,11 @@ const ModQueueRow = ({ comment, showBoardColumn = false }: ModQueueRowProps) => 
   const { alertThresholdHours } = useModQueueStore();
   const [initiatedAction, setInitiatedAction] = useState<ModerationAction>(null);
 
-  const { content, title, timestamp, subplebbitAddress, cid, threadCid, link, thumbnailUrl, linkWidth, linkHeight, removed, approved } = comment;
+  // handle pending mod or author edit
+  const { editedComment } = useEditedComment({ comment });
+  const displayComment = editedComment || comment;
+
+  const { content, title, timestamp, subplebbitAddress, cid, threadCid, link, thumbnailUrl, linkWidth, linkHeight, removed, approved, number } = displayComment;
 
   // Check if already moderated (from previous session or API update)
   // Note: `approved` and `removed` are direct fields on the comment from CommentUpdate,
@@ -180,6 +185,7 @@ const ModQueueRow = ({ comment, showBoardColumn = false }: ModQueueRowProps) => 
 
   return (
     <div className={styles.row}>
+      <div className={styles.number}>{number ?? '—'}</div>
       {showBoardColumn && <div className={styles.board}>{boardPath ? <Link to={`/${boardPath}`}>/{boardPath}/</Link> : <span>—</span>}</div>}
       <div className={styles.excerpt}>
         {postUrl ? (
@@ -190,8 +196,14 @@ const ModQueueRow = ({ comment, showBoardColumn = false }: ModQueueRowProps) => 
           <span title={excerpt}>{excerpt}</span>
         )}
       </div>
-      <div className={`${styles.time} ${isOverThreshold && isAwaitingApproval && !approveSucceeded && !rejectSucceeded ? styles.alert : ''}`}>
-        {formatDistanceToNow(timestamp * 1000, { addSuffix: false })}
+      <div className={styles.time}>
+        {isAwaitingApproval ? (
+          <>
+            {getFormattedDate(timestamp)} (<span className={`${isOverThreshold ? styles.alert : ''}`}>{getFormattedTimeAgo(timestamp)}</span>)
+          </>
+        ) : (
+          getFormattedDate(timestamp)
+        )}
       </div>
       <div className={styles.actions}>{renderActions()}</div>
     </div>
@@ -443,9 +455,10 @@ export const ModQueueView = ({ boardIdentifier: propBoardIdentifier }: ModQueueV
       ) : (
         <>
           <div className={styles.tableHeader}>
+            <div className={styles.numberHeader}>No.</div>
             {showBoardColumn && <div className={styles.boardHeader}>{t('board')}</div>}
             <div className={styles.excerptHeader}>{t('excerpt')}</div>
-            <div className={styles.timeHeader}>{t('waiting')}</div>
+            <div className={styles.timeHeader}>{t('submitted')}</div>
             <div className={styles.actionsHeader}>{t('actions')}</div>
           </div>
 

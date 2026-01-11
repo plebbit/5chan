@@ -260,14 +260,12 @@
   "queue_is_empty": "Køen er tom",
   "approve": "Godkjenn",
   "reject": "Avvis",
-  "waiting": "Venter",
   "filter_by_board": "Filtrer etter tavle",
   "mod_queue_alert_threshold": "Terskel for modereringskø-varsel",
-  "mod_queue_alert_threshold_tip": "Vis en blinkende rød indikator når elementer venter lenger enn denne tiden",
   "no_content": "Ingen innhold",
-  "view": "Vis",
   "excerpt": "Utdrag",
   "publishing": "Publisering",
   "approved": "Godkjent",
-  "rejected": "Avslått"
+  "rejected": "Avslått",
+  "submitted": "Sendt inn"
 }

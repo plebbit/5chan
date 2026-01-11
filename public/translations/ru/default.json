@@ -260,14 +260,12 @@
   "queue_is_empty": "Очередь пуста",
   "approve": "Одобрить",
   "reject": "Отклонить",
-  "waiting": "Ожидание",
   "filter_by_board": "Фильтр по доске",
   "mod_queue_alert_threshold": "Порог предупреждения очереди модерации",
-  "mod_queue_alert_threshold_tip": "Показывать мигающий красный индикатор, когда элементы ждут дольше этого времени",
   "no_content": "Нет содержимого",
-  "view": "Просмотр",
   "excerpt": "Выдержка",
   "publishing": "Публикация",
   "approved": "Одобрено",
-  "rejected": "Отклонено"
+  "rejected": "Отклонено",
+  "submitted": "Отправлено"
 }

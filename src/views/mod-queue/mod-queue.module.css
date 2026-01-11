@@ -50,6 +50,12 @@
   background: var(--mod-queue-header-background-color);
   font-weight: bold;
   font-size: 13px;
+  text-transform: capitalize;
+}
+
+.numberHeader {
+  width: 60px;
+  flex-shrink: 0;
 }
 
 .boardHeader {
@@ -62,9 +68,10 @@
 }
 
 .timeHeader {
-  width: 80px;
+  width: auto;
   text-align: right;
   flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .actionsHeader {
@@ -98,6 +105,12 @@
   background-color: var(--mod-queue-row-hover-background-color);
 }
 
+.number {
+  width: 60px;
+  flex-shrink: 0;
+  font-weight: bold;
+}
+
 .board {
   width: 50px;
   flex-shrink: 0;
@@ -123,13 +136,14 @@
 }
 
 .time {
-  width: 80px;
+  width: auto;
   flex-shrink: 0;
   text-align: right;
   color: var(--mod-queue-time-color);
+  white-space: nowrap;
 }
 
-.time.alert {
+.time .alert {
   color: var(--mod-queue-alert-color);
   font-weight: bold;
   animation: blink 2s infinite;

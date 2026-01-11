@@ -260,14 +260,12 @@
   "queue_is_empty": "Kolejka jest pusta",
   "approve": "Zatwierdź",
   "reject": "Odrzuć",
-  "waiting": "Oczekiwanie",
   "filter_by_board": "Filtruj według tablicy",
   "mod_queue_alert_threshold": "Próg alertu kolejki moderacji",
-  "mod_queue_alert_threshold_tip": "Pokaż migający czerwony wskaźnik, gdy elementy czekają dłużej niż ten czas",
   "no_content": "Brak zawartości",
-  "view": "Zobacz",
   "excerpt": "Fragment",
   "publishing": "Publikowanie",
   "approved": "Zatwierdzone",
-  "rejected": "Odrzucone"
+  "rejected": "Odrzucone",
+  "submitted": "Przesłane"
 }

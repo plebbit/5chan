@@ -260,14 +260,12 @@
   "queue_is_empty": "Køen er tom",
   "approve": "Godkend",
   "reject": "Afvis",
-  "waiting": "Venter",
   "filter_by_board": "Filtrer efter tavle",
   "mod_queue_alert_threshold": "Tærskel for moderationskø-alarm",
-  "mod_queue_alert_threshold_tip": "Vis en blinkende rød indikator, når elementer venter længere end denne tid",
   "no_content": "Intet indhold",
-  "view": "Vis",
   "excerpt": "Uddrag",
   "publishing": "Udgivelse",
   "approved": "Godkendt",
-  "rejected": "Afvist"
+  "rejected": "Afvist",
+  "submitted": "Indsendt"
 }

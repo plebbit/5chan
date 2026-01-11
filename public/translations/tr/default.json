@@ -260,14 +260,12 @@
   "queue_is_empty": "Kuyruk boş",
   "approve": "Onayla",
   "reject": "Reddet",
-  "waiting": "Bekliyor",
   "filter_by_board": "Panoya göre filtrele",
   "mod_queue_alert_threshold": "Moderasyon kuyruğu uyarı eşiği",
-  "mod_queue_alert_threshold_tip": "Öğeler bu süreden daha uzun süre beklediğinde yanıp sönen kırmızı bir gösterge göster",
   "no_content": "İçerik yok",
-  "view": "Görüntüle",
   "excerpt": "Alıntı",
   "publishing": "Yayınlama",
   "approved": "Onaylandı",
-  "rejected": "Reddedildi"
+  "rejected": "Reddedildi",
+  "submitted": "Gönderildi"
 }

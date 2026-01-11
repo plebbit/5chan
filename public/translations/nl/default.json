@@ -260,14 +260,12 @@
   "queue_is_empty": "Wachtrij is leeg",
   "approve": "Goedkeuren",
   "reject": "Afwijzen",
-  "waiting": "Wachten",
   "filter_by_board": "Filteren op bord",
   "mod_queue_alert_threshold": "Drempelwaarde voor moderatiewachtrijwaarschuwing",
-  "mod_queue_alert_threshold_tip": "Toon een knipperende rode indicator wanneer items langer dan deze tijd wachten",
   "no_content": "Geen inhoud",
-  "view": "Bekijken",
   "excerpt": "Uittreksel",
   "publishing": "Publiceren",
   "approved": "Goedgekeurd",
-  "rejected": "Afgewezen"
+  "rejected": "Afgewezen",
+  "submitted": "Ingediend"
 }

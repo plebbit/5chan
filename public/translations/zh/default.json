@@ -260,14 +260,12 @@
   "queue_is_empty": "队列为空",
   "approve": "批准",
   "reject": "拒绝",
-  "waiting": "等待中",
   "filter_by_board": "按板块筛选",
   "mod_queue_alert_threshold": "审核队列警报阈值",
-  "mod_queue_alert_threshold_tip": "当项目等待时间超过此时长时显示闪烁的红色指示器",
   "no_content": "无内容",
-  "view": "查看",
   "excerpt": "摘要",
   "publishing": "发布中",
   "approved": "已批准",
-  "rejected": "已拒绝"
+  "rejected": "已拒绝",
+  "submitted": "已提交"
 }

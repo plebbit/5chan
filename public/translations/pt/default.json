@@ -260,14 +260,12 @@
   "queue_is_empty": "A fila está vazia",
   "approve": "Aprovar",
   "reject": "Rejeitar",
-  "waiting": "Aguardando",
   "filter_by_board": "Filtrar por quadro",
   "mod_queue_alert_threshold": "Limite de alerta da fila de moderação",
-  "mod_queue_alert_threshold_tip": "Mostrar um indicador vermelho piscante quando os itens estão aguardando por mais tempo que este tempo",
   "no_content": "Sem conteúdo",
-  "view": "Ver",
   "excerpt": "Trecho",
   "publishing": "Publicando",
   "approved": "Aprovado",
-  "rejected": "Rejeitado"
+  "rejected": "Rejeitado",
+  "submitted": "Enviado"
 }

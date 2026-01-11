@@ -260,14 +260,12 @@
   "queue_is_empty": "Fronta je prázdná",
   "approve": "Schválit",
   "reject": "Odmítnout",
-  "waiting": "Čeká",
   "filter_by_board": "Filtrovat podle desky",
   "mod_queue_alert_threshold": "Práh upozornění fronty moderování",
-  "mod_queue_alert_threshold_tip": "Zobrazit blikající červený indikátor, když položky čekají déle než tento čas",
   "no_content": "Žádný obsah",
-  "view": "Zobrazit",
   "excerpt": "Výňatek",
   "publishing": "Publikování",
   "approved": "Schváleno",
-  "rejected": "Zamítnuto"
+  "rejected": "Zamítnuto",
+  "submitted": "Odesláno"
 }

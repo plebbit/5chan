@@ -260,14 +260,12 @@
   "queue_is_empty": "Черга порожня",
   "approve": "Схвалити",
   "reject": "Відхилити",
-  "waiting": "Очікування",
   "filter_by_board": "Фільтр за дошкою",
   "mod_queue_alert_threshold": "Поріг попередження черги модерації",
-  "mod_queue_alert_threshold_tip": "Показувати мигаючий червоний індикатор, коли елементи чекають довше цього часу",
   "no_content": "Немає вмісту",
-  "view": "Перегляд",
   "excerpt": "Витяг",
   "publishing": "Публікація",
   "approved": "Схвалено",
-  "rejected": "Відхилено"
+  "rejected": "Відхилено",
+  "submitted": "Відправлено"
 }

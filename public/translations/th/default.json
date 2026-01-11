@@ -260,14 +260,12 @@
   "queue_is_empty": "คิวว่างเปล่า",
   "approve": "อนุมัติ",
   "reject": "ปฏิเสธ",
-  "waiting": "กำลังรอ",
   "filter_by_board": "กรองตามบอร์ด",
   "mod_queue_alert_threshold": "เกณฑ์การแจ้งเตือนคิวผู้ดูแล",
-  "mod_queue_alert_threshold_tip": "แสดงตัวบ่งชี้สีแดงกะพริบเมื่อรายการรอเกินเวลานี้",
   "no_content": "ไม่มีเนื้อหา",
-  "view": "ดู",
   "excerpt": "ข้อความย่อ",
   "publishing": "กำลังเผยแพร่",
   "approved": "อนุมัติแล้ว",
-  "rejected": "ปฏิเสธ"
+  "rejected": "ปฏิเสธ",
+  "submitted": "ส่งแล้ว"
 }
