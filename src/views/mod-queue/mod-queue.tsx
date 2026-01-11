@@ -204,9 +204,9 @@ const ModQueueRow = ({ comment, showBoardColumn = false }: ModQueueRowProps) => 
         )}
       </div>
       <div className={styles.time}>
-        {isAwaitingApproval ? (
+        {isAwaitingApproval && isOverThreshold ? (
           <>
-            {getFormattedDate(timestamp)} (<span className={`${isOverThreshold ? styles.alert : ''}`}>{getFormattedTimeAgo(timestamp)}</span>)
+            {getFormattedDate(timestamp)} (<span className={styles.alert}>{getFormattedTimeAgo(timestamp)}</span>)
           </>
         ) : (
           getFormattedDate(timestamp)
