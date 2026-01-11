@@ -13,47 +13,43 @@ interface ModQueueState {
   getAlertThresholdSeconds: () => number;
 }
 
+// Type for old persisted state format (before migration)
+interface OldPersistedState {
+  alertThresholdHours?: number;
+  alertThresholdValue?: number;
+  alertThresholdUnit?: AlertThresholdUnit;
+  selectedBoardFilter?: string | null;
+}
+
 const useModQueueStore = create<ModQueueState>()(
   persist(
-    (set, get) => {
-      // Migration: Check for old format in localStorage
-      let initialState = { alertThresholdValue: 6, alertThresholdUnit: 'hours' as AlertThresholdUnit };
-      if (typeof window !== 'undefined') {
-        try {
-          const stored = localStorage.getItem('mod-queue-storage');
-          if (stored) {
-            const parsed = JSON.parse(stored);
-            // If old format exists, migrate it
-            if (parsed.state?.alertThresholdHours !== undefined) {
-              initialState = {
-                alertThresholdValue: parsed.state.alertThresholdHours,
-                alertThresholdUnit: 'hours',
-              };
-            } else if (parsed.state?.alertThresholdValue !== undefined) {
-              initialState = {
-                alertThresholdValue: parsed.state.alertThresholdValue,
-                alertThresholdUnit: parsed.state.alertThresholdUnit || 'hours',
-              };
-            }
-          }
-        } catch {
-          // Ignore parse errors, use defaults
-        }
-      }
-
-      return {
-        ...initialState,
-        selectedBoardFilter: null,
-        setAlertThreshold: (value, unit) => set({ alertThresholdValue: value, alertThresholdUnit: unit }),
-        setSelectedBoardFilter: (boardAddress) => set({ selectedBoardFilter: boardAddress }),
-        getAlertThresholdSeconds: () => {
-          const { alertThresholdValue, alertThresholdUnit } = get();
-          return alertThresholdUnit === 'hours' ? alertThresholdValue * 3600 : alertThresholdValue * 60;
-        },
-      };
-    },
+    (set, get) => ({
+      alertThresholdValue: 6,
+      alertThresholdUnit: 'hours' as AlertThresholdUnit,
+      selectedBoardFilter: null,
+      setAlertThreshold: (value, unit) => set({ alertThresholdValue: value, alertThresholdUnit: unit }),
+      setSelectedBoardFilter: (boardAddress) => set({ selectedBoardFilter: boardAddress }),
+      getAlertThresholdSeconds: () => {
+        const { alertThresholdValue, alertThresholdUnit } = get();
+        return alertThresholdUnit === 'hours' ? alertThresholdValue * 3600 : alertThresholdValue * 60;
+      },
+    }),
     {
       name: 'mod-queue-storage',
+      version: 1,
+      // Migrate old alertThresholdHours format to new alertThresholdValue/alertThresholdUnit format
+      migrate: (persistedState, version) => {
+        const state = persistedState as OldPersistedState;
+        if (version === 0 && state.alertThresholdHours !== undefined) {
+          return {
+            ...state,
+            alertThresholdValue: state.alertThresholdHours,
+            alertThresholdUnit: 'hours' as AlertThresholdUnit,
+            alertThresholdHours: undefined, // Remove old field
+          };
+        }
+        return state;
+      },
     },
   ),
 );
