@@ -240,7 +240,7 @@ const ModQueueBoardFilter = ({ subplebbits }: ModQueueBoardFilterProps) => {
   return (
     <div className={styles.filterContainer}>
       <label>{t('filter_by_board')}:</label>
-      <select className={styles.filterSelect} value={selectedBoardFilter || ''} onChange={handleChange}>
+      <select value={selectedBoardFilter || ''} onChange={handleChange}>
         <option value=''>{t('all_boards')}</option>
         {subplebbits.map((sub) => {
           const address = sub.address;
@@ -502,7 +502,6 @@ export const ModQueueView = ({ boardIdentifier: propBoardIdentifier }: ModQueueV
                       : alertThresholdValue;
                 setAlertThreshold(Math.max(1, newValue), newUnit);
               }}
-              className={styles.alertThresholdUnitSelect}
             >
               <option value='minutes'>{t('minutes')}</option>
               <option value='hours'>{t('hours')}</option>

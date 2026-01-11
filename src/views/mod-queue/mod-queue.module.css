@@ -33,19 +33,9 @@
 
 .alertThresholdInput {
   width: 50px;
-  padding: 4px;
-  border: var(--mod-queue-table-border);
-  background: var(--mod-queue-header-background-color);
-  color: var(--body-font-color);
 }
 
-.alertThresholdUnitSelect {
-  padding: 4px;
-  border: var(--mod-queue-table-border);
-  background: var(--mod-queue-header-background-color);
-  color: var(--body-font-color);
-  margin-left: 4px;
-}
+
 
 .tableWrapper {
   border: var(--mod-queue-table-border);
@@ -286,12 +276,6 @@ span.reject:hover {
   gap: 8px;
 }
 
-.filterSelect {
-  padding: 4px;
-  border: var(--mod-queue-table-border);
-  background: var(--mod-queue-header-background-color);
-  color: var(--body-font-color);
-}
 
 /* ModQueueButton styles */
 .modQueueButtonCount {
