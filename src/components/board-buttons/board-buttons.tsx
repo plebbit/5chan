@@ -363,7 +363,7 @@ export const MobileBoardButtons = () => {
           )}
           {showVoteButton && <VoteButton />}
           {!(isInAllView || isInSubscriptionsView || isInModView) && <SubscribeButton address={subplebbitAddress} />}
-          {!(isInAllView || isInSubscriptionsView || isInModView) && <ModQueueButton boardIdentifier={boardIdentifier} isMobile={true} />}
+          {!(isInAllView || isInSubscriptionsView) && <ModQueueButton boardIdentifier={boardIdentifier} isMobile={true} />}
           <RefreshButton />
           {isInCatalogView && searchText ? (
             <span className={styles.filteredThreadsCount}>
@@ -498,7 +498,7 @@ export const DesktopBoardButtons = () => {
                 [<VoteButton />]
               </>
             )}
-            {!(isInAllView || isInSubscriptionsView || isInModView) && (
+            {!(isInAllView || isInSubscriptionsView) && (
               <>
                 {' '}
                 <ModQueueButton boardIdentifier={boardIdentifier} isMobile={false} />
