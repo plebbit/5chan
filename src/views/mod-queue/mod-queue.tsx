@@ -396,6 +396,7 @@ export const ModQueueButton = ({ boardIdentifier, isMobile }: ModQueueButtonProp
     subplebbitAddresses: shouldFetch ? subplebbitAddresses : [],
     modQueue: ['pendingApproval'],
     sortType: 'new',
+    postsPerPage: 200, // Fetch more items to get accurate pending count for the badge
   });
 
   if (!shouldFetch || subplebbitAddresses.length === 0) {
