@@ -120,6 +120,9 @@
   padding: 2px 5px;
 }
 
+/* Odd rows - standalone class needed for CSS Modules export */
+.rowOdd {}
+
 /* Odd rows - theme-specific background colors applied to cells */
 :global(body.yotsuba) .rowOdd .number,
 :global(body.yotsuba) .rowOdd .board,
@@ -205,7 +208,7 @@
   white-space: nowrap;
 }
 
-.time .alert {
+.alert {
   color: var(--mod-queue-alert-color);
   font-weight: bold;
   animation: blink 2s infinite;
