@@ -475,42 +475,63 @@ export const ModQueueView = ({ boardIdentifier: propBoardIdentifier }: ModQueueV
     [hasMore, subplebbitAddresses],
   );
 
+  const alertThresholdControl = (
+    <div className={styles.alertThresholdSetting}>
+      <label>
+        {t('alert_threshold')}:
+        <input
+          type='number'
+          min='1'
+          step={alertThresholdUnit === 'minutes' ? '1' : '1'}
+          value={alertThresholdValue}
+          onChange={(e) => setAlertThreshold(Number(e.target.value), alertThresholdUnit)}
+          className={styles.alertThresholdInput}
+        />
+        <select
+          value={alertThresholdUnit}
+          onChange={(e) => {
+            const newUnit = e.target.value as 'hours' | 'minutes';
+            const newValue =
+              alertThresholdUnit === 'hours' && newUnit === 'minutes'
+                ? alertThresholdValue * 60
+                : alertThresholdUnit === 'minutes' && newUnit === 'hours'
+                  ? Math.round(alertThresholdValue / 60)
+                  : alertThresholdValue;
+            setAlertThreshold(Math.max(1, newValue), newUnit);
+          }}
+        >
+          <option value='minutes'>{t('minutes')}</option>
+          <option value='hours'>{t('hours')}</option>
+        </select>
+      </label>
+    </div>
+  );
+
   return (
     <div className={styles.container}>
-      <div className={styles.header}>
-        <div className={styles.title}>{t('moderation_queue')}</div>
-        <div className={styles.alertThresholdSetting}>
-          <label>
-            {t('alert_threshold')}:
-            <input
-              type='number'
-              min='1'
-              step={alertThresholdUnit === 'minutes' ? '1' : '1'}
-              value={alertThresholdValue}
-              onChange={(e) => setAlertThreshold(Number(e.target.value), alertThresholdUnit)}
-              className={styles.alertThresholdInput}
-            />
-            <select
-              value={alertThresholdUnit}
-              onChange={(e) => {
-                const newUnit = e.target.value as 'hours' | 'minutes';
-                const newValue =
-                  alertThresholdUnit === 'hours' && newUnit === 'minutes'
-                    ? alertThresholdValue * 60
-                    : alertThresholdUnit === 'minutes' && newUnit === 'hours'
-                      ? Math.round(alertThresholdValue / 60)
-                      : alertThresholdValue;
-                setAlertThreshold(Math.max(1, newValue), newUnit);
-              }}
-            >
-              <option value='minutes'>{t('minutes')}</option>
-              <option value='hours'>{t('hours')}</option>
-            </select>
-          </label>
+      {!resolvedAddress && (
+        <div className={styles.header}>
+          <div className={styles.title}>{t('moderation_queue')}</div>
         </div>
-      </div>
+      )}
 
-      {!resolvedAddress && <ModQueueBoardFilter subplebbits={subplebbitsWithMetadata} />}
+      <div className={styles.controls}>
+        {!resolvedAddress ? (
+          <>
+            <div className={styles.controlsLeft}>
+              <ModQueueBoardFilter subplebbits={subplebbitsWithMetadata} />
+            </div>
+            <div className={styles.controlsRight}>{alertThresholdControl}</div>
+          </>
+        ) : (
+          <>
+            <div className={styles.controlsLeft}>
+              <div className={styles.title}>{t('moderation_queue')}</div>
+            </div>
+            <div className={styles.controlsRight}>{alertThresholdControl}</div>
+          </>
+        )}
+      </div>
 
       {feed.length === 0 && !hasMore ? (
         <div className={styles.empty}>{t('queue_is_empty')}</div>

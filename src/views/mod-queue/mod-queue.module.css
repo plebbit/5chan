@@ -5,6 +5,15 @@
 }
 
 .header {
+  margin-bottom: 10px;
+}
+
+.title {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.controls {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -13,9 +22,14 @@
   gap: 10px;
 }
 
-.title {
-  font-size: 1.5em;
-  font-weight: bold;
+.controlsLeft {
+  display: flex;
+  align-items: center;
+}
+
+.controlsRight {
+  display: flex;
+  align-items: center;
 }
 
 .alertThresholdSetting {
@@ -270,7 +284,6 @@ span.reject:hover {
 
 /* ModQueueBoardFilter styles */
 .filterContainer {
-  margin-bottom: 10px;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -354,6 +367,10 @@ span.reject:hover {
   }
 
   .header {
+    margin-bottom: 10px;
+  }
+
+  .controls {
     flex-direction: column;
     align-items: flex-start;
   }
