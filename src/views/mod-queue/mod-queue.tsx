@@ -18,6 +18,7 @@ import { getFormattedDate, getFormattedTimeAgo } from '../../lib/utils/time-util
 import useFeedResetStore from '../../stores/use-feed-reset-store';
 import useChallengesStore from '../../stores/use-challenges-store';
 import { alertChallengeVerificationFailed } from '../../lib/utils/challenge-utils';
+import Tooltip from '../../components/tooltip';
 
 const { addChallenge } = useChallengesStore.getState();
 
@@ -207,10 +208,11 @@ const ModQueueRow = ({ comment, showBoardColumn = false, isOdd = false }: ModQue
       <div className={styles.time}>
         {isAwaitingApproval && isOverThreshold ? (
           <>
-            {getFormattedDate(timestamp)} (<span className={styles.alert}>{getFormattedTimeAgo(timestamp)}</span>)
+            <Tooltip children={<span>{getFormattedDate(timestamp)}</span>} content={getFormattedTimeAgo(timestamp)} /> (
+            <span className={styles.alert}>{getFormattedTimeAgo(timestamp)}</span>)
           </>
         ) : (
-          getFormattedDate(timestamp)
+          <Tooltip children={<span>{getFormattedDate(timestamp)}</span>} content={getFormattedTimeAgo(timestamp)} />
         )}
       </div>
       <div className={styles.actions}>{renderActions()}</div>
