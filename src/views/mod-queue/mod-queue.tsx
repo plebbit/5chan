@@ -522,14 +522,25 @@ export const ModQueueView = ({ boardIdentifier: propBoardIdentifier }: ModQueueV
             <div className={styles.actionsHeader}>{t('actions')}</div>
           </div>
 
-          <Virtuoso
-            useWindowScroll
-            data={feed}
-            totalCount={feed.length}
-            endReached={loadMore}
-            itemContent={(index, comment) => <ModQueueRow key={comment.cid} comment={comment} showBoardColumn={showBoardColumn} isOdd={index % 2 === 1} />}
-            components={footerComponents}
-          />
+          {/* Use Virtuoso for infinite scroll only when feed is large enough to warrant it */}
+          {feed.length > 25 ? (
+            <Virtuoso
+              useWindowScroll
+              data={feed}
+              totalCount={feed.length}
+              endReached={loadMore}
+              increaseViewportBy={{ bottom: 1200, top: 1200 }}
+              itemContent={(index, comment) => <ModQueueRow key={comment.cid} comment={comment} showBoardColumn={showBoardColumn} isOdd={index % 2 === 1} />}
+              components={footerComponents}
+            />
+          ) : (
+            <>
+              {feed.map((comment, index) => (
+                <ModQueueRow key={comment.cid} comment={comment} showBoardColumn={showBoardColumn} isOdd={index % 2 === 1} />
+              ))}
+              <ModQueueFooter hasMore={hasMore} subplebbitAddresses={subplebbitAddresses} />
+            </>
+          )}
         </>
       )}
     </div>
