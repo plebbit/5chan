@@ -61,7 +61,7 @@ const ModQueueRow = ({ comment, isOdd = false }: ModQueueRowProps) => {
   const { editedComment } = useEditedComment({ comment });
   const displayComment = editedComment || comment;
 
-  const { content, title, timestamp, subplebbitAddress, cid, threadCid, link, thumbnailUrl, linkWidth, linkHeight, removed, approved, number } = displayComment;
+  const { content, title, timestamp, subplebbitAddress, cid, shortCid, threadCid, link, thumbnailUrl, linkWidth, linkHeight, removed, approved, number } = displayComment;
 
   // Check if already moderated (from previous session or API update)
   // Note: `approved` and `removed` are direct fields on the comment from CommentUpdate,
@@ -144,7 +144,15 @@ const ModQueueRow = ({ comment, isOdd = false }: ModQueueRowProps) => {
   const rejectFailed = initiatedAction === 'reject' && rejectState === 'failed';
 
   const boardPath = useBoardPath(subplebbitAddress);
-  const rawExcerpt = title || content || (getHasThumbnail(getCommentMediaInfo(link, thumbnailUrl, linkWidth, linkHeight), link) ? t('image') : t('no_content'));
+  const hasTitle = title && title.trim().length > 0;
+  const hasContent = content && content.trim().length > 0;
+  const hasLink = link && link.length > 0;
+  const rawExcerpt =
+    (hasTitle ? title : null) ||
+    (hasContent ? content : null) ||
+    (hasLink ? link : null) ||
+    (getHasThumbnail(getCommentMediaInfo(link, thumbnailUrl, linkWidth, linkHeight), link) ? t('image') : null) ||
+    t('no_content');
   const excerpt = rawExcerpt.length > 101 ? rawExcerpt.slice(0, 98) + '...' : rawExcerpt;
   const threadTargetCid = threadCid || cid;
   const postUrl = boardPath && threadTargetCid ? `/${boardPath}/thread/${threadTargetCid}` : undefined;
