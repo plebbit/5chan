@@ -36,7 +36,7 @@ const useModQueueStore = create<ModQueueState>()(
               };
             }
           }
-        } catch (e) {
+        } catch {
           // Ignore parse errors, use defaults
         }
       }
