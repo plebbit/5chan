@@ -21,6 +21,9 @@ interface OldPersistedState {
   selectedBoardFilter?: string | null;
 }
 
+// Type for persisted data (without methods)
+type PersistedModQueueData = Pick<ModQueueState, 'alertThresholdValue' | 'alertThresholdUnit' | 'selectedBoardFilter'>;
+
 const useModQueueStore = create<ModQueueState>()(
   persist(
     (set, get) => ({
@@ -38,17 +41,24 @@ const useModQueueStore = create<ModQueueState>()(
       name: 'mod-queue-storage',
       version: 1,
       // Migrate old alertThresholdHours format to new alertThresholdValue/alertThresholdUnit format
-      migrate: (persistedState, version) => {
+      migrate: (persistedState, version): ModQueueState => {
         const state = persistedState as OldPersistedState;
         if (version === 0 && state.alertThresholdHours !== undefined) {
-          return {
-            ...state,
+          const migrated: PersistedModQueueData = {
             alertThresholdValue: state.alertThresholdHours,
             alertThresholdUnit: 'hours' as AlertThresholdUnit,
-            alertThresholdHours: undefined, // Remove old field
+            selectedBoardFilter: state.selectedBoardFilter ?? null,
           };
+          // Zustand will merge this with the store definition (which includes methods)
+          return migrated as ModQueueState;
         }
-        return state;
+        // Ensure we return a valid persisted state shape
+        const current: PersistedModQueueData = {
+          alertThresholdValue: state.alertThresholdValue ?? 6,
+          alertThresholdUnit: state.alertThresholdUnit ?? 'hours',
+          selectedBoardFilter: state.selectedBoardFilter ?? null,
+        };
+        return current as ModQueueState;
       },
     },
   ),
