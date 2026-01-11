@@ -404,7 +404,9 @@ export const ModQueueButton = ({ boardIdentifier, isMobile }: ModQueueButtonProp
   }
 
   const alertThresholdSeconds = getAlertThresholdSeconds();
-  return <ModQueueButtonContent feed={feed} alertThresholdSeconds={alertThresholdSeconds} boardIdentifier={boardIdentifier} isMobile={isMobile} />;
+  // Use key to reset statusMap state when switching boards (prevents stale counts from previous board)
+  const contentKey = subplebbitAddresses.join(',');
+  return <ModQueueButtonContent key={contentKey} feed={feed} alertThresholdSeconds={alertThresholdSeconds} boardIdentifier={boardIdentifier} isMobile={isMobile} />;
 };
 
 export const ModQueueView = ({ boardIdentifier: propBoardIdentifier }: ModQueueViewProps) => {
