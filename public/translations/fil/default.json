@@ -267,5 +267,7 @@
   "publishing": "Pag-publish",
   "approved": "Naaprubado",
   "rejected": "Tinanggihan",
-  "submitted": "Isinumite"
+  "submitted": "Isinumite",
+  "hours": "oras",
+  "minutes": "minuto"
 }

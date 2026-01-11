@@ -267,5 +267,7 @@
   "publishing": "در حال انتشار",
   "approved": "تایید شده",
   "rejected": "رد شده",
-  "submitted": "ارسال شده"
+  "submitted": "ارسال شده",
+  "hours": "ساعت",
+  "minutes": "دقیقه"
 }

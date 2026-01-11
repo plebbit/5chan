@@ -267,5 +267,7 @@
   "publishing": "Publikimi",
   "approved": "Aprovuar",
   "rejected": "Refuzuar",
-  "submitted": "Dërguar"
+  "submitted": "Dërguar",
+  "hours": "orë",
+  "minutes": "minuta"
 }

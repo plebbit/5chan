@@ -267,5 +267,7 @@
   "publishing": "Publicare",
   "approved": "Aprobat",
   "rejected": "Respins",
-  "submitted": "Trimis"
+  "submitted": "Trimis",
+  "hours": "ore",
+  "minutes": "minute"
 }

@@ -267,5 +267,7 @@
   "publishing": "Publicerar",
   "approved": "Godkänd",
   "rejected": "Avvisad",
-  "submitted": "Inskickat"
+  "submitted": "Inskickat",
+  "hours": "timmar",
+  "minutes": "minuter"
 }

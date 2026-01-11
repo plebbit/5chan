@@ -267,5 +267,7 @@
   "publishing": "发布中",
   "approved": "已批准",
   "rejected": "已拒绝",
-  "submitted": "已提交"
+  "submitted": "已提交",
+  "hours": "小时",
+  "minutes": "分钟"
 }

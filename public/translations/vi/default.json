@@ -267,5 +267,7 @@
   "publishing": "Đang xuất bản",
   "approved": "Đã phê duyệt",
   "rejected": "Đã từ chối",
-  "submitted": "Đã gửi"
+  "submitted": "Đã gửi",
+  "hours": "giờ",
+  "minutes": "phút"
 }

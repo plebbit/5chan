@@ -267,5 +267,7 @@
   "publishing": "Yayınlama",
   "approved": "Onaylandı",
   "rejected": "Reddedildi",
-  "submitted": "Gönderildi"
+  "submitted": "Gönderildi",
+  "hours": "saat",
+  "minutes": "dakika"
 }

@@ -267,5 +267,7 @@
   "publishing": "กำลังเผยแพร่",
   "approved": "อนุมัติแล้ว",
   "rejected": "ปฏิเสธ",
-  "submitted": "ส่งแล้ว"
+  "submitted": "ส่งแล้ว",
+  "hours": "ชั่วโมง",
+  "minutes": "นาที"
 }

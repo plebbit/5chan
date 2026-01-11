@@ -267,5 +267,7 @@
   "publishing": "প্রকাশনা",
   "approved": "অনুমোদিত",
   "rejected": "প্রত্যাখ্যান",
-  "submitted": "জমা দেওয়া হয়েছে"
+  "submitted": "জমা দেওয়া হয়েছে",
+  "hours": "ঘণ্টা",
+  "minutes": "মিনিট"
 }

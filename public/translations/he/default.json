@@ -267,5 +267,7 @@
   "publishing": "מפרסם",
   "approved": "אושר",
   "rejected": "נדחה",
-  "submitted": "נשלח"
+  "submitted": "נשלח",
+  "hours": "שעות",
+  "minutes": "דקות"
 }

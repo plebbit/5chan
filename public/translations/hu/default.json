@@ -267,5 +267,7 @@
   "publishing": "Közzététel",
   "approved": "Jóváhagyva",
   "rejected": "Elutasítva",
-  "submitted": "Beküldve"
+  "submitted": "Beküldve",
+  "hours": "óra",
+  "minutes": "perc"
 }

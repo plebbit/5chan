@@ -267,5 +267,7 @@
   "publishing": "نشر",
   "approved": "موافق عليه",
   "rejected": "مرفوض",
-  "submitted": "تم الإرسال"
+  "submitted": "تم الإرسال",
+  "hours": "ساعات",
+  "minutes": "دقائق"
 }

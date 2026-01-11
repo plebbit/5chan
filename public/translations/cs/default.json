@@ -267,5 +267,7 @@
   "publishing": "Publikování",
   "approved": "Schváleno",
   "rejected": "Zamítnuto",
-  "submitted": "Odesláno"
+  "submitted": "Odesláno",
+  "hours": "hodin",
+  "minutes": "minut"
 }

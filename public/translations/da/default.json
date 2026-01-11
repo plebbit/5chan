@@ -267,5 +267,7 @@
   "publishing": "Udgivelse",
   "approved": "Godkendt",
   "rejected": "Afvist",
-  "submitted": "Indsendt"
+  "submitted": "Indsendt",
+  "hours": "timer",
+  "minutes": "minutter"
 }

@@ -267,5 +267,7 @@
   "publishing": "Publisering",
   "approved": "Godkjent",
   "rejected": "Avslått",
-  "submitted": "Sendt inn"
+  "submitted": "Sendt inn",
+  "hours": "timer",
+  "minutes": "minutter"
 }

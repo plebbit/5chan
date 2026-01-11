@@ -267,5 +267,7 @@
   "publishing": "Publicando",
   "approved": "Aprobado",
   "rejected": "Rechazado",
-  "submitted": "Enviado"
+  "submitted": "Enviado",
+  "hours": "horas",
+  "minutes": "minutos"
 }

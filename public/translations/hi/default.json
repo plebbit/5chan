@@ -267,5 +267,7 @@
   "publishing": "प्रकाशन",
   "approved": "अनुमोदित",
   "rejected": "अस्वीकृत",
-  "submitted": "सबमिट किया गया"
+  "submitted": "सबमिट किया गया",
+  "hours": "घंटे",
+  "minutes": "मिनट"
 }

@@ -267,5 +267,7 @@
   "publishing": "Menerbitkan",
   "approved": "Disetujui",
   "rejected": "Ditolak",
-  "submitted": "Dikirim"
+  "submitted": "Dikirim",
+  "hours": "jam",
+  "minutes": "menit"
 }

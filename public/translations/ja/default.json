@@ -267,5 +267,7 @@
   "publishing": "公開中",
   "approved": "承認済み",
   "rejected": "却下",
-  "submitted": "送信済み"
+  "submitted": "送信済み",
+  "hours": "時間",
+  "minutes": "分"
 }

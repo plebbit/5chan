@@ -267,5 +267,7 @@
   "publishing": "Publication",
   "approved": "Approuvé",
   "rejected": "Rejeté",
-  "submitted": "Soumis"
+  "submitted": "Soumis",
+  "hours": "heures",
+  "minutes": "minutes"
 }

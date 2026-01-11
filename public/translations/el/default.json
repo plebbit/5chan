@@ -267,5 +267,7 @@
   "publishing": "Δημοσίευση",
   "approved": "Εγκεκριμένο",
   "rejected": "Απορρίφθηκε",
-  "submitted": "Υποβλήθηκε"
+  "submitted": "Υποβλήθηκε",
+  "hours": "ώρες",
+  "minutes": "λεπτά"
 }

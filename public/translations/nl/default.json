@@ -267,5 +267,7 @@
   "publishing": "Publiceren",
   "approved": "Goedgekeurd",
   "rejected": "Afgewezen",
-  "submitted": "Ingediend"
+  "submitted": "Ingediend",
+  "hours": "uur",
+  "minutes": "minuten"
 }

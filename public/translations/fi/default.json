@@ -267,5 +267,7 @@
   "publishing": "Julkaiseminen",
   "approved": "Hyväksytty",
   "rejected": "Hylätty",
-  "submitted": "Lähetetty"
+  "submitted": "Lähetetty",
+  "hours": "tuntia",
+  "minutes": "minuuttia"
 }

@@ -48,7 +48,7 @@ type ModerationAction = 'approve' | 'reject' | null;
 
 const ModQueueRow = ({ comment, showBoardColumn = false }: ModQueueRowProps) => {
   const { t } = useTranslation();
-  const { alertThresholdHours } = useModQueueStore();
+  const { getAlertThresholdSeconds } = useModQueueStore();
   const [initiatedAction, setInitiatedAction] = useState<ModerationAction>(null);
 
   // handle pending mod or author edit
@@ -65,7 +65,8 @@ const ModQueueRow = ({ comment, showBoardColumn = false }: ModQueueRowProps) => 
 
   const boardPath = useBoardPath(subplebbitAddress);
   const timeWaiting = Date.now() / 1000 - timestamp;
-  const isOverThreshold = timeWaiting > alertThresholdHours * 3600;
+  const alertThresholdSeconds = getAlertThresholdSeconds();
+  const isOverThreshold = timeWaiting > alertThresholdSeconds;
 
   // Only show alert animation for comments awaiting approval (not approved or rejected)
   const isAwaitingApproval = !alreadyApproved && !alreadyRejected;
@@ -256,18 +257,18 @@ interface ModQueueButtonProps {
 // and reports its status via callback
 interface ModQueueCountItemProps {
   comment: Comment;
-  alertThresholdHours: number;
+  alertThresholdSeconds: number;
   onStatusChange: (cid: string, status: { awaiting: boolean; urgent: boolean }) => void;
 }
 
-const ModQueueCountItem = ({ comment, alertThresholdHours, onStatusChange }: ModQueueCountItemProps) => {
+const ModQueueCountItem = ({ comment, alertThresholdSeconds, onStatusChange }: ModQueueCountItemProps) => {
   const { editedComment } = useEditedComment({ comment });
   const displayComment = editedComment || comment;
 
   const { cid, approved, removed, timestamp } = displayComment;
   const isAwaiting = approved !== true && removed !== true;
   const timeWaiting = Date.now() / 1000 - timestamp;
-  const isUrgent = isAwaiting && timeWaiting > alertThresholdHours * 3600;
+  const isUrgent = isAwaiting && timeWaiting > alertThresholdSeconds;
 
   // Report status changes to parent - useEffect is appropriate here for syncing with parent state
   useEffect(() => {
@@ -280,12 +281,12 @@ const ModQueueCountItem = ({ comment, alertThresholdHours, onStatusChange }: Mod
 // Inner component that handles counting with useEditedComment for each item
 interface ModQueueButtonContentProps {
   feed: Comment[];
-  alertThresholdHours: number;
+  alertThresholdSeconds: number;
   boardIdentifier?: string;
   isMobile?: boolean;
 }
 
-const ModQueueButtonContent = ({ feed, alertThresholdHours, boardIdentifier, isMobile }: ModQueueButtonContentProps) => {
+const ModQueueButtonContent = ({ feed, alertThresholdSeconds, boardIdentifier, isMobile }: ModQueueButtonContentProps) => {
   const { t } = useTranslation();
   const [statusMap, setStatusMap] = useState<Map<string, { awaiting: boolean; urgent: boolean }>>(new Map());
 
@@ -344,7 +345,7 @@ const ModQueueButtonContent = ({ feed, alertThresholdHours, boardIdentifier, isM
     <>
       {/* Render counter items to track real-time moderation status */}
       {feed.map((item) => (
-        <ModQueueCountItem key={item.cid} comment={item} alertThresholdHours={alertThresholdHours} onStatusChange={handleStatusChange} />
+        <ModQueueCountItem key={item.cid} comment={item} alertThresholdSeconds={alertThresholdSeconds} onStatusChange={handleStatusChange} />
       ))}
       {isMobile ? buttonContent : <>[{buttonContent}]</>}
     </>
@@ -352,7 +353,7 @@ const ModQueueButtonContent = ({ feed, alertThresholdHours, boardIdentifier, isM
 };
 
 export const ModQueueButton = ({ boardIdentifier, isMobile }: ModQueueButtonProps) => {
-  const { alertThresholdHours } = useModQueueStore();
+  const { getAlertThresholdSeconds } = useModQueueStore();
   const { accountSubplebbits } = useAccountSubplebbits();
   const accountSubplebbitAddresses = useMemo(() => Object.keys(accountSubplebbits || {}), [accountSubplebbits]);
   const defaultSubplebbits = useDefaultSubplebbits();
@@ -388,13 +389,14 @@ export const ModQueueButton = ({ boardIdentifier, isMobile }: ModQueueButtonProp
     return null;
   }
 
-  return <ModQueueButtonContent feed={feed} alertThresholdHours={alertThresholdHours} boardIdentifier={boardIdentifier} isMobile={isMobile} />;
+  const alertThresholdSeconds = getAlertThresholdSeconds();
+  return <ModQueueButtonContent feed={feed} alertThresholdSeconds={alertThresholdSeconds} boardIdentifier={boardIdentifier} isMobile={isMobile} />;
 };
 
 export const ModQueueView = ({ boardIdentifier: propBoardIdentifier }: ModQueueViewProps) => {
   const { t } = useTranslation();
   const params = useParams();
-  const { selectedBoardFilter, alertThresholdHours, setAlertThresholdHours } = useModQueueStore();
+  const { selectedBoardFilter, alertThresholdValue, alertThresholdUnit, setAlertThreshold } = useModQueueStore();
   const { accountSubplebbits } = useAccountSubplebbits();
   const accountSubplebbitAddresses = Object.keys(accountSubplebbits);
   const defaultSubplebbits = useDefaultSubplebbits();
@@ -436,43 +438,6 @@ export const ModQueueView = ({ boardIdentifier: propBoardIdentifier }: ModQueueV
     setResetFunction(reset);
   }, [reset, setResetFunction]);
 
-  // Check if any feed items need the blinking animation (awaiting approval + over threshold)
-  // This is a heuristic based on raw feed data - real-time edits might change this,
-  // but it's good enough to avoid running the interval when nothing needs to blink
-  const hasBlinkingItems = useMemo(() => {
-    const thresholdSeconds = alertThresholdHours * 3600;
-    const now = Date.now() / 1000;
-    return feed.some((comment) => {
-      const isAwaiting = comment.approved !== true && comment.removed !== true;
-      const timeWaiting = now - comment.timestamp;
-      return isAwaiting && timeWaiting > thresholdSeconds;
-    });
-  }, [feed, alertThresholdHours]);
-
-  // Synchronize blinking animation across all rows
-  // Set a CSS variable with the current animation phase so all elements start from the same point
-  // Update frequently to ensure elements rendered at different times stay synchronized
-  // Only run when there are items that actually need the blinking animation
-  useEffect(() => {
-    if (!hasBlinkingItems) {
-      return;
-    }
-
-    const ANIMATION_DURATION = 2000; // 2 seconds
-    const UPDATE_INTERVAL = 100; // Update every 100ms for smooth synchronization
-
-    const updateAnimationPhase = () => {
-      // Calculate current phase in the animation cycle (0 to 2 seconds)
-      const phase = (Date.now() % ANIMATION_DURATION) / 1000;
-      document.documentElement.style.setProperty('--mod-queue-blink-phase', `${phase}s`);
-    };
-
-    // Update immediately and then at regular intervals
-    updateAnimationPhase();
-    const interval = setInterval(updateAnimationPhase, UPDATE_INTERVAL);
-    return () => clearInterval(interval);
-  }, [hasBlinkingItems]);
-
   const loadingStateString = useFeedStateString(subplebbitAddresses) || t('loading');
   const showBoardColumn = !resolvedAddress && !selectedBoardFilter;
 
@@ -494,11 +459,29 @@ export const ModQueueView = ({ boardIdentifier: propBoardIdentifier }: ModQueueV
             <input
               type='number'
               min='1'
-              value={alertThresholdHours}
-              onChange={(e) => setAlertThresholdHours(Number(e.target.value))}
+              step={alertThresholdUnit === 'minutes' ? '1' : '1'}
+              value={alertThresholdValue}
+              onChange={(e) => setAlertThreshold(Number(e.target.value), alertThresholdUnit)}
               className={styles.alertThresholdInput}
-            />{' '}
-            {t('hours')}
+            />
+            <select
+              value={alertThresholdUnit}
+              onChange={(e) => {
+                const newUnit = e.target.value as 'hours' | 'minutes';
+                // Convert value when switching units
+                const newValue =
+                  alertThresholdUnit === 'hours' && newUnit === 'minutes'
+                    ? alertThresholdValue * 60
+                    : alertThresholdUnit === 'minutes' && newUnit === 'hours'
+                      ? Math.round(alertThresholdValue / 60)
+                      : alertThresholdValue;
+                setAlertThreshold(Math.max(1, newValue), newUnit);
+              }}
+              className={styles.alertThresholdUnitSelect}
+            >
+              <option value='minutes'>{t('minutes')}</option>
+              <option value='hours'>{t('hours')}</option>
+            </select>
           </label>
         </div>
       </div>

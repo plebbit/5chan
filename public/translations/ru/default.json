@@ -267,5 +267,7 @@
   "publishing": "Публикация",
   "approved": "Одобрено",
   "rejected": "Отклонено",
-  "submitted": "Отправлено"
+  "submitted": "Отправлено",
+  "hours": "часов",
+  "minutes": "минут"
 }

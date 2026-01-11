@@ -267,5 +267,7 @@
   "publishing": "게시 중",
   "approved": "승인됨",
   "rejected": "거부됨",
-  "submitted": "제출됨"
+  "submitted": "제출됨",
+  "hours": "시간",
+  "minutes": "분"
 }
