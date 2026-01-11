@@ -47,12 +47,13 @@ const ModQueueFooter = ({ hasMore, subplebbitAddresses }: ModQueueFooterProps) =
 interface ModQueueRowProps {
   comment: Comment;
   showBoardColumn?: boolean;
+  isOdd?: boolean;
 }
 
 // Track which action was initiated to show appropriate completion message
 type ModerationAction = 'approve' | 'reject' | null;
 
-const ModQueueRow = ({ comment, showBoardColumn = false }: ModQueueRowProps) => {
+const ModQueueRow = ({ comment, showBoardColumn = false, isOdd = false }: ModQueueRowProps) => {
   const { t } = useTranslation();
   const { getAlertThresholdSeconds } = useModQueueStore();
   const [initiatedAction, setInitiatedAction] = useState<ModerationAction>(null);
@@ -191,8 +192,8 @@ const ModQueueRow = ({ comment, showBoardColumn = false }: ModQueueRowProps) => 
   };
 
   return (
-    <div className={styles.row}>
-      <div className={styles.number}>{number ?? '—'}</div>
+    <div className={`${styles.row} ${isOdd ? styles.rowOdd : ''}`}>
+      <div className={styles.number}>{number ?? 'N/A'}</div>
       {showBoardColumn && <div className={styles.board}>{boardPath ? <Link to={`/${boardPath}`}>/{boardPath}/</Link> : <span>—</span>}</div>}
       <div className={styles.excerpt}>
         {postUrl ? (
@@ -524,7 +525,7 @@ export const ModQueueView = ({ boardIdentifier: propBoardIdentifier }: ModQueueV
             data={feed}
             totalCount={feed.length}
             endReached={loadMore}
-            itemContent={(index, comment) => <ModQueueRow key={comment.cid} comment={comment} showBoardColumn={showBoardColumn} />}
+            itemContent={(index, comment) => <ModQueueRow key={comment.cid} comment={comment} showBoardColumn={showBoardColumn} isOdd={index % 2 === 1} />}
             components={footerComponents}
           />
         </>

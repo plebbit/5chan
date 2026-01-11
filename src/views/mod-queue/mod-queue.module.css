@@ -53,11 +53,11 @@
 
 .tableHeader {
   display: flex;
-  padding: 8px;
+  padding: 5px;
   border-bottom: var(--mod-queue-header-border-bottom);
   background: var(--mod-queue-header-background-color);
   font-weight: bold;
-  font-size: 13px;
+  font-size: 9pt;
   text-transform: capitalize;
 }
 
@@ -97,26 +97,42 @@
 /* ModQueueRow styles */
 .row {
   display: flex;
-  padding: 4px 8px;
-  border-top: none;
-  border-left: none;
-  border-right: none;
-  border-bottom: var(--mod-queue-row-border-bottom);
+  padding: 2px;
+  border: none;
   align-items: center;
   gap: 8px;
-  background-color: var(--mod-queue-row-background-color);
   color: var(--body-font-color);
-  font-size: 13px;
+  font-size: 9pt;
 }
 
-.row:hover {
-  background-color: var(--mod-queue-row-hover-background-color);
+/* Odd rows - theme-specific background colors */
+:global(body.yotsuba) .rowOdd {
+  background-color: #ede2d4;
+}
+
+:global(body.yotsuba-b) .rowOdd {
+  background-color: #e0e5f6;
+}
+
+:global(body.futaba) .rowOdd {
+  background-color: #ede2d4;
+}
+
+:global(body.burichan) .rowOdd {
+  background-color: #e0e5f6;
+}
+
+:global(body.tomorrow) .rowOdd {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+:global(body.photon) .rowOdd {
+  background-color: #888;
 }
 
 .number {
   width: 60px;
   flex-shrink: 0;
-  font-weight: bold;
 }
 
 .board {
@@ -147,7 +163,6 @@
   width: auto;
   flex-shrink: 0;
   text-align: right;
-  color: var(--mod-queue-time-color);
   white-space: nowrap;
 }
 
