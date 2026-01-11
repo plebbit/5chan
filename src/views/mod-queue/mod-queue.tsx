@@ -1,7 +1,8 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams, Link } from 'react-router-dom';
-import { useAccountSubplebbits, useFeed, Comment, usePublishCommentModeration, useEditedComment } from '@plebbit/plebbit-react-hooks';
+import { useFeed, Comment, usePublishCommentModeration, useEditedComment } from '@plebbit/plebbit-react-hooks';
+import useAccountsStore from '@plebbit/plebbit-react-hooks/dist/stores/accounts';
 import { Virtuoso } from 'react-virtuoso';
 import { formatDistanceToNow } from 'date-fns';
 import styles from './mod-queue.module.css';
@@ -26,11 +27,16 @@ interface ModQueueViewProps {
 
 interface ModQueueFooterProps {
   hasMore: boolean;
-  loadingStateString: string;
+  subplebbitAddresses: string[];
 }
 
 // Defined outside ModQueueView to preserve component identity across renders (Virtuoso optimization)
-const ModQueueFooter = ({ hasMore, loadingStateString }: ModQueueFooterProps) => {
+// The useFeedStateString hook is called here instead of in ModQueueView to isolate re-renders
+// caused by backend IPFS state changes to just this footer component
+const ModQueueFooter = ({ hasMore, subplebbitAddresses }: ModQueueFooterProps) => {
+  const { t } = useTranslation();
+  const loadingStateString = useFeedStateString(subplebbitAddresses) || t('loading');
+
   return hasMore ? (
     <div style={{ padding: '10px', textAlign: 'center' }}>
       <LoadingEllipsis string={loadingStateString} />
@@ -51,7 +57,6 @@ const ModQueueRow = ({ comment, showBoardColumn = false }: ModQueueRowProps) => 
   const { getAlertThresholdSeconds } = useModQueueStore();
   const [initiatedAction, setInitiatedAction] = useState<ModerationAction>(null);
 
-  // handle pending mod or author edit
   const { editedComment } = useEditedComment({ comment });
   const displayComment = editedComment || comment;
 
@@ -253,8 +258,6 @@ interface ModQueueButtonProps {
   isMobile?: boolean;
 }
 
-// Counter item that uses useEditedComment to get real-time moderation status
-// and reports its status via callback
 interface ModQueueCountItemProps {
   comment: Comment;
   alertThresholdSeconds: number;
@@ -270,7 +273,6 @@ const ModQueueCountItem = ({ comment, alertThresholdSeconds, onStatusChange }: M
   const timeWaiting = Date.now() / 1000 - timestamp;
   const isUrgent = isAwaiting && timeWaiting > alertThresholdSeconds;
 
-  // Report status changes to parent - useEffect is appropriate here for syncing with parent state
   useEffect(() => {
     onStatusChange(cid, { awaiting: isAwaiting, urgent: isUrgent });
   }, [cid, isAwaiting, isUrgent, onStatusChange]);
@@ -278,7 +280,6 @@ const ModQueueCountItem = ({ comment, alertThresholdSeconds, onStatusChange }: M
   return null;
 };
 
-// Inner component that handles counting with useEditedComment for each item
 interface ModQueueButtonContentProps {
   feed: Comment[];
   alertThresholdSeconds: number;
@@ -298,7 +299,6 @@ const ModQueueButtonContent = ({ feed, alertThresholdSeconds, boardIdentifier, i
     });
   }, []);
 
-  // Calculate counts from status map
   const { normalCount, urgentCount } = useMemo(() => {
     let normal = 0;
     let urgent = 0;
@@ -343,7 +343,6 @@ const ModQueueButtonContent = ({ feed, alertThresholdSeconds, boardIdentifier, i
 
   return (
     <>
-      {/* Render counter items to track real-time moderation status */}
       {feed.map((item) => (
         <ModQueueCountItem key={item.cid} comment={item} alertThresholdSeconds={alertThresholdSeconds} onStatusChange={handleStatusChange} />
       ))}
@@ -354,11 +353,22 @@ const ModQueueButtonContent = ({ feed, alertThresholdSeconds, boardIdentifier, i
 
 export const ModQueueButton = ({ boardIdentifier, isMobile }: ModQueueButtonProps) => {
   const { getAlertThresholdSeconds } = useModQueueStore();
-  const { accountSubplebbits } = useAccountSubplebbits();
-  const accountSubplebbitAddresses = useMemo(() => Object.keys(accountSubplebbits || {}), [accountSubplebbits]);
+
+  const accountSubplebbitAddresses = useAccountsStore(
+    (state) => {
+      const activeAccountId = state.activeAccountId;
+      const activeAccount = activeAccountId ? state.accounts[activeAccountId] : undefined;
+      const accountSubplebbits = activeAccount?.subplebbits || {};
+      return Object.keys(accountSubplebbits);
+    },
+    (prev, next) => {
+      if (prev.length !== next.length) return false;
+      return prev.every((val, idx) => val === next[idx]);
+    },
+  );
+
   const defaultSubplebbits = useDefaultSubplebbits();
 
-  // Resolve boardIdentifier to address if it exists
   const resolvedAddress = useMemo(() => {
     if (boardIdentifier) {
       return getSubplebbitAddress(boardIdentifier, defaultSubplebbits);
@@ -397,13 +407,24 @@ export const ModQueueView = ({ boardIdentifier: propBoardIdentifier }: ModQueueV
   const { t } = useTranslation();
   const params = useParams();
   const { selectedBoardFilter, alertThresholdValue, alertThresholdUnit, setAlertThreshold } = useModQueueStore();
-  const { accountSubplebbits } = useAccountSubplebbits();
-  const accountSubplebbitAddresses = Object.keys(accountSubplebbits);
+
+  const accountSubplebbitAddresses = useAccountsStore(
+    (state) => {
+      const activeAccountId = state.activeAccountId;
+      const activeAccount = activeAccountId ? state.accounts[activeAccountId] : undefined;
+      const accountSubplebbits = activeAccount?.subplebbits || {};
+      return Object.keys(accountSubplebbits);
+    },
+    (prev, next) => {
+      if (prev.length !== next.length) return false;
+      return prev.every((val, idx) => val === next[idx]);
+    },
+  );
+
   const defaultSubplebbits = useDefaultSubplebbits();
 
   const boardIdentifier = propBoardIdentifier || params.boardIdentifier;
 
-  // Resolve boardIdentifier to address if it exists
   const resolvedAddress = useMemo(() => {
     if (boardIdentifier) {
       return getSubplebbitAddress(boardIdentifier, defaultSubplebbits);
@@ -411,7 +432,6 @@ export const ModQueueView = ({ boardIdentifier: propBoardIdentifier }: ModQueueV
     return undefined;
   }, [boardIdentifier, defaultSubplebbits]);
 
-  // Get metadata for filter dropdown
   const subplebbitsWithMetadata = useAccountSubplebbitsWithMetadata();
 
   const subplebbitAddresses = useMemo(() => {
@@ -438,15 +458,15 @@ export const ModQueueView = ({ boardIdentifier: propBoardIdentifier }: ModQueueV
     setResetFunction(reset);
   }, [reset, setResetFunction]);
 
-  const loadingStateString = useFeedStateString(subplebbitAddresses) || t('loading');
   const showBoardColumn = !resolvedAddress && !selectedBoardFilter;
 
   // Memoize footer components object to preserve identity across renders (Virtuoso optimization)
+  // Note: useFeedStateString is called inside ModQueueFooter to isolate re-renders from backend state changes
   const footerComponents = useMemo(
     () => ({
-      Footer: () => <ModQueueFooter hasMore={hasMore} loadingStateString={loadingStateString} />,
+      Footer: () => <ModQueueFooter hasMore={hasMore} subplebbitAddresses={subplebbitAddresses} />,
     }),
-    [hasMore, loadingStateString],
+    [hasMore, subplebbitAddresses],
   );
 
   return (
@@ -468,7 +488,6 @@ export const ModQueueView = ({ boardIdentifier: propBoardIdentifier }: ModQueueV
               value={alertThresholdUnit}
               onChange={(e) => {
                 const newUnit = e.target.value as 'hours' | 'minutes';
-                // Convert value when switching units
                 const newValue =
                   alertThresholdUnit === 'hours' && newUnit === 'minutes'
                     ? alertThresholdValue * 60
