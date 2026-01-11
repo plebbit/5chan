@@ -261,7 +261,6 @@
   "approve": "मंजूर करा",
   "reject": "नकार द्या",
   "filter_by_board": "बोर्डनुसार फिल्टर करा",
-  "mod_queue_alert_threshold": "मॉडरेशन रांग सतर्कता मर्यादा",
   "no_content": "सामग्री नाही",
   "excerpt": "उतारा",
   "publishing": "प्रकाशन करत आहे",
@@ -269,5 +268,6 @@
   "rejected": "नाकारले",
   "submitted": "सबमिट केले",
   "hours": "तास",
-  "minutes": "मिनिटे"
+  "minutes": "मिनिटे",
+  "alert_threshold": "सतर्कता मर्यादा"
 }

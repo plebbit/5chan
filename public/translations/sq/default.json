@@ -261,7 +261,6 @@
   "approve": "Aprovo",
   "reject": "Refuzo",
   "filter_by_board": "Filtro sipas tabelës",
-  "mod_queue_alert_threshold": "Pragu i alarmit të radhës së moderimit",
   "no_content": "Pa përmbajtje",
   "excerpt": "Fragment",
   "publishing": "Publikimi",
@@ -269,5 +268,6 @@
   "rejected": "Refuzuar",
   "submitted": "Dërguar",
   "hours": "orë",
-  "minutes": "minuta"
+  "minutes": "minuta",
+  "alert_threshold": "Pragu i alarmit"
 }

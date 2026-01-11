@@ -478,7 +478,7 @@ export const ModQueueView = ({ boardIdentifier: propBoardIdentifier }: ModQueueV
         <div className={styles.title}>{t('moderation_queue')}</div>
         <div className={styles.alertThresholdSetting}>
           <label>
-            {t('mod_queue_alert_threshold')}:
+            {t('alert_threshold')}:
             <input
               type='number'
               min='1'

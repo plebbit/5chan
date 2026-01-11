@@ -261,7 +261,6 @@
   "approve": "Hyväksy",
   "reject": "Hylkää",
   "filter_by_board": "Suodata taulun mukaan",
-  "mod_queue_alert_threshold": "Moderaatiojonon hälytyskynnys",
   "no_content": "Ei sisältöä",
   "excerpt": "Ote",
   "publishing": "Julkaiseminen",
@@ -269,5 +268,6 @@
   "rejected": "Hylätty",
   "submitted": "Lähetetty",
   "hours": "tuntia",
-  "minutes": "minuuttia"
+  "minutes": "minuuttia",
+  "alert_threshold": "Hälytyskynnys"
 }

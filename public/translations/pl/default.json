@@ -261,7 +261,6 @@
   "approve": "Zatwierdź",
   "reject": "Odrzuć",
   "filter_by_board": "Filtruj według tablicy",
-  "mod_queue_alert_threshold": "Próg alertu kolejki moderacji",
   "no_content": "Brak zawartości",
   "excerpt": "Fragment",
   "publishing": "Publikowanie",
@@ -269,5 +268,6 @@
   "rejected": "Odrzucone",
   "submitted": "Przesłane",
   "hours": "godzin",
-  "minutes": "minut"
+  "minutes": "minut",
+  "alert_threshold": "Próg alertu"
 }

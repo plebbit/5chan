@@ -261,7 +261,6 @@
   "approve": "Schválit",
   "reject": "Odmítnout",
   "filter_by_board": "Filtrovat podle desky",
-  "mod_queue_alert_threshold": "Práh upozornění fronty moderování",
   "no_content": "Žádný obsah",
   "excerpt": "Výňatek",
   "publishing": "Publikování",
@@ -269,5 +268,6 @@
   "rejected": "Zamítnuto",
   "submitted": "Odesláno",
   "hours": "hodin",
-  "minutes": "minut"
+  "minutes": "minut",
+  "alert_threshold": "Práh upozornění"
 }

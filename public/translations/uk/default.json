@@ -261,7 +261,6 @@
   "approve": "Схвалити",
   "reject": "Відхилити",
   "filter_by_board": "Фільтр за дошкою",
-  "mod_queue_alert_threshold": "Поріг попередження черги модерації",
   "no_content": "Немає вмісту",
   "excerpt": "Витяг",
   "publishing": "Публікація",
@@ -269,5 +268,6 @@
   "rejected": "Відхилено",
   "submitted": "Відправлено",
   "hours": "годин",
-  "minutes": "хвилин"
+  "minutes": "хвилин",
+  "alert_threshold": "Поріг попередження"
 }

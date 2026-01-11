@@ -261,7 +261,6 @@
   "approve": "منظور کریں",
   "reject": "مسترد کریں",
   "filter_by_board": "بورڈ کے لحاظ سے فلٹر کریں",
-  "mod_queue_alert_threshold": "نگرانی کی قطار کی انتباہ کی حد",
   "no_content": "کوئی مواد نہیں",
   "excerpt": "اقتباس",
   "publishing": "اشاعت",
@@ -269,5 +268,6 @@
   "rejected": "مسترد",
   "submitted": "جمع کرایا گیا",
   "hours": "گھنٹے",
-  "minutes": "منٹ"
+  "minutes": "منٹ",
+  "alert_threshold": "انتباہ کی حد"
 }

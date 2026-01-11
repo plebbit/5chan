@@ -261,7 +261,6 @@
   "approve": "Onayla",
   "reject": "Reddet",
   "filter_by_board": "Panoya göre filtrele",
-  "mod_queue_alert_threshold": "Moderasyon kuyruğu uyarı eşiği",
   "no_content": "İçerik yok",
   "excerpt": "Alıntı",
   "publishing": "Yayınlama",
@@ -269,5 +268,6 @@
   "rejected": "Reddedildi",
   "submitted": "Gönderildi",
   "hours": "saat",
-  "minutes": "dakika"
+  "minutes": "dakika",
+  "alert_threshold": "Uyarı eşiği"
 }

@@ -261,7 +261,6 @@
   "approve": "Έγκριση",
   "reject": "Απόρριψη",
   "filter_by_board": "Φίλτρο ανά σανίδα",
-  "mod_queue_alert_threshold": "Όριο ειδοποίησης ουράς συντονισμού",
   "no_content": "Χωρίς περιεχόμενο",
   "excerpt": "Απόσπασμα",
   "publishing": "Δημοσίευση",
@@ -269,5 +268,6 @@
   "rejected": "Απορρίφθηκε",
   "submitted": "Υποβλήθηκε",
   "hours": "ώρες",
-  "minutes": "λεπτά"
+  "minutes": "λεπτά",
+  "alert_threshold": "Όριο ειδοποίησης"
 }

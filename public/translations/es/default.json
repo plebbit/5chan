@@ -261,7 +261,6 @@
   "approve": "Aprobar",
   "reject": "Rechazar",
   "filter_by_board": "Filtrar por foro",
-  "mod_queue_alert_threshold": "Umbral de alerta de cola de moderación",
   "no_content": "Sin contenido",
   "excerpt": "Extracto",
   "publishing": "Publicando",
@@ -269,5 +268,6 @@
   "rejected": "Rechazado",
   "submitted": "Enviado",
   "hours": "horas",
-  "minutes": "minutos"
+  "minutes": "minutos",
+  "alert_threshold": "Umbral de alerta"
 }

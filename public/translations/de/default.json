@@ -261,7 +261,6 @@
   "approve": "Genehmigen",
   "reject": "Ablehnen",
   "filter_by_board": "Nach Forum filtern",
-  "mod_queue_alert_threshold": "Schwellenwert für Moderations-Warteschlangen-Alarm",
   "no_content": "Kein Inhalt",
   "excerpt": "Auszug",
   "publishing": "Veröffentlichung",
@@ -269,5 +268,6 @@
   "rejected": "Abgelehnt",
   "submitted": "Eingereicht",
   "hours": "Stunden",
-  "minutes": "Minuten"
+  "minutes": "Minuten",
+  "alert_threshold": "Alarmschwellenwert"
 }

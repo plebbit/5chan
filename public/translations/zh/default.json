@@ -261,7 +261,6 @@
   "approve": "批准",
   "reject": "拒绝",
   "filter_by_board": "按板块筛选",
-  "mod_queue_alert_threshold": "审核队列警报阈值",
   "no_content": "无内容",
   "excerpt": "摘要",
   "publishing": "发布中",
@@ -269,5 +268,6 @@
   "rejected": "已拒绝",
   "submitted": "已提交",
   "hours": "小时",
-  "minutes": "分钟"
+  "minutes": "分钟",
+  "alert_threshold": "警报阈值"
 }

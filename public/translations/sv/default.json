@@ -261,7 +261,6 @@
   "approve": "Godkänn",
   "reject": "Avvisa",
   "filter_by_board": "Filtrera efter tavla",
-  "mod_queue_alert_threshold": "Tröskelvärde för modereringskö-varning",
   "no_content": "Inget innehåll",
   "excerpt": "Utdrag",
   "publishing": "Publicerar",
@@ -269,5 +268,6 @@
   "rejected": "Avvisad",
   "submitted": "Inskickat",
   "hours": "timmar",
-  "minutes": "minuter"
+  "minutes": "minuter",
+  "alert_threshold": "Tröskelvärde för varning"
 }

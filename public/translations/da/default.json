@@ -261,7 +261,6 @@
   "approve": "Godkend",
   "reject": "Afvis",
   "filter_by_board": "Filtrer efter tavle",
-  "mod_queue_alert_threshold": "Tærskel for moderationskø-alarm",
   "no_content": "Intet indhold",
   "excerpt": "Uddrag",
   "publishing": "Udgivelse",
@@ -269,5 +268,6 @@
   "rejected": "Afvist",
   "submitted": "Indsendt",
   "hours": "timer",
-  "minutes": "minutter"
+  "minutes": "minutter",
+  "alert_threshold": "Alarmtærskel"
 }

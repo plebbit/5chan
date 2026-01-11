@@ -261,7 +261,6 @@
   "approve": "승인",
   "reject": "거부",
   "filter_by_board": "게시판별 필터",
-  "mod_queue_alert_threshold": "관리자 대기열 알림 임계값",
   "no_content": "콘텐츠 없음",
   "excerpt": "요약",
   "publishing": "게시 중",
@@ -269,5 +268,6 @@
   "rejected": "거부됨",
   "submitted": "제출됨",
   "hours": "시간",
-  "minutes": "분"
+  "minutes": "분",
+  "alert_threshold": "알림 임계값"
 }

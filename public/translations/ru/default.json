@@ -261,7 +261,6 @@
   "approve": "Одобрить",
   "reject": "Отклонить",
   "filter_by_board": "Фильтр по доске",
-  "mod_queue_alert_threshold": "Порог предупреждения очереди модерации",
   "no_content": "Нет содержимого",
   "excerpt": "Выдержка",
   "publishing": "Публикация",
@@ -269,5 +268,6 @@
   "rejected": "Отклонено",
   "submitted": "Отправлено",
   "hours": "часов",
-  "minutes": "минут"
+  "minutes": "минут",
+  "alert_threshold": "Порог предупреждения"
 }

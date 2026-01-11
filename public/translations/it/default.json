@@ -261,7 +261,6 @@
   "approve": "Approva",
   "reject": "Rifiuta",
   "filter_by_board": "Filtra per board",
-  "mod_queue_alert_threshold": "Soglia di allerta coda moderazione",
   "no_content": "Nessun contenuto",
   "excerpt": "Estratto",
   "publishing": "Pubblicazione",
@@ -269,5 +268,6 @@
   "rejected": "Rifiutato",
   "submitted": "Inviato",
   "hours": "ore",
-  "minutes": "minuti"
+  "minutes": "minuti",
+  "alert_threshold": "Soglia di allerta"
 }

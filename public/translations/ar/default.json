@@ -261,7 +261,6 @@
   "approve": "الموافقة",
   "reject": "الرفض",
   "filter_by_board": "تصفية حسب اللوحة",
-  "mod_queue_alert_threshold": "عتبة تنبيه قائمة انتظار الإشراف",
   "no_content": "لا يوجد محتوى",
   "excerpt": "مقتطف",
   "publishing": "نشر",
@@ -269,5 +268,6 @@
   "rejected": "مرفوض",
   "submitted": "تم الإرسال",
   "hours": "ساعات",
-  "minutes": "دقائق"
+  "minutes": "دقائق",
+  "alert_threshold": "عتبة التنبيه"
 }

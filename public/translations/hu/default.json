@@ -261,7 +261,6 @@
   "approve": "Jóváhagyás",
   "reject": "Elutasítás",
   "filter_by_board": "Szűrés tábla szerint",
-  "mod_queue_alert_threshold": "Moderációs sor riasztási küszöb",
   "no_content": "Nincs tartalom",
   "excerpt": "Kivonat",
   "publishing": "Közzététel",
@@ -269,5 +268,6 @@
   "rejected": "Elutasítva",
   "submitted": "Beküldve",
   "hours": "óra",
-  "minutes": "perc"
+  "minutes": "perc",
+  "alert_threshold": "Riasztási küszöb"
 }

@@ -261,7 +261,6 @@
   "approve": "Aprovar",
   "reject": "Rejeitar",
   "filter_by_board": "Filtrar por quadro",
-  "mod_queue_alert_threshold": "Limite de alerta da fila de moderação",
   "no_content": "Sem conteúdo",
   "excerpt": "Trecho",
   "publishing": "Publicando",
@@ -269,5 +268,6 @@
   "rejected": "Rejeitado",
   "submitted": "Enviado",
   "hours": "horas",
-  "minutes": "minutos"
+  "minutes": "minutos",
+  "alert_threshold": "Limite de alerta"
 }

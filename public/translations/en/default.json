@@ -260,7 +260,7 @@
   "approve": "Approve",
   "reject": "Reject",
   "filter_by_board": "Filter by board",
-  "mod_queue_alert_threshold": "Mod queue alert threshold",
+  "alert_threshold": "Alert threshold",
   "hours": "hours",
   "minutes": "minutes",
   "no_content": "No content",

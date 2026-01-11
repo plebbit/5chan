@@ -261,7 +261,6 @@
   "approve": "Godkjenn",
   "reject": "Avvis",
   "filter_by_board": "Filtrer etter tavle",
-  "mod_queue_alert_threshold": "Terskel for modereringskø-varsel",
   "no_content": "Ingen innhold",
   "excerpt": "Utdrag",
   "publishing": "Publisering",
@@ -269,5 +268,6 @@
   "rejected": "Avslått",
   "submitted": "Sendt inn",
   "hours": "timer",
-  "minutes": "minutter"
+  "minutes": "minutter",
+  "alert_threshold": "Terskel for varsel"
 }

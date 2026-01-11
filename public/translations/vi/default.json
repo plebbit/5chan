@@ -261,7 +261,6 @@
   "approve": "Phê duyệt",
   "reject": "Từ chối",
   "filter_by_board": "Lọc theo bảng",
-  "mod_queue_alert_threshold": "Ngưỡng cảnh báo hàng đợi kiểm duyệt",
   "no_content": "Không có nội dung",
   "excerpt": "Trích đoạn",
   "publishing": "Đang xuất bản",
@@ -269,5 +268,6 @@
   "rejected": "Đã từ chối",
   "submitted": "Đã gửi",
   "hours": "giờ",
-  "minutes": "phút"
+  "minutes": "phút",
+  "alert_threshold": "Ngưỡng cảnh báo"
 }

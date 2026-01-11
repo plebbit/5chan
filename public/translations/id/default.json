@@ -261,7 +261,6 @@
   "approve": "Setujui",
   "reject": "Tolak",
   "filter_by_board": "Filter berdasarkan papan",
-  "mod_queue_alert_threshold": "Ambang peringatan antrian moderasi",
   "no_content": "Tidak ada konten",
   "excerpt": "Kutipan",
   "publishing": "Menerbitkan",
@@ -269,5 +268,6 @@
   "rejected": "Ditolak",
   "submitted": "Dikirim",
   "hours": "jam",
-  "minutes": "menit"
+  "minutes": "menit",
+  "alert_threshold": "Ambang peringatan"
 }

@@ -261,7 +261,6 @@
   "approve": "Aprubahan",
   "reject": "Tanggihan",
   "filter_by_board": "I-filter ayon sa board",
-  "mod_queue_alert_threshold": "Moderasyon queue alert threshold",
   "no_content": "Walang nilalaman",
   "excerpt": "Sipi",
   "publishing": "Pag-publish",
@@ -269,5 +268,6 @@
   "rejected": "Tinanggihan",
   "submitted": "Isinumite",
   "hours": "oras",
-  "minutes": "minuto"
+  "minutes": "minuto",
+  "alert_threshold": "Alert threshold"
 }

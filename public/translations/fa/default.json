@@ -261,7 +261,6 @@
   "approve": "تایید",
   "reject": "رد",
   "filter_by_board": "فیلتر بر اساس تابلو",
-  "mod_queue_alert_threshold": "آستانه هشدار صف انتظار نظارت",
   "no_content": "بدون محتوا",
   "excerpt": "گزیده",
   "publishing": "در حال انتشار",
@@ -269,5 +268,6 @@
   "rejected": "رد شده",
   "submitted": "ارسال شده",
   "hours": "ساعت",
-  "minutes": "دقیقه"
+  "minutes": "دقیقه",
+  "alert_threshold": "آستانه هشدار"
 }

@@ -261,7 +261,6 @@
   "approve": "Goedkeuren",
   "reject": "Afwijzen",
   "filter_by_board": "Filteren op bord",
-  "mod_queue_alert_threshold": "Drempelwaarde voor moderatiewachtrijwaarschuwing",
   "no_content": "Geen inhoud",
   "excerpt": "Uittreksel",
   "publishing": "Publiceren",
@@ -269,5 +268,6 @@
   "rejected": "Afgewezen",
   "submitted": "Ingediend",
   "hours": "uur",
-  "minutes": "minuten"
+  "minutes": "minuten",
+  "alert_threshold": "Drempelwaarde voor waarschuwing"
 }

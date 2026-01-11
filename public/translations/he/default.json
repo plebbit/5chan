@@ -261,7 +261,6 @@
   "approve": "אשר",
   "reject": "דחה",
   "filter_by_board": "סנן לפי לוח",
-  "mod_queue_alert_threshold": "סף התרעה של תור ניהול",
   "no_content": "אין תוכן",
   "excerpt": "תקציר",
   "publishing": "מפרסם",
@@ -269,5 +268,6 @@
   "rejected": "נדחה",
   "submitted": "נשלח",
   "hours": "שעות",
-  "minutes": "דקות"
+  "minutes": "דקות",
+  "alert_threshold": "סף התרעה"
 }

@@ -261,7 +261,6 @@
   "approve": "承認",
   "reject": "拒否",
   "filter_by_board": "ボードでフィルター",
-  "mod_queue_alert_threshold": "モデレーションキューのアラート閾値",
   "no_content": "コンテンツなし",
   "excerpt": "抜粋",
   "publishing": "公開中",
@@ -269,5 +268,6 @@
   "rejected": "却下",
   "submitted": "送信済み",
   "hours": "時間",
-  "minutes": "分"
+  "minutes": "分",
+  "alert_threshold": "アラート閾値"
 }

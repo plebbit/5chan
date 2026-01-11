@@ -261,7 +261,6 @@
   "approve": "Aprobă",
   "reject": "Respinge",
   "filter_by_board": "Filtrează după panou",
-  "mod_queue_alert_threshold": "Prag de alertă pentru coada de moderare",
   "no_content": "Fără conținut",
   "excerpt": "Fragment",
   "publishing": "Publicare",
@@ -269,5 +268,6 @@
   "rejected": "Respins",
   "submitted": "Trimis",
   "hours": "ore",
-  "minutes": "minute"
+  "minutes": "minute",
+  "alert_threshold": "Prag de alertă"
 }

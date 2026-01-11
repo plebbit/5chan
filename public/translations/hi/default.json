@@ -261,7 +261,6 @@
   "approve": "अनुमोदन करें",
   "reject": "अस्वीकार करें",
   "filter_by_board": "बोर्ड के अनुसार फ़िल्टर करें",
-  "mod_queue_alert_threshold": "मॉडरेटर कतार सतर्कता सीमा",
   "no_content": "कोई सामग्री नहीं",
   "excerpt": "अंश",
   "publishing": "प्रकाशन",
@@ -269,5 +268,6 @@
   "rejected": "अस्वीकृत",
   "submitted": "सबमिट किया गया",
   "hours": "घंटे",
-  "minutes": "मिनट"
+  "minutes": "मिनट",
+  "alert_threshold": "सतर्कता सीमा"
 }

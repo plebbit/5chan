@@ -261,7 +261,6 @@
   "approve": "อนุมัติ",
   "reject": "ปฏิเสธ",
   "filter_by_board": "กรองตามบอร์ด",
-  "mod_queue_alert_threshold": "เกณฑ์การแจ้งเตือนคิวผู้ดูแล",
   "no_content": "ไม่มีเนื้อหา",
   "excerpt": "ข้อความย่อ",
   "publishing": "กำลังเผยแพร่",
@@ -269,5 +268,6 @@
   "rejected": "ปฏิเสธ",
   "submitted": "ส่งแล้ว",
   "hours": "ชั่วโมง",
-  "minutes": "นาที"
+  "minutes": "นาที",
+  "alert_threshold": "เกณฑ์การแจ้งเตือน"
 }

@@ -261,7 +261,6 @@
   "approve": "Approuver",
   "reject": "Rejeter",
   "filter_by_board": "Filtrer par forum",
-  "mod_queue_alert_threshold": "Seuil d'alerte de la file de modération",
   "no_content": "Aucun contenu",
   "excerpt": "Extrait",
   "publishing": "Publication",
@@ -269,5 +268,6 @@
   "rejected": "Rejeté",
   "submitted": "Soumis",
   "hours": "heures",
-  "minutes": "minutes"
+  "minutes": "minutes",
+  "alert_threshold": "Seuil d'alerte"
 }
