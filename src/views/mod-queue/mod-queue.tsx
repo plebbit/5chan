@@ -531,13 +531,13 @@ export const ModQueueView = ({ boardIdentifier: propBoardIdentifier }: ModQueueV
               totalCount={feed.length}
               endReached={loadMore}
               increaseViewportBy={{ bottom: 1200, top: 1200 }}
-              itemContent={(index, comment) => <ModQueueRow key={comment.cid} comment={comment} showBoardColumn={showBoardColumn} isOdd={index % 2 === 1} />}
+              itemContent={(index, comment) => <ModQueueRow key={comment.cid} comment={comment} showBoardColumn={showBoardColumn} isOdd={index % 2 === 0} />}
               components={footerComponents}
             />
           ) : (
             <>
               {feed.map((comment, index) => (
-                <ModQueueRow key={comment.cid} comment={comment} showBoardColumn={showBoardColumn} isOdd={index % 2 === 1} />
+                <ModQueueRow key={comment.cid} comment={comment} showBoardColumn={showBoardColumn} isOdd={index % 2 === 0} />
               ))}
               <ModQueueFooter hasMore={hasMore} subplebbitAddresses={subplebbitAddresses} />
             </>
