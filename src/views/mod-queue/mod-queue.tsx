@@ -47,14 +47,13 @@ const ModQueueFooter = ({ hasMore, subplebbitAddresses }: ModQueueFooterProps) =
 
 interface ModQueueRowProps {
   comment: Comment;
-  showBoardColumn?: boolean;
   isOdd?: boolean;
 }
 
 // Track which action was initiated to show appropriate completion message
 type ModerationAction = 'approve' | 'reject' | null;
 
-const ModQueueRow = ({ comment, showBoardColumn = false, isOdd = false }: ModQueueRowProps) => {
+const ModQueueRow = ({ comment, isOdd = false }: ModQueueRowProps) => {
   const { t } = useTranslation();
   const { getAlertThresholdSeconds } = useModQueueStore();
   const [initiatedAction, setInitiatedAction] = useState<ModerationAction>(null);
@@ -70,7 +69,6 @@ const ModQueueRow = ({ comment, showBoardColumn = false, isOdd = false }: ModQue
   const alreadyApproved = approved === true;
   const alreadyRejected = removed === true;
 
-  const boardPath = useBoardPath(subplebbitAddress);
   const timeWaiting = Date.now() / 1000 - timestamp;
   const alertThresholdSeconds = getAlertThresholdSeconds();
   const isOverThreshold = timeWaiting > alertThresholdSeconds;
@@ -145,6 +143,7 @@ const ModQueueRow = ({ comment, showBoardColumn = false, isOdd = false }: ModQue
   const approveFailed = initiatedAction === 'approve' && approveState === 'failed';
   const rejectFailed = initiatedAction === 'reject' && rejectState === 'failed';
 
+  const boardPath = useBoardPath(subplebbitAddress);
   const rawExcerpt = title || content || (getHasThumbnail(getCommentMediaInfo(link, thumbnailUrl, linkWidth, linkHeight), link) ? t('image') : t('no_content'));
   const excerpt = rawExcerpt.length > 101 ? rawExcerpt.slice(0, 98) + '...' : rawExcerpt;
   const threadTargetCid = threadCid || cid;
@@ -195,7 +194,6 @@ const ModQueueRow = ({ comment, showBoardColumn = false, isOdd = false }: ModQue
   return (
     <div className={`${styles.row} ${isOdd ? styles.rowOdd : ''}`}>
       <div className={styles.number}>{number ?? 'N/A'}</div>
-      {showBoardColumn && <div className={styles.board}>{boardPath ? <Link to={`/${boardPath}`}>/{boardPath}/</Link> : <span>—</span>}</div>}
       <div className={styles.excerpt}>
         {postUrl ? (
           <Link to={postUrl} title={excerpt}>
@@ -230,18 +228,28 @@ const ModQueueBoardFilter = ({ subplebbits }: ModQueueBoardFilterProps) => {
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
-    setSelectedBoardFilter(value === '' ? null : value);
+    setSelectedBoardFilter(value);
   };
 
   if (!subplebbits || subplebbits.length === 0) {
     return null;
   }
 
+  // Default to first board if none selected
+  const firstBoardAddress = subplebbits.find((sub) => sub.address)?.address;
+  const currentFilter = selectedBoardFilter || firstBoardAddress || '';
+
+  // Auto-select first board if none is selected
+  useEffect(() => {
+    if (!selectedBoardFilter && firstBoardAddress) {
+      setSelectedBoardFilter(firstBoardAddress);
+    }
+  }, [selectedBoardFilter, firstBoardAddress, setSelectedBoardFilter]);
+
   return (
     <div className={styles.filterContainer}>
       <label>{t('filter_by_board')}:</label>
-      <select value={selectedBoardFilter || ''} onChange={handleChange}>
-        <option value=''>{t('all_boards')}</option>
+      <select value={currentFilter} onChange={handleChange}>
         {subplebbits.map((sub) => {
           const address = sub.address;
           if (!address) return null;
@@ -445,11 +453,18 @@ export const ModQueueView = ({ boardIdentifier: propBoardIdentifier }: ModQueueV
       return [resolvedAddress];
     }
 
+    // Always require a board filter when viewing /mod/queue (no boardIdentifier)
     if (selectedBoardFilter) {
       return [selectedBoardFilter];
     }
 
-    return accountSubplebbitAddresses;
+    // Default to first board if none selected
+    const firstBoardAddress = accountSubplebbitAddresses[0];
+    if (firstBoardAddress) {
+      return [firstBoardAddress];
+    }
+
+    return [];
   }, [resolvedAddress, selectedBoardFilter, accountSubplebbitAddresses]);
 
   const { feed, hasMore, loadMore, reset } = useFeed({
@@ -464,7 +479,13 @@ export const ModQueueView = ({ boardIdentifier: propBoardIdentifier }: ModQueueV
     setResetFunction(reset);
   }, [reset, setResetFunction]);
 
-  const showBoardColumn = !resolvedAddress && !selectedBoardFilter;
+  // Auto-select first board if viewing /mod/queue without a boardIdentifier and no filter is set
+  useEffect(() => {
+    if (!resolvedAddress && !selectedBoardFilter && accountSubplebbitAddresses.length > 0) {
+      const { setSelectedBoardFilter } = useModQueueStore.getState();
+      setSelectedBoardFilter(accountSubplebbitAddresses[0]);
+    }
+  }, [resolvedAddress, selectedBoardFilter, accountSubplebbitAddresses]);
 
   // Memoize footer components object to preserve identity across renders (Virtuoso optimization)
   // Note: useFeedStateString is called inside ModQueueFooter to isolate re-renders from backend state changes
@@ -539,7 +560,6 @@ export const ModQueueView = ({ boardIdentifier: propBoardIdentifier }: ModQueueV
         <>
           <div className={styles.tableHeader}>
             <div className={styles.numberHeader}>No.</div>
-            {showBoardColumn && <div className={styles.boardHeader}>{t('board')}</div>}
             <div className={styles.excerptHeader}>{t('excerpt')}</div>
             <div className={styles.timeHeader}>{t('submitted')}</div>
             <div className={styles.actionsHeader}>{t('actions')}</div>
@@ -553,13 +573,13 @@ export const ModQueueView = ({ boardIdentifier: propBoardIdentifier }: ModQueueV
               totalCount={feed.length}
               endReached={loadMore}
               increaseViewportBy={{ bottom: 1200, top: 1200 }}
-              itemContent={(index, comment) => <ModQueueRow key={comment.cid} comment={comment} showBoardColumn={showBoardColumn} isOdd={index % 2 === 0} />}
+              itemContent={(index, comment) => <ModQueueRow key={comment.cid} comment={comment} isOdd={index % 2 === 0} />}
               components={footerComponents}
             />
           ) : (
             <>
               {feed.map((comment, index) => (
-                <ModQueueRow key={comment.cid} comment={comment} showBoardColumn={showBoardColumn} isOdd={index % 2 === 0} />
+                <ModQueueRow key={comment.cid} comment={comment} isOdd={index % 2 === 0} />
               ))}
               <ModQueueFooter hasMore={hasMore} subplebbitAddresses={subplebbitAddresses} />
             </>
