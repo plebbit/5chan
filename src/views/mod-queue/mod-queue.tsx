@@ -436,10 +436,28 @@ export const ModQueueView = ({ boardIdentifier: propBoardIdentifier }: ModQueueV
     setResetFunction(reset);
   }, [reset, setResetFunction]);
 
+  // Check if any feed items need the blinking animation (awaiting approval + over threshold)
+  // This is a heuristic based on raw feed data - real-time edits might change this,
+  // but it's good enough to avoid running the interval when nothing needs to blink
+  const hasBlinkingItems = useMemo(() => {
+    const thresholdSeconds = alertThresholdHours * 3600;
+    const now = Date.now() / 1000;
+    return feed.some((comment) => {
+      const isAwaiting = comment.approved !== true && comment.removed !== true;
+      const timeWaiting = now - comment.timestamp;
+      return isAwaiting && timeWaiting > thresholdSeconds;
+    });
+  }, [feed, alertThresholdHours]);
+
   // Synchronize blinking animation across all rows
   // Set a CSS variable with the current animation phase so all elements start from the same point
   // Update frequently to ensure elements rendered at different times stay synchronized
+  // Only run when there are items that actually need the blinking animation
   useEffect(() => {
+    if (!hasBlinkingItems) {
+      return;
+    }
+
     const ANIMATION_DURATION = 2000; // 2 seconds
     const UPDATE_INTERVAL = 100; // Update every 100ms for smooth synchronization
 
@@ -453,7 +471,7 @@ export const ModQueueView = ({ boardIdentifier: propBoardIdentifier }: ModQueueV
     updateAnimationPhase();
     const interval = setInterval(updateAnimationPhase, UPDATE_INTERVAL);
     return () => clearInterval(interval);
-  }, []);
+  }, [hasBlinkingItems]);
 
   const loadingStateString = useFeedStateString(subplebbitAddresses) || t('loading');
   const showBoardColumn = !resolvedAddress && !selectedBoardFilter;
