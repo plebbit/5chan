@@ -251,8 +251,106 @@ interface ModQueueButtonProps {
   isMobile?: boolean;
 }
 
-export const ModQueueButton = ({ boardIdentifier, isMobile }: ModQueueButtonProps) => {
+// Counter item that uses useEditedComment to get real-time moderation status
+// and reports its status via callback
+interface ModQueueCountItemProps {
+  comment: Comment;
+  alertThresholdHours: number;
+  onStatusChange: (cid: string, status: { awaiting: boolean; urgent: boolean }) => void;
+}
+
+const ModQueueCountItem = ({ comment, alertThresholdHours, onStatusChange }: ModQueueCountItemProps) => {
+  const { editedComment } = useEditedComment({ comment });
+  const displayComment = editedComment || comment;
+
+  const { cid, approved, removed, timestamp } = displayComment;
+  const isAwaiting = approved !== true && removed !== true;
+  const timeWaiting = Date.now() / 1000 - timestamp;
+  const isUrgent = isAwaiting && timeWaiting > alertThresholdHours * 3600;
+
+  // Report status changes to parent - useEffect is appropriate here for syncing with parent state
+  useEffect(() => {
+    onStatusChange(cid, { awaiting: isAwaiting, urgent: isUrgent });
+  }, [cid, isAwaiting, isUrgent, onStatusChange]);
+
+  return null;
+};
+
+// Inner component that handles counting with useEditedComment for each item
+interface ModQueueButtonContentProps {
+  feed: Comment[];
+  alertThresholdHours: number;
+  boardIdentifier?: string;
+  isMobile?: boolean;
+}
+
+const ModQueueButtonContent = ({ feed, alertThresholdHours, boardIdentifier, isMobile }: ModQueueButtonContentProps) => {
   const { t } = useTranslation();
+  const [statusMap, setStatusMap] = useState<Map<string, { awaiting: boolean; urgent: boolean }>>(new Map());
+
+  const handleStatusChange = React.useCallback((cid: string, status: { awaiting: boolean; urgent: boolean }) => {
+    setStatusMap((prev) => {
+      const next = new Map(prev);
+      next.set(cid, status);
+      return next;
+    });
+  }, []);
+
+  // Calculate counts from status map
+  const { normalCount, urgentCount } = useMemo(() => {
+    let normal = 0;
+    let urgent = 0;
+    for (const { awaiting, urgent: isUrgent } of statusMap.values()) {
+      if (awaiting) {
+        if (isUrgent) urgent++;
+        else normal++;
+      }
+    }
+    return { normalCount: normal, urgentCount: urgent };
+  }, [statusMap]);
+
+  const totalCount = normalCount + urgentCount;
+  const to = boardIdentifier ? `/${boardIdentifier}/queue` : '/mod/queue';
+
+  const buttonContent = (
+    <button className='button'>
+      <Link to={to}>
+        {t('mod_queue')}
+        {totalCount > 0 && (
+          <strong>
+            (
+            {urgentCount > 0 && normalCount > 0 ? (
+              <>
+                <span className={styles.modQueueButtonCount}>{normalCount}</span>
+                <span className={`${styles.modQueueButtonCount} ${styles.modQueueButtonCountAlert}`}>
+                  {'+'}
+                  {urgentCount}
+                </span>
+              </>
+            ) : urgentCount > 0 ? (
+              <span className={`${styles.modQueueButtonCount} ${styles.modQueueButtonCountAlert}`}>{urgentCount}</span>
+            ) : (
+              <span className={styles.modQueueButtonCount}>{totalCount}</span>
+            )}
+            )
+          </strong>
+        )}
+      </Link>
+    </button>
+  );
+
+  return (
+    <>
+      {/* Render counter items to track real-time moderation status */}
+      {feed.map((item) => (
+        <ModQueueCountItem key={item.cid} comment={item} alertThresholdHours={alertThresholdHours} onStatusChange={handleStatusChange} />
+      ))}
+      {isMobile ? buttonContent : <>[{buttonContent}]</>}
+    </>
+  );
+};
+
+export const ModQueueButton = ({ boardIdentifier, isMobile }: ModQueueButtonProps) => {
   const { alertThresholdHours } = useModQueueStore();
   const { accountSubplebbits } = useAccountSubplebbits();
   const accountSubplebbitAddresses = useMemo(() => Object.keys(accountSubplebbits || {}), [accountSubplebbits]);
@@ -289,69 +387,7 @@ export const ModQueueButton = ({ boardIdentifier, isMobile }: ModQueueButtonProp
     return null;
   }
 
-  // Separate comments into normal and urgent based on threshold
-  // Only count items awaiting approval (not approved or rejected) for blinking counter
-  // Match ModQueueRow logic: use > (strictly greater) to be consistent
-  const { normalCount, urgentCount } = useMemo(() => {
-    const thresholdSeconds = alertThresholdHours * 3600;
-    const now = Date.now() / 1000;
-
-    let normal = 0;
-    let urgent = 0;
-
-    for (const item of feed) {
-      // Only count items that are awaiting approval (not approved or rejected)
-      const isAwaitingApproval = item.approved !== true && item.removed !== true;
-
-      if (!isAwaitingApproval) {
-        // Skip items that are already approved or rejected
-        continue;
-      }
-
-      const timeWaiting = now - item.timestamp;
-      if (timeWaiting > thresholdSeconds) {
-        urgent++;
-      } else {
-        normal++;
-      }
-    }
-
-    return { normalCount: normal, urgentCount: urgent };
-  }, [feed, alertThresholdHours]);
-
-  const totalCount = normalCount + urgentCount;
-
-  // Use boardIdentifier for the route, but resolvedAddress for mod check
-  const to = boardIdentifier ? `/${boardIdentifier}/queue` : '/mod/queue';
-
-  const buttonContent = (
-    <button className='button'>
-      <Link to={to}>
-        {t('mod_queue')}
-        {totalCount > 0 && (
-          <strong>
-            (
-            {urgentCount > 0 && normalCount > 0 ? (
-              <>
-                <span className={styles.modQueueButtonCount}>{normalCount}</span>
-                <span className={`${styles.modQueueButtonCount} ${styles.modQueueButtonCountAlert}`}>
-                  {'+'}
-                  {urgentCount}
-                </span>
-              </>
-            ) : urgentCount > 0 ? (
-              <span className={`${styles.modQueueButtonCount} ${styles.modQueueButtonCountAlert}`}>{urgentCount}</span>
-            ) : (
-              <span className={styles.modQueueButtonCount}>{totalCount}</span>
-            )}
-            )
-          </strong>
-        )}
-      </Link>
-    </button>
-  );
-
-  return isMobile ? buttonContent : <>[{buttonContent}]</>;
+  return <ModQueueButtonContent feed={feed} alertThresholdHours={alertThresholdHours} boardIdentifier={boardIdentifier} isMobile={isMobile} />;
 };
 
 export const ModQueueView = ({ boardIdentifier: propBoardIdentifier }: ModQueueViewProps) => {
