@@ -318,6 +318,20 @@ const ModQueueButtonContent = ({ feed, alertThresholdSeconds, boardIdentifier, i
     });
   }, []);
 
+  // Clean up stale entries when comments leave the feed to prevent memory leaks
+  const feedCids = useMemo(() => new Set(feed.map((item) => item.cid)), [feed]);
+  useEffect(() => {
+    setStatusMap((prev) => {
+      const staleKeys = [...prev.keys()].filter((cid) => !feedCids.has(cid));
+      if (staleKeys.length === 0) return prev;
+      const next = new Map(prev);
+      for (const key of staleKeys) {
+        next.delete(key);
+      }
+      return next;
+    });
+  }, [feedCids]);
+
   const { normalCount, urgentCount } = useMemo(() => {
     let normal = 0;
     let urgent = 0;
