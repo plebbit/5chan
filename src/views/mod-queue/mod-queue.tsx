@@ -118,6 +118,12 @@ const ModQueueRow = ({ comment, isOdd = false }: ModQueueRowProps) => {
   });
 
   const handleApprove = async () => {
+    // Double confirmation for approve action
+    const confirm = window.confirm(t('double_confirm'));
+    if (!confirm) {
+      return;
+    }
+
     setInitiatedAction('approve');
     try {
       await approve();
@@ -127,6 +133,12 @@ const ModQueueRow = ({ comment, isOdd = false }: ModQueueRowProps) => {
   };
 
   const handleReject = async () => {
+    // Double confirmation for reject action
+    const confirm = window.confirm(t('double_confirm'));
+    if (!confirm) {
+      return;
+    }
+
     setInitiatedAction('reject');
     try {
       await reject();
