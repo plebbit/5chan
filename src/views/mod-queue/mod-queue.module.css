@@ -99,6 +99,12 @@
   color: var(--mod-queue-time-color);
 }
 
+.footer {
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+}
+
 /* ModQueueRow styles */
 .row {
   display: flex;

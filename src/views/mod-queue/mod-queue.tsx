@@ -39,7 +39,7 @@ const ModQueueFooter = ({ hasMore, subplebbitAddresses }: ModQueueFooterProps) =
   const loadingStateString = useFeedStateString(subplebbitAddresses) || t('loading');
 
   return hasMore ? (
-    <div style={{ padding: '10px', textAlign: 'center' }}>
+    <div className={styles.footer}>
       <LoadingEllipsis string={loadingStateString} />
     </div>
   ) : null;
