@@ -260,14 +260,14 @@
   "queue_is_empty": "Walang laman ang queue",
   "approve": "Aprubahan",
   "reject": "Tanggihan",
-  "waiting": "Naghihintay",
   "filter_by_board": "I-filter ayon sa board",
-  "mod_queue_alert_threshold": "Moderasyon queue alert threshold",
-  "mod_queue_alert_threshold_tip": "Magpakita ng kumikislap na pulang indicator kapag ang mga item ay naghihintay nang mas mahaba kaysa sa oras na ito",
   "no_content": "Walang nilalaman",
-  "view": "Tingnan",
   "excerpt": "Sipi",
   "publishing": "Pag-publish",
   "approved": "Naaprubado",
-  "rejected": "Tinanggihan"
+  "rejected": "Tinanggihan",
+  "submitted": "Isinumite",
+  "hours": "oras",
+  "minutes": "minuto",
+  "alert_threshold": "Alert threshold"
 }

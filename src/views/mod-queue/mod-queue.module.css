@@ -5,6 +5,15 @@
 }
 
 .header {
+  margin-bottom: 10px;
+}
+
+.title {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.controls {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -13,9 +22,14 @@
   gap: 10px;
 }
 
-.title {
-  font-size: 1.5em;
-  font-weight: bold;
+.controlsLeft {
+  display: flex;
+  align-items: center;
+}
+
+.controlsRight {
+  display: flex;
+  align-items: center;
 }
 
 .alertThresholdSetting {
@@ -33,11 +47,9 @@
 
 .alertThresholdInput {
   width: 50px;
-  padding: 4px;
-  border: var(--mod-queue-table-border);
-  background: var(--mod-queue-header-background-color);
-  color: var(--body-font-color);
 }
+
+
 
 .tableWrapper {
   border: var(--mod-queue-table-border);
@@ -45,15 +57,22 @@
 
 .tableHeader {
   display: flex;
-  padding: 8px;
-  border-bottom: var(--mod-queue-header-border-bottom);
-  background: var(--mod-queue-header-background-color);
+  gap: 1px;
   font-weight: bold;
-  font-size: 13px;
+  font-size: 9pt;
+  text-transform: capitalize;
 }
 
-.boardHeader {
-  width: 50px;
+.numberHeader,
+.excerptHeader,
+.timeHeader,
+.actionsHeader {
+  background: var(--mod-queue-header-background-color);
+  padding: 5px;
+}
+
+.numberHeader {
+  min-width: 60px;
   flex-shrink: 0;
 }
 
@@ -62,9 +81,10 @@
 }
 
 .timeHeader {
-  width: 80px;
+  width: 210px;
   text-align: right;
   flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .actionsHeader {
@@ -79,29 +99,84 @@
   color: var(--mod-queue-time-color);
 }
 
+.footer {
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.error {
+  padding: 10px;
+  text-align: center;
+}
+
 /* ModQueueRow styles */
 .row {
   display: flex;
-  padding: 4px 8px;
-  border-top: none;
-  border-left: none;
-  border-right: none;
-  border-bottom: var(--mod-queue-row-border-bottom);
+  border: none;
   align-items: center;
-  gap: 8px;
-  background-color: var(--mod-queue-row-background-color);
+  gap: 1px;
+  margin-top: 1px;
   color: var(--body-font-color);
-  font-size: 13px;
+  font-size: 9pt;
 }
 
-.row:hover {
-  background-color: var(--mod-queue-row-hover-background-color);
+.number,
+.excerpt,
+.time,
+.actions {
+  padding: 2px 5px;
 }
 
-.board {
-  width: 50px;
+/* Odd rows - standalone class needed for CSS Modules export */
+.rowOdd {}
+
+/* Odd rows - theme-specific background colors applied to cells */
+:global(body.yotsuba) .rowOdd .number,
+:global(body.yotsuba) .rowOdd .excerpt,
+:global(body.yotsuba) .rowOdd .time,
+:global(body.yotsuba) .rowOdd .actions {
+  background-color: #ede2d4;
+}
+
+:global(body.yotsuba-b) .rowOdd .number,
+:global(body.yotsuba-b) .rowOdd .excerpt,
+:global(body.yotsuba-b) .rowOdd .time,
+:global(body.yotsuba-b) .rowOdd .actions {
+  background-color: #e0e5f6;
+}
+
+:global(body.futaba) .rowOdd .number,
+:global(body.futaba) .rowOdd .excerpt,
+:global(body.futaba) .rowOdd .time,
+:global(body.futaba) .rowOdd .actions {
+  background-color: #ede2d4;
+}
+
+:global(body.burichan) .rowOdd .number,
+:global(body.burichan) .rowOdd .excerpt,
+:global(body.burichan) .rowOdd .time,
+:global(body.burichan) .rowOdd .actions {
+  background-color: #e0e5f6;
+}
+
+:global(body.tomorrow) .rowOdd .number,
+:global(body.tomorrow) .rowOdd .excerpt,
+:global(body.tomorrow) .rowOdd .time,
+:global(body.tomorrow) .rowOdd .actions {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+:global(body.photon) .rowOdd .number,
+:global(body.photon) .rowOdd .excerpt,
+:global(body.photon) .rowOdd .time,
+:global(body.photon) .rowOdd .actions {
+  background-color: #888;
+}
+
+.number {
+  min-width: 60px;
   flex-shrink: 0;
-  font-weight: bold;
 }
 
 .excerpt {
@@ -123,18 +198,20 @@
 }
 
 .time {
-  width: 80px;
+  width: 210px;
   flex-shrink: 0;
   text-align: right;
-  color: var(--mod-queue-time-color);
+  white-space: nowrap;
 }
 
-.time.alert {
+.alert {
   color: var(--mod-queue-alert-color);
   font-weight: bold;
   animation: blink 2s infinite;
-  /* Synchronize all animations by starting from the same phase */
-  animation-delay: calc(var(--mod-queue-blink-phase, 0s) * -1);
+}
+
+.alertWrapper {
+  /* Container for the time ago indicator with parentheses, hidden on mobile */
 }
 
 @keyframes blink {
@@ -150,6 +227,10 @@
   gap: 4px;
   justify-content: flex-end;
   align-items: center;
+}
+
+.actionButtons {
+  display: inline;
 }
 
 /* Desktop: buttons styled as text links (same as board buttons) */
@@ -203,18 +284,11 @@ span.reject:hover {
 
 /* ModQueueBoardFilter styles */
 .filterContainer {
-  margin-bottom: 10px;
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-.filterSelect {
-  padding: 4px;
-  border: var(--mod-queue-table-border);
-  background: var(--mod-queue-header-background-color);
-  color: var(--body-font-color);
-}
 
 /* ModQueueButton styles */
 .modQueueButtonCount {
@@ -238,62 +312,131 @@ span.reject:hover {
   }
 }
 
-/* Mobile Layout */
+/* Mobile Layout - keeps table structure like desktop, just narrower columns */
 @media (max-width: 600px) {
+  .container {
+    padding: 5px;
+  }
+
+  .header {
+    margin-bottom: 10px;
+  }
+
+  .controls {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
   .tableHeader {
-    display: none;
+    font-size: 8pt;
+  }
+
+  .numberHeader {
+    min-width: 28px;
+  }
+
+  .timeHeader {
+    width: 90px;
+  }
+
+  .actionsHeader {
+    width: 80px;
   }
 
   .row {
-    flex-wrap: wrap;
-    padding: 8px;
+    font-size: 8pt;
   }
-  
-  .board {
-    width: auto;
-    margin-right: 8px;
+
+  /* Remove background colors for rows on mobile */
+  :global(body.yotsuba) .rowOdd .number,
+  :global(body.yotsuba) .rowOdd .excerpt,
+  :global(body.yotsuba) .rowOdd .time,
+  :global(body.yotsuba) .rowOdd .actions,
+  :global(body.yotsuba-b) .rowOdd .number,
+  :global(body.yotsuba-b) .rowOdd .excerpt,
+  :global(body.yotsuba-b) .rowOdd .time,
+  :global(body.yotsuba-b) .rowOdd .actions,
+  :global(body.futaba) .rowOdd .number,
+  :global(body.futaba) .rowOdd .excerpt,
+  :global(body.futaba) .rowOdd .time,
+  :global(body.futaba) .rowOdd .actions,
+  :global(body.burichan) .rowOdd .number,
+  :global(body.burichan) .rowOdd .excerpt,
+  :global(body.burichan) .rowOdd .time,
+  :global(body.burichan) .rowOdd .actions,
+  :global(body.tomorrow) .rowOdd .number,
+  :global(body.tomorrow) .rowOdd .excerpt,
+  :global(body.tomorrow) .rowOdd .time,
+  :global(body.tomorrow) .rowOdd .actions,
+  :global(body.photon) .rowOdd .number,
+  :global(body.photon) .rowOdd .excerpt,
+  :global(body.photon) .rowOdd .time,
+  :global(body.photon) .rowOdd .actions {
+    background-color: transparent;
   }
-  
-  .time {
-    margin-left: auto;
-    width: auto;
+
+  .number {
+    min-width: 28px;
   }
-  
+
   .excerpt {
-    width: 100%;
-    margin: 4px 0;
     white-space: normal;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
+    overflow: visible;
+    text-overflow: clip;
+    word-wrap: break-word;
   }
-  
+
+  .time {
+    width: 90px;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    word-wrap: break-word;
+  }
+
+  /* Hide the time ago indicator (including parentheses) on mobile to save space */
+  .alertWrapper {
+    display: none;
+  }
+
   .actions {
-    width: 100%;
-    justify-content: flex-start;
+    width: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
   }
-  
+
+  .actionButtons {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+  }
+
+  .buttonWrapper {
+    display: inline;
+  }
+
+  /* Keep desktop-style text buttons on mobile */
   .button {
-    flex: 1;
-    text-align: center;
-    padding: 8px;
-    border: var(--button-border-mobile);
-    background: var(--button-background-color-mobile);
-    color: var(--button-text-color-mobile);
-    text-decoration: none;
+    all: unset;
+    cursor: pointer;
+    text-transform: capitalize;
+    color: var(--button-desktop-text-color);
+    text-decoration: var(--button-text-decoration);
+    display: inline;
+    font-family: inherit;
+    font-size: 8pt;
   }
 
   .button:hover {
-    background: var(--button-background-color-mobile);
+    color: var(--button-desktop-text-color-hover);
+    cursor: pointer;
   }
 
   .button:disabled {
     opacity: 0.5;
     cursor: not-allowed;
-  }
-
-  .header {
-    flex-direction: column;
-    align-items: flex-start;
   }
 }

@@ -260,14 +260,14 @@
   "queue_is_empty": "قائمة الانتظار فارغة",
   "approve": "الموافقة",
   "reject": "الرفض",
-  "waiting": "في الانتظار",
   "filter_by_board": "تصفية حسب اللوحة",
-  "mod_queue_alert_threshold": "عتبة تنبيه قائمة انتظار الإشراف",
-  "mod_queue_alert_threshold_tip": "إظهار مؤشر أحمر وامض عندما تكون العناصر في الانتظار لأكثر من هذا الوقت",
   "no_content": "لا يوجد محتوى",
-  "view": "عرض",
   "excerpt": "مقتطف",
   "publishing": "نشر",
   "approved": "موافق عليه",
-  "rejected": "مرفوض"
+  "rejected": "مرفوض",
+  "submitted": "تم الإرسال",
+  "hours": "ساعات",
+  "minutes": "دقائق",
+  "alert_threshold": "عتبة التنبيه"
 }

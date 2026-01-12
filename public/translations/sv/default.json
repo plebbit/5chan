@@ -260,14 +260,14 @@
   "queue_is_empty": "Kön är tom",
   "approve": "Godkänn",
   "reject": "Avvisa",
-  "waiting": "Väntar",
   "filter_by_board": "Filtrera efter tavla",
-  "mod_queue_alert_threshold": "Tröskelvärde för modereringskö-varning",
-  "mod_queue_alert_threshold_tip": "Visa en blinkande röd indikator när objekt väntar längre än denna tid",
   "no_content": "Inget innehåll",
-  "view": "Visa",
   "excerpt": "Utdrag",
   "publishing": "Publicerar",
   "approved": "Godkänd",
-  "rejected": "Avvisad"
+  "rejected": "Avvisad",
+  "submitted": "Inskickat",
+  "hours": "timmar",
+  "minutes": "minuter",
+  "alert_threshold": "Tröskelvärde för varning"
 }

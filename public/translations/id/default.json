@@ -260,14 +260,14 @@
   "queue_is_empty": "Antrian kosong",
   "approve": "Setujui",
   "reject": "Tolak",
-  "waiting": "Menunggu",
   "filter_by_board": "Filter berdasarkan papan",
-  "mod_queue_alert_threshold": "Ambang peringatan antrian moderasi",
-  "mod_queue_alert_threshold_tip": "Tampilkan indikator merah berkedip ketika item menunggu lebih lama dari waktu ini",
   "no_content": "Tidak ada konten",
-  "view": "Lihat",
   "excerpt": "Kutipan",
   "publishing": "Menerbitkan",
   "approved": "Disetujui",
-  "rejected": "Ditolak"
+  "rejected": "Ditolak",
+  "submitted": "Dikirim",
+  "hours": "jam",
+  "minutes": "menit",
+  "alert_threshold": "Ambang peringatan"
 }

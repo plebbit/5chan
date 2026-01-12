@@ -260,14 +260,14 @@
   "queue_is_empty": "התור ריק",
   "approve": "אשר",
   "reject": "דחה",
-  "waiting": "ממתין",
   "filter_by_board": "סנן לפי לוח",
-  "mod_queue_alert_threshold": "סף התרעה של תור ניהול",
-  "mod_queue_alert_threshold_tip": "הצג אינדיקטור אדום מהבהב כאשר פריטים ממתינים יותר מזמן זה",
   "no_content": "אין תוכן",
-  "view": "הצג",
   "excerpt": "תקציר",
   "publishing": "מפרסם",
   "approved": "אושר",
-  "rejected": "נדחה"
+  "rejected": "נדחה",
+  "submitted": "נשלח",
+  "hours": "שעות",
+  "minutes": "דקות",
+  "alert_threshold": "סף התרעה"
 }

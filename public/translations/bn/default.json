@@ -260,14 +260,14 @@
   "queue_is_empty": "সারি খালি",
   "approve": "অনুমোদন করুন",
   "reject": "প্রত্যাখ্যান করুন",
-  "waiting": "অপেক্ষা করছে",
   "filter_by_board": "বোর্ড অনুযায়ী ফিল্টার করুন",
-  "mod_queue_alert_threshold": "মডারেশন সারি সতর্কতা থ্রেশহোল্ড",
-  "mod_queue_alert_threshold_tip": "আইটেমগুলি এই সময়ের চেয়ে বেশি অপেক্ষা করলে একটি ঝলমলে লাল সূচক দেখান",
   "no_content": "কোনো বিষয়বস্তু নেই",
-  "view": "দেখুন",
   "excerpt": "উদ্ধৃতি",
   "publishing": "প্রকাশনা",
   "approved": "অনুমোদিত",
-  "rejected": "প্রত্যাখ্যান"
+  "rejected": "প্রত্যাখ্যান",
+  "submitted": "জমা দেওয়া হয়েছে",
+  "hours": "ঘণ্টা",
+  "minutes": "মিনিট",
+  "alert_threshold": "সতর্কতা থ্রেশহোল্ড"
 }

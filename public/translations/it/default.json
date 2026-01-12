@@ -260,14 +260,14 @@
   "queue_is_empty": "La coda è vuota",
   "approve": "Approva",
   "reject": "Rifiuta",
-  "waiting": "In attesa",
   "filter_by_board": "Filtra per board",
-  "mod_queue_alert_threshold": "Soglia di allerta coda moderazione",
-  "mod_queue_alert_threshold_tip": "Mostra un indicatore rosso lampeggiante quando gli elementi attendono più di questo tempo",
   "no_content": "Nessun contenuto",
-  "view": "Visualizza",
   "excerpt": "Estratto",
   "publishing": "Pubblicazione",
   "approved": "Approvato",
-  "rejected": "Rifiutato"
+  "rejected": "Rifiutato",
+  "submitted": "Inviato",
+  "hours": "ore",
+  "minutes": "minuti",
+  "alert_threshold": "Soglia di allerta"
 }

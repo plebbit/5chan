@@ -260,14 +260,14 @@
   "queue_is_empty": "रांग रिकामी आहे",
   "approve": "मंजूर करा",
   "reject": "नकार द्या",
-  "waiting": "प्रतीक्षा करत आहे",
   "filter_by_board": "बोर्डनुसार फिल्टर करा",
-  "mod_queue_alert_threshold": "मॉडरेशन रांग सतर्कता मर्यादा",
-  "mod_queue_alert_threshold_tip": "जेव्हा आयटम या वेळेपेक्षा जास्त वेळ प्रतीक्षा करत असतात तेव्हा एक चमकणारा लाल सूचक दाखवा",
   "no_content": "सामग्री नाही",
-  "view": "पहा",
   "excerpt": "उतारा",
   "publishing": "प्रकाशन करत आहे",
   "approved": "मंजूर",
-  "rejected": "नाकारले"
+  "rejected": "नाकारले",
+  "submitted": "सबमिट केले",
+  "hours": "तास",
+  "minutes": "मिनिटे",
+  "alert_threshold": "सतर्कता मर्यादा"
 }

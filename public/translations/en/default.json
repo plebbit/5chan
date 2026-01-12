@@ -259,14 +259,15 @@
   "queue_is_empty": "Queue is empty",
   "approve": "Approve",
   "reject": "Reject",
-  "waiting": "Waiting",
   "filter_by_board": "Filter by board",
-  "mod_queue_alert_threshold": "Mod queue alert threshold",
-  "mod_queue_alert_threshold_tip": "Show a blinking red indicator when items are waiting for longer than this time",
+  "alert_threshold": "Alert threshold",
+  "hours": "hours",
+  "minutes": "minutes",
   "no_content": "No content",
-  "view": "View",
   "excerpt": "Excerpt",
   "publishing": "Publishing",
   "approved": "Approved",
-  "rejected": "Rejected"
+  "rejected": "Rejected",
+  "submitted": "Submitted",
+  "downloading_board": "Downloading board"
 }

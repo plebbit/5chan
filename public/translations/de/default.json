@@ -260,14 +260,14 @@
   "queue_is_empty": "Warteschlange ist leer",
   "approve": "Genehmigen",
   "reject": "Ablehnen",
-  "waiting": "Wartend",
   "filter_by_board": "Nach Forum filtern",
-  "mod_queue_alert_threshold": "Schwellenwert für Moderations-Warteschlangen-Alarm",
-  "mod_queue_alert_threshold_tip": "Einen blinkenden roten Indikator anzeigen, wenn Elemente länger als diese Zeit warten",
   "no_content": "Kein Inhalt",
-  "view": "Anzeigen",
   "excerpt": "Auszug",
   "publishing": "Veröffentlichung",
   "approved": "Genehmigt",
-  "rejected": "Abgelehnt"
+  "rejected": "Abgelehnt",
+  "submitted": "Eingereicht",
+  "hours": "Stunden",
+  "minutes": "Minuten",
+  "alert_threshold": "Alarmschwellenwert"
 }

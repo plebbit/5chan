@@ -260,14 +260,14 @@
   "queue_is_empty": "صف خالی است",
   "approve": "تایید",
   "reject": "رد",
-  "waiting": "در انتظار",
   "filter_by_board": "فیلتر بر اساس تابلو",
-  "mod_queue_alert_threshold": "آستانه هشدار صف انتظار نظارت",
-  "mod_queue_alert_threshold_tip": "نمایش نشانگر قرمز چشمک‌زن زمانی که موارد بیش از این زمان در انتظار هستند",
   "no_content": "بدون محتوا",
-  "view": "مشاهده",
   "excerpt": "گزیده",
   "publishing": "در حال انتشار",
   "approved": "تایید شده",
-  "rejected": "رد شده"
+  "rejected": "رد شده",
+  "submitted": "ارسال شده",
+  "hours": "ساعت",
+  "minutes": "دقیقه",
+  "alert_threshold": "آستانه هشدار"
 }

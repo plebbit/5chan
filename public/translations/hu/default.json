@@ -260,14 +260,14 @@
   "queue_is_empty": "A sor üres",
   "approve": "Jóváhagyás",
   "reject": "Elutasítás",
-  "waiting": "Várakozás",
   "filter_by_board": "Szűrés tábla szerint",
-  "mod_queue_alert_threshold": "Moderációs sor riasztási küszöb",
-  "mod_queue_alert_threshold_tip": "Villogó piros jelző megjelenítése, amikor az elemek ennél hosszabb ideig várakoznak",
   "no_content": "Nincs tartalom",
-  "view": "Megtekintés",
   "excerpt": "Kivonat",
   "publishing": "Közzététel",
   "approved": "Jóváhagyva",
-  "rejected": "Elutasítva"
+  "rejected": "Elutasítva",
+  "submitted": "Beküldve",
+  "hours": "óra",
+  "minutes": "perc",
+  "alert_threshold": "Riasztási küszöb"
 }

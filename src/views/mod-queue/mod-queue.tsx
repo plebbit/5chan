@@ -1,21 +1,26 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams, Link } from 'react-router-dom';
-import { useAccountSubplebbits, useFeed, Comment, usePublishCommentModeration } from '@plebbit/plebbit-react-hooks';
+import { useFeed, Comment, usePublishCommentModeration, useEditedComment, useSubplebbit } from '@plebbit/plebbit-react-hooks';
+import useAccountsStore from '@plebbit/plebbit-react-hooks/dist/stores/accounts';
 import { Virtuoso } from 'react-virtuoso';
 import { formatDistanceToNow } from 'date-fns';
 import styles from './mod-queue.module.css';
 import useModQueueStore from '../../stores/use-mod-queue-store';
 import { useAccountSubplebbitsWithMetadata } from '../../hooks/use-account-subplebbits-with-metadata';
 import LoadingEllipsis from '../../components/loading-ellipsis';
+import ErrorDisplay from '../../components/error-display/error-display';
 import { useFeedStateString } from '../../hooks/use-state-string';
 import { getSubplebbitAddress, getBoardPath } from '../../lib/utils/route-utils';
 import { useDefaultSubplebbits, MultisubSubplebbit } from '../../hooks/use-default-subplebbits';
 import { useBoardPath } from '../../hooks/use-resolved-subplebbit-address';
 import { getHasThumbnail, getCommentMediaInfo } from '../../lib/utils/media-utils';
+import { getFormattedDate, getFormattedTimeAgo } from '../../lib/utils/time-utils';
 import useFeedResetStore from '../../stores/use-feed-reset-store';
 import useChallengesStore from '../../stores/use-challenges-store';
 import { alertChallengeVerificationFailed } from '../../lib/utils/challenge-utils';
+import Tooltip from '../../components/tooltip';
+import useIsMobile from '../../hooks/use-is-mobile';
 
 const { addChallenge } = useChallengesStore.getState();
 
@@ -25,13 +30,18 @@ interface ModQueueViewProps {
 
 interface ModQueueFooterProps {
   hasMore: boolean;
-  loadingStateString: string;
+  subplebbitAddresses: string[];
 }
 
 // Defined outside ModQueueView to preserve component identity across renders (Virtuoso optimization)
-const ModQueueFooter = ({ hasMore, loadingStateString }: ModQueueFooterProps) => {
+// The useFeedStateString hook is called here instead of in ModQueueView to isolate re-renders
+// caused by backend IPFS state changes to just this footer component
+const ModQueueFooter = ({ hasMore, subplebbitAddresses }: ModQueueFooterProps) => {
+  const { t } = useTranslation();
+  const loadingStateString = useFeedStateString(subplebbitAddresses) || t('loading');
+
   return hasMore ? (
-    <div style={{ padding: '10px', textAlign: 'center' }}>
+    <div className={styles.footer}>
       <LoadingEllipsis string={loadingStateString} />
     </div>
   ) : null;
@@ -39,18 +49,22 @@ const ModQueueFooter = ({ hasMore, loadingStateString }: ModQueueFooterProps) =>
 
 interface ModQueueRowProps {
   comment: Comment;
-  showBoardColumn?: boolean;
+  isOdd?: boolean;
 }
 
 // Track which action was initiated to show appropriate completion message
 type ModerationAction = 'approve' | 'reject' | null;
 
-const ModQueueRow = ({ comment, showBoardColumn = false }: ModQueueRowProps) => {
+const ModQueueRow = ({ comment, isOdd = false }: ModQueueRowProps) => {
   const { t } = useTranslation();
-  const { alertThresholdHours } = useModQueueStore();
+  const { getAlertThresholdSeconds } = useModQueueStore();
   const [initiatedAction, setInitiatedAction] = useState<ModerationAction>(null);
+  const isMobile = useIsMobile();
 
-  const { content, title, timestamp, subplebbitAddress, cid, threadCid, link, thumbnailUrl, linkWidth, linkHeight, removed, approved } = comment;
+  const { editedComment } = useEditedComment({ comment });
+  const displayComment = editedComment || comment;
+
+  const { content, title, timestamp, subplebbitAddress, cid, shortCid, threadCid, link, thumbnailUrl, linkWidth, linkHeight, removed, approved, number } = displayComment;
 
   // Check if already moderated (from previous session or API update)
   // Note: `approved` and `removed` are direct fields on the comment from CommentUpdate,
@@ -58,9 +72,12 @@ const ModQueueRow = ({ comment, showBoardColumn = false }: ModQueueRowProps) => 
   const alreadyApproved = approved === true;
   const alreadyRejected = removed === true;
 
-  const boardPath = useBoardPath(subplebbitAddress);
   const timeWaiting = Date.now() / 1000 - timestamp;
-  const isOverThreshold = timeWaiting > alertThresholdHours * 3600;
+  const alertThresholdSeconds = getAlertThresholdSeconds();
+  const isOverThreshold = timeWaiting > alertThresholdSeconds;
+
+  // Only show alert animation for comments awaiting approval (not approved or rejected)
+  const isAwaitingApproval = !alreadyApproved && !alreadyRejected;
 
   const {
     publishCommentModeration: approve,
@@ -101,6 +118,12 @@ const ModQueueRow = ({ comment, showBoardColumn = false }: ModQueueRowProps) => 
   });
 
   const handleApprove = async () => {
+    // Double confirmation for approve action
+    const confirm = window.confirm(t('double_confirm'));
+    if (!confirm) {
+      return;
+    }
+
     setInitiatedAction('approve');
     try {
       await approve();
@@ -110,6 +133,12 @@ const ModQueueRow = ({ comment, showBoardColumn = false }: ModQueueRowProps) => 
   };
 
   const handleReject = async () => {
+    // Double confirmation for reject action
+    const confirm = window.confirm(t('double_confirm'));
+    if (!confirm) {
+      return;
+    }
+
     setInitiatedAction('reject');
     try {
       await reject();
@@ -129,7 +158,18 @@ const ModQueueRow = ({ comment, showBoardColumn = false }: ModQueueRowProps) => 
   const approveFailed = initiatedAction === 'approve' && approveState === 'failed';
   const rejectFailed = initiatedAction === 'reject' && rejectState === 'failed';
 
-  const excerpt = title || content || (getHasThumbnail(getCommentMediaInfo(link, thumbnailUrl, linkWidth, linkHeight), link) ? t('image') : t('no_content'));
+  const boardPath = useBoardPath(subplebbitAddress);
+  const hasTitle = title && title.trim().length > 0;
+  const hasContent = content && content.trim().length > 0;
+  const hasLink = link && link.length > 0;
+  const rawExcerpt =
+    (hasTitle ? title : null) ||
+    (hasContent ? content : null) ||
+    (hasLink ? link : null) ||
+    (getHasThumbnail(getCommentMediaInfo(link, thumbnailUrl, linkWidth, linkHeight), link) ? t('image') : null) ||
+    t('no_content');
+  // Only truncate excerpt on desktop, allow wrapping on mobile
+  const excerpt = !isMobile && rawExcerpt.length > 101 ? rawExcerpt.slice(0, 98) + '...' : rawExcerpt;
   const threadTargetCid = threadCid || cid;
   const postUrl = boardPath && threadTargetCid ? `/${boardPath}/thread/${threadTargetCid}` : undefined;
 
@@ -161,23 +201,28 @@ const ModQueueRow = ({ comment, showBoardColumn = false }: ModQueueRowProps) => 
     }
 
     return (
-      <>
-        [
-        <button className={styles.button} onClick={handleApprove} disabled={isPublishing}>
-          {t('approve')}
-        </button>
-        ] [
-        <button className={styles.button} onClick={handleReject} disabled={isPublishing}>
-          {t('reject')}
-        </button>
-        ]
-      </>
+      <div className={styles.actionButtons}>
+        <span className={styles.buttonWrapper}>
+          [
+          <button className={styles.button} onClick={handleApprove} disabled={isPublishing}>
+            {t('approve')}
+          </button>
+          ]
+        </span>
+        <span className={styles.buttonWrapper}>
+          [
+          <button className={styles.button} onClick={handleReject} disabled={isPublishing}>
+            {t('reject')}
+          </button>
+          ]
+        </span>
+      </div>
     );
   };
 
   return (
-    <div className={styles.row}>
-      {showBoardColumn && <div className={styles.board}>{boardPath ? <Link to={`/${boardPath}`}>/{boardPath}/</Link> : <span>—</span>}</div>}
+    <div className={`${styles.row} ${isOdd ? styles.rowOdd : ''}`}>
+      <div className={styles.number}>{number ?? 'N/A'}</div>
       <div className={styles.excerpt}>
         {postUrl ? (
           <Link to={postUrl} title={excerpt}>
@@ -187,7 +232,33 @@ const ModQueueRow = ({ comment, showBoardColumn = false }: ModQueueRowProps) => 
           <span title={excerpt}>{excerpt}</span>
         )}
       </div>
-      <div className={`${styles.time} ${isOverThreshold ? styles.alert : ''}`}>{formatDistanceToNow(timestamp * 1000, { addSuffix: false })}</div>
+      <div className={styles.time}>
+        {isMobile ? (
+          // On mobile, show shorter time ago format without tooltip
+          isAwaitingApproval && isOverThreshold ? (
+            <>
+              <span>{getFormattedTimeAgo(timestamp)}</span>
+              <span className={styles.alertWrapper}>
+                {' '}
+                (<span className={styles.alert}>{getFormattedTimeAgo(timestamp)}</span>)
+              </span>
+            </>
+          ) : (
+            <span>{getFormattedTimeAgo(timestamp)}</span>
+          )
+        ) : // On desktop, show full date with tooltip
+        isAwaitingApproval && isOverThreshold ? (
+          <>
+            <Tooltip children={<span>{getFormattedDate(timestamp)}</span>} content={getFormattedTimeAgo(timestamp)} />
+            <span className={styles.alertWrapper}>
+              {' '}
+              (<span className={styles.alert}>{getFormattedTimeAgo(timestamp)}</span>)
+            </span>
+          </>
+        ) : (
+          <Tooltip children={<span>{getFormattedDate(timestamp)}</span>} content={getFormattedTimeAgo(timestamp)} />
+        )}
+      </div>
       <div className={styles.actions}>{renderActions()}</div>
     </div>
   );
@@ -203,18 +274,28 @@ const ModQueueBoardFilter = ({ subplebbits }: ModQueueBoardFilterProps) => {
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
-    setSelectedBoardFilter(value === '' ? null : value);
+    setSelectedBoardFilter(value);
   };
 
   if (!subplebbits || subplebbits.length === 0) {
     return null;
   }
 
+  // Default to first board if none selected
+  const firstBoardAddress = subplebbits.find((sub) => sub.address)?.address;
+  const currentFilter = selectedBoardFilter || firstBoardAddress || '';
+
+  // Auto-select first board if none is selected
+  useEffect(() => {
+    if (!selectedBoardFilter && firstBoardAddress) {
+      setSelectedBoardFilter(firstBoardAddress);
+    }
+  }, [selectedBoardFilter, firstBoardAddress, setSelectedBoardFilter]);
+
   return (
     <div className={styles.filterContainer}>
       <label>{t('filter_by_board')}:</label>
-      <select className={styles.filterSelect} value={selectedBoardFilter || ''} onChange={handleChange}>
-        <option value=''>{t('all_boards')}</option>
+      <select value={currentFilter} onChange={handleChange}>
         {subplebbits.map((sub) => {
           const address = sub.address;
           if (!address) return null;
@@ -234,73 +315,74 @@ interface ModQueueButtonProps {
   isMobile?: boolean;
 }
 
-export const ModQueueButton = ({ boardIdentifier, isMobile }: ModQueueButtonProps) => {
+interface ModQueueCountItemProps {
+  comment: Comment;
+  alertThresholdSeconds: number;
+  onStatusChange: (cid: string, status: { awaiting: boolean; urgent: boolean }) => void;
+}
+
+const ModQueueCountItem = ({ comment, alertThresholdSeconds, onStatusChange }: ModQueueCountItemProps) => {
+  const { editedComment } = useEditedComment({ comment });
+  const displayComment = editedComment || comment;
+
+  const { cid, approved, removed, timestamp } = displayComment;
+  const isAwaiting = approved !== true && removed !== true;
+  const timeWaiting = Date.now() / 1000 - timestamp;
+  const isUrgent = isAwaiting && timeWaiting > alertThresholdSeconds;
+
+  useEffect(() => {
+    onStatusChange(cid, { awaiting: isAwaiting, urgent: isUrgent });
+  }, [cid, isAwaiting, isUrgent, onStatusChange]);
+
+  return null;
+};
+
+interface ModQueueButtonContentProps {
+  feed: Comment[];
+  alertThresholdSeconds: number;
+  boardIdentifier?: string;
+  isMobile?: boolean;
+}
+
+const ModQueueButtonContent = ({ feed, alertThresholdSeconds, boardIdentifier, isMobile }: ModQueueButtonContentProps) => {
   const { t } = useTranslation();
-  const { alertThresholdHours } = useModQueueStore();
-  const { accountSubplebbits } = useAccountSubplebbits();
-  const accountSubplebbitAddresses = useMemo(() => Object.keys(accountSubplebbits || {}), [accountSubplebbits]);
-  const defaultSubplebbits = useDefaultSubplebbits();
+  const [statusMap, setStatusMap] = useState<Map<string, { awaiting: boolean; urgent: boolean }>>(new Map());
 
-  // Resolve boardIdentifier to address if it exists
-  const resolvedAddress = useMemo(() => {
-    if (boardIdentifier) {
-      return getSubplebbitAddress(boardIdentifier, defaultSubplebbits);
-    }
-    return undefined;
-  }, [boardIdentifier, defaultSubplebbits]);
+  const handleStatusChange = React.useCallback((cid: string, status: { awaiting: boolean; urgent: boolean }) => {
+    setStatusMap((prev) => {
+      const next = new Map(prev);
+      next.set(cid, status);
+      return next;
+    });
+  }, []);
 
-  const subplebbitAddresses = useMemo(() => {
-    if (resolvedAddress) {
-      return [resolvedAddress];
-    }
-    return accountSubplebbitAddresses;
-  }, [resolvedAddress, accountSubplebbitAddresses]);
+  // Clean up stale entries when comments leave the feed to prevent memory leaks
+  const feedCids = useMemo(() => new Set(feed.map((item) => item.cid)), [feed]);
+  useEffect(() => {
+    setStatusMap((prev) => {
+      const staleKeys = [...prev.keys()].filter((cid) => !feedCids.has(cid));
+      if (staleKeys.length === 0) return prev;
+      const next = new Map(prev);
+      for (const key of staleKeys) {
+        next.delete(key);
+      }
+      return next;
+    });
+  }, [feedCids]);
 
-  // If specific board, check if user is mod using resolved address
-  const isModOfBoard = resolvedAddress ? accountSubplebbitAddresses.includes(resolvedAddress) : true;
-
-  // Only fetch if we have addresses to check and permissions
-  const shouldFetch = subplebbitAddresses.length > 0 && isModOfBoard;
-
-  const { feed } = useFeed({
-    subplebbitAddresses: shouldFetch ? subplebbitAddresses : [],
-    modQueue: ['pendingApproval'],
-    postsPerPage: 100, // Fetch enough to check timestamps
-  });
-
-  if (!shouldFetch || subplebbitAddresses.length === 0) {
-    return null;
-  }
-
-  // Sort feed by timestamp (oldest first) to match ModQueueView sorting
-  const sortedFeed = useMemo(() => {
-    return [...feed].sort((a, b) => a.timestamp - b.timestamp);
-  }, [feed]);
-
-  // Separate comments into normal and urgent based on threshold
-  // Match ModQueueRow logic: use > (strictly greater) to be consistent
   const { normalCount, urgentCount } = useMemo(() => {
-    const thresholdSeconds = alertThresholdHours * 3600;
-    const now = Date.now() / 1000;
-
     let normal = 0;
     let urgent = 0;
-
-    for (const item of sortedFeed) {
-      const timeWaiting = now - item.timestamp;
-      if (timeWaiting > thresholdSeconds) {
-        urgent++;
-      } else {
-        normal++;
+    for (const { awaiting, urgent: isUrgent } of statusMap.values()) {
+      if (awaiting) {
+        if (isUrgent) urgent++;
+        else normal++;
       }
     }
-
     return { normalCount: normal, urgentCount: urgent };
-  }, [sortedFeed, alertThresholdHours]);
+  }, [statusMap]);
 
   const totalCount = normalCount + urgentCount;
-
-  // Use boardIdentifier for the route, but resolvedAddress for mod check
   const to = boardIdentifier ? `/${boardIdentifier}/queue` : '/mod/queue';
 
   const buttonContent = (
@@ -330,20 +412,34 @@ export const ModQueueButton = ({ boardIdentifier, isMobile }: ModQueueButtonProp
     </button>
   );
 
-  return isMobile ? buttonContent : <>[{buttonContent}]</>;
+  return (
+    <>
+      {feed.map((item) => (
+        <ModQueueCountItem key={item.cid} comment={item} alertThresholdSeconds={alertThresholdSeconds} onStatusChange={handleStatusChange} />
+      ))}
+      {isMobile ? buttonContent : <>[{buttonContent}]</>}
+    </>
+  );
 };
 
-export const ModQueueView = ({ boardIdentifier: propBoardIdentifier }: ModQueueViewProps) => {
-  const { t } = useTranslation();
-  const params = useParams();
-  const { selectedBoardFilter, alertThresholdHours, setAlertThresholdHours } = useModQueueStore();
-  const { accountSubplebbits } = useAccountSubplebbits();
-  const accountSubplebbitAddresses = Object.keys(accountSubplebbits);
+export const ModQueueButton = ({ boardIdentifier, isMobile }: ModQueueButtonProps) => {
+  const { getAlertThresholdSeconds } = useModQueueStore();
+
+  const accountSubplebbitAddresses = useAccountsStore(
+    (state) => {
+      const activeAccountId = state.activeAccountId;
+      const activeAccount = activeAccountId ? state.accounts[activeAccountId] : undefined;
+      const accountSubplebbits = activeAccount?.subplebbits || {};
+      return Object.keys(accountSubplebbits);
+    },
+    (prev, next) => {
+      if (prev.length !== next.length) return false;
+      return prev.every((val, idx) => val === next[idx]);
+    },
+  );
+
   const defaultSubplebbits = useDefaultSubplebbits();
 
-  const boardIdentifier = propBoardIdentifier || params.boardIdentifier;
-
-  // Resolve boardIdentifier to address if it exists
   const resolvedAddress = useMemo(() => {
     if (boardIdentifier) {
       return getSubplebbitAddress(boardIdentifier, defaultSubplebbits);
@@ -351,7 +447,65 @@ export const ModQueueView = ({ boardIdentifier: propBoardIdentifier }: ModQueueV
     return undefined;
   }, [boardIdentifier, defaultSubplebbits]);
 
-  // Get metadata for filter dropdown
+  const subplebbitAddresses = useMemo(() => {
+    if (resolvedAddress) {
+      return [resolvedAddress];
+    }
+    return accountSubplebbitAddresses;
+  }, [resolvedAddress, accountSubplebbitAddresses]);
+
+  // If specific board, check if user is mod using resolved address
+  const isModOfBoard = resolvedAddress ? accountSubplebbitAddresses.includes(resolvedAddress) : true;
+
+  // Only fetch if we have addresses to check and permissions
+  const shouldFetch = subplebbitAddresses.length > 0 && isModOfBoard;
+
+  const { feed } = useFeed({
+    subplebbitAddresses: shouldFetch ? subplebbitAddresses : [],
+    modQueue: ['pendingApproval'],
+    sortType: 'new',
+    postsPerPage: 200, // Fetch more items to get accurate pending count for the badge
+  });
+
+  if (!shouldFetch || subplebbitAddresses.length === 0) {
+    return null;
+  }
+
+  const alertThresholdSeconds = getAlertThresholdSeconds();
+  // Use key to reset statusMap state when switching boards (prevents stale counts from previous board)
+  const contentKey = subplebbitAddresses.join(',');
+  return <ModQueueButtonContent key={contentKey} feed={feed} alertThresholdSeconds={alertThresholdSeconds} boardIdentifier={boardIdentifier} isMobile={isMobile} />;
+};
+
+export const ModQueueView = ({ boardIdentifier: propBoardIdentifier }: ModQueueViewProps) => {
+  const { t } = useTranslation();
+  const params = useParams();
+  const { selectedBoardFilter, alertThresholdValue, alertThresholdUnit, setAlertThreshold } = useModQueueStore();
+
+  const accountSubplebbitAddresses = useAccountsStore(
+    (state) => {
+      const activeAccountId = state.activeAccountId;
+      const activeAccount = activeAccountId ? state.accounts[activeAccountId] : undefined;
+      const accountSubplebbits = activeAccount?.subplebbits || {};
+      return Object.keys(accountSubplebbits);
+    },
+    (prev, next) => {
+      if (prev.length !== next.length) return false;
+      return prev.every((val, idx) => val === next[idx]);
+    },
+  );
+
+  const defaultSubplebbits = useDefaultSubplebbits();
+
+  const boardIdentifier = propBoardIdentifier || params.boardIdentifier;
+
+  const resolvedAddress = useMemo(() => {
+    if (boardIdentifier) {
+      return getSubplebbitAddress(boardIdentifier, defaultSubplebbits);
+    }
+    return undefined;
+  }, [boardIdentifier, defaultSubplebbits]);
+
   const subplebbitsWithMetadata = useAccountSubplebbitsWithMetadata();
 
   const subplebbitAddresses = useMemo(() => {
@@ -359,12 +513,23 @@ export const ModQueueView = ({ boardIdentifier: propBoardIdentifier }: ModQueueV
       return [resolvedAddress];
     }
 
+    // Always require a board filter when viewing /mod/queue (no boardIdentifier)
     if (selectedBoardFilter) {
       return [selectedBoardFilter];
     }
 
-    return accountSubplebbitAddresses;
+    // Default to first board if none selected
+    const firstBoardAddress = accountSubplebbitAddresses[0];
+    if (firstBoardAddress) {
+      return [firstBoardAddress];
+    }
+
+    return [];
   }, [resolvedAddress, selectedBoardFilter, accountSubplebbitAddresses]);
+
+  const subplebbitAddress = subplebbitAddresses[0];
+  const subplebbit = useSubplebbit({ subplebbitAddress });
+  const { error: subplebbitError } = subplebbit || {};
 
   const { feed, hasMore, loadMore, reset } = useFeed({
     subplebbitAddresses,
@@ -372,87 +537,131 @@ export const ModQueueView = ({ boardIdentifier: propBoardIdentifier }: ModQueueV
     postsPerPage: 50,
   });
 
-  // Sort feed by timestamp (oldest first) to show items waiting longest at the top
-  const sortedFeed = useMemo(() => {
-    return [...feed].sort((a, b) => a.timestamp - b.timestamp);
-  }, [feed]);
-
   // Register reset function with feed reset store so refresh button works
   const setResetFunction = useFeedResetStore((state) => state.setResetFunction);
   useEffect(() => {
     setResetFunction(reset);
   }, [reset, setResetFunction]);
 
-  // Synchronize blinking animation across all rows
-  // Set a CSS variable with the current animation phase so all elements start from the same point
-  // Update frequently to ensure elements rendered at different times stay synchronized
+  // Auto-select first board if viewing /mod/queue without a boardIdentifier and no filter is set
   useEffect(() => {
-    const ANIMATION_DURATION = 2000; // 2 seconds
-    const UPDATE_INTERVAL = 100; // Update every 100ms for smooth synchronization
-
-    const updateAnimationPhase = () => {
-      // Calculate current phase in the animation cycle (0 to 2 seconds)
-      const phase = (Date.now() % ANIMATION_DURATION) / 1000;
-      document.documentElement.style.setProperty('--mod-queue-blink-phase', `${phase}s`);
-    };
-
-    // Update immediately and then at regular intervals
-    updateAnimationPhase();
-    const interval = setInterval(updateAnimationPhase, UPDATE_INTERVAL);
-    return () => clearInterval(interval);
-  }, []);
-
-  const loadingStateString = useFeedStateString(subplebbitAddresses) || t('loading');
-  const showBoardColumn = !resolvedAddress && !selectedBoardFilter;
+    if (!resolvedAddress && !selectedBoardFilter && accountSubplebbitAddresses.length > 0) {
+      const { setSelectedBoardFilter } = useModQueueStore.getState();
+      setSelectedBoardFilter(accountSubplebbitAddresses[0]);
+    }
+  }, [resolvedAddress, selectedBoardFilter, accountSubplebbitAddresses]);
 
   // Memoize footer components object to preserve identity across renders (Virtuoso optimization)
+  // Note: useFeedStateString is called inside ModQueueFooter to isolate re-renders from backend state changes
   const footerComponents = useMemo(
     () => ({
-      Footer: () => <ModQueueFooter hasMore={hasMore} loadingStateString={loadingStateString} />,
+      Footer: () => (
+        <>
+          {subplebbitError?.message && feed.length === 0 && (
+            <div className={styles.error}>
+              <ErrorDisplay error={subplebbitError} />
+            </div>
+          )}
+          <ModQueueFooter hasMore={hasMore} subplebbitAddresses={subplebbitAddresses} />
+        </>
+      ),
     }),
-    [hasMore, loadingStateString],
+    [hasMore, subplebbitAddresses, subplebbitError, feed.length],
+  );
+
+  const alertThresholdControl = (
+    <div className={styles.alertThresholdSetting}>
+      <label>
+        {t('alert_threshold')}:
+        <input
+          type='number'
+          min='1'
+          step={alertThresholdUnit === 'minutes' ? '1' : '1'}
+          value={alertThresholdValue}
+          onChange={(e) => setAlertThreshold(Number(e.target.value), alertThresholdUnit)}
+          className={styles.alertThresholdInput}
+        />
+        <select
+          value={alertThresholdUnit}
+          onChange={(e) => {
+            const newUnit = e.target.value as 'hours' | 'minutes';
+            const newValue =
+              alertThresholdUnit === 'hours' && newUnit === 'minutes'
+                ? alertThresholdValue * 60
+                : alertThresholdUnit === 'minutes' && newUnit === 'hours'
+                  ? Math.round(alertThresholdValue / 60)
+                  : alertThresholdValue;
+            setAlertThreshold(Math.max(1, newValue), newUnit);
+          }}
+        >
+          <option value='minutes'>{t('minutes')}</option>
+          <option value='hours'>{t('hours')}</option>
+        </select>
+      </label>
+    </div>
   );
 
   return (
     <div className={styles.container}>
-      <div className={styles.header}>
-        <div className={styles.title}>{t('moderation_queue')}</div>
-        <div className={styles.alertThresholdSetting}>
-          <label>
-            {t('mod_queue_alert_threshold')}:
-            <input
-              type='number'
-              min='1'
-              value={alertThresholdHours}
-              onChange={(e) => setAlertThresholdHours(Number(e.target.value))}
-              className={styles.alertThresholdInput}
-            />{' '}
-            {t('hours')}
-          </label>
+      {!resolvedAddress && (
+        <div className={styles.header}>
+          <div className={styles.title}>{t('moderation_queue')}</div>
         </div>
+      )}
+
+      <div className={styles.controls}>
+        {!resolvedAddress ? (
+          <>
+            <div className={styles.controlsLeft}>
+              <ModQueueBoardFilter subplebbits={subplebbitsWithMetadata} />
+            </div>
+            <div className={styles.controlsRight}>{alertThresholdControl}</div>
+          </>
+        ) : (
+          <>
+            <div className={styles.controlsLeft}>
+              <div className={styles.title}>{t('moderation_queue')}</div>
+            </div>
+            <div className={styles.controlsRight}>{alertThresholdControl}</div>
+          </>
+        )}
       </div>
 
-      {!resolvedAddress && <ModQueueBoardFilter subplebbits={subplebbitsWithMetadata} />}
-
-      {sortedFeed.length === 0 && !hasMore ? (
+      {feed.length === 0 && !hasMore ? (
         <div className={styles.empty}>{t('queue_is_empty')}</div>
       ) : (
         <>
           <div className={styles.tableHeader}>
-            {showBoardColumn && <div className={styles.boardHeader}>{t('board')}</div>}
+            <div className={styles.numberHeader}>No.</div>
             <div className={styles.excerptHeader}>{t('excerpt')}</div>
-            <div className={styles.timeHeader}>{t('waiting')}</div>
+            <div className={styles.timeHeader}>{t('submitted')}</div>
             <div className={styles.actionsHeader}>{t('actions')}</div>
           </div>
 
-          <Virtuoso
-            useWindowScroll
-            data={sortedFeed}
-            totalCount={sortedFeed.length}
-            endReached={loadMore}
-            itemContent={(index, comment) => <ModQueueRow key={comment.cid} comment={comment} showBoardColumn={showBoardColumn} />}
-            components={footerComponents}
-          />
+          {/* Use Virtuoso for infinite scroll only when feed is large enough to warrant it */}
+          {feed.length > 25 ? (
+            <Virtuoso
+              useWindowScroll
+              data={feed}
+              totalCount={feed.length}
+              endReached={loadMore}
+              increaseViewportBy={{ bottom: 1200, top: 1200 }}
+              itemContent={(index, comment) => <ModQueueRow key={comment.cid} comment={comment} isOdd={index % 2 === 0} />}
+              components={footerComponents}
+            />
+          ) : (
+            <>
+              {feed.map((comment, index) => (
+                <ModQueueRow key={comment.cid} comment={comment} isOdd={index % 2 === 0} />
+              ))}
+              {subplebbitError?.message && feed.length === 0 && (
+                <div className={styles.error}>
+                  <ErrorDisplay error={subplebbitError} />
+                </div>
+              )}
+              <ModQueueFooter hasMore={hasMore} subplebbitAddresses={subplebbitAddresses} />
+            </>
+          )}
         </>
       )}
     </div>
