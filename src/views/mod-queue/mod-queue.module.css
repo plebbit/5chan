@@ -105,6 +105,11 @@
   justify-content: center;
 }
 
+.error {
+  padding: 10px;
+  text-align: center;
+}
+
 /* ModQueueRow styles */
 .row {
   display: flex;

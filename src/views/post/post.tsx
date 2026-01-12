@@ -70,7 +70,7 @@ const PostPage = () => {
   }, [comment?.subplebbitAddress, subplebbitAddress, navigate]);
 
   const subplebbit = useSubplebbit({ subplebbitAddress });
-  const { shortAddress, title } = subplebbit || {};
+  const { error: subplebbitError, shortAddress, title } = subplebbit || {};
   const defaultSubplebbits = useDefaultSubplebbits();
 
   // if the comment is a reply, return the post comment instead, then the reply will be highlighted in the thread
@@ -106,17 +106,28 @@ const PostPage = () => {
     document.title = `${boardTitle}${postTitlePart} - 5chan`;
   }, [title, shortAddress, subplebbitAddress, post?.title, post?.content, isInAllView, t, params.boardIdentifier, defaultSubplebbits]);
 
-  // probably not necessary to show the error to the user if the post loaded successfully
-  const shouldShowErrorToUser = post?.error && ((post?.replyCount > 0 && post?.replies?.length === 0) || (post?.state === 'failed' && post?.error));
+  const shouldShowCommentError = comment?.error?.message && !comment?.cid;
+  const shouldShowPostError = post?.error && post?.replyCount > 0 && post?.replies?.length === 0;
+  const shouldShowSubplebbitError = subplebbitError?.message && !post?.cid;
 
   return (
     <div className={styles.content}>
-      {shouldShowErrorToUser && (
+      {shouldShowPostError && (
         <div className={styles.error}>
           <ErrorDisplay error={error} />
         </div>
       )}
       <Post post={post} showAllReplies={true} />
+      {shouldShowSubplebbitError && (
+        <div className={styles.error}>
+          <ErrorDisplay error={subplebbitError} />
+        </div>
+      )}
+      {shouldShowCommentError && (
+        <div className={styles.error}>
+          <ErrorDisplay error={comment?.error} />
+        </div>
+      )}
     </div>
   );
 };

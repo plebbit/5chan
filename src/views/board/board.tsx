@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useLocation, useNavigationType, useParams } from 'react-router-dom';
-import { Comment, useAccount, useAccountComments, useAccountSubplebbits, useBlock, useFeed } from '@plebbit/plebbit-react-hooks';
+import { Comment, useAccount, useAccountComments, useAccountSubplebbits, useBlock, useFeed, useSubplebbit } from '@plebbit/plebbit-react-hooks';
 import { useSubplebbitField } from '../../hooks/use-stable-subplebbit';
 import { Virtuoso, VirtuosoHandle, StateSnapshot } from 'react-virtuoso';
 import { Trans, useTranslation } from 'react-i18next';
@@ -157,9 +157,9 @@ const Board = ({ feedCacheKey, viewType, boardIdentifier: boardIdentifierProp, t
   // Use stable subplebbit fields to avoid rerenders from updatingState
   const subplebbitTitle = useSubplebbitField(subplebbitAddress, (sub) => sub?.title);
   const shortAddress = useSubplebbitField(subplebbitAddress, (sub) => sub?.shortAddress);
-  // Subscribe to transient state/error separately from stable fields since useStableSubplebbit ignores them
-  const subplebbitState = useSubplebbitField(subplebbitAddress, (sub) => sub?.state);
-  const subplebbitError = useSubplebbitField(subplebbitAddress, (sub) => sub?.error);
+  // useSubplebbitField only reads from store, doesn't trigger fetching
+  const subplebbit = useSubplebbit({ subplebbitAddress });
+  const { error: subplebbitError, state: subplebbitState } = subplebbit || {};
   const title = isInAllView ? t('all') : isInSubscriptionsView ? t('subscriptions') : isInModView ? t('mod') : subplebbitTitle;
 
   const { blocked, unblock } = useBlock({ address: subplebbitAddress });

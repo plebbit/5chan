@@ -1,7 +1,7 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams, Link } from 'react-router-dom';
-import { useFeed, Comment, usePublishCommentModeration, useEditedComment } from '@plebbit/plebbit-react-hooks';
+import { useFeed, Comment, usePublishCommentModeration, useEditedComment, useSubplebbit } from '@plebbit/plebbit-react-hooks';
 import useAccountsStore from '@plebbit/plebbit-react-hooks/dist/stores/accounts';
 import { Virtuoso } from 'react-virtuoso';
 import { formatDistanceToNow } from 'date-fns';
@@ -9,6 +9,7 @@ import styles from './mod-queue.module.css';
 import useModQueueStore from '../../stores/use-mod-queue-store';
 import { useAccountSubplebbitsWithMetadata } from '../../hooks/use-account-subplebbits-with-metadata';
 import LoadingEllipsis from '../../components/loading-ellipsis';
+import ErrorDisplay from '../../components/error-display/error-display';
 import { useFeedStateString } from '../../hooks/use-state-string';
 import { getSubplebbitAddress, getBoardPath } from '../../lib/utils/route-utils';
 import { useDefaultSubplebbits, MultisubSubplebbit } from '../../hooks/use-default-subplebbits';
@@ -489,6 +490,10 @@ export const ModQueueView = ({ boardIdentifier: propBoardIdentifier }: ModQueueV
     return [];
   }, [resolvedAddress, selectedBoardFilter, accountSubplebbitAddresses]);
 
+  const subplebbitAddress = subplebbitAddresses[0];
+  const subplebbit = useSubplebbit({ subplebbitAddress });
+  const { error: subplebbitError } = subplebbit || {};
+
   const { feed, hasMore, loadMore, reset } = useFeed({
     subplebbitAddresses,
     modQueue: ['pendingApproval'],
@@ -513,9 +518,18 @@ export const ModQueueView = ({ boardIdentifier: propBoardIdentifier }: ModQueueV
   // Note: useFeedStateString is called inside ModQueueFooter to isolate re-renders from backend state changes
   const footerComponents = useMemo(
     () => ({
-      Footer: () => <ModQueueFooter hasMore={hasMore} subplebbitAddresses={subplebbitAddresses} />,
+      Footer: () => (
+        <>
+          {subplebbitError?.message && feed.length === 0 && (
+            <div className={styles.error}>
+              <ErrorDisplay error={subplebbitError} />
+            </div>
+          )}
+          <ModQueueFooter hasMore={hasMore} subplebbitAddresses={subplebbitAddresses} />
+        </>
+      ),
     }),
-    [hasMore, subplebbitAddresses],
+    [hasMore, subplebbitAddresses, subplebbitError, feed.length],
   );
 
   const alertThresholdControl = (
@@ -603,6 +617,11 @@ export const ModQueueView = ({ boardIdentifier: propBoardIdentifier }: ModQueueV
               {feed.map((comment, index) => (
                 <ModQueueRow key={comment.cid} comment={comment} isOdd={index % 2 === 0} />
               ))}
+              {subplebbitError?.message && feed.length === 0 && (
+                <div className={styles.error}>
+                  <ErrorDisplay error={subplebbitError} />
+                </div>
+              )}
               <ModQueueFooter hasMore={hasMore} subplebbitAddresses={subplebbitAddresses} />
             </>
           )}
