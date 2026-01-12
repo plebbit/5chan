@@ -72,7 +72,7 @@
 }
 
 .numberHeader {
-  width: 60px;
+  min-width: 60px;
   flex-shrink: 0;
 }
 
@@ -175,7 +175,7 @@
 }
 
 .number {
-  width: 60px;
+  min-width: 60px;
   flex-shrink: 0;
 }
 
@@ -210,6 +210,10 @@
   animation: blink 2s infinite;
 }
 
+.alertWrapper {
+  /* Container for the time ago indicator with parentheses, hidden on mobile */
+}
+
 @keyframes blink {
   0% { opacity: 1; }
   50% { opacity: 0.5; }
@@ -223,6 +227,10 @@
   gap: 4px;
   justify-content: flex-end;
   align-items: center;
+}
+
+.actionButtons {
+  display: inline;
 }
 
 /* Desktop: buttons styled as text links (same as board buttons) */
@@ -304,53 +312,10 @@ span.reject:hover {
   }
 }
 
-/* Mobile Layout */
+/* Mobile Layout - keeps table structure like desktop, just narrower columns */
 @media (max-width: 600px) {
-  .tableHeader {
-    display: none;
-  }
-
-  .row {
-    flex-wrap: wrap;
-    padding: 8px;
-  }
-  
-  .time {
-    margin-left: auto;
-    width: auto;
-  }
-  
-  .excerpt {
-    width: 100%;
-    margin: 4px 0;
-    white-space: normal;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-  }
-  
-  .actions {
-    width: 100%;
-    justify-content: flex-start;
-  }
-  
-  .button {
-    flex: 1;
-    text-align: center;
-    padding: 8px;
-    border: var(--button-border-mobile);
-    background: var(--button-background-color-mobile);
-    color: var(--button-text-color-mobile);
-    text-decoration: none;
-  }
-
-  .button:hover {
-    background: var(--button-background-color-mobile);
-  }
-
-  .button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
+  .container {
+    padding: 5px;
   }
 
   .header {
@@ -360,5 +325,118 @@ span.reject:hover {
   .controls {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .tableHeader {
+    font-size: 8pt;
+  }
+
+  .numberHeader {
+    min-width: 28px;
+  }
+
+  .timeHeader {
+    width: 90px;
+  }
+
+  .actionsHeader {
+    width: 80px;
+  }
+
+  .row {
+    font-size: 8pt;
+  }
+
+  /* Remove background colors for rows on mobile */
+  :global(body.yotsuba) .rowOdd .number,
+  :global(body.yotsuba) .rowOdd .excerpt,
+  :global(body.yotsuba) .rowOdd .time,
+  :global(body.yotsuba) .rowOdd .actions,
+  :global(body.yotsuba-b) .rowOdd .number,
+  :global(body.yotsuba-b) .rowOdd .excerpt,
+  :global(body.yotsuba-b) .rowOdd .time,
+  :global(body.yotsuba-b) .rowOdd .actions,
+  :global(body.futaba) .rowOdd .number,
+  :global(body.futaba) .rowOdd .excerpt,
+  :global(body.futaba) .rowOdd .time,
+  :global(body.futaba) .rowOdd .actions,
+  :global(body.burichan) .rowOdd .number,
+  :global(body.burichan) .rowOdd .excerpt,
+  :global(body.burichan) .rowOdd .time,
+  :global(body.burichan) .rowOdd .actions,
+  :global(body.tomorrow) .rowOdd .number,
+  :global(body.tomorrow) .rowOdd .excerpt,
+  :global(body.tomorrow) .rowOdd .time,
+  :global(body.tomorrow) .rowOdd .actions,
+  :global(body.photon) .rowOdd .number,
+  :global(body.photon) .rowOdd .excerpt,
+  :global(body.photon) .rowOdd .time,
+  :global(body.photon) .rowOdd .actions {
+    background-color: transparent;
+  }
+
+  .number {
+    min-width: 28px;
+  }
+
+  .excerpt {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    word-wrap: break-word;
+  }
+
+  .time {
+    width: 90px;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    word-wrap: break-word;
+  }
+
+  /* Hide the time ago indicator (including parentheses) on mobile to save space */
+  .alertWrapper {
+    display: none;
+  }
+
+  .actions {
+    width: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+  }
+
+  .actionButtons {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+  }
+
+  .buttonWrapper {
+    display: inline;
+  }
+
+  /* Keep desktop-style text buttons on mobile */
+  .button {
+    all: unset;
+    cursor: pointer;
+    text-transform: capitalize;
+    color: var(--button-desktop-text-color);
+    text-decoration: var(--button-text-decoration);
+    display: inline;
+    font-family: inherit;
+    font-size: 8pt;
+  }
+
+  .button:hover {
+    color: var(--button-desktop-text-color-hover);
+    cursor: pointer;
+  }
+
+  .button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
   }
 }

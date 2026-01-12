@@ -20,6 +20,7 @@ import useFeedResetStore from '../../stores/use-feed-reset-store';
 import useChallengesStore from '../../stores/use-challenges-store';
 import { alertChallengeVerificationFailed } from '../../lib/utils/challenge-utils';
 import Tooltip from '../../components/tooltip';
+import useIsMobile from '../../hooks/use-is-mobile';
 
 const { addChallenge } = useChallengesStore.getState();
 
@@ -58,6 +59,7 @@ const ModQueueRow = ({ comment, isOdd = false }: ModQueueRowProps) => {
   const { t } = useTranslation();
   const { getAlertThresholdSeconds } = useModQueueStore();
   const [initiatedAction, setInitiatedAction] = useState<ModerationAction>(null);
+  const isMobile = useIsMobile();
 
   const { editedComment } = useEditedComment({ comment });
   const displayComment = editedComment || comment;
@@ -154,7 +156,8 @@ const ModQueueRow = ({ comment, isOdd = false }: ModQueueRowProps) => {
     (hasLink ? link : null) ||
     (getHasThumbnail(getCommentMediaInfo(link, thumbnailUrl, linkWidth, linkHeight), link) ? t('image') : null) ||
     t('no_content');
-  const excerpt = rawExcerpt.length > 101 ? rawExcerpt.slice(0, 98) + '...' : rawExcerpt;
+  // Only truncate excerpt on desktop, allow wrapping on mobile
+  const excerpt = !isMobile && rawExcerpt.length > 101 ? rawExcerpt.slice(0, 98) + '...' : rawExcerpt;
   const threadTargetCid = threadCid || cid;
   const postUrl = boardPath && threadTargetCid ? `/${boardPath}/thread/${threadTargetCid}` : undefined;
 
@@ -186,17 +189,22 @@ const ModQueueRow = ({ comment, isOdd = false }: ModQueueRowProps) => {
     }
 
     return (
-      <>
-        [
-        <button className={styles.button} onClick={handleApprove} disabled={isPublishing}>
-          {t('approve')}
-        </button>
-        ] [
-        <button className={styles.button} onClick={handleReject} disabled={isPublishing}>
-          {t('reject')}
-        </button>
-        ]
-      </>
+      <div className={styles.actionButtons}>
+        <span className={styles.buttonWrapper}>
+          [
+          <button className={styles.button} onClick={handleApprove} disabled={isPublishing}>
+            {t('approve')}
+          </button>
+          ]
+        </span>
+        <span className={styles.buttonWrapper}>
+          [
+          <button className={styles.button} onClick={handleReject} disabled={isPublishing}>
+            {t('reject')}
+          </button>
+          ]
+        </span>
+      </div>
     );
   };
 
@@ -213,10 +221,27 @@ const ModQueueRow = ({ comment, isOdd = false }: ModQueueRowProps) => {
         )}
       </div>
       <div className={styles.time}>
-        {isAwaitingApproval && isOverThreshold ? (
+        {isMobile ? (
+          // On mobile, show shorter time ago format without tooltip
+          isAwaitingApproval && isOverThreshold ? (
+            <>
+              <span>{getFormattedTimeAgo(timestamp)}</span>
+              <span className={styles.alertWrapper}>
+                {' '}
+                (<span className={styles.alert}>{getFormattedTimeAgo(timestamp)}</span>)
+              </span>
+            </>
+          ) : (
+            <span>{getFormattedTimeAgo(timestamp)}</span>
+          )
+        ) : // On desktop, show full date with tooltip
+        isAwaitingApproval && isOverThreshold ? (
           <>
-            <Tooltip children={<span>{getFormattedDate(timestamp)}</span>} content={getFormattedTimeAgo(timestamp)} /> (
-            <span className={styles.alert}>{getFormattedTimeAgo(timestamp)}</span>)
+            <Tooltip children={<span>{getFormattedDate(timestamp)}</span>} content={getFormattedTimeAgo(timestamp)} />
+            <span className={styles.alertWrapper}>
+              {' '}
+              (<span className={styles.alert}>{getFormattedTimeAgo(timestamp)}</span>)
+            </span>
           </>
         ) : (
           <Tooltip children={<span>{getFormattedDate(timestamp)}</span>} content={getFormattedTimeAgo(timestamp)} />
