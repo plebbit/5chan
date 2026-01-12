@@ -268,5 +268,6 @@
   "publishing": "Publishing",
   "approved": "Approved",
   "rejected": "Rejected",
-  "submitted": "Submitted"
+  "submitted": "Submitted",
+  "downloading_board": "Downloading board"
 }
