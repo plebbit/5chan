@@ -381,18 +381,28 @@ const Board = ({ feedCacheKey, viewType, boardIdentifier: boardIdentifierProp, t
             <ErrorDisplay error={subplebbitError} />
           </div>
         )}
-        <Virtuoso
-          increaseViewportBy={{ bottom: 1200, top: 1200 }}
-          totalCount={combinedFeed.length}
-          data={combinedFeed}
-          itemContent={(index, post) => <Post index={index} post={post} />}
-          useWindowScroll={true}
-          components={{ Footer }}
-          endReached={loadMore}
-          ref={virtuosoRef}
-          restoreStateFrom={lastVirtuosoState}
-          initialScrollTop={lastVirtuosoState?.scrollTop}
-        />
+        {/* Use Virtuoso for infinite scroll only when there's more content to paginate */}
+        {hasMore ? (
+          <Virtuoso
+            increaseViewportBy={{ bottom: 1200, top: 1200 }}
+            totalCount={combinedFeed.length}
+            data={combinedFeed}
+            itemContent={(index, post) => <Post index={index} post={post} />}
+            useWindowScroll={true}
+            components={{ Footer }}
+            endReached={loadMore}
+            ref={virtuosoRef}
+            restoreStateFrom={lastVirtuosoState}
+            initialScrollTop={lastVirtuosoState?.scrollTop}
+          />
+        ) : (
+          <>
+            {combinedFeed.map((post, index) => (
+              <Post key={post.cid} index={index} post={post} />
+            ))}
+            <Footer />
+          </>
+        )}
       </div>
     </>
   );

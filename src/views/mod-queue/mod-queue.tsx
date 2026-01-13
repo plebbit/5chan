@@ -632,8 +632,8 @@ export const ModQueueView = ({ boardIdentifier: propBoardIdentifier }: ModQueueV
             <div className={styles.actionsHeader}>{t('actions')}</div>
           </div>
 
-          {/* Use Virtuoso for infinite scroll only when feed is large enough to warrant it */}
-          {feed.length > 25 ? (
+          {/* Use Virtuoso for infinite scroll only when there's more content to paginate */}
+          {hasMore ? (
             <Virtuoso
               useWindowScroll
               data={feed}

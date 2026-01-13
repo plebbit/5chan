@@ -540,18 +540,28 @@ const Catalog = ({ feedCacheKey, viewType, boardIdentifier: boardIdentifierProp,
       <div className={styles.catalog}>
         {processedFeed?.length !== 0 ? (
           <>
-            <Virtuoso
-              increaseViewportBy={{ bottom: 1200, top: 1200 }}
-              totalCount={rows?.length || 0}
-              data={rows}
-              itemContent={(index, row) => <CatalogRow index={index} row={row} />}
-              useWindowScroll={true}
-              components={{ Footer }}
-              endReached={loadMore}
-              ref={virtuosoRef}
-              restoreStateFrom={lastVirtuosoState}
-              initialScrollTop={lastVirtuosoState?.scrollTop}
-            />
+            {/* Use Virtuoso for infinite scroll only when there's more content to paginate */}
+            {hasMore ? (
+              <Virtuoso
+                increaseViewportBy={{ bottom: 1200, top: 1200 }}
+                totalCount={rows?.length || 0}
+                data={rows}
+                itemContent={(index, row) => <CatalogRow index={index} row={row} />}
+                useWindowScroll={true}
+                components={{ Footer }}
+                endReached={loadMore}
+                ref={virtuosoRef}
+                restoreStateFrom={lastVirtuosoState}
+                initialScrollTop={lastVirtuosoState?.scrollTop}
+              />
+            ) : (
+              <>
+                {rows.map((row, index) => (
+                  <CatalogRow key={index} index={index} row={row} />
+                ))}
+                <Footer />
+              </>
+            )}
           </>
         ) : (
           <div className={styles.footer}>
