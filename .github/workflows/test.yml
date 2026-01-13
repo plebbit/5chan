@@ -261,6 +261,7 @@ jobs:
 
       - name: Build Electron App
         run: yarn electron:build:windows
+        timeout-minutes: 30
 
       - name: Smoke Test
         shell: bash
