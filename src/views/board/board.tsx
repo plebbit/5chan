@@ -22,6 +22,149 @@ import { Post } from '../post';
 
 const lastVirtuosoStates: { [key: string]: StateSnapshot } = {};
 
+interface BoardFooterProps {
+  subplebbitAddresses: string[];
+  hasMore: boolean;
+  combinedFeedLength: number;
+  subplebbitAddressesWithNewerPosts: string[];
+  onNewerPostsClick: () => void;
+  isInAllView: boolean;
+  isInSubscriptionsView: boolean;
+  isInModView: boolean;
+  showMorePostsSuggestion: boolean;
+  feedLength: number;
+  weeklyFeedLength: number;
+  monthlyFeedLength: number;
+  yearlyFeedLength: number;
+  boardPath: string | undefined;
+  currentTimeFilterName: string | undefined;
+  subplebbitState: string | undefined;
+  subscriptionsLength: number;
+  accountSubplebbitAddressesLength: number;
+  blocked: boolean;
+  onUnblock: () => void;
+}
+
+// Defined outside Board to preserve component identity across renders (Virtuoso optimization)
+// The useFeedStateString hook is called here instead of in Board to isolate re-renders
+// caused by backend IPFS state changes to just this footer component
+const BoardFooter = ({
+  subplebbitAddresses,
+  hasMore,
+  combinedFeedLength,
+  subplebbitAddressesWithNewerPosts,
+  onNewerPostsClick,
+  isInAllView,
+  isInSubscriptionsView,
+  isInModView,
+  showMorePostsSuggestion,
+  feedLength,
+  weeklyFeedLength,
+  monthlyFeedLength,
+  yearlyFeedLength,
+  boardPath,
+  currentTimeFilterName,
+  subplebbitState,
+  subscriptionsLength,
+  accountSubplebbitAddressesLength,
+  blocked,
+  onUnblock,
+}: BoardFooterProps) => {
+  const { t } = useTranslation();
+
+  const loadingStateString =
+    useFeedStateString(subplebbitAddresses) ||
+    (feedLength === 0 && !(weeklyFeedLength > feedLength || monthlyFeedLength > feedLength || yearlyFeedLength > monthlyFeedLength)
+      ? t('loading_feed')
+      : t('looking_for_more_posts'));
+
+  let footerContent;
+  if (combinedFeedLength === 0) {
+    footerContent = t('no_threads');
+  }
+  if (hasMore || (subplebbitAddresses && subplebbitAddresses.length === 0)) {
+    footerContent = (
+      <>
+        {subplebbitAddressesWithNewerPosts.length > 0 ? (
+          <div className={styles.morePostsSuggestion}>
+            <Trans
+              i18nKey='newer_threads_available'
+              components={{
+                1: <span className={styles.newerPostsButton} onClick={onNewerPostsClick} />,
+              }}
+            />
+          </div>
+        ) : (
+          (isInAllView || isInSubscriptionsView || isInModView) &&
+          showMorePostsSuggestion &&
+          (monthlyFeedLength > feedLength || yearlyFeedLength > monthlyFeedLength) &&
+          (() => {
+            const basePath = isInAllView ? '/all' : isInSubscriptionsView ? '/subs' : isInModView ? '/mod' : boardPath ? `/${boardPath}` : '';
+            return weeklyFeedLength > feedLength ? (
+              <div className={styles.morePostsSuggestion}>
+                <Trans
+                  i18nKey='more_threads_last_week'
+                  values={{ currentTimeFilterName, count: feedLength }}
+                  components={{
+                    1: <Link to={`${basePath}/1w`} />,
+                  }}
+                />
+              </div>
+            ) : monthlyFeedLength > feedLength ? (
+              <div className={styles.morePostsSuggestion}>
+                <Trans
+                  i18nKey='more_threads_last_month'
+                  values={{ currentTimeFilterName, count: feedLength }}
+                  components={{
+                    1: <Link to={`${basePath}/1m`} />,
+                  }}
+                />
+              </div>
+            ) : (
+              <div className={styles.morePostsSuggestion}>
+                <Trans
+                  i18nKey='more_threads_last_year'
+                  values={{ currentTimeFilterName, count: feedLength }}
+                  components={{
+                    1: <Link to={`${basePath}/1y`} />,
+                  }}
+                />
+              </div>
+            );
+          })()
+        )}
+      </>
+    );
+  }
+  return (
+    <div className={styles.footer}>
+      {footerContent}
+      <div>
+        {subplebbitState === 'failed' ? (
+          <span className='red'>{subplebbitState}</span>
+        ) : isInSubscriptionsView && subscriptionsLength === 0 ? (
+          <span className='red'>{t('not_subscribed_to_any_board')}</span>
+        ) : isInModView && accountSubplebbitAddressesLength === 0 ? (
+          <span className='red'>{t('not_mod_of_any_board')}</span>
+        ) : blocked ? (
+          <span className='red'>{t('you_have_blocked_this_board')}</span>
+        ) : (
+          hasMore && <LoadingEllipsis string={loadingStateString} />
+        )}
+        {blocked && (
+          <>
+            &nbsp;&nbsp;[
+            <span className={styles.button} onClick={onUnblock}>
+              {t('unblock')}
+            </span>
+            ]
+          </>
+        )}
+      </div>
+    </div>
+  );
+};
+
 const createThreadsWithoutImagesFilter = () => ({
   filter: (comment: Comment) => {
     const { link, linkHeight, linkWidth, thumbnailUrl } = comment || {};
@@ -195,12 +338,6 @@ const Board = ({ feedCacheKey, viewType, boardIdentifier: boardIdentifierProp, t
   const weeklyFeedLength = weeklyFeed.length;
   const monthlyFeedLength = monthlyFeed.length;
   const yearlyFeedLength = yearlyFeed.length;
-  const hasFeedLoaded = !!feed;
-  const loadingStateString =
-    useFeedStateString(subplebbitAddresses) ||
-    (!hasFeedLoaded || (feedLength === 0 && !(weeklyFeedLength > feedLength || monthlyFeedLength > feedLength || yearlyFeedLength > monthlyFeedLength))
-      ? t('loading_feed')
-      : t('looking_for_more_posts'));
 
   const [showMorePostsSuggestion, setShowMorePostsSuggestion] = useState(false);
   useEffect(() => {
@@ -213,99 +350,63 @@ const Board = ({ feedCacheKey, viewType, boardIdentifier: boardIdentifierProp, t
 
   const currentTimeFilterName = timeFilterName || params?.timeFilterName;
 
-  const Footer = () => {
-    let footerContent;
-    if (combinedFeed.length === 0) {
-      footerContent = t('no_threads');
-    }
-    if (hasMore || (subplebbitAddresses && subplebbitAddresses.length === 0)) {
-      footerContent = (
-        <>
-          {subplebbitAddressesWithNewerPosts.length > 0 ? (
-            <div className={styles.morePostsSuggestion}>
-              <Trans
-                i18nKey='newer_threads_available'
-                components={{
-                  1: <span className={styles.newerPostsButton} onClick={handleNewerPostsButtonClick} />,
-                }}
-              />
-            </div>
-          ) : (
-            (isInAllView || isInSubscriptionsView || isInModView) &&
-            showMorePostsSuggestion &&
-            (monthlyFeed.length > feed.length || yearlyFeed.length > monthlyFeed.length) &&
-            (() => {
-              const basePath = isInAllView ? '/all' : isInSubscriptionsView ? '/subs' : isInModView ? '/mod' : boardPath ? `/${boardPath}` : '';
-              return weeklyFeed.length > feed.length ? (
-                <div className={styles.morePostsSuggestion}>
-                  <Trans
-                    i18nKey='more_threads_last_week'
-                    values={{ currentTimeFilterName, count: feed.length }}
-                    components={{
-                      1: <Link to={`${basePath}/1w`} />,
-                    }}
-                  />
-                </div>
-              ) : monthlyFeed.length > feed.length ? (
-                <div className={styles.morePostsSuggestion}>
-                  <Trans
-                    i18nKey='more_threads_last_month'
-                    values={{ currentTimeFilterName, count: feed.length }}
-                    components={{
-                      1: <Link to={`${basePath}/1m`} />,
-                    }}
-                  />
-                </div>
-              ) : (
-                <div className={styles.morePostsSuggestion}>
-                  <Trans
-                    i18nKey='more_threads_last_year'
-                    values={{ currentTimeFilterName, count: feed.length }}
-                    components={{
-                      1: <Link to={`${basePath}/1y`} />,
-                    }}
-                  />
-                </div>
-              );
-            })()
-          )}
-        </>
-      );
-    }
-    return (
-      <div className={styles.footer}>
-        {footerContent}
-        <div>
-          {subplebbitState === 'failed' ? (
-            <span className='red'>{subplebbitState}</span>
-          ) : isInSubscriptionsView && subscriptions?.length === 0 ? (
-            <span className='red'>{t('not_subscribed_to_any_board')}</span>
-          ) : isInModView && accountSubplebbitAddresses?.length === 0 ? (
-            <span className='red'>{t('not_mod_of_any_board')}</span>
-          ) : blocked ? (
-            <span className='red'>{t('you_have_blocked_this_board')}</span>
-          ) : (
-            hasMore && <LoadingEllipsis string={loadingStateString} />
-          )}
-          {blocked && (
-            <>
-              &nbsp;&nbsp;[
-              <span
-                className={styles.button}
-                onClick={() => {
-                  unblock();
-                  reset();
-                }}
-              >
-                {t('unblock')}
-              </span>
-              ]
-            </>
-          )}
-        </div>
-      </div>
-    );
+  const handleUnblock = () => {
+    unblock();
+    reset();
   };
+
+  // Memoize footer component to preserve identity across renders (Virtuoso optimization)
+  // Note: useFeedStateString is called inside BoardFooter to isolate re-renders from backend state changes
+  const footerComponents = useMemo(
+    () => ({
+      Footer: () => (
+        <BoardFooter
+          subplebbitAddresses={subplebbitAddresses}
+          hasMore={hasMore}
+          combinedFeedLength={combinedFeed.length}
+          subplebbitAddressesWithNewerPosts={subplebbitAddressesWithNewerPosts}
+          onNewerPostsClick={handleNewerPostsButtonClick}
+          isInAllView={isInAllView}
+          isInSubscriptionsView={isInSubscriptionsView}
+          isInModView={isInModView}
+          showMorePostsSuggestion={showMorePostsSuggestion}
+          feedLength={feedLength}
+          weeklyFeedLength={weeklyFeedLength}
+          monthlyFeedLength={monthlyFeedLength}
+          yearlyFeedLength={yearlyFeedLength}
+          boardPath={boardPath}
+          currentTimeFilterName={currentTimeFilterName}
+          subplebbitState={subplebbitState}
+          subscriptionsLength={subscriptions?.length || 0}
+          accountSubplebbitAddressesLength={accountSubplebbitAddresses?.length || 0}
+          blocked={blocked || false}
+          onUnblock={handleUnblock}
+        />
+      ),
+    }),
+    [
+      subplebbitAddresses,
+      hasMore,
+      combinedFeed.length,
+      subplebbitAddressesWithNewerPosts,
+      handleNewerPostsButtonClick,
+      isInAllView,
+      isInSubscriptionsView,
+      isInModView,
+      showMorePostsSuggestion,
+      feedLength,
+      weeklyFeedLength,
+      monthlyFeedLength,
+      yearlyFeedLength,
+      boardPath,
+      currentTimeFilterName,
+      subplebbitState,
+      subscriptions?.length,
+      accountSubplebbitAddresses?.length,
+      blocked,
+      handleUnblock,
+    ],
+  );
 
   const virtuosoRef = useRef<VirtuosoHandle | null>(null);
   const virtuosoStateKey = feedCacheKey ? `${feedCacheKey}-${sortType}-${timeFilterSeconds}` : `${location.pathname}-${sortType}-${timeFilterSeconds}`;
@@ -381,18 +482,49 @@ const Board = ({ feedCacheKey, viewType, boardIdentifier: boardIdentifierProp, t
             <ErrorDisplay error={subplebbitError} />
           </div>
         )}
-        <Virtuoso
-          increaseViewportBy={{ bottom: 1200, top: 1200 }}
-          totalCount={combinedFeed.length}
-          data={combinedFeed}
-          itemContent={(index, post) => <Post index={index} post={post} />}
-          useWindowScroll={true}
-          components={{ Footer }}
-          endReached={loadMore}
-          ref={virtuosoRef}
-          restoreStateFrom={lastVirtuosoState}
-          initialScrollTop={lastVirtuosoState?.scrollTop}
-        />
+        {/* Use Virtuoso for infinite scroll only when there's more content to paginate */}
+        {hasMore ? (
+          <Virtuoso
+            increaseViewportBy={{ bottom: 1200, top: 1200 }}
+            totalCount={combinedFeed.length}
+            data={combinedFeed}
+            itemContent={(index, post) => <Post index={index} post={post} />}
+            useWindowScroll={true}
+            components={footerComponents}
+            endReached={loadMore}
+            ref={virtuosoRef}
+            restoreStateFrom={lastVirtuosoState}
+            initialScrollTop={lastVirtuosoState?.scrollTop}
+          />
+        ) : (
+          <>
+            {combinedFeed.map((post, index) => (
+              <Post key={post.cid} index={index} post={post} />
+            ))}
+            <BoardFooter
+              subplebbitAddresses={subplebbitAddresses}
+              hasMore={hasMore}
+              combinedFeedLength={combinedFeed.length}
+              subplebbitAddressesWithNewerPosts={subplebbitAddressesWithNewerPosts}
+              onNewerPostsClick={handleNewerPostsButtonClick}
+              isInAllView={isInAllView}
+              isInSubscriptionsView={isInSubscriptionsView}
+              isInModView={isInModView}
+              showMorePostsSuggestion={showMorePostsSuggestion}
+              feedLength={feedLength}
+              weeklyFeedLength={weeklyFeedLength}
+              monthlyFeedLength={monthlyFeedLength}
+              yearlyFeedLength={yearlyFeedLength}
+              boardPath={boardPath}
+              currentTimeFilterName={currentTimeFilterName}
+              subplebbitState={subplebbitState}
+              subscriptionsLength={subscriptions?.length || 0}
+              accountSubplebbitAddressesLength={accountSubplebbitAddresses?.length || 0}
+              blocked={blocked || false}
+              onUnblock={handleUnblock}
+            />
+          </>
+        )}
       </div>
     </>
   );

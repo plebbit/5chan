@@ -374,8 +374,8 @@ const PostMobile = ({ post, roles, showAllReplies, showReplies = true }: PostPro
                 </div>
               )}
             </div>
-            {/* Virtuoso infinite scroll for post page view with more than 25 replies */}
-            {!(pinned && !isInPostView) && showAllReplies && !isInPendingPostView && showReplies && replyCount > 25 && (
+            {/* Virtuoso infinite scroll for post page view when there's more content to paginate */}
+            {!(pinned && !isInPostView) && showAllReplies && !isInPendingPostView && showReplies && hasMore && (
               <Virtuoso
                 increaseViewportBy={{ bottom: 1200, top: 1200 }}
                 totalCount={filteredReplies.length}
@@ -393,12 +393,12 @@ const PostMobile = ({ post, roles, showAllReplies, showReplies = true }: PostPro
                 initialScrollTop={lastVirtuosoState?.scrollTop}
               />
             )}
-            {/* Non-virtualized rendering for post page view with 25 or fewer replies */}
+            {/* Non-virtualized rendering for post page view when all replies fit on one page */}
             {!(pinned && !isInPostView) &&
               showAllReplies &&
               !isInPendingPostView &&
               showReplies &&
-              replyCount <= 25 &&
+              !hasMore &&
               filteredReplies.map((reply, index) => (
                 <div key={index} className={styles.replyContainer}>
                   <Reply postReplyCount={replyCount} reply={reply} roles={roles} threadNumber={post?.number} />

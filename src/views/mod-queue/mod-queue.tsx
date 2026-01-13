@@ -236,13 +236,7 @@ const ModQueueRow = ({ comment, isOdd = false }: ModQueueRowProps) => {
         {isMobile ? (
           // On mobile, show shorter time ago format without tooltip
           isAwaitingApproval && isOverThreshold ? (
-            <>
-              <span>{getFormattedTimeAgo(timestamp)}</span>
-              <span className={styles.alertWrapper}>
-                {' '}
-                (<span className={styles.alert}>{getFormattedTimeAgo(timestamp)}</span>)
-              </span>
-            </>
+            <span className={styles.alert}>{getFormattedTimeAgo(timestamp)}</span>
           ) : (
             <span>{getFormattedTimeAgo(timestamp)}</span>
           )
@@ -638,8 +632,8 @@ export const ModQueueView = ({ boardIdentifier: propBoardIdentifier }: ModQueueV
             <div className={styles.actionsHeader}>{t('actions')}</div>
           </div>
 
-          {/* Use Virtuoso for infinite scroll only when feed is large enough to warrant it */}
-          {feed.length > 25 ? (
+          {/* Use Virtuoso for infinite scroll only when there's more content to paginate */}
+          {hasMore ? (
             <Virtuoso
               useWindowScroll
               data={feed}

@@ -24,6 +24,168 @@ import { commentMatchesPattern } from '../../lib/utils/pattern-utils';
 
 const lastVirtuosoStates: { [key: string]: StateSnapshot } = {};
 
+interface CatalogFooterProps {
+  subplebbitAddresses: string[];
+  hasMore: boolean;
+  feedLength: number;
+  combinedFeedLength: number;
+  subplebbitAddressesWithNewerPosts: string[];
+  onNewerPostsClick: () => void;
+  isInAllView: boolean;
+  isInSubscriptionsView: boolean;
+  showMorePostsSuggestion: boolean;
+  weeklyFeedLength: number;
+  monthlyFeedLength: number;
+  yearlyFeedLength: number;
+  boardPath: string | undefined;
+  currentTimeFilterName: string | undefined;
+}
+
+// Defined outside Catalog to preserve component identity across renders (Virtuoso optimization)
+// The useFeedStateString hook is called here instead of in Catalog to isolate re-renders
+// caused by backend IPFS state changes to just this footer component
+const CatalogFooter = ({
+  subplebbitAddresses,
+  hasMore,
+  feedLength,
+  combinedFeedLength,
+  subplebbitAddressesWithNewerPosts,
+  onNewerPostsClick,
+  isInAllView,
+  isInSubscriptionsView,
+  showMorePostsSuggestion,
+  weeklyFeedLength,
+  monthlyFeedLength,
+  yearlyFeedLength,
+  boardPath,
+  currentTimeFilterName,
+}: CatalogFooterProps) => {
+  const { t } = useTranslation();
+
+  const loadingStateString =
+    useFeedStateString(subplebbitAddresses) ||
+    (feedLength === 0 && !(weeklyFeedLength > feedLength || monthlyFeedLength > feedLength || yearlyFeedLength > monthlyFeedLength))
+      ? t('loading_feed')
+      : t('looking_for_more_posts');
+
+  let footerContent;
+  if (feedLength === 0) {
+    if (combinedFeedLength === 0) {
+      footerContent = t('no_threads');
+    }
+  }
+  if (hasMore || (subplebbitAddresses && subplebbitAddresses.length === 0)) {
+    footerContent = (
+      <>
+        {subplebbitAddressesWithNewerPosts.length > 0 ? (
+          <div className={styles.stateString}>
+            <Trans
+              i18nKey='newer_threads_available'
+              components={{
+                1: <span className={styles.newerPostsButton} onClick={onNewerPostsClick} />,
+              }}
+            />
+          </div>
+        ) : (
+          (isInAllView || isInSubscriptionsView) &&
+          showMorePostsSuggestion &&
+          (monthlyFeedLength > feedLength || yearlyFeedLength > monthlyFeedLength) &&
+          (weeklyFeedLength > feedLength ? (
+            <div className={styles.stateString}>
+              <Trans
+                i18nKey='more_threads_last_week'
+                values={{ currentTimeFilterName, count: feedLength }}
+                components={{
+                  1: <Link to={(isInAllView ? '/all/catalog' : isInSubscriptionsView ? '/subs/catalog' : `/${boardPath}/catalog`) + '/1w'} />,
+                }}
+              />
+            </div>
+          ) : monthlyFeedLength > feedLength ? (
+            <div className={styles.stateString}>
+              <Trans
+                i18nKey='more_threads_last_month'
+                values={{ currentTimeFilterName, count: feedLength }}
+                components={{
+                  1: <Link to={(isInAllView ? '/all/catalog' : isInSubscriptionsView ? '/subs/catalog' : `/${boardPath}/catalog`) + '/1m'} />,
+                }}
+              />
+            </div>
+          ) : (
+            <div className={styles.stateString}>
+              <Trans
+                i18nKey='more_threads_last_year'
+                values={{ currentTimeFilterName, count: feedLength }}
+                components={{
+                  1: <Link to={(isInAllView ? '/all/catalog' : isInSubscriptionsView ? '/subs/catalog' : `/${boardPath}/catalog`) + '/1y'} />,
+                }}
+              />
+            </div>
+          ))
+        )}
+        <div className={styles.stateString}>
+          <LoadingEllipsis string={loadingStateString} />
+        </div>
+      </>
+    );
+  }
+  return <div className={styles.footer}>{footerContent}</div>;
+};
+
+// Separate component for the loading state when there's no feed
+// This also calls useFeedStateString internally to isolate re-renders
+interface CatalogLoadingProps {
+  subplebbitAddresses: string[];
+  hasMore: boolean;
+  feedLength: number;
+  weeklyFeedLength: number;
+  monthlyFeedLength: number;
+  yearlyFeedLength: number;
+  state: string | undefined;
+  subscriptionsLength: number;
+  blocked: boolean;
+  combinedFeedLength: number;
+  error: Error | undefined;
+}
+
+const CatalogLoading = ({
+  subplebbitAddresses,
+  hasMore,
+  feedLength,
+  weeklyFeedLength,
+  monthlyFeedLength,
+  yearlyFeedLength,
+  state,
+  subscriptionsLength,
+  blocked,
+  combinedFeedLength,
+  error,
+}: CatalogLoadingProps) => {
+  const { t } = useTranslation();
+
+  const rawFeedStateString = useFeedStateString(subplebbitAddresses);
+  const loadingStateString =
+    rawFeedStateString || (feedLength === 0 && !(weeklyFeedLength > feedLength || monthlyFeedLength > feedLength || yearlyFeedLength > monthlyFeedLength))
+      ? t('loading_feed')
+      : t('looking_for_more_posts');
+
+  return (
+    <div className={styles.stateString}>
+      {state === 'failed' ? (
+        <span className='red'>{state}</span>
+      ) : subscriptionsLength === 0 ? (
+        <span className='red'>{t('not_subscribed_to_any_board')}</span>
+      ) : blocked ? (
+        t('you_have_blocked_this_board')
+      ) : !hasMore && combinedFeedLength === 0 ? (
+        t('no_threads')
+      ) : (
+        hasMore && <LoadingEllipsis string={loadingStateString} />
+      )}
+      <ErrorDisplay error={error} />
+    </div>
+  );
+};
+
 const createContentFilter = (
   filterItems: { text: string; enabled: boolean; count: number; filteredCids: Set<string>; hide: boolean; top: boolean; color?: string }[],
   subplebbitAddress: string,
@@ -325,98 +487,49 @@ const Catalog = ({ feedCacheKey, viewType, boardIdentifier: boardIdentifierProp,
   const weeklyFeedLength = weeklyFeed.length;
   const monthlyFeedLength = monthlyFeed.length;
   const yearlyFeedLength = yearlyFeed.length;
-  const hasFeedLoaded = !!feed;
-  const loadingStateString =
-    useFeedStateString(subplebbitAddresses) ||
-    !hasFeedLoaded ||
-    (feedLength === 0 && !(weeklyFeedLength > feedLength || monthlyFeedLength > feedLength || yearlyFeedLength > monthlyFeedLength))
-      ? t('loading_feed')
-      : t('looking_for_more_posts');
-
-  const loadingString = (
-    <div className={styles.stateString}>
-      {state === 'failed' ? (
-        <span className='red'>{state}</span>
-      ) : isInSubscriptionsView && subscriptions?.length === 0 ? (
-        <span className='red'>{t('not_subscribed_to_any_board')}</span>
-      ) : blocked ? (
-        t('you_have_blocked_this_board')
-      ) : !hasMore && combinedFeed.length === 0 ? (
-        t('no_threads')
-      ) : (
-        hasMore && <LoadingEllipsis string={loadingStateString} />
-      )}
-      <ErrorDisplay error={error} />
-    </div>
-  );
 
   const currentTimeFilterName = timeFilterName || params?.timeFilterName;
 
-  const Footer = () => {
-    let footerContent;
-    if (feed.length === 0) {
-      if (blocked) {
-        footerContent = t('you_have_blocked_this_board');
-      } else if (combinedFeed.length === 0) {
-        footerContent = t('no_threads');
-      }
-    }
-    if (hasMore || (subplebbitAddresses && subplebbitAddresses.length === 0)) {
-      footerContent = (
-        <>
-          {subplebbitAddressesWithNewerPosts.length > 0 ? (
-            <div className={styles.stateString}>
-              <Trans
-                i18nKey='newer_threads_available'
-                components={{
-                  1: <span className={styles.newerPostsButton} onClick={handleNewerPostsButtonClick} />,
-                }}
-              />
-            </div>
-          ) : (
-            (isInAllView || isInSubscriptionsView) &&
-            showMorePostsSuggestion &&
-            (monthlyFeed.length > feed.length || yearlyFeed.length > monthlyFeed.length) &&
-            (weeklyFeed.length > feed.length ? (
-              <div className={styles.stateString}>
-                <Trans
-                  i18nKey='more_threads_last_week'
-                  values={{ currentTimeFilterName, count: feed.length }}
-                  components={{
-                    1: <Link to={(isInAllView ? '/all/catalog' : isInSubscriptionsView ? '/subs/catalog' : `/${boardPath}/catalog`) + '/1w'} />,
-                  }}
-                />
-              </div>
-            ) : monthlyFeed.length > feed.length ? (
-              <div className={styles.stateString}>
-                <Trans
-                  i18nKey='more_threads_last_month'
-                  values={{ currentTimeFilterName, count: feed.length }}
-                  components={{
-                    1: <Link to={(isInAllView ? '/all/catalog' : isInSubscriptionsView ? '/subs/catalog' : `/${boardPath}/catalog`) + '/1m'} />,
-                  }}
-                />
-              </div>
-            ) : (
-              <div className={styles.stateString}>
-                <Trans
-                  i18nKey='more_threads_last_year'
-                  values={{ currentTimeFilterName, count: feed.length }}
-                  components={{
-                    1: <Link to={(isInAllView ? '/all/catalog' : isInSubscriptionsView ? '/subs/catalog' : `/${boardPath}/catalog`) + '/1y'} />,
-                  }}
-                />
-              </div>
-            ))
-          )}
-          <div className={styles.stateString}>
-            <LoadingEllipsis string={loadingStateString} />
-          </div>
-        </>
-      );
-    }
-    return <div className={styles.footer}>{footerContent}</div>;
-  };
+  // Memoize footer component to preserve identity across renders (Virtuoso optimization)
+  // Note: useFeedStateString is called inside CatalogFooter to isolate re-renders from backend state changes
+  const footerComponents = useMemo(
+    () => ({
+      Footer: () => (
+        <CatalogFooter
+          subplebbitAddresses={subplebbitAddresses}
+          hasMore={hasMore}
+          feedLength={feedLength}
+          combinedFeedLength={combinedFeed.length}
+          subplebbitAddressesWithNewerPosts={subplebbitAddressesWithNewerPosts}
+          onNewerPostsClick={handleNewerPostsButtonClick}
+          isInAllView={isInAllView}
+          isInSubscriptionsView={isInSubscriptionsView}
+          showMorePostsSuggestion={showMorePostsSuggestion}
+          weeklyFeedLength={weeklyFeedLength}
+          monthlyFeedLength={monthlyFeedLength}
+          yearlyFeedLength={yearlyFeedLength}
+          boardPath={boardPath}
+          currentTimeFilterName={currentTimeFilterName}
+        />
+      ),
+    }),
+    [
+      subplebbitAddresses,
+      hasMore,
+      feedLength,
+      combinedFeed.length,
+      subplebbitAddressesWithNewerPosts,
+      handleNewerPostsButtonClick,
+      isInAllView,
+      isInSubscriptionsView,
+      showMorePostsSuggestion,
+      weeklyFeedLength,
+      monthlyFeedLength,
+      yearlyFeedLength,
+      boardPath,
+      currentTimeFilterName,
+    ],
+  );
 
   const isFeedLoaded = feed.length > 0 || state === 'failed';
 
@@ -540,22 +653,59 @@ const Catalog = ({ feedCacheKey, viewType, boardIdentifier: boardIdentifierProp,
       <div className={styles.catalog}>
         {processedFeed?.length !== 0 ? (
           <>
-            <Virtuoso
-              increaseViewportBy={{ bottom: 1200, top: 1200 }}
-              totalCount={rows?.length || 0}
-              data={rows}
-              itemContent={(index, row) => <CatalogRow index={index} row={row} />}
-              useWindowScroll={true}
-              components={{ Footer }}
-              endReached={loadMore}
-              ref={virtuosoRef}
-              restoreStateFrom={lastVirtuosoState}
-              initialScrollTop={lastVirtuosoState?.scrollTop}
-            />
+            {/* Use Virtuoso for infinite scroll only when there's more content to paginate */}
+            {hasMore ? (
+              <Virtuoso
+                increaseViewportBy={{ bottom: 1200, top: 1200 }}
+                totalCount={rows?.length || 0}
+                data={rows}
+                itemContent={(index, row) => <CatalogRow index={index} row={row} />}
+                useWindowScroll={true}
+                components={footerComponents}
+                endReached={loadMore}
+                ref={virtuosoRef}
+                restoreStateFrom={lastVirtuosoState}
+                initialScrollTop={lastVirtuosoState?.scrollTop}
+              />
+            ) : (
+              <>
+                {rows.map((row, index) => (
+                  <CatalogRow key={index} index={index} row={row} />
+                ))}
+                <CatalogFooter
+                  subplebbitAddresses={subplebbitAddresses}
+                  hasMore={hasMore}
+                  feedLength={feedLength}
+                  combinedFeedLength={combinedFeed.length}
+                  subplebbitAddressesWithNewerPosts={subplebbitAddressesWithNewerPosts}
+                  onNewerPostsClick={handleNewerPostsButtonClick}
+                  isInAllView={isInAllView}
+                  isInSubscriptionsView={isInSubscriptionsView}
+                  showMorePostsSuggestion={showMorePostsSuggestion}
+                  weeklyFeedLength={weeklyFeedLength}
+                  monthlyFeedLength={monthlyFeedLength}
+                  yearlyFeedLength={yearlyFeedLength}
+                  boardPath={boardPath}
+                  currentTimeFilterName={currentTimeFilterName}
+                />
+              </>
+            )}
           </>
         ) : (
           <div className={styles.footer}>
-            {loadingString}
+            <CatalogLoading
+              subplebbitAddresses={subplebbitAddresses}
+              hasMore={hasMore}
+              feedLength={feedLength}
+              weeklyFeedLength={weeklyFeedLength}
+              monthlyFeedLength={monthlyFeedLength}
+              yearlyFeedLength={yearlyFeedLength}
+              state={state}
+              subscriptionsLength={isInSubscriptionsView ? subscriptions?.length || 0 : 1}
+              blocked={blocked || false}
+              combinedFeedLength={combinedFeed.length}
+              error={error}
+            />
             {blocked && (
               <>
                 &nbsp;&nbsp;[
