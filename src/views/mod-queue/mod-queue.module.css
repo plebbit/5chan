@@ -313,7 +313,7 @@ span.reject:hover {
 }
 
 /* Mobile Layout - keeps table structure like desktop, just narrower columns */
-@media (max-width: 600px) {
+@media (max-width: 639px) {
   .container {
     padding: 5px;
   }

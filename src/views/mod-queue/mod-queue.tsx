@@ -236,13 +236,7 @@ const ModQueueRow = ({ comment, isOdd = false }: ModQueueRowProps) => {
         {isMobile ? (
           // On mobile, show shorter time ago format without tooltip
           isAwaitingApproval && isOverThreshold ? (
-            <>
-              <span>{getFormattedTimeAgo(timestamp)}</span>
-              <span className={styles.alertWrapper}>
-                {' '}
-                (<span className={styles.alert}>{getFormattedTimeAgo(timestamp)}</span>)
-              </span>
-            </>
+            <span className={styles.alert}>{getFormattedTimeAgo(timestamp)}</span>
           ) : (
             <span>{getFormattedTimeAgo(timestamp)}</span>
           )
