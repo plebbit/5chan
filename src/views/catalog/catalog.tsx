@@ -1,8 +1,7 @@
 import { useEffect, useMemo, useRef, useState, useCallback } from 'react';
 import { Link, useLocation, useNavigationType, useParams } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
-import { Comment, useAccount, useFeed, useBlock, useAccountComments } from '@plebbit/plebbit-react-hooks';
-import { useSubplebbitField } from '../../hooks/use-stable-subplebbit';
+import { Comment, useAccount, useFeed, useSubplebbit, useBlock, useAccountComments } from '@plebbit/plebbit-react-hooks';
 import { Virtuoso, VirtuosoHandle, StateSnapshot } from 'react-virtuoso';
 import { getCommentMediaInfo, getHasThumbnail } from '../../lib/utils/media-utils';
 import useCatalogFeedRows from '../../hooks/use-catalog-feed-rows';
@@ -480,14 +479,8 @@ const Catalog = ({ feedCacheKey, viewType, boardIdentifier: boardIdentifierProp,
     }
   }, [reset, setResetFunction, isVisible]);
 
-  // Use stable field selectors to avoid re-renders from updatingState changes
-  const error = useSubplebbitField(subplebbitAddress, (sub) => sub?.error);
-  const shortAddress = useSubplebbitField(subplebbitAddress, (sub) => sub?.shortAddress);
-  const title = useSubplebbitField(subplebbitAddress, (sub) => sub?.title);
-  // Derive state from updatedAt field - if updatedAt exists, state is 'succeeded'
-  const updatedAt = useSubplebbitField(subplebbitAddress, (sub) => sub?.updatedAt);
-  const state = updatedAt ? 'succeeded' : 'fetching-ipns';
-
+  const subplebbit = useSubplebbit({ subplebbitAddress });
+  const { error, shortAddress, state, title } = subplebbit || {};
   const { blocked, unblock } = useBlock({ address: subplebbitAddress });
 
   const feedLength = feed.length;

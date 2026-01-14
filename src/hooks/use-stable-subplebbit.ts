@@ -69,34 +69,3 @@ export const useSubplebbitField = <T>(subplebbitAddress: string | undefined, sel
 
   return field;
 };
-
-/**
- * Hook to get multiple subplebbits with stable references.
- * Only re-renders when actual content changes (updatedAt, posts pages), not transient state.
- *
- * @param subplebbitAddresses - Array of subplebbit addresses
- * @returns Array of subplebbit objects
- */
-export const useStableSubplebbits = (subplebbitAddresses: string[]) => {
-  const subplebbits = useSubplebbitsStore(
-    (state) => subplebbitAddresses.map((address) => state.subplebbits[address]),
-    // Custom equality: only re-render if stable content fields change
-    (prev, next) => {
-      if (prev.length !== next.length) return false;
-      return prev.every((p, i) => {
-        const n = next[i];
-        if (p === n) return true;
-        if (!p || !n) return p === n;
-        // Compare stable content fields only - ignore updatingState, state, clients, etc.
-        return (
-          p.address === n.address &&
-          p.updatedAt === n.updatedAt &&
-          // For PopularThreadsBox: compare posts pages reference (changes when new posts loaded)
-          p.posts?.pages?.hot === n.posts?.pages?.hot
-        );
-      });
-    },
-  );
-
-  return subplebbits;
-};

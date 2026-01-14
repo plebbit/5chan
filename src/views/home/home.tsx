@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useRef, FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
+import { useSubplebbits } from '@plebbit/plebbit-react-hooks';
 import styles from './home.module.css';
 import { useDefaultSubplebbits, useDefaultSubplebbitAddresses } from '../../hooks/use-default-subplebbits';
-import useSubplebbitsStats from '../../hooks/use-subplebbits-stats';
+import { SubplebbitStatsCollector, useSubplebbitsStatsStore } from '../../hooks/use-subplebbits-stats';
 import PopularThreadsBox from './popular-threads-box';
 import BoardsList from './boards-list';
 import Version from '../../components/version';
@@ -74,45 +75,48 @@ const InfoBox = () => {
 
 const Stats = ({ subplebbitAddresses }: { subplebbitAddresses: string[] }) => {
   const { t } = useTranslation();
-  const stats = useSubplebbitsStats({ subplebbitAddresses });
+  const subplebbitsStats = useSubplebbitsStatsStore((state) => state.subplebbitsStats);
 
-  const allStatsLoaded = useMemo(() => {
-    return subplebbitAddresses.every((address) => stats[address]);
-  }, [stats, subplebbitAddresses]);
-
-  const { totalPosts, currentUsers } = useMemo(() => {
+  const { totalPosts, currentUsers, boardsTracked } = useMemo(() => {
     let totalPosts = 0;
     let currentUsers = 0;
+    let boardsTracked = 0;
 
-    if (allStatsLoaded) {
-      Object.values(stats).forEach((stat: any) => {
+    subplebbitAddresses.forEach((address) => {
+      const stat = subplebbitsStats[address];
+      if (stat) {
         totalPosts += stat.allPostCount || 0;
         currentUsers += stat.weekActiveUserCount || 0;
-      });
-    }
+        boardsTracked++;
+      }
+    });
 
-    return { totalPosts, currentUsers };
-  }, [stats, allStatsLoaded]);
-
-  const boardsTracked = Object.values(stats).filter((stat: any) => stat && !stat.loading).length;
+    return { totalPosts, currentUsers, boardsTracked };
+  }, [subplebbitsStats, subplebbitAddresses]);
 
   return (
-    <div className={styles.box}>
-      <div className={`${styles.boxBar} ${styles.color2ColorBar}`}>
-        <h2 className='capitalize'>{t('stats')}</h2>
+    <>
+      {/* Render collectors to fetch stats for each subplebbit */}
+      {subplebbitAddresses.map((address) => (
+        <SubplebbitStatsCollector key={address} subplebbitAddress={address} />
+      ))}
+      <div className={styles.box}>
+        <div className={`${styles.boxBar} ${styles.color2ColorBar}`}>
+          <h2 className='capitalize'>{t('stats')}</h2>
+        </div>
+        <div className={`${styles.boxContent} ${styles.stats}`}>
+          <div className={styles.stat}>
+            <b>{t('total_posts')}</b> {totalPosts}
+          </div>
+          <div className={styles.stat}>
+            <b>{t('current_users')}</b> {currentUsers}
+          </div>
+          <div className={styles.stat}>
+            <b>{t('boards_tracked')}</b> {boardsTracked}
+          </div>
+        </div>
       </div>
-      <div className={`${styles.boxContent} ${styles.stats}`}>
-        <div className={styles.stat}>
-          <b>{t('total_posts')}</b> {totalPosts}
-        </div>
-        <div className={styles.stat}>
-          <b>{t('current_users')}</b> {currentUsers}
-        </div>
-        <div className={styles.stat}>
-          <b>{t('boards_tracked')}</b> {boardsTracked}
-        </div>
-      </div>
-    </div>
+    </>
   );
 };
 
@@ -190,6 +194,7 @@ export const HomeLogo = () => {
 const Home = () => {
   const defaultSubplebbits = useDefaultSubplebbits();
   const subplebbitAddresses = useDefaultSubplebbitAddresses();
+  const { subplebbits } = useSubplebbits({ subplebbitAddresses });
   const { closeDirectoryModal } = useDirectoryModalStore();
 
   useEffect(() => {
@@ -212,7 +217,7 @@ const Home = () => {
         <SearchBar />
         <InfoBox />
         <BoardsList multisub={defaultSubplebbits} />
-        <PopularThreadsBox multisub={defaultSubplebbits} subplebbitAddresses={subplebbitAddresses} />
+        <PopularThreadsBox multisub={defaultSubplebbits} subplebbits={subplebbits} />
         <Stats subplebbitAddresses={subplebbitAddresses} />
         <Footer />
       </div>
