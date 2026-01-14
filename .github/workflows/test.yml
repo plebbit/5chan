@@ -115,7 +115,7 @@ jobs:
       - name: Build Electron App
         # Use --dir to build only the .app bundle without DMG
         # This avoids flaky hdiutil "Resource busy" errors in CI
-        run: yarn build && yarn build:preload && electron-builder build --publish never -m --dir
+        run: yarn build && yarn build:preload && yarn electron-builder build --publish never -m --dir
 
       - name: Smoke Test
         run: |
@@ -191,7 +191,7 @@ jobs:
         # On M1 runner, this should produce arm64 build
         # Use --dir to build only the .app bundle without DMG
         # This avoids flaky hdiutil "Resource busy" errors in CI
-        run: yarn build && yarn build:preload && electron-builder build --publish never -m --dir
+        run: yarn build && yarn build:preload && yarn electron-builder build --publish never -m --dir
 
       - name: Smoke Test
         run: |
