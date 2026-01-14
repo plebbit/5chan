@@ -1,8 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
-import { useAccountComment } from '@plebbit/plebbit-react-hooks';
-import { useSubplebbitField } from '../../hooks/use-stable-subplebbit';
-import { useStableSubplebbitStats } from '../../hooks/use-stable-subplebbit-stats';
+import { useAccountComment, useSubplebbit, useSubplebbitStats } from '@plebbit/plebbit-react-hooks';
 import useSubplebbitsPagesStore from '@plebbit/plebbit-react-hooks/dist/stores/subplebbits-pages';
 import useSubplebbitStatsVisibilityStore from '../../stores/use-subplebbit-stats-visibility-store';
 import { useResolvedSubplebbitAddress } from '../../hooks/use-resolved-subplebbit-address';
@@ -16,12 +14,10 @@ const SubplebbitStats = () => {
   const resolvedAddress = useResolvedSubplebbitAddress();
   const subplebbitAddress = resolvedAddress || accountComment?.subplebbitAddress;
 
-  // Only subscribe to address and createdAt to avoid rerenders from updatingState changes
-  const address = useSubplebbitField(subplebbitAddress, (subplebbit) => subplebbit?.address);
-  const createdAt = useSubplebbitField(subplebbitAddress, (subplebbit) => subplebbit?.createdAt);
+  const subplebbit = useSubplebbit({ subplebbitAddress });
+  const { address, createdAt } = subplebbit || {};
 
-  // Use stable stats hook that doesn't depend on useSubplebbit internally
-  const stats = useStableSubplebbitStats(address);
+  const stats = useSubplebbitStats({ subplebbitAddress: address });
 
   const { hiddenStats, toggleVisibility } = useSubplebbitStatsVisibilityStore();
   const isHidden = hiddenStats[address];
@@ -54,13 +50,13 @@ const SubplebbitStats = () => {
               <td>
                 <Trans
                   i18nKey='board_stats_hour'
-                  values={{ userCount: stats?.hourActiveUserCount ?? '?', postCount: stats?.hourPostCount ?? '?' }}
+                  values={{ userCount: stats.hourActiveUserCount ?? '?', postCount: stats.hourPostCount ?? '?' }}
                   components={{ 1: <span key='hour-stat-value' className={styles.statValue} /> }}
                 />
                 {' / '}
                 <Trans
                   i18nKey='board_stats_day'
-                  values={{ userCount: stats?.dayActiveUserCount ?? '?', postCount: stats?.dayPostCount ?? '?' }}
+                  values={{ userCount: stats.dayActiveUserCount ?? '?', postCount: stats.dayPostCount ?? '?' }}
                   components={{ 1: <span key='day-stat-value' className={styles.statValue} /> }}
                 />
               </td>
@@ -69,13 +65,13 @@ const SubplebbitStats = () => {
               <td>
                 <Trans
                   i18nKey='board_stats_week'
-                  values={{ userCount: stats?.weekActiveUserCount ?? '?', postCount: stats?.weekPostCount ?? '?' }}
+                  values={{ userCount: stats.weekActiveUserCount ?? '?', postCount: stats.weekPostCount ?? '?' }}
                   components={{ 1: <span key='week-stat-value' className={styles.statValue} /> }}
                 />
                 {' / '}
                 <Trans
                   i18nKey='board_stats_month'
-                  values={{ userCount: stats?.monthActiveUserCount ?? '?', postCount: stats?.monthPostCount ?? '?' }}
+                  values={{ userCount: stats.monthActiveUserCount ?? '?', postCount: stats.monthPostCount ?? '?' }}
                   components={{ 1: <span key='month-stat-value' className={styles.statValue} /> }}
                 />
               </td>
@@ -86,7 +82,7 @@ const SubplebbitStats = () => {
                 {' / '}
                 <Trans
                   i18nKey='board_stats_all'
-                  values={{ userCount: stats?.allActiveUserCount ?? '?', postCount: stats?.allPostCount ?? '?' }}
+                  values={{ userCount: stats.allActiveUserCount ?? '?', postCount: stats.allPostCount ?? '?' }}
                   components={{ 1: <span key='all-stat-value' className={styles.statValue} /> }}
                 />
               </td>
