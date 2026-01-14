@@ -26,6 +26,12 @@ Currently, directory assignments are temporarily handpicked by developers throug
 
 ### Future Roadmap
 
+#### In-App Board Creation
+
+Creating boards directly from the 5chan web app (5chan.app) is planned. This requires connecting via RPC to a plebbit node—technically already possible, but there's no default connection configured. A default connection would require a public RPC service (similar to what Infura provides for crypto wallets, but for plebbit nodes). This would allow all users to be connected to a P2P node by default using a free tier subscription in the background, potentially monetized via ads injected in the RPC service-owned boards.
+
+#### Pubsub Voting
+
 The protocol design for pubsub voting is already drafted in [plebbit-js issue #25](https://github.com/plebbit/plebbit-js/issues/25). This will enable:
 - Gasless voting using pubsub topics
 - Weighted voting based on token balances
@@ -42,22 +48,15 @@ This feature is on the plebbit-js roadmap but hasn't been implemented yet.
 
 ## Creating a Board
 
-In the plebbit protocol, a 5chan board is called a _subplebbit_. To create and run a subplebbit, you can choose between two options:
-
-### Option 1: Seedit GUI Client (Recommended for beginners)
-
-1. Download the desktop version of the Seedit client, available for Windows, macOS, and Linux: [latest release](https://github.com/plebbit/seedit/releases/latest)
-2. Create a subplebbit using the familiar old.reddit-like UI
-3. Modify its settings to your liking
-4. Keep the app running to keep your board online (it runs an IPFS node)
-
-### Option 2: plebbit-cli Command Line Interface
+In the plebbit protocol, a 5chan board is called a _subplebbit_. To create and run a subplebbit:
 
 1. Install plebbit-cli, available for Windows, macOS, and Linux: [latest release](https://github.com/plebbit/plebbit-cli/releases/latest)
 2. Follow the instructions in the repo's README
 3. When running the daemon for the first time, it will output WebUI links you can use to manage your subplebbit with a GUI
 
-Once created, anyone can connect to your subplebbit using any plebbit client (such as 5chan or Seedit) by using the subplebbit's address. The address is not stored in any central database—plebbit is a pure peer-to-peer protocol.
+Once created, anyone can connect to your subplebbit using any plebbit client (such as 5chan) by using the subplebbit's address. The address is not stored in any central database—plebbit is a pure peer-to-peer protocol.
+
+**Note**: Creating boards directly from the 5chan web app is planned for the future (see [Future Roadmap](#future-roadmap)).
 
 ## Submitting Your Board to a Directory
 
