@@ -71,6 +71,7 @@ const PostPage = () => {
 
   const subplebbit = useSubplebbit({ subplebbitAddress });
   const { error: subplebbitError, shortAddress, title } = subplebbit || {};
+
   const defaultSubplebbits = useDefaultSubplebbits();
 
   // if the comment is a reply, return the post comment instead, then the reply will be highlighted in the thread

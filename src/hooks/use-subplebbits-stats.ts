@@ -1,13 +1,32 @@
 import { useEffect, useMemo } from 'react';
-import { useAccount, useSubplebbits } from '@plebbit/plebbit-react-hooks';
+import { useAccount } from '@plebbit/plebbit-react-hooks';
+import useSubplebbitsStore from '@plebbit/plebbit-react-hooks/dist/stores/subplebbits';
 import { create } from 'zustand';
 
 const pendingFetchCid: { [cid: string]: boolean } = {};
 
+/**
+ * Hook to get stats for multiple subplebbits.
+ * Uses stable store selector to avoid re-renders from updatingState changes.
+ */
 const useSubplebbitsStats = (options: any) => {
   const { subplebbitAddresses, accountName } = options || {};
   const account = useAccount({ accountName });
-  const { subplebbits } = useSubplebbits({ subplebbitAddresses });
+
+  // Use stable selector to only get statsCid for each address
+  // This avoids re-renders when only updatingState changes
+  const statsCids = useSubplebbitsStore(
+    (state) =>
+      (subplebbitAddresses || []).map((address: string) => ({
+        address,
+        statsCid: state.subplebbits[address]?.statsCid,
+      })),
+    // Custom equality: only re-render if statsCid values change
+    (prev, next) => {
+      if (prev.length !== next.length) return false;
+      return prev.every((p: any, i: number) => p.address === next[i].address && p.statsCid === next[i].statsCid);
+    },
+  );
 
   const { setSubplebbitStats, subplebbitsStats } = useSubplebbitsStatsStore();
 
@@ -16,21 +35,21 @@ const useSubplebbitsStats = (options: any) => {
       return;
     }
 
-    subplebbits.forEach((subplebbit) => {
-      if (subplebbit && subplebbit.statsCid && !subplebbitsStats[subplebbit.address] && !pendingFetchCid[subplebbit.statsCid]) {
-        pendingFetchCid[subplebbit.statsCid] = true;
+    statsCids.forEach(({ address, statsCid }: { address: string; statsCid: string | undefined }) => {
+      if (statsCid && !subplebbitsStats[address] && !pendingFetchCid[statsCid]) {
+        pendingFetchCid[statsCid] = true;
         account.plebbit
-          .fetchCid(subplebbit.statsCid)
+          .fetchCid(statsCid)
           .then((fetchedStats: any) => {
-            setSubplebbitStats(subplebbit.address, JSON.parse(fetchedStats));
+            setSubplebbitStats(address, JSON.parse(fetchedStats));
           })
           .catch((error: any) => {
-            pendingFetchCid[subplebbit.statsCid] = false;
-            console.error('Fetching subplebbit stats failed', { subplebbitAddress: subplebbit.address, error });
+            pendingFetchCid[statsCid] = false;
+            console.error('Fetching subplebbit stats failed', { subplebbitAddress: address, error });
           });
       }
     });
-  }, [account, subplebbits, setSubplebbitStats, subplebbitsStats, subplebbitAddresses]);
+  }, [account, statsCids, setSubplebbitStats, subplebbitsStats, subplebbitAddresses]);
 
   return useMemo(() => {
     return subplebbitAddresses.reduce((acc: any, address: any) => {

@@ -1,7 +1,8 @@
-import { memo, useMemo } from 'react';
+import { memo, useMemo, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Comment, Subplebbit } from '@plebbit/plebbit-react-hooks';
+import { Comment, Subplebbit, useAccount } from '@plebbit/plebbit-react-hooks';
+import useSubplebbitsStore from '@plebbit/plebbit-react-hooks/dist/stores/subplebbits';
 import styles from '../home.module.css';
 import usePopularPosts from '../../../hooks/use-popular-posts';
 import usePopularThreadsOptionsStore from '../../../stores/use-popular-threads-options-store';
@@ -12,6 +13,7 @@ import BoxModal from '../box-modal';
 import { MultisubSubplebbit, useDefaultSubplebbits } from '../../../hooks/use-default-subplebbits';
 import { getBoardPath } from '../../../lib/utils/route-utils';
 import { removeMarkdown } from '../../../lib/utils/post-utils';
+import { useStableSubplebbits } from '../../../hooks/use-stable-subplebbit';
 
 interface PopularThreadProps {
   post: Comment;
@@ -67,9 +69,24 @@ const PopularThreadCard = memo(
   },
 );
 
-const PopularThreadsBox = ({ multisub, subplebbits }: { multisub: MultisubSubplebbit[]; subplebbits: any }) => {
+// Uses stable subplebbits hook to avoid re-renders from updatingState changes
+const PopularThreadsBox = ({ multisub, subplebbitAddresses }: { multisub: MultisubSubplebbit[]; subplebbitAddresses: string[] }) => {
   const { t } = useTranslation();
   const { showWorksafeContentOnly, showNsfwContentOnly } = usePopularThreadsOptionsStore();
+
+  const account = useAccount();
+  const addSubplebbitToStore = useSubplebbitsStore((state) => state.addSubplebbitToStore);
+
+  // Trigger fetching subplebbits (same as useSubplebbits does internally)
+  useEffect(() => {
+    if (!account || !subplebbitAddresses) return;
+    for (const address of subplebbitAddresses) {
+      addSubplebbitToStore(address, account).catch(() => {});
+    }
+  }, [subplebbitAddresses?.toString(), account?.id]);
+
+  // Use stable hook that only re-renders when actual content changes
+  const subplebbits = useStableSubplebbits(subplebbitAddresses);
 
   const getFilteredSubplebbits = () => {
     if (showWorksafeContentOnly) {

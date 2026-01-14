@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useRef, FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
-import { useSubplebbits } from '@plebbit/plebbit-react-hooks';
 import styles from './home.module.css';
 import { useDefaultSubplebbits, useDefaultSubplebbitAddresses } from '../../hooks/use-default-subplebbits';
 import useSubplebbitsStats from '../../hooks/use-subplebbits-stats';
@@ -191,7 +190,6 @@ export const HomeLogo = () => {
 const Home = () => {
   const defaultSubplebbits = useDefaultSubplebbits();
   const subplebbitAddresses = useDefaultSubplebbitAddresses();
-  const { subplebbits } = useSubplebbits({ subplebbitAddresses });
   const { closeDirectoryModal } = useDirectoryModalStore();
 
   useEffect(() => {
@@ -214,7 +212,7 @@ const Home = () => {
         <SearchBar />
         <InfoBox />
         <BoardsList multisub={defaultSubplebbits} />
-        <PopularThreadsBox multisub={defaultSubplebbits} subplebbits={subplebbits} />
+        <PopularThreadsBox multisub={defaultSubplebbits} subplebbitAddresses={subplebbitAddresses} />
         <Stats subplebbitAddresses={subplebbitAddresses} />
         <Footer />
       </div>
