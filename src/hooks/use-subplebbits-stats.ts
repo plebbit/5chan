@@ -1,51 +1,13 @@
-import { useEffect, useMemo } from 'react';
-import { useAccount, useSubplebbits } from '@plebbit/plebbit-react-hooks';
+import { useEffect } from 'react';
+import { useSubplebbitStats } from '@plebbit/plebbit-react-hooks';
 import { create } from 'zustand';
-
-const pendingFetchCid: { [cid: string]: boolean } = {};
-
-const useSubplebbitsStats = (options: any) => {
-  const { subplebbitAddresses, accountName } = options || {};
-  const account = useAccount({ accountName });
-  const { subplebbits } = useSubplebbits({ subplebbitAddresses });
-
-  const { setSubplebbitStats, subplebbitsStats } = useSubplebbitsStatsStore();
-
-  useEffect(() => {
-    if (!subplebbitAddresses || subplebbitAddresses.length === 0 || !account) {
-      return;
-    }
-
-    subplebbits.forEach((subplebbit) => {
-      if (subplebbit && subplebbit.statsCid && !subplebbitsStats[subplebbit.address] && !pendingFetchCid[subplebbit.statsCid]) {
-        pendingFetchCid[subplebbit.statsCid] = true;
-        account.plebbit
-          .fetchCid(subplebbit.statsCid)
-          .then((fetchedStats: any) => {
-            setSubplebbitStats(subplebbit.address, JSON.parse(fetchedStats));
-          })
-          .catch((error: any) => {
-            pendingFetchCid[subplebbit.statsCid] = false;
-            console.error('Fetching subplebbit stats failed', { subplebbitAddress: subplebbit.address, error });
-          });
-      }
-    });
-  }, [account, subplebbits, setSubplebbitStats, subplebbitsStats, subplebbitAddresses]);
-
-  return useMemo(() => {
-    return subplebbitAddresses.reduce((acc: any, address: any) => {
-      acc[address] = subplebbitsStats[address] || { loading: true };
-      return acc;
-    }, {});
-  }, [subplebbitsStats, subplebbitAddresses]);
-};
 
 export type SubplebbitsStatsState = {
   subplebbitsStats: { [subplebbitAddress: string]: any };
-  setSubplebbitStats: Function;
+  setSubplebbitStats: (subplebbitAddress: string, stats: any) => void;
 };
 
-const useSubplebbitsStatsStore = create<SubplebbitsStatsState>((set) => ({
+export const useSubplebbitsStatsStore = create<SubplebbitsStatsState>((set) => ({
   subplebbitsStats: {},
   setSubplebbitStats: (subplebbitAddress: string, subplebbitStats: any) =>
     set((state) => ({
@@ -53,4 +15,20 @@ const useSubplebbitsStatsStore = create<SubplebbitsStatsState>((set) => ({
     })),
 }));
 
-export default useSubplebbitsStats;
+/**
+ * Component that fetches stats for a single subplebbit and stores them.
+ * Render one of these for each subplebbit you want to track stats for.
+ */
+export const SubplebbitStatsCollector = ({ subplebbitAddress }: { subplebbitAddress: string }) => {
+  const stats = useSubplebbitStats({ subplebbitAddress });
+  const setSubplebbitStats = useSubplebbitsStatsStore((state) => state.setSubplebbitStats);
+
+  useEffect(() => {
+    // Only update store when we have actual stats (not just loading state)
+    if (stats && stats.allPostCount !== undefined) {
+      setSubplebbitStats(subplebbitAddress, stats);
+    }
+  }, [stats, subplebbitAddress, setSubplebbitStats]);
+
+  return null; // This is a data-fetching component, renders nothing
+};

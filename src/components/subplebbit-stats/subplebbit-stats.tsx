@@ -1,7 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
-import { useAccountComment, useSubplebbitStats } from '@plebbit/plebbit-react-hooks';
-import { useSubplebbitField } from '../../hooks/use-stable-subplebbit';
+import { useAccountComment, useSubplebbit, useSubplebbitStats } from '@plebbit/plebbit-react-hooks';
 import useSubplebbitsPagesStore from '@plebbit/plebbit-react-hooks/dist/stores/subplebbits-pages';
 import useSubplebbitStatsVisibilityStore from '../../stores/use-subplebbit-stats-visibility-store';
 import { useResolvedSubplebbitAddress } from '../../hooks/use-resolved-subplebbit-address';
@@ -15,11 +14,11 @@ const SubplebbitStats = () => {
   const resolvedAddress = useResolvedSubplebbitAddress();
   const subplebbitAddress = resolvedAddress || accountComment?.subplebbitAddress;
 
-  // Only subscribe to address and createdAt to avoid rerenders from updatingState changes
-  const address = useSubplebbitField(subplebbitAddress, (subplebbit) => subplebbit?.address);
-  const createdAt = useSubplebbitField(subplebbitAddress, (subplebbit) => subplebbit?.createdAt);
+  const subplebbit = useSubplebbit({ subplebbitAddress });
+  const { address, createdAt } = subplebbit || {};
 
-  let stats = useSubplebbitStats({ subplebbitAddress: address });
+  const stats = useSubplebbitStats({ subplebbitAddress: address });
+
   const { hiddenStats, toggleVisibility } = useSubplebbitStatsVisibilityStore();
   const isHidden = hiddenStats[address];
 
