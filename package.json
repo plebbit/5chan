@@ -1,9 +1,9 @@
 {
   "name": "5chan",
   "version": "0.5.3",
-  "description": "A serverless, adminless, decentralized 4chan alternative",
+  "description": "A bitsocial client with a 4chan UI",
   "type": "module",
-  "author": "Plebbit Labs",
+  "author": "Bitsocial Labs",
   "license": "GPL-2.0-only",
   "private": true,
   "dependencies": {
